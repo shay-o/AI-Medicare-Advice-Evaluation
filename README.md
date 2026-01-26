@@ -23,6 +23,7 @@ This system evaluates responses, not intent, UX quality, tone, or persuasion.
 **Quick access:**
 - **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - Command reference card (keep this open!)
 - **[SCENARIOS.md](SCENARIOS.md)** - What each test scenario evaluates
+- **[REPORTING_GUIDE.md](REPORTING_GUIDE.md)** - Generate SHIP-style accuracy tables
 - **[OPENROUTER_GUIDE.md](OPENROUTER_GUIDE.md)** - How to access 100+ models with one API key
 - **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - Complete documentation catalog
 
@@ -99,9 +100,12 @@ python -m src run \
 ```bash
 # View latest results
 cat runs/$(ls -t runs/ | head -1)/results.jsonl | python -m json.tool | grep -A 10 final_scores
+
+# Generate SHIP-style accuracy table
+python scripts/generate_accuracy_table.py
 ```
 
-**For detailed instructions, see [USER_GUIDE.md](USER_GUIDE.md)**
+**For detailed instructions, see [USER_GUIDE.md](USER_GUIDE.md) and [REPORTING_GUIDE.md](REPORTING_GUIDE.md)**
 
 ## Supported AI Providers
 

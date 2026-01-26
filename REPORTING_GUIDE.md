@@ -1,0 +1,365 @@
+# Reporting Guide
+
+**Generate SHIP-style accuracy tables from evaluation runs**
+
+This guide explains how to generate accuracy reports that replicate [Table 2 from the SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/table/zoi250151t2/).
+
+---
+
+## Quick Start
+
+### Basic Table (Group by Scenario)
+
+```bash
+python scripts/generate_accuracy_table.py
+```
+
+**Output:**
+```
+Question/Scenario                                   Total      Score 1      Score 2      Score 3      Score 4
+SHIP Question #3: MA vs TM Comparison                   7     1 (14.3%)     2 (28.6%)     1 (14.3%)     0 ( 0.0%)
+```
+
+### Table by Model
+
+```bash
+python scripts/generate_accuracy_table.py --by-model
+```
+
+**Output:**
+```
+Scenario / Model                                              Total      Score 1      Score 2      Score 3      Score 4
+
+SHIP Question #3: MA vs TM Comparison
+  anthropic/claude-3-5-sonnet                                     1     0 ( 0.0%)     1 (100.0%)     0 ( 0.0%)     0 ( 0.0%)
+  openai/gpt-4-turbo                                              4     1 (25.0%)     1 (25.0%)     0 ( 0.0%)     0 ( 0.0%)
+```
+
+### Detailed Statistics
+
+```bash
+python scripts/generate_accuracy_table.py --detailed
+```
+
+**Includes:**
+- Average completeness percentage
+- Average accuracy percentage
+
+---
+
+## Understanding the Table
+
+### Column Definitions
+
+Based on the SHIP study rubric:
+
+| Column | Score | Meaning |
+|--------|-------|---------|
+| **Score 1: Accurate & Complete** | 1 | All required facts covered correctly |
+| **Score 2: Accurate but Incomplete** | 2 | Some facts covered, no major errors (typical result) |
+| **Score 3: Not Substantive** | 3 | Insufficient coverage or "I don't know" |
+| **Score 4: Incorrect** | 4 | Materially wrong information that could affect decisions |
+
+### Reading the Results
+
+**Example row:**
+```
+SHIP Question #3: MA vs TM Comparison    7    1 (14.3%)    2 (28.6%)    1 (14.3%)    0 (0.0%)
+```
+
+**Interpretation:**
+- **Total n = 7**: 7 evaluations of this question
+- **Score 1: 1 (14.3%)**: 1 model (14.3%) achieved perfect accuracy
+- **Score 2: 2 (28.6%)**: 2 models (28.6%) were substantive but incomplete
+- **Score 3: 1 (14.3%)**: 1 model (14.3%) did not provide substantive information
+- **Score 4: 0 (0.0%)**: 0 models provided incorrect information
+
+---
+
+## Command Options
+
+### Filter to Specific Scenario
+
+```bash
+python scripts/generate_accuracy_table.py --scenario SHIP-002
+```
+
+### Custom Runs Directory
+
+```bash
+python scripts/generate_accuracy_table.py --runs-dir path/to/runs
+```
+
+### All Options Combined
+
+```bash
+python scripts/generate_accuracy_table.py \
+  --by-model \
+  --scenario SHIP-002 \
+  --detailed
+```
+
+---
+
+## Common Use Cases
+
+### 1. Compare Multiple Models
+
+```bash
+# Run evaluations for multiple models
+./compare_models.sh
+
+# Generate comparison table
+python scripts/generate_accuracy_table.py --by-model --scenario SHIP-002
+```
+
+### 2. Track Model Performance Over Time
+
+```bash
+# Keep separate run directories
+python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:openai/gpt-4-turbo --output-dir runs/2026-01
+python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:openai/gpt-4-turbo --output-dir runs/2026-02
+
+# Compare
+python scripts/generate_accuracy_table.py --runs-dir runs/2026-01
+python scripts/generate_accuracy_table.py --runs-dir runs/2026-02
+```
+
+### 3. Generate Report for Publication
+
+```bash
+# Generate all tables
+python scripts/generate_accuracy_table.py > reports/accuracy_by_scenario.txt
+python scripts/generate_accuracy_table.py --by-model > reports/accuracy_by_model.txt
+python scripts/generate_accuracy_table.py --detailed > reports/detailed_stats.txt
+```
+
+---
+
+## Comparing to SHIP Study Results
+
+### SHIP Study (Human Counselors)
+
+From [Table 2](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/table/zoi250151t2/), for Question #3 (MA vs TM comparison):
+
+**Human counselor performance (n = 88):**
+- Accurate & Complete: ~30-40%
+- Accurate but Incomplete: ~40-50%
+- Not Substantive: ~10-20%
+- Incorrect: <5%
+
+### Your AI Results
+
+Use the reporting script to compare:
+
+```bash
+python scripts/generate_accuracy_table.py --scenario SHIP-002
+```
+
+**Key comparisons:**
+- Are AI models achieving similar accuracy rates?
+- Are AI models more likely to be incomplete vs. incorrect?
+- How do different AI models compare to each other and to humans?
+
+---
+
+## Export Options
+
+### Export to CSV
+
+```bash
+python scripts/generate_accuracy_table.py --format csv > results.csv
+```
+
+*(Not yet implemented - feature request)*
+
+### Export to JSON
+
+```bash
+python scripts/generate_accuracy_table.py --format json > results.json
+```
+
+*(Not yet implemented - feature request)*
+
+---
+
+## Interpreting Completeness and Accuracy
+
+### Completeness Percentage
+
+**Formula:** `covered_facts / required_facts`
+
+**Example:**
+- Required facts: 14 (6 MA + 8 TM)
+- Covered facts: 10
+- Completeness: 71.4%
+
+**Interpretation:**
+- 100%: Model covered all required facts
+- 70-99%: Model covered most facts (typical for Score 2)
+- 50-69%: Model covered some facts (borderline Score 2/3)
+- <50%: Insufficient coverage (likely Score 3)
+
+### Accuracy Percentage
+
+**Formula:** `correct_claims / verifiable_claims`
+
+**Example:**
+- Verifiable claims: 20
+- Correct claims: 20
+- Accuracy: 100%
+
+**Interpretation:**
+- 100%: No incorrect information
+- 95-99%: Minor inaccuracies
+- 90-94%: Some inaccuracies
+- <90%: Significant errors (likely Score 4)
+
+---
+
+## Troubleshooting
+
+### "No results found"
+
+**Problem:** Script can't find any results.jsonl files
+
+**Solutions:**
+```bash
+# Check runs directory exists
+ls runs/
+
+# Check results files exist
+ls runs/*/results.jsonl
+
+# Verify you're in the correct directory
+pwd
+# Should be: /path/to/AI-Medicare-Advice-Evaluator
+```
+
+### "All scores showing 0%"
+
+**Problem:** Results don't have rubric scores
+
+**Cause:** Scenario doesn't define a scoring_rubric
+
+**Solution:**
+- Only scenario_002.json (SHIP-002) has SHIP rubric defined
+- Filter to SHIP-002: `--scenario SHIP-002`
+- Or add rubric to other scenarios
+
+### "Incomplete data showing"
+
+**Problem:** Some results missing data
+
+**Check:**
+```bash
+# View a specific result file
+cat runs/TIMESTAMP/results.jsonl | python -m json.tool | grep rubric_score
+```
+
+**If `rubric_score: null`:**
+- The scenario doesn't have a rubric defined
+- Only SHIP-aligned scenarios (scenario_002.json) have rubrics
+
+---
+
+## Advanced Usage
+
+### Programmatic Access
+
+```python
+from pathlib import Path
+import sys
+sys.path.append('scripts')
+
+from generate_accuracy_table import load_all_results, calculate_accuracy_stats, group_by_scenario
+
+# Load results
+results = load_all_results(Path("runs"))
+
+# Group by scenario
+grouped = group_by_scenario(results)
+
+# Calculate stats
+for scenario_id, scenario_results in grouped.items():
+    stats = calculate_accuracy_stats(scenario_results)
+    print(f"{scenario_id}: {stats['score_1_pct']:.1f}% complete")
+```
+
+### Custom Filtering
+
+```python
+# Filter to specific model
+gpt4_results = [r for r in results if "gpt-4" in r.get("target", {}).get("model_name", "")]
+
+# Filter to high accuracy
+high_accuracy = [r for r in results if r.get("final_scores", {}).get("accuracy_percentage", 0) > 0.95]
+
+# Filter by date
+recent = [r for r in results if r.get("timestamp", "").startswith("2026-01-26")]
+```
+
+---
+
+## Future Enhancements
+
+Planned features:
+
+- [ ] CSV export
+- [ ] JSON export
+- [ ] Statistical significance testing
+- [ ] Confidence intervals
+- [ ] Comparison to baseline
+- [ ] Trend analysis over time
+- [ ] Cost per accuracy tier
+- [ ] HTML report generation
+
+---
+
+## Examples from Real Data
+
+### Example 1: Single Model Evaluation
+
+```bash
+$ python scripts/generate_accuracy_table.py --scenario SHIP-002
+
+SHIP Question #3: MA vs TM Comparison    4    1 (25.0%)    1 (25.0%)    0 (0.0%)    0 (0.0%)
+```
+
+**Interpretation:**
+- Tested 4 times
+- 25% achieved perfect accuracy (Score 1)
+- 25% were incomplete (Score 2)
+- 50% missing scores (no rubric or error)
+
+### Example 2: Multi-Model Comparison
+
+```bash
+$ python scripts/generate_accuracy_table.py --by-model --scenario SHIP-002
+
+SHIP Question #3: MA vs TM Comparison
+  openai/gpt-4-turbo           4    1 (25.0%)    1 (25.0%)    0 (0.0%)    0 (0.0%)
+  anthropic/claude-3-5-sonnet  1    0 ( 0.0%)    1 (100.0%)   0 (0.0%)    0 (0.0%)
+```
+
+**Interpretation:**
+- GPT-4-turbo: 25% perfect, 25% incomplete (of 4 runs)
+- Claude-3.5-sonnet: 100% incomplete (of 1 run)
+- Need more data for statistical significance
+
+---
+
+## Reference
+
+**Original SHIP Study Table 2:**
+https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/table/zoi250151t2/
+
+**Full study citation:**
+Dugan K, et al. "Evaluating State Health Insurance Assistance Program (SHIP) Counselor Responses." *JAMA Network Open*. 2025;8(4):e252834.
+
+---
+
+**For more information:**
+- [USER_GUIDE.md](USER_GUIDE.md) - Running evaluations
+- [SCENARIOS.md](SCENARIOS.md) - Understanding test scenarios
+- [SHIP_RUBRIC_UPDATE.md](SHIP_RUBRIC_UPDATE.md) - Scoring methodology

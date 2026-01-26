@@ -39,6 +39,12 @@
   - Score interpretation
   - Viewing results
 
+- **[REPORTING_GUIDE.md](REPORTING_GUIDE.md)** - Generate accuracy reports:
+  - SHIP-style accuracy tables
+  - Group by scenario or model
+  - Compare to SHIP study results
+  - Export options
+
 ### Understanding Tests
 
 - **[SCENARIOS.md](SCENARIOS.md)** - Detailed scenario documentation:
@@ -127,7 +133,8 @@
 2. Read: [SCENARIOS.md](SCENARIOS.md) - Choose scenario_002
 3. Set up: [OPENROUTER_GUIDE.md](OPENROUTER_GUIDE.md) - Get API key
 4. Run: Follow examples in [USER_GUIDE.md](USER_GUIDE.md)
-5. Reference: [QUICK_REFERENCE.md](QUICK_REFERENCE.md) for commands
+5. Analyze: [REPORTING_GUIDE.md](REPORTING_GUIDE.md) - Generate accuracy tables
+6. Reference: [QUICK_REFERENCE.md](QUICK_REFERENCE.md) for commands
 
 ### Developer: "I want to understand how this works"
 
