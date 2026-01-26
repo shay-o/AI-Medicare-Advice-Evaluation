@@ -1,7 +1,7 @@
 # AI Medicare Evaluation Harness
 **Starter Specification v0.1**
 
-This document defines a starter specification for reproducing a SHIP-style mystery-shopper study to evaluate AI-generated Medicare guidance, using Claude Code or other AI coding agents.
+This document defines a starter specification for reproducing a [SHIP-style mystery-shopper study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) to evaluate AI-generated Medicare guidance, using Claude Code or other AI coding agents.
 
 The system is designed for Python, supports major LLM providers, and uses agent-based questioning and judging with explicit answer keys.
 
@@ -9,7 +9,7 @@ The system is designed for Python, supports major LLM providers, and uses agent-
 
 ## 1. Purpose
 
-Reproduce the methodology of the SHIP mystery-shopper study to evaluate:
+Reproduce the methodology of the [SHIP mystery-shopper study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) to evaluate:
 
 - Accuracy
 - Completeness
@@ -366,7 +366,7 @@ It does not provide medical, legal, or insurance advice.
 
 ## 14. What This Enables
 
-- Replication of SHIP-style accuracy tables
+- Replication of [SHIP-style](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) accuracy tables
 - Model-to-model comparison under identical prompts
 - Prompt sensitivity analysis
 - Longitudinal drift detection

@@ -72,7 +72,7 @@ If this completes successfully, you're ready to evaluate real models!
 
 ## Understanding Scenarios
 
-Scenarios are test cases based on the SHIP mystery-shopper study. Each scenario:
+Scenarios are test cases based on the [SHIP mystery-shopper study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/). Each scenario:
 - Contains a specific Medicare question
 - Has an answer key with 14+ canonical facts
 - Uses SHIP study scoring rubrics
@@ -89,7 +89,7 @@ See [SCENARIOS.md](SCENARIOS.md) for detailed descriptions.
 | **scenario_001.json** | General: Original Medicare vs Medicare Advantage | 13 facts | Medium |
 | **scenario_002.json** | SHIP Q3: MA vs TM comparison with pros/cons | 14 facts | High |
 
-**Recommendation:** Start with **scenario_002.json** - it's the most aligned with SHIP study methodology.
+**Recommendation:** Start with **scenario_002.json** - it's the most aligned with [SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) methodology.
 
 ---
 

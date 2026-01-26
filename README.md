@@ -4,7 +4,7 @@ A research system for evaluating AI-generated Medicare guidance using SHIP-style
 
 ## Purpose
 
-This system reproduces the methodology of the SHIP mystery-shopper study to evaluate:
+This system reproduces the methodology of the [SHIP mystery-shopper study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) to evaluate:
 
 - **Accuracy** - Factual correctness of Medicare information
 - **Completeness** - Coverage of required information points
@@ -14,17 +14,20 @@ This system evaluates responses, not intent, UX quality, tone, or persuasion.
 
 ---
 
-## 📚 Documentation for Users
+## 📚 Documentation
 
-**New to this project? Start here:**
+**New to this project?**
 
-- **[USER_GUIDE.md](USER_GUIDE.md)** - Complete guide to running evaluations and comparing models
-- **[SCENARIOS.md](SCENARIOS.md)** - Explanation of test scenarios and what they evaluate
-- **[OPENROUTER_GUIDE.md](OPENROUTER_GUIDE.md)** - How to use OpenRouter for unified model access
+👉 **Start with [USER_GUIDE.md](USER_GUIDE.md)** - step-by-step instructions for running tests
+
+**Quick access:**
+- **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - Command reference card (keep this open!)
+- **[SCENARIOS.md](SCENARIOS.md)** - What each test scenario evaluates
+- **[OPENROUTER_GUIDE.md](OPENROUTER_GUIDE.md)** - How to access 100+ models with one API key
+- **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - Complete documentation catalog
 
 **For developers:**
-
-- **[ADAPTERS_COMPLETE.md](ADAPTERS_COMPLETE.md)** - LLM adapter implementation details
+- **[ADAPTERS_COMPLETE.md](ADAPTERS_COMPLETE.md)** - LLM adapter implementation
 - **[ORCHESTRATOR_COMPLETE.md](ORCHESTRATOR_COMPLETE.md)** - Pipeline architecture
 - **[AGENTS_COMPLETE.md](AGENTS_COMPLETE.md)** - Agent system details
 
@@ -217,4 +220,9 @@ python -m src run \
 
 ## References
 
-Based on methodology from: "Evaluating State Health Insurance Assistance Program (SHIP) Counselor Responses" - PMC11962663
+Based on methodology from:
+
+**Dugan K, et al.** "Evaluating State Health Insurance Assistance Program (SHIP) Counselor Responses." *JAMA Network Open*. 2025;8(4):e252834.
+
+- PubMed Central: [PMC11962663](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/)
+- DOI: [10.1001/jamanetworkopen.2025.2834](https://doi.org/10.1001/jamanetworkopen.2025.2834)

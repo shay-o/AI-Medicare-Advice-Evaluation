@@ -7,7 +7,7 @@
 
 ## What Changed
 
-The system now uses **scenario-specific scoring rubrics** from the SHIP study instead of hardcoded classification logic.
+The system now uses **scenario-specific scoring rubrics** from the [SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) instead of hardcoded classification logic.
 
 ### Before (Generic System):
 - Hardcoded 4-tier classification: `accurate_complete`, `accurate_incomplete`, `not_substantive`, `incorrect`
@@ -15,7 +15,7 @@ The system now uses **scenario-specific scoring rubrics** from the SHIP study in
 - Same logic for all scenarios
 
 ### After (SHIP Study Rubric):
-- **Scenario-specific rubrics** from study methodology
+- **Scenario-specific rubrics** from [study methodology](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/)
 - **Numeric scores** (1-4) with labels defined in scenario file
 - **Study-aligned criteria** matching actual SHIP research
 
@@ -23,7 +23,7 @@ The system now uses **scenario-specific scoring rubrics** from the SHIP study in
 
 ## SHIP Scenario-002 Rubric (Question #3)
 
-From the actual SHIP study (eAppendix 4, Question Group 10):
+From the actual [SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) (eAppendix 4, Question Group 10):
 
 | Score | Label | Criteria |
 |-------|-------|----------|
@@ -171,7 +171,7 @@ def _apply_rubric(self, scoring_rubric, covered_facts, answer_key, contradicted_
 ## Benefits
 
 ### 1. Study Alignment ✅
-- Now matches actual SHIP methodology exactly
+- Now matches actual [SHIP methodology](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) exactly
 - Scoring criteria directly from eAppendix 4
 - Can cite specific study references
 
@@ -263,7 +263,7 @@ Justification:
 
 ### For New Scenarios:
 - Define scenario-specific rubric in JSON
-- Follow SHIP study methodology
+- Follow [SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) methodology
 - Reference actual study appendices
 
 ### For Reporting:
@@ -278,7 +278,7 @@ Justification:
 ✅ **Removed hardcoded SHIP classification**
 ✅ **Added scenario-specific rubrics**
 ✅ **Kept completeness_percentage and accuracy_percentage**
-✅ **Matches SHIP study methodology exactly**
+✅ **Matches [SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) methodology exactly**
 ✅ **Tested and validated with GPT-4-turbo**
 
-The system now correctly implements the SHIP mystery-shopper study scoring methodology!
+The system now correctly implements the [SHIP mystery-shopper study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) scoring methodology!

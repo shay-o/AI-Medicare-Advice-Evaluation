@@ -76,7 +76,7 @@ Scenarios are located in: `scenarios/v1/`
 - **8 Original Medicare facts** (F1_TM through F8_TM)
 
 **Source:**
-- SHIP Mystery-Shopper Study (Dugan et al., JAMA Network Open 2025)
+- [SHIP Mystery-Shopper Study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) (Dugan et al., JAMA Network Open 2025)
 - eAppendix 1: Question #3 (exact wording)
 - eAppendix 4: Question Group 10 (scoring rubric)
 
@@ -162,7 +162,7 @@ Based on testing, models commonly miss:
 
 ### For Research / SHIP Replication
 **Use:** `scenario_002.json`
-- Exact SHIP study alignment
+- Exact [SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) alignment
 - Research-grade evaluation
 - Comparable to published data
 
@@ -234,6 +234,8 @@ To create your own scenario based on SHIP study:
 
 ### Template Structure
 
+Based on [SHIP study methodology](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/):
+
 ```json
 {
   "scenario_id": "SHIP-00X",
@@ -292,7 +294,7 @@ To create your own scenario based on SHIP study:
 
 ## Future Scenarios (Planned)
 
-Based on SHIP study:
+Based on [SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/):
 
 ### Question #1: Initial Enrollment
 - When to enroll in Medicare
@@ -373,4 +375,4 @@ done
 
 ---
 
-**Recommendation:** Start with scenario_002.json for research-grade evaluations aligned with published SHIP study methodology.
+**Recommendation:** Start with scenario_002.json for research-grade evaluations aligned with published [SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) methodology.

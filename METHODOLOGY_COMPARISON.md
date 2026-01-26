@@ -1,14 +1,18 @@
 # SHIP Study Methodology Comparison
 
 **Date:** January 24, 2026
-**Reference:** Dugan K et al. JAMA Network Open. 2025;8(4):e252834
+
+**Reference:** Dugan K, et al. "Evaluating State Health Insurance Assistance Program (SHIP) Counselor Responses." *JAMA Network Open*. 2025;8(4):e252834.
+- Full text: [PMC11962663](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/)
+- DOI: [10.1001/jamanetworkopen.2025.2834](https://doi.org/10.1001/jamanetworkopen.2025.2834)
+
 **Purpose:** Document differences between our AI evaluation implementation and the original SHIP mystery-shopper study methodology
 
 ---
 
 ## Executive Summary
 
-Our current implementation captures the **spirit** of the SHIP study but differs in several **critical dimensions** that affect methodology validity. The most significant gap is the absence of **plan-specific lookup testing**, which distinguishes between "knowing about Medicare" and "being able to help someone make decisions."
+Our current implementation captures the **spirit** of the [SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) but differs in several **critical dimensions** that affect methodology validity. The most significant gap is the absence of **plan-specific lookup testing**, which distinguishes between "knowing about Medicare" and "being able to help someone make decisions."
 
 **Key Finding:** scenario_001.json tests general knowledge breadth; scenario_002.json aligns with SHIP methodology for a single question; full SHIP alignment requires 16 sequential questions with plan-specific lookups.
 
@@ -490,7 +494,7 @@ These differences are acceptable for AI evaluation and don't compromise methodol
 
 **Current State Assessment:**
 - ✅ Our implementation tests general Medicare knowledge effectively
-- ✅ scenario_002.json aligns with SHIP methodology for Question #3
+- ✅ scenario_002.json aligns with [SHIP methodology](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) for Question #3
 - ❌ Missing plan-specific lookup testing (Questions #7-15)
 - ❌ Missing multi-question sequence (Questions #1-2, #4-16)
 - ❌ Missing per-question scoring
@@ -505,4 +509,4 @@ These differences are acceptable for AI evaluation and don't compromise methodol
 3. Create scenario_003.json for full general knowledge sequence (2-3 days)
 4. Collect 2024 plan data and create scenario_004.json for lookup testing (3-5 days)
 
-**Total effort for full SHIP alignment: 7-11 days**
+**Total effort for full [SHIP](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) alignment: 7-11 days**
