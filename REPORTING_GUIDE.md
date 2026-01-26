@@ -59,20 +59,26 @@ Based on the SHIP study rubric:
 | **Score 2: Accurate but Incomplete** | 2 | Some facts covered, no major errors (typical result) |
 | **Score 3: Not Substantive** | 3 | Insufficient coverage or "I don't know" |
 | **Score 4: Incorrect** | 4 | Materially wrong information that could affect decisions |
+| **Incomplete Data** | - | Runs that failed or did not produce a rubric score |
+
+**Important:** Percentages for Scores 1-4 sum to 100% and exclude incomplete runs. Incomplete % is calculated from total runs (including incomplete).
 
 ### Reading the Results
 
 **Example row:**
 ```
-SHIP Question #3: MA vs TM Comparison    7    1 (14.3%)    2 (28.6%)    1 (14.3%)    0 (0.0%)
+SHIP Question #3: MA vs TM Comparison    4/7    1 (25.0%)    2 (50.0%)    1 (25.0%)    0 (0.0%)    3 (42.9%)
 ```
 
 **Interpretation:**
-- **Total n = 7**: 7 evaluations of this question
-- **Score 1: 1 (14.3%)**: 1 model (14.3%) achieved perfect accuracy
-- **Score 2: 2 (28.6%)**: 2 models (28.6%) were substantive but incomplete
-- **Score 3: 1 (14.3%)**: 1 model (14.3%) did not provide substantive information
-- **Score 4: 0 (0.0%)**: 0 models provided incorrect information
+- **Total n = 4/7**: 7 total evaluations, 4 completed with scores, 3 incomplete
+- **Score 1: 1 (25.0%)**: 1 of 4 scored runs (25%) achieved perfect accuracy
+- **Score 2: 2 (50.0%)**: 2 of 4 scored runs (50%) were substantive but incomplete
+- **Score 3: 1 (25.0%)**: 1 of 4 scored runs (25%) did not provide substantive information
+- **Score 4: 0 (0.0%)**: 0 of 4 scored runs provided incorrect information
+- **Incomplete: 3 (42.9%)**: 3 of 7 total runs failed or had no score
+
+**Note:** Percentages for Scores 1-4 add to 100% (25% + 50% + 25% + 0% = 100%)
 
 ---
 
@@ -249,7 +255,12 @@ pwd
 
 ### "Incomplete data showing"
 
-**Problem:** Some results missing data
+**Problem:** Some results showing in "Incomplete Data" column
+
+**Causes:**
+1. Scenario doesn't have a rubric defined (scenario_001.json)
+2. Evaluation failed or crashed mid-run
+3. Agents couldn't parse the response
 
 **Check:**
 ```bash
@@ -260,6 +271,19 @@ cat runs/TIMESTAMP/results.jsonl | python -m json.tool | grep rubric_score
 **If `rubric_score: null`:**
 - The scenario doesn't have a rubric defined
 - Only SHIP-aligned scenarios (scenario_002.json) have rubrics
+- Add `--scenario SHIP-002` to filter to scored runs only
+
+**To investigate incomplete runs:**
+```bash
+# Find runs without scores
+for run in runs/*/results.jsonl; do
+  score=$(cat "$run" | python -m json.tool | grep '"rubric_score"' | head -1)
+  if [[ $score == *"null"* ]]; then
+    echo "Incomplete: $run"
+    cat "$run" | python -m json.tool | grep '"scenario_id"'
+  fi
+done
+```
 
 ---
 
@@ -323,14 +347,16 @@ Planned features:
 ```bash
 $ python scripts/generate_accuracy_table.py --scenario SHIP-002
 
-SHIP Question #3: MA vs TM Comparison    4    1 (25.0%)    1 (25.0%)    0 (0.0%)    0 (0.0%)
+SHIP Question #3: MA vs TM Comparison    4/7    1 (25.0%)    2 (50.0%)    1 (25.0%)    0 (0.0%)    3 (42.9%)
 ```
 
 **Interpretation:**
-- Tested 4 times
-- 25% achieved perfect accuracy (Score 1)
-- 25% were incomplete (Score 2)
-- 50% missing scores (no rubric or error)
+- Tested 7 times total, 4 completed with scores
+- 25% of scored runs achieved perfect accuracy (Score 1)
+- 50% of scored runs were substantive but incomplete (Score 2)
+- 25% of scored runs were not substantive (Score 3)
+- 0% provided incorrect information (Score 4)
+- 43% of all runs were incomplete (no score)
 
 ### Example 2: Multi-Model Comparison
 
@@ -338,13 +364,15 @@ SHIP Question #3: MA vs TM Comparison    4    1 (25.0%)    1 (25.0%)    0 (0.0%)
 $ python scripts/generate_accuracy_table.py --by-model --scenario SHIP-002
 
 SHIP Question #3: MA vs TM Comparison
-  openai/gpt-4-turbo           4    1 (25.0%)    1 (25.0%)    0 (0.0%)    0 (0.0%)
-  anthropic/claude-3-5-sonnet  1    0 ( 0.0%)    1 (100.0%)   0 (0.0%)    0 (0.0%)
+  anthropic/claude-3-5-sonnet     1      0 ( 0.0%)    1 (100.0%)    0 ( 0.0%)    0 ( 0.0%)    0 ( 0.0%)
+  fake:perfect                 1/2      0 ( 0.0%)    0 ( 0.0%)    1 (100.0%)    0 ( 0.0%)    1 (50.0%)
+  openai/gpt-4-turbo           2/4      1 (50.0%)    1 (50.0%)    0 ( 0.0%)    0 ( 0.0%)    2 (50.0%)
 ```
 
 **Interpretation:**
-- GPT-4-turbo: 25% perfect, 25% incomplete (of 4 runs)
-- Claude-3.5-sonnet: 100% incomplete (of 1 run)
+- **Claude-3.5-sonnet**: 100% substantive but incomplete (1 run, all scored)
+- **fake:perfect**: 100% not substantive (1 scored run), 50% incomplete (1 of 2 runs)
+- **GPT-4-turbo**: 50% perfect, 50% incomplete (2 scored runs), 50% incomplete (2 of 4 runs)
 - Need more data for statistical significance
 
 ---
