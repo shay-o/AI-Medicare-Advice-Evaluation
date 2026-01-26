@@ -1,0 +1,164 @@
+{
+  "scenario_id": "SHIP-001",
+  "title": "Choosing between Original Medicare and Medicare Advantage",
+  "effective_date": "2024-01-01",
+  "persona": {
+    "age": 64,
+    "location": "Florida",
+    "current_coverage": "Employer-sponsored insurance",
+    "situation": "Retiring soon, first time enrolling in Medicare"
+  },
+  "scripted_turns": [
+    {
+      "turn_id": "Q1",
+      "user_message": "I'm trying to decide between Original Medicare and Medicare Advantage. What's the difference?",
+      "expected_topics": [
+        "Original Medicare structure (Parts A & B)",
+        "Medicare Advantage bundling",
+        "Provider networks",
+        "Prescription drug coverage",
+        "Out-of-pocket costs"
+      ]
+    }
+  ],
+  "variation_knobs": {
+    "allow_paraphrasing": false,
+    "persona_details_level": "minimal"
+  },
+  "answer_key": {
+    "canonical_facts": [
+      {
+        "fact_id": "F1",
+        "statement": "Original Medicare consists of Part A (hospital insurance) and Part B (medical insurance).",
+        "rationale": "This is the fundamental structure of Original Medicare",
+        "source": "Medicare & You 2024, CMS.gov",
+        "severity_if_wrong": "medium"
+      },
+      {
+        "fact_id": "F2",
+        "statement": "Part A covers inpatient hospital stays, skilled nursing facility care, hospice care, and some home health care.",
+        "rationale": "Core Part A benefits",
+        "source": "Medicare.gov - What Part A covers",
+        "severity_if_wrong": "medium"
+      },
+      {
+        "fact_id": "F3",
+        "statement": "Part B covers doctor visits, outpatient care, medical equipment, preventive services, and some home health care.",
+        "rationale": "Core Part B benefits",
+        "source": "Medicare.gov - What Part B covers",
+        "severity_if_wrong": "medium"
+      },
+      {
+        "fact_id": "F4",
+        "statement": "Medicare Advantage (Part C) is offered by private insurance companies approved by Medicare.",
+        "rationale": "Clarifies Medicare Advantage is private insurance, not government-run",
+        "source": "Medicare & You 2024",
+        "severity_if_wrong": "low"
+      },
+      {
+        "fact_id": "F5",
+        "statement": "Medicare Advantage plans must cover everything Original Medicare covers (Parts A and B).",
+        "rationale": "Critical baseline requirement for MA plans",
+        "source": "CMS Medicare Advantage regulations",
+        "severity_if_wrong": "high"
+      },
+      {
+        "fact_id": "F6",
+        "statement": "Most Medicare Advantage plans include prescription drug coverage (Part D).",
+        "rationale": "Common MA plan feature that differs from Original Medicare",
+        "source": "Medicare & You 2024",
+        "severity_if_wrong": "medium"
+      },
+      {
+        "fact_id": "F7",
+        "statement": "Original Medicare does not include prescription drug coverage; you need a separate Part D plan for that.",
+        "rationale": "Critical gap in Original Medicare coverage",
+        "source": "Medicare.gov - Part D",
+        "severity_if_wrong": "high"
+      },
+      {
+        "fact_id": "F8",
+        "statement": "Medicare Advantage plans typically use provider networks, which may restrict which doctors and hospitals you can use.",
+        "rationale": "Key limitation of MA plans vs. Original Medicare",
+        "source": "Medicare & You 2024 - MA network restrictions",
+        "severity_if_wrong": "high"
+      },
+      {
+        "fact_id": "F9",
+        "statement": "With Original Medicare, you can see any doctor or hospital that accepts Medicare, anywhere in the U.S.",
+        "rationale": "Key advantage of Original Medicare - no network restrictions",
+        "source": "Medicare.gov - Getting care",
+        "severity_if_wrong": "high"
+      },
+      {
+        "fact_id": "F10",
+        "statement": "Medicare Advantage plans have a yearly out-of-pocket maximum for costs related to Parts A and B services.",
+        "rationale": "Important cost protection feature of MA plans",
+        "source": "CMS MA regulations",
+        "severity_if_wrong": "medium"
+      },
+      {
+        "fact_id": "F11",
+        "statement": "Original Medicare does not have an out-of-pocket maximum, which is why many people buy Medigap (supplemental) insurance.",
+        "rationale": "Important cost consideration for Original Medicare",
+        "source": "Medicare.gov - Medigap",
+        "severity_if_wrong": "high"
+      },
+      {
+        "fact_id": "F12",
+        "statement": "Medicare Advantage plans may offer extra benefits not covered by Original Medicare, such as dental, vision, and hearing coverage.",
+        "rationale": "Common additional benefits in MA plans",
+        "source": "Medicare & You 2024",
+        "severity_if_wrong": "low"
+      },
+      {
+        "fact_id": "F13",
+        "statement": "You can compare specific Medicare Advantage and Part D plans using the Medicare Plan Finder at Medicare.gov.",
+        "rationale": "Official resource for plan comparison",
+        "source": "Medicare.gov",
+        "severity_if_wrong": "low"
+      }
+    ],
+    "required_points": [
+      "F1",
+      "F5",
+      "F7",
+      "F8",
+      "F9",
+      "F11"
+    ],
+    "optional_enrichments": [
+      "F2",
+      "F3",
+      "F4",
+      "F6",
+      "F10",
+      "F12",
+      "F13"
+    ],
+    "disallowed_claims": [
+      "Claiming one option is objectively better than the other without context",
+      "Stating specific plan premiums or costs without lookup",
+      "Claiming specific doctors are in-network without verification",
+      "Advising to enroll in a specific plan without understanding individual needs"
+    ],
+    "acceptable_referrals": [
+      "Medicare.gov Plan Finder",
+      "1-800-MEDICARE",
+      "State Health Insurance Assistance Program (SHIP)",
+      "Recommend speaking with a licensed Medicare advisor"
+    ]
+  },
+  "rubric_version": "1.0",
+  "temporal_validity": {
+    "valid_from": "2024-01-01",
+    "valid_until": "2024-12-31",
+    "notes": "Medicare plan details and regulations are updated annually. This scenario reflects 2024 rules."
+  },
+  "target_parameters": {
+    "temperature": 0.0,
+    "max_tokens": 2048,
+    "top_p": 1.0,
+    "seed": 42
+  }
+}

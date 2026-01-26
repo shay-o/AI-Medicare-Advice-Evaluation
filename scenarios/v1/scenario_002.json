@@ -1,0 +1,235 @@
+{
+  "scenario_id": "SHIP-002",
+  "title": "SHIP Medicare-Only Question #3: Traditional Medicare vs Medicare Advantage Comparison",
+  "effective_date": "2024-01-01",
+  "description": "Exact reproduction of SHIP mystery-shopper study Question #3 from Medicare-Only scenario (eAppendix 1). Tests ability to explain differences between Medicare Advantage and Original Medicare, including both advantages and disadvantages of each option.",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 - eAppendix 1, Question #3",
+  "persona": {
+    "age": 64,
+    "location": "Miami, FL 33166 (Miami-Dade County)",
+    "current_coverage": "Employer-based health coverage with prescription drug coverage",
+    "situation": "Turning 65 in 2 months, just becoming eligible for Medicare (aging in). Relatively healthy, sees physician a few times a year for checkups or minor problems. Takes Lipitor 10mg daily for cholesterol. Not on Medicaid and does not qualify for it. Has received Medicare card but doesn't have it readily available. Currently pays a few dollars for most prescriptions, about $50 for expensive medications."
+  },
+  "opening_statement": "I am turning 65 soon and will be eligible for Medicare. I would like help choosing my coverage. Can you help?",
+  "scripted_turns": [
+    {
+      "turn_id": "Q3",
+      "user_message": "I keep hearing about Medicare Advantage. How are Medicare Advantage Plans different from regular Medicare, and what are good and bad about them?",
+      "expected_topics": [
+        "Medicare Advantage: lower costs, network restrictions, cannot keep doctor, covers Part A/B/D, still pay Part B premium, extra benefits",
+        "Original Medicare: automatic Part A enrollment, optional Part B, Part A has deductible but no premium, Part B has premium and deductible, costs can be higher, choose any provider, need separate Part D, can pair with Medigap"
+      ]
+    }
+  ],
+  "variation_knobs": {
+    "allow_paraphrasing": false,
+    "persona_details_level": "detailed",
+    "require_exact_wording": true
+  },
+  "answer_key": {
+    "canonical_facts": [
+      {
+        "fact_id": "F1_MA",
+        "category": "medicare_advantage",
+        "statement": "Medicare Advantage plans may have lower premiums, deductibles, and cost sharing than Traditional Medicare plus a Supplement plan.",
+        "rationale": "Key cost advantage of MA plans for some beneficiaries",
+        "source": "SHIP Study eAppendix 4, Question 55, Option 1",
+        "severity_if_wrong": "medium",
+        "ship_checklist_item": "Question 55, Item 1"
+      },
+      {
+        "fact_id": "F2_MA",
+        "category": "medicare_advantage",
+        "statement": "Medicare Advantage plans have a more restrictive choice of providers and hospitals compared to Original Medicare.",
+        "rationale": "Major limitation of MA plans - network restrictions",
+        "source": "SHIP Study eAppendix 4, Question 55, Option 2",
+        "severity_if_wrong": "high",
+        "ship_checklist_item": "Question 55, Item 2"
+      },
+      {
+        "fact_id": "F3_MA",
+        "category": "medicare_advantage",
+        "statement": "You may not be able to keep your current doctor with a Medicare Advantage plan.",
+        "rationale": "Specific consequence of network restrictions",
+        "source": "SHIP Study eAppendix 4, Question 55, Option 3",
+        "severity_if_wrong": "high",
+        "ship_checklist_item": "Question 55, Item 3"
+      },
+      {
+        "fact_id": "F4_MA",
+        "category": "medicare_advantage",
+        "statement": "Medicare Advantage plans cover all Medicare Part A and Part B benefits, and sometimes Part D (prescription drug) benefits.",
+        "rationale": "MA plans must cover at minimum everything Original Medicare covers",
+        "source": "SHIP Study eAppendix 4, Question 55, Option 4",
+        "severity_if_wrong": "high",
+        "ship_checklist_item": "Question 55, Item 4"
+      },
+      {
+        "fact_id": "F5_MA",
+        "category": "medicare_advantage",
+        "statement": "With a Medicare Advantage plan, you must continue to pay the Medicare Part B premium in addition to the Medicare Advantage Plan premium.",
+        "rationale": "Common misunderstanding - Part B premium still required",
+        "source": "SHIP Study eAppendix 4, Question 55, Option 5",
+        "severity_if_wrong": "medium",
+        "ship_checklist_item": "Question 55, Item 5"
+      },
+      {
+        "fact_id": "F6_MA",
+        "category": "medicare_advantage",
+        "statement": "Medicare Advantage plans often offer additional benefits such as vision, hearing, dental, fitness, grocery benefits, or over-the-counter (OTC) card.",
+        "rationale": "Common extra benefits that attract enrollees to MA plans",
+        "source": "SHIP Study eAppendix 4, Question 55, Option 6",
+        "severity_if_wrong": "low",
+        "ship_checklist_item": "Question 55, Item 6"
+      },
+      {
+        "fact_id": "F1_TM",
+        "category": "original_medicare",
+        "statement": "You automatically enroll in Medicare Part A when you apply for Medicare, which provides coverage for hospital stays.",
+        "rationale": "Fundamental structure of Original Medicare enrollment",
+        "source": "SHIP Study eAppendix 4, Question 58, Option 1",
+        "severity_if_wrong": "medium",
+        "ship_checklist_item": "Question 58, Item 1"
+      },
+      {
+        "fact_id": "F2_TM",
+        "category": "original_medicare",
+        "statement": "You have the option to enroll in Medicare Part B to cover doctors' services, outpatient care, and preventative services.",
+        "rationale": "Part B is optional but covers essential outpatient services",
+        "source": "SHIP Study eAppendix 4, Question 58, Option 2",
+        "severity_if_wrong": "medium",
+        "ship_checklist_item": "Question 58, Item 2"
+      },
+      {
+        "fact_id": "F3_TM",
+        "category": "original_medicare",
+        "statement": "Medicare Part A has a deductible and some cost sharing but no monthly premium for most people.",
+        "rationale": "Important cost structure detail for Part A",
+        "source": "SHIP Study eAppendix 4, Question 58, Option 3",
+        "severity_if_wrong": "low",
+        "ship_checklist_item": "Question 58, Item 3"
+      },
+      {
+        "fact_id": "F4_TM",
+        "category": "original_medicare",
+        "statement": "Medicare Part B has a monthly premium, some cost sharing, and a small deductible.",
+        "rationale": "Important cost structure detail for Part B",
+        "source": "SHIP Study eAppendix 4, Question 58, Option 4",
+        "severity_if_wrong": "low",
+        "ship_checklist_item": "Question 58, Item 4"
+      },
+      {
+        "fact_id": "F5_TM",
+        "category": "original_medicare",
+        "statement": "Original Medicare premiums and cost sharing can be more expensive than with Medicare Advantage Plans, especially without supplemental coverage.",
+        "rationale": "Important cost comparison point",
+        "source": "SHIP Study eAppendix 4, Question 58, Option 5",
+        "severity_if_wrong": "medium",
+        "ship_checklist_item": "Question 58, Item 5"
+      },
+      {
+        "fact_id": "F6_TM",
+        "category": "original_medicare",
+        "statement": "With Original Medicare, you have your choice of almost any provider or hospital that accepts Medicare.",
+        "rationale": "Key advantage of Original Medicare - no network restrictions",
+        "source": "SHIP Study eAppendix 4, Question 58, Option 6",
+        "severity_if_wrong": "high",
+        "ship_checklist_item": "Question 58, Item 6"
+      },
+      {
+        "fact_id": "F7_TM",
+        "category": "original_medicare",
+        "statement": "In order to receive coverage for prescription drugs with Original Medicare, you must obtain a separate Prescription Drug Plan (Part D).",
+        "rationale": "Critical gap in Original Medicare that requires additional enrollment",
+        "source": "SHIP Study eAppendix 4, Question 58, Option 7",
+        "severity_if_wrong": "high",
+        "ship_checklist_item": "Question 58, Item 7"
+      },
+      {
+        "fact_id": "F8_TM",
+        "category": "original_medicare",
+        "statement": "Original Medicare can be paired with a Medigap (Medicare Supplement) policy to reduce premiums, deductibles, and cost sharing.",
+        "rationale": "Common strategy to manage Original Medicare out-of-pocket costs",
+        "source": "SHIP Study eAppendix 4, Question 58, Option 8",
+        "severity_if_wrong": "medium",
+        "ship_checklist_item": "Question 58, Item 8"
+      }
+    ],
+    "required_points": [
+      "F1_MA",
+      "F2_MA",
+      "F3_MA",
+      "F4_MA",
+      "F5_MA",
+      "F6_MA",
+      "F1_TM",
+      "F2_TM",
+      "F3_TM",
+      "F4_TM",
+      "F5_TM",
+      "F6_TM",
+      "F7_TM",
+      "F8_TM"
+    ],
+    "disallowed_claims": [
+      "Claiming one option is objectively better than the other without qualifying with 'it depends on individual circumstances'",
+      "Stating specific plan premiums or copays without performing a lookup",
+      "Claiming specific doctors are in-network for a specific plan without verification",
+      "Advising to enroll in a specific plan type without understanding individual needs and preferences"
+    ],
+    "acceptable_referrals": [
+      "Medicare.gov Plan Finder for comparing specific plans",
+      "1-800-MEDICARE for personalized assistance",
+      "State Health Insurance Assistance Program (SHIP) for local counseling",
+      "Recommend speaking with a licensed insurance agent",
+      "Suggest discussing with primary care physician about network participation"
+    ]
+  },
+  "scoring_rubric": {
+    "score_1": {
+      "label": "Accurate and Complete",
+      "criteria": "Response substantively covers ALL of the following: (1) All 6 Medicare Advantage points (F1_MA through F6_MA), AND (2) All 8 Original Medicare points (F1_TM through F8_TM)",
+      "ship_reference": "eAppendix 4, Question Group 10, Scoring Guide item 1"
+    },
+    "score_2": {
+      "label": "Substantive but Incomplete",
+      "criteria": "Response substantively covers SOME (but not all) of the Medicare Advantage points (F1_MA through F6_MA) OR SOME (but not all) of the Original Medicare points (F1_TM through F8_TM)",
+      "ship_reference": "eAppendix 4, Question Group 10, Scoring Guide item 2"
+    },
+    "score_3": {
+      "label": "Not Substantive",
+      "criteria": "Response does not substantively discuss any of the Medicare Advantage points or Original Medicare points, or counselor says they do not know, or otherwise does not substantively answer the question",
+      "ship_reference": "eAppendix 4, Question Group 10, Scoring Guide item 3"
+    },
+    "score_4": {
+      "label": "Incorrect",
+      "criteria": "Incorrect information was provided, and the incorrect information was substantive enough to materially change the substance of the answer or affect an enrollee's coverage decision",
+      "ship_reference": "eAppendix 4, Question Group 10, Scoring Guide item 4"
+    }
+  },
+  "rubric_version": "SHIP-2024-1.0",
+  "temporal_validity": {
+    "valid_from": "2024-01-01",
+    "valid_until": "2024-12-31",
+    "notes": "Based on SHIP mystery-shopper study methodology (Dugan et al. 2025). Medicare plan details and regulations are updated annually. This scenario reflects 2024 rules and uses the exact question wording from the published study."
+  },
+  "target_parameters": {
+    "temperature": 0.0,
+    "max_tokens": 2048,
+    "top_p": 1.0,
+    "seed": 42
+  },
+  "implementation_notes": {
+    "methodology_alignment": "EXACT - This scenario reproduces Question #3 from the SHIP Medicare-Only mystery-shopper script (eAppendix 1) with the corresponding scoring rubric from eAppendix 4, Question Group 10.",
+    "differences_from_ship_study": [
+      "SHIP study uses this as Question #3 in a 16-question sequence; this scenario uses it as a standalone question",
+      "SHIP study has mystery shoppers who can follow up based on counselor responses; AI evaluation is single-response",
+      "SHIP study includes Questions 55, 56, 57, 58, 59, 60, 61 in the questionnaire; we focus on the core scoring elements from 55 and 58"
+    ],
+    "future_enhancements": [
+      "Add preceding questions (#1 and #2) to establish full context as in SHIP study",
+      "Add follow-up questions (#4-6) to test depth of knowledge as in SHIP study",
+      "Implement multi-turn conversation flow to better match human counseling interaction"
+    ]
+  }
+}
