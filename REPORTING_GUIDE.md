@@ -10,6 +10,8 @@ This guide explains how to generate accuracy reports that replicate [Table 2 fro
 
 ### Basic Table (Group by Scenario)
 
+**By default, incomplete runs (without rubric scores) are excluded:**
+
 ```bash
 python scripts/generate_accuracy_table.py
 ```
@@ -17,23 +19,31 @@ python scripts/generate_accuracy_table.py
 **Output:**
 ```
 Question/Scenario                                   Total      Score 1      Score 2      Score 3      Score 4
-SHIP Question #3: MA vs TM Comparison                   7     1 (14.3%)     2 (28.6%)     1 (14.3%)     0 ( 0.0%)
+Test: MA vs TM Comparison                              4     1 (25.0%)     2 (50.0%)     1 (25.0%)     0 ( 0.0%)
 ```
 
-### Table by Model
+Note: The "Incomplete" column is hidden by default since incomplete runs are excluded.
+
+### Table by Model (Most Useful)
 
 ```bash
-python scripts/generate_accuracy_table.py --by-model
+python scripts/generate_accuracy_table.py --by-model --include-baseline
 ```
 
 **Output:**
 ```
 Scenario / Model                                              Total      Score 1      Score 2      Score 3      Score 4
 
-SHIP Question #3: MA vs TM Comparison
-  anthropic/claude-3-5-sonnet                                     1     0 ( 0.0%)     1 (100.0%)     0 ( 0.0%)     0 ( 0.0%)
-  openai/gpt-4-turbo                                              4     1 (25.0%)     1 (25.0%)     0 ( 0.0%)     0 ( 0.0%)
+Test: MA vs TM Comparison (maps to SHIP Medicare scenario)
+SHIP Baseline: TM vs MA differences (Medicare, n=88)             88     5 ( 5.7%)    77 (88.6%)     5 ( 5.7%)     0 ( 0.0%)
+anthropic/claude-3-5-sonnet                                       1     0 ( 0.0%)     1 (100.0%)     0 ( 0.0%)     0 ( 0.0%)
+openai/gpt-4-turbo                                                2     1 (50.0%)     1 (50.0%)     0 ( 0.0%)     0 ( 0.0%)
 ```
+
+**Key improvements:**
+- Baseline appears as a peer row (not indented) alongside models
+- Easy to compare AI vs human performance
+- Incomplete runs excluded by default for cleaner output
 
 ### Detailed Statistics
 
@@ -65,20 +75,30 @@ Based on the SHIP study rubric:
 
 ### Reading the Results
 
-**Example row:**
+**Default output (incomplete runs excluded):**
 ```
-SHIP Question #3: MA vs TM Comparison    4/7    1 (25.0%)    2 (50.0%)    1 (25.0%)    0 (0.0%)    3 (42.9%)
+Test: MA vs TM Comparison                              4    1 (25.0%)    2 (50.0%)    1 (25.0%)    0 (0.0%)
+SHIP Baseline: TM vs MA differences (Medicare, n=88)  88    5 ( 5.7%)   77 (88.6%)    5 ( 5.7%)    0 (0.0%)
 ```
 
 **Interpretation:**
-- **Total n = 4/7**: 7 total evaluations, 4 completed with scores, 3 incomplete
-- **Score 1: 1 (25.0%)**: 1 of 4 scored runs (25%) achieved perfect accuracy
-- **Score 2: 2 (50.0%)**: 2 of 4 scored runs (50%) were substantive but incomplete
-- **Score 3: 1 (25.0%)**: 1 of 4 scored runs (25%) did not provide substantive information
-- **Score 4: 0 (0.0%)**: 0 of 4 scored runs provided incorrect information
-- **Incomplete: 3 (42.9%)**: 3 of 7 total runs failed or had no score
+- **Total n = 4**: 4 completed evaluations (incomplete runs excluded by default)
+- **Score 1: 1 (25.0%)**: 1 of 4 runs (25%) achieved perfect accuracy
+- **Score 2: 2 (50.0%)**: 2 of 4 runs (50%) were substantive but incomplete
+- **Score 3: 1 (25.0%)**: 1 of 4 runs (25%) did not provide substantive information
+- **Score 4: 0 (0.0%)**: 0 of 4 runs provided incorrect information
+- **Baseline row**: Shows human counselor performance (5.7% complete, 88.6% incomplete)
 
 **Note:** Percentages for Scores 1-4 add to 100% (25% + 50% + 25% + 0% = 100%)
+
+**With incomplete runs included (--include-incomplete):**
+```
+Test: MA vs TM Comparison    4/7    1 (25.0%)    2 (50.0%)    1 (25.0%)    0 (0.0%)    3 (42.9%)
+```
+
+**Additional column:**
+- **Total n = 4/7**: 7 total evaluations, 4 completed with scores, 3 incomplete
+- **Incomplete: 3 (42.9%)**: 3 of 7 total runs failed or had no score
 
 ---
 
@@ -95,16 +115,30 @@ python scripts/generate_accuracy_table.py --scenario SHIP-002
 Compare AI performance directly to human counselors from the original SHIP study:
 
 ```bash
-python scripts/generate_accuracy_table.py --include-baseline
+python scripts/generate_accuracy_table.py --by-model --include-baseline
 ```
 
 **Output:**
 ```
-SHIP Question #3: MA vs TM Comparison                4/7      1 (25.0%)     2 (50.0%)     1 (25.0%)     0 ( 0.0%)     3 (42.9%)
-  └─ SHIP Study: TM vs MA differences (n=88)           88     5 ( 5.7%)    77 (88.6%)     5 ( 5.7%)     0 ( 0.0%)     0 ( 0.0%)
+Scenario / Model                                              Total      Score 1      Score 2      Score 3      Score 4
+
+Test: MA vs TM Comparison (maps to SHIP Medicare scenario)
+SHIP Baseline: TM vs MA differences (Medicare, n=88)             88     5 ( 5.7%)    77 (88.6%)     5 ( 5.7%)     0 ( 0.0%)
+anthropic/claude-3-5-sonnet                                       1     0 ( 0.0%)     1 (100.0%)     0 ( 0.0%)     0 ( 0.0%)
+openai/gpt-4-turbo                                                2     1 (50.0%)     1 (50.0%)     0 ( 0.0%)     0 ( 0.0%)
 ```
 
-The baseline row shows how human SHIP counselors performed on the same question, allowing direct comparison.
+The baseline appears as a peer row alongside models, making direct comparison easy.
+
+### Include Incomplete Runs
+
+By default, incomplete runs (without rubric scores) are excluded. To include them:
+
+```bash
+python scripts/generate_accuracy_table.py --include-incomplete
+```
+
+This adds an "Incomplete" column and shows the total as "scored/total" (e.g., "4/7").
 
 ### Custom Runs Directory
 
@@ -118,22 +152,22 @@ python scripts/generate_accuracy_table.py --runs-dir path/to/runs
 python scripts/generate_accuracy_table.py \
   --by-model \
   --scenario SHIP-002 \
-  --detailed \
-  --include-baseline
+  --include-baseline \
+  --detailed
 ```
 
 ---
 
 ## Common Use Cases
 
-### 1. Compare AI Models to Human Baseline
+### 1. Compare AI Models to Human Baseline (Most Useful)
 
 ```bash
-# Compare all AI models to human counselors
+# Compare all AI models to human counselors (clean output, no incomplete runs)
 python scripts/generate_accuracy_table.py --by-model --include-baseline --scenario SHIP-002
 ```
 
-This shows which AI models outperform human SHIP counselors and by how much.
+This shows which AI models outperform human SHIP counselors and by how much. Incomplete runs are excluded by default for cleaner output.
 
 ### 2. Compare Multiple Models
 
@@ -145,7 +179,16 @@ This shows which AI models outperform human SHIP counselors and by how much.
 python scripts/generate_accuracy_table.py --by-model --include-baseline --scenario SHIP-002
 ```
 
-### 3. Track Model Performance Over Time
+### 3. Include Incomplete Runs in Analysis
+
+```bash
+# Show all runs including incomplete ones
+python scripts/generate_accuracy_table.py --by-model --include-baseline --include-incomplete --scenario SHIP-002
+```
+
+Use this when you need to see failure rates or debug incomplete evaluations.
+
+### 4. Track Model Performance Over Time
 
 ```bash
 # Keep separate run directories
@@ -153,16 +196,16 @@ python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:
 python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:openai/gpt-4-turbo --output-dir runs/2026-02
 
 # Compare both time periods to baseline
-python scripts/generate_accuracy_table.py --runs-dir runs/2026-01 --include-baseline
-python scripts/generate_accuracy_table.py --runs-dir runs/2026-02 --include-baseline
+python scripts/generate_accuracy_table.py --runs-dir runs/2026-01 --by-model --include-baseline
+python scripts/generate_accuracy_table.py --runs-dir runs/2026-02 --by-model --include-baseline
 ```
 
-### 4. Generate Report for Publication
+### 5. Generate Report for Publication
 
 ```bash
-# Generate all tables with baseline data
-python scripts/generate_accuracy_table.py --include-baseline > reports/accuracy_by_scenario.txt
+# Generate all tables with baseline data (clean, no incomplete runs)
 python scripts/generate_accuracy_table.py --by-model --include-baseline > reports/accuracy_by_model.txt
+python scripts/generate_accuracy_table.py --include-baseline > reports/accuracy_by_scenario.txt
 python scripts/generate_accuracy_table.py --detailed > reports/detailed_stats.txt
 ```
 

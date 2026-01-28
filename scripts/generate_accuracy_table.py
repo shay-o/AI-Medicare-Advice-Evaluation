@@ -242,8 +242,13 @@ SHIP_BASELINE_DATA = {
 }
 
 
-def load_all_results(runs_dir: Path) -> list[dict[str, Any]]:
-    """Load all results.jsonl files from runs directory."""
+def load_all_results(runs_dir: Path, exclude_incomplete: bool = True) -> list[dict[str, Any]]:
+    """Load all results.jsonl files from runs directory.
+
+    Args:
+        runs_dir: Directory containing evaluation runs
+        exclude_incomplete: If True, filter out runs without rubric scores
+    """
     results = []
 
     for run_dir in runs_dir.iterdir():
@@ -257,6 +262,14 @@ def load_all_results(runs_dir: Path) -> list[dict[str, Any]]:
         try:
             with open(results_file, 'r') as f:
                 data = json.load(f)
+
+                # Filter out incomplete runs if requested
+                if exclude_incomplete:
+                    final_scores = data.get("final_scores", {})
+                    rubric_score = final_scores.get("rubric_score")
+                    if rubric_score is None:
+                        continue
+
                 results.append(data)
         except Exception as e:
             print(f"Warning: Could not load {results_file}: {e}", file=sys.stderr)
@@ -288,9 +301,13 @@ def group_by_scenario_and_model(results: list[dict[str, Any]]) -> dict[tuple[str
     return dict(grouped)
 
 
-def calculate_accuracy_stats(results: list[dict[str, Any]]) -> dict[str, Any]:
+def calculate_accuracy_stats(results: list[dict[str, Any]], include_incomplete: bool = True) -> dict[str, Any]:
     """
     Calculate accuracy statistics in SHIP format.
+
+    Args:
+        results: List of evaluation results
+        include_incomplete: If True, track incomplete runs separately
 
     Returns counts and percentages for each rubric score:
     - Score 1: Accurate and complete
@@ -298,8 +315,8 @@ def calculate_accuracy_stats(results: list[dict[str, Any]]) -> dict[str, Any]:
     - Score 3: Not substantive
     - Score 4: Incorrect
 
-    Percentages are calculated only from scored runs (excluding incomplete/failed runs).
-    This ensures percentages sum to 100% for each row.
+    When include_incomplete=False, all results should have rubric scores.
+    When include_incomplete=True, incomplete runs are tracked separately.
     """
     total = len(results)
     if total == 0:
@@ -355,7 +372,7 @@ def calculate_accuracy_stats(results: list[dict[str, Any]]) -> dict[str, Any]:
     else:
         score_1_pct = score_2_pct = score_3_pct = score_4_pct = 0.0
 
-    # Incomplete percentage is from total runs
+    # Incomplete percentage is from total runs (when tracking incomplete)
     incomplete_pct = (incomplete_count / total) * 100 if total > 0 else 0.0
 
     return {
@@ -397,7 +414,7 @@ def get_scenario_title(results: list[dict[str, Any]]) -> str:
     return titles.get(scenario_id, scenario_id)
 
 
-def print_accuracy_table_by_scenario(results: list[dict[str, Any]], title: str = "AI Model Accuracy Table", include_baseline: bool = False):
+def print_accuracy_table_by_scenario(results: list[dict[str, Any]], title: str = "AI Model Accuracy Table", include_baseline: bool = False, include_incomplete: bool = True):
     """Print SHIP-style accuracy table grouped by scenario."""
     grouped = group_by_scenario(results)
 
@@ -405,35 +422,58 @@ def print_accuracy_table_by_scenario(results: list[dict[str, Any]], title: str =
         print("No results found.")
         return
 
+    # Determine table width based on whether incomplete column is shown
+    if include_incomplete:
+        table_width = 135
+        header_format = f"{'Question/Scenario':<50} {'Total':>6} {'Score 1':>12} {'Score 2':>12} {'Score 3':>12} {'Score 4':>12} {'Incomplete':>12}"
+        subheader1 = f"{'':50} {'n':>6} {'Accurate &':>12} {'Accurate but':>12} {'Not':>12} {'Incorrect':>12} {'Data':>12}"
+        subheader2 = f"{'':50} {'':>6} {'Complete':>12} {'Incomplete':>12} {'Substantive':>12} {'':>12} {'':>12}"
+        subheader3 = f"{'':50} {'':>6} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12}"
+    else:
+        table_width = 122
+        header_format = f"{'Question/Scenario':<50} {'Total':>6} {'Score 1':>12} {'Score 2':>12} {'Score 3':>12} {'Score 4':>12}"
+        subheader1 = f"{'':50} {'n':>6} {'Accurate &':>12} {'Accurate but':>12} {'Not':>12} {'Incorrect':>12}"
+        subheader2 = f"{'':50} {'':>6} {'Complete':>12} {'Incomplete':>12} {'Substantive':>12} {'':>12}"
+        subheader3 = f"{'':50} {'':>6} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12}"
+
     print()
-    print("=" * 135)
+    print("=" * table_width)
     print(f"{title}")
-    print("=" * 135)
+    print("=" * table_width)
     print()
-    print(f"{'Question/Scenario':<50} {'Total':>6} {'Score 1':>12} {'Score 2':>12} {'Score 3':>12} {'Score 4':>12} {'Incomplete':>12}")
-    print(f"{'':50} {'n':>6} {'Accurate &':>12} {'Accurate but':>12} {'Not':>12} {'Incorrect':>12} {'Data':>12}")
-    print(f"{'':50} {'':>6} {'Complete':>12} {'Incomplete':>12} {'Substantive':>12} {'':>12} {'':>12}")
-    print(f"{'':50} {'':>6} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12}")
-    print("-" * 135)
+    print(header_format)
+    print(subheader1)
+    print(subheader2)
+    print(subheader3)
+    print("-" * table_width)
 
     for scenario_id in sorted(grouped.keys()):
         scenario_results = grouped[scenario_id]
-        stats = calculate_accuracy_stats(scenario_results)
-        title = get_scenario_title(scenario_results)
+        stats = calculate_accuracy_stats(scenario_results, include_incomplete)
+        scenario_title = get_scenario_title(scenario_results)
 
-        # Show scored total in parentheses if different from total
-        total_display = f"{stats['total']:>6}"
-        if stats['incomplete_count'] > 0:
-            total_display = f"{stats['scored_total']:>3}/{stats['total']:<2}"
+        # When incomplete runs are excluded, total = scored_total
+        if include_incomplete:
+            total_display = f"{stats['total']:>6}"
+            if stats['incomplete_count'] > 0:
+                total_display = f"{stats['scored_total']:>3}/{stats['total']:<2}"
+            row_format = (f"{scenario_title:<50} {total_display} "
+                          f"{stats['score_1_count']:>5} ({stats['score_1_pct']:>4.1f}%) "
+                          f"{stats['score_2_count']:>5} ({stats['score_2_pct']:>4.1f}%) "
+                          f"{stats['score_3_count']:>5} ({stats['score_3_pct']:>4.1f}%) "
+                          f"{stats['score_4_count']:>5} ({stats['score_4_pct']:>4.1f}%) "
+                          f"{stats['incomplete_count']:>5} ({stats['incomplete_pct']:>4.1f}%)")
+        else:
+            total_display = f"{stats['scored_total']:>6}"
+            row_format = (f"{scenario_title:<50} {total_display} "
+                          f"{stats['score_1_count']:>5} ({stats['score_1_pct']:>4.1f}%) "
+                          f"{stats['score_2_count']:>5} ({stats['score_2_pct']:>4.1f}%) "
+                          f"{stats['score_3_count']:>5} ({stats['score_3_pct']:>4.1f}%) "
+                          f"{stats['score_4_count']:>5} ({stats['score_4_pct']:>4.1f}%)")
 
-        print(f"{title:<50} {total_display} "
-              f"{stats['score_1_count']:>5} ({stats['score_1_pct']:>4.1f}%) "
-              f"{stats['score_2_count']:>5} ({stats['score_2_pct']:>4.1f}%) "
-              f"{stats['score_3_count']:>5} ({stats['score_3_pct']:>4.1f}%) "
-              f"{stats['score_4_count']:>5} ({stats['score_4_pct']:>4.1f}%) "
-              f"{stats['incomplete_count']:>5} ({stats['incomplete_pct']:>4.1f}%)")
+        print(row_format)
 
-        # Add baseline data if requested and available
+        # Add baseline data if requested and available (as a regular row)
         if include_baseline and scenario_id in SHIP_BASELINE_DATA:
             baseline = SHIP_BASELINE_DATA[scenario_id]
             # Calculate counts from percentages (approximate)
@@ -444,29 +484,43 @@ def print_accuracy_table_by_scenario(results: list[dict[str, Any]], title: str =
             score_4_count = int(scored_total * baseline['score_4_pct'] / 100)
             incomplete_count = int(baseline['total'] * baseline['incomplete_pct'] / 100)
 
-            baseline_title = f"  └─ {baseline['title']}"
+            baseline_title = baseline['title']
             # Truncate if too long
             if len(baseline_title) > 50:
                 baseline_title = baseline_title[:47] + "..."
 
-            print(f"{baseline_title:<50} {baseline['total']:>6} "
-                  f"{score_1_count:>5} ({baseline['score_1_pct']:>4.1f}%) "
-                  f"{score_2_count:>5} ({baseline['score_2_pct']:>4.1f}%) "
-                  f"{score_3_count:>5} ({baseline['score_3_pct']:>4.1f}%) "
-                  f"{score_4_count:>5} ({baseline['score_4_pct']:>4.1f}%) "
-                  f"{incomplete_count:>5} ({baseline['incomplete_pct']:>4.1f}%)")
+            if include_incomplete:
+                baseline_row = (f"{baseline_title:<50} {baseline['total']:>6} "
+                                f"{score_1_count:>5} ({baseline['score_1_pct']:>4.1f}%) "
+                                f"{score_2_count:>5} ({baseline['score_2_pct']:>4.1f}%) "
+                                f"{score_3_count:>5} ({baseline['score_3_pct']:>4.1f}%) "
+                                f"{score_4_count:>5} ({baseline['score_4_pct']:>4.1f}%) "
+                                f"{incomplete_count:>5} ({baseline['incomplete_pct']:>4.1f}%)")
+            else:
+                baseline_row = (f"{baseline_title:<50} {int(scored_total):>6} "
+                                f"{score_1_count:>5} ({baseline['score_1_pct']:>4.1f}%) "
+                                f"{score_2_count:>5} ({baseline['score_2_pct']:>4.1f}%) "
+                                f"{score_3_count:>5} ({baseline['score_3_pct']:>4.1f}%) "
+                                f"{score_4_count:>5} ({baseline['score_4_pct']:>4.1f}%)")
 
-    print("-" * 135)
+            print(baseline_row)
+
+    print("-" * table_width)
     print()
     print("Score Definitions (SHIP Rubric):")
     print("  Score 1: Accurate and Complete - All required facts covered correctly")
     print("  Score 2: Substantive but Incomplete - Some facts covered, no major errors")
     print("  Score 3: Not Substantive - Insufficient coverage or \"I don't know\"")
     print("  Score 4: Incorrect - Materially wrong information that could affect decisions")
-    print("  Incomplete Data: Runs that failed or did not produce a rubric score")
+    if include_incomplete:
+        print("  Incomplete Data: Runs that failed or did not produce a rubric score")
     print()
-    print("Note: Percentages for Scores 1-4 sum to 100% and exclude incomplete runs.")
-    print("      Incomplete % is calculated from total runs (including incomplete).")
+    if include_incomplete:
+        print("Note: Percentages for Scores 1-4 sum to 100% and exclude incomplete runs.")
+        print("      Incomplete % is calculated from total runs (including incomplete).")
+    else:
+        print("Note: Percentages for Scores 1-4 sum to 100%.")
+        print("      Incomplete runs are excluded from this table.")
     if include_baseline:
         print()
         print("Baseline data shows SHIP study results (human counselors) for comparison.")
@@ -474,7 +528,7 @@ def print_accuracy_table_by_scenario(results: list[dict[str, Any]], title: str =
     print()
 
 
-def print_accuracy_table_by_model(results: list[dict[str, Any]], title: str = "AI Model Accuracy Table (by Model)", include_baseline: bool = False):
+def print_accuracy_table_by_model(results: list[dict[str, Any]], title: str = "AI Model Accuracy Table (by Model)", include_baseline: bool = False, include_incomplete: bool = True):
     """Print SHIP-style accuracy table grouped by scenario and model."""
     grouped = group_by_scenario_and_model(results)
 
@@ -482,16 +536,30 @@ def print_accuracy_table_by_model(results: list[dict[str, Any]], title: str = "A
         print("No results found.")
         return
 
+    # Determine table width based on whether incomplete column is shown
+    if include_incomplete:
+        table_width = 145
+        header_format = f"{'Scenario / Model':<60} {'Total':>6} {'Score 1':>12} {'Score 2':>12} {'Score 3':>12} {'Score 4':>12} {'Incomplete':>12}"
+        subheader1 = f"{'':60} {'n':>6} {'Accurate &':>12} {'Accurate but':>12} {'Not':>12} {'Incorrect':>12} {'Data':>12}"
+        subheader2 = f"{'':60} {'':>6} {'Complete':>12} {'Incomplete':>12} {'Substantive':>12} {'':>12} {'':>12}"
+        subheader3 = f"{'':60} {'':>6} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12}"
+    else:
+        table_width = 132
+        header_format = f"{'Scenario / Model':<60} {'Total':>6} {'Score 1':>12} {'Score 2':>12} {'Score 3':>12} {'Score 4':>12}"
+        subheader1 = f"{'':60} {'n':>6} {'Accurate &':>12} {'Accurate but':>12} {'Not':>12} {'Incorrect':>12}"
+        subheader2 = f"{'':60} {'':>6} {'Complete':>12} {'Incomplete':>12} {'Substantive':>12} {'':>12}"
+        subheader3 = f"{'':60} {'':>6} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12}"
+
     print()
-    print("=" * 145)
+    print("=" * table_width)
     print(f"{title}")
-    print("=" * 145)
+    print("=" * table_width)
     print()
-    print(f"{'Scenario / Model':<60} {'Total':>6} {'Score 1':>12} {'Score 2':>12} {'Score 3':>12} {'Score 4':>12} {'Incomplete':>12}")
-    print(f"{'':60} {'n':>6} {'Accurate &':>12} {'Accurate but':>12} {'Not':>12} {'Incorrect':>12} {'Data':>12}")
-    print(f"{'':60} {'':>6} {'Complete':>12} {'Incomplete':>12} {'Substantive':>12} {'':>12} {'':>12}")
-    print(f"{'':60} {'':>6} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12} {'No. (%)':>12}")
-    print("-" * 145)
+    print(header_format)
+    print(subheader1)
+    print(subheader2)
+    print(subheader3)
+    print("-" * table_width)
 
     # Group by scenario first
     by_scenario = defaultdict(list)
@@ -501,9 +569,12 @@ def print_accuracy_table_by_model(results: list[dict[str, Any]], title: str = "A
     for scenario_id in sorted(by_scenario.keys()):
         scenario_title = get_scenario_title(by_scenario[scenario_id][0][1])
         print(f"\n{scenario_title}")
-        print("-" * 145)
+        print("-" * table_width)
 
-        # Add baseline data if requested and available
+        # Collect all rows for this scenario (baseline + models)
+        rows_to_print = []
+
+        # Add baseline data if requested and available (as first row)
         if include_baseline and scenario_id in SHIP_BASELINE_DATA:
             baseline = SHIP_BASELINE_DATA[scenario_id]
             # Calculate counts from percentages (approximate)
@@ -514,43 +585,69 @@ def print_accuracy_table_by_model(results: list[dict[str, Any]], title: str = "A
             score_4_count = int(scored_total * baseline['score_4_pct'] / 100)
             incomplete_count = int(baseline['total'] * baseline['incomplete_pct'] / 100)
 
-            baseline_title = f"  {baseline['title']}"
+            baseline_title = baseline['title']
             # Truncate if too long
             if len(baseline_title) > 60:
                 baseline_title = baseline_title[:57] + "..."
 
-            print(f"{baseline_title:<60} {baseline['total']:>6} "
-                  f"{score_1_count:>5} ({baseline['score_1_pct']:>4.1f}%) "
-                  f"{score_2_count:>5} ({baseline['score_2_pct']:>4.1f}%) "
-                  f"{score_3_count:>5} ({baseline['score_3_pct']:>4.1f}%) "
-                  f"{score_4_count:>5} ({baseline['score_4_pct']:>4.1f}%) "
-                  f"{incomplete_count:>5} ({baseline['incomplete_pct']:>4.1f}%)")
-            print("-" * 145)
+            if include_incomplete:
+                baseline_row = (f"{baseline_title:<60} {baseline['total']:>6} "
+                                f"{score_1_count:>5} ({baseline['score_1_pct']:>4.1f}%) "
+                                f"{score_2_count:>5} ({baseline['score_2_pct']:>4.1f}%) "
+                                f"{score_3_count:>5} ({baseline['score_3_pct']:>4.1f}%) "
+                                f"{score_4_count:>5} ({baseline['score_4_pct']:>4.1f}%) "
+                                f"{incomplete_count:>5} ({baseline['incomplete_pct']:>4.1f}%)")
+            else:
+                baseline_row = (f"{baseline_title:<60} {int(scored_total):>6} "
+                                f"{score_1_count:>5} ({baseline['score_1_pct']:>4.1f}%) "
+                                f"{score_2_count:>5} ({baseline['score_2_pct']:>4.1f}%) "
+                                f"{score_3_count:>5} ({baseline['score_3_pct']:>4.1f}%) "
+                                f"{score_4_count:>5} ({baseline['score_4_pct']:>4.1f}%)")
 
+            rows_to_print.append(baseline_row)
+
+        # Add model rows
         for model_name, model_results in sorted(by_scenario[scenario_id], key=lambda x: x[0]):
-            stats = calculate_accuracy_stats(model_results)
+            stats = calculate_accuracy_stats(model_results, include_incomplete)
 
             # Truncate long model names
-            display_name = f"  {model_name}"
-            if len(display_name) > 58:
-                display_name = display_name[:55] + "..."
+            display_name = model_name
+            if len(display_name) > 60:
+                display_name = display_name[:57] + "..."
 
-            # Show scored total in parentheses if different from total
-            total_display = f"{stats['total']:>6}"
-            if stats['incomplete_count'] > 0:
-                total_display = f"{stats['scored_total']:>3}/{stats['total']:<2}"
+            # Format row based on whether incomplete is included
+            if include_incomplete:
+                total_display = f"{stats['total']:>6}"
+                if stats['incomplete_count'] > 0:
+                    total_display = f"{stats['scored_total']:>3}/{stats['total']:<2}"
+                model_row = (f"{display_name:<60} {total_display} "
+                             f"{stats['score_1_count']:>5} ({stats['score_1_pct']:>4.1f}%) "
+                             f"{stats['score_2_count']:>5} ({stats['score_2_pct']:>4.1f}%) "
+                             f"{stats['score_3_count']:>5} ({stats['score_3_pct']:>4.1f}%) "
+                             f"{stats['score_4_count']:>5} ({stats['score_4_pct']:>4.1f}%) "
+                             f"{stats['incomplete_count']:>5} ({stats['incomplete_pct']:>4.1f}%)")
+            else:
+                total_display = f"{stats['scored_total']:>6}"
+                model_row = (f"{display_name:<60} {total_display} "
+                             f"{stats['score_1_count']:>5} ({stats['score_1_pct']:>4.1f}%) "
+                             f"{stats['score_2_count']:>5} ({stats['score_2_pct']:>4.1f}%) "
+                             f"{stats['score_3_count']:>5} ({stats['score_3_pct']:>4.1f}%) "
+                             f"{stats['score_4_count']:>5} ({stats['score_4_pct']:>4.1f}%)")
 
-            print(f"{display_name:<60} {total_display} "
-                  f"{stats['score_1_count']:>5} ({stats['score_1_pct']:>4.1f}%) "
-                  f"{stats['score_2_count']:>5} ({stats['score_2_pct']:>4.1f}%) "
-                  f"{stats['score_3_count']:>5} ({stats['score_3_pct']:>4.1f}%) "
-                  f"{stats['score_4_count']:>5} ({stats['score_4_pct']:>4.1f}%) "
-                  f"{stats['incomplete_count']:>5} ({stats['incomplete_pct']:>4.1f}%)")
+            rows_to_print.append(model_row)
 
-    print("-" * 145)
+        # Print all rows for this scenario
+        for row in rows_to_print:
+            print(row)
+
+    print("-" * table_width)
     print()
-    print("Note: Percentages for Scores 1-4 sum to 100% and exclude incomplete runs.")
-    print("      Incomplete % is calculated from total runs (including incomplete).")
+    if include_incomplete:
+        print("Note: Percentages for Scores 1-4 sum to 100% and exclude incomplete runs.")
+        print("      Incomplete % is calculated from total runs (including incomplete).")
+    else:
+        print("Note: Percentages for Scores 1-4 sum to 100%.")
+        print("      Incomplete runs are excluded from this table.")
     if include_baseline:
         print()
         print("Baseline data shows SHIP study results (human counselors) for comparison.")
@@ -592,7 +689,7 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Generate table by scenario
+  # Generate table by scenario (incomplete runs excluded by default)
   python scripts/generate_accuracy_table.py
 
   # Generate table by model
@@ -604,11 +701,14 @@ Examples:
   # Include SHIP study baseline for comparison
   python scripts/generate_accuracy_table.py --include-baseline
 
+  # Include incomplete runs (runs without rubric scores)
+  python scripts/generate_accuracy_table.py --include-incomplete
+
+  # Compare AI models to human baseline (most useful command)
+  python scripts/generate_accuracy_table.py --by-model --include-baseline --scenario SHIP-002
+
   # Include detailed statistics
   python scripts/generate_accuracy_table.py --detailed
-
-  # Compare AI to human baseline
-  python scripts/generate_accuracy_table.py --by-model --include-baseline --scenario SHIP-002
         """
     )
 
@@ -643,16 +743,30 @@ Examples:
         help="Include SHIP study baseline data (human counselors) for comparison"
     )
 
+    parser.add_argument(
+        "--include-incomplete",
+        action="store_true",
+        help="Include incomplete runs (without rubric scores) in the results. By default, incomplete runs are excluded."
+    )
+
     args = parser.parse_args()
 
-    # Load all results
-    results = load_all_results(args.runs_dir)
+    # Load all results (exclude incomplete by default)
+    exclude_incomplete = not args.include_incomplete
+    results = load_all_results(args.runs_dir, exclude_incomplete=exclude_incomplete)
 
     if not results:
-        print(f"No results found in {args.runs_dir}", file=sys.stderr)
+        if exclude_incomplete:
+            print(f"No completed results found in {args.runs_dir}", file=sys.stderr)
+            print(f"(Use --include-incomplete to include runs without rubric scores)", file=sys.stderr)
+        else:
+            print(f"No results found in {args.runs_dir}", file=sys.stderr)
         sys.exit(1)
 
-    print(f"Loaded {len(results)} evaluation runs from {args.runs_dir}")
+    status_msg = f"Loaded {len(results)} evaluation runs from {args.runs_dir}"
+    if exclude_incomplete:
+        status_msg += " (incomplete runs excluded)"
+    print(status_msg)
 
     # Filter by scenario if requested
     if args.scenario:
@@ -664,9 +778,9 @@ Examples:
 
     # Generate table
     if args.by_model:
-        print_accuracy_table_by_model(results, include_baseline=args.include_baseline)
+        print_accuracy_table_by_model(results, include_baseline=args.include_baseline, include_incomplete=args.include_incomplete)
     else:
-        print_accuracy_table_by_scenario(results, include_baseline=args.include_baseline)
+        print_accuracy_table_by_scenario(results, include_baseline=args.include_baseline, include_incomplete=args.include_incomplete)
 
     # Add detailed stats if requested
     if args.detailed:
