@@ -90,6 +90,22 @@ SHIP Question #3: MA vs TM Comparison    4/7    1 (25.0%)    2 (50.0%)    1 (25.
 python scripts/generate_accuracy_table.py --scenario SHIP-002
 ```
 
+### Include SHIP Study Baseline (Human Counselors)
+
+Compare AI performance directly to human counselors from the original SHIP study:
+
+```bash
+python scripts/generate_accuracy_table.py --include-baseline
+```
+
+**Output:**
+```
+SHIP Question #3: MA vs TM Comparison                4/7      1 (25.0%)     2 (50.0%)     1 (25.0%)     0 ( 0.0%)     3 (42.9%)
+  └─ SHIP Study: TM vs MA differences (n=88)           88     5 ( 5.7%)    77 (88.6%)     5 ( 5.7%)     0 ( 0.0%)     0 ( 0.0%)
+```
+
+The baseline row shows how human SHIP counselors performed on the same question, allowing direct comparison.
+
 ### Custom Runs Directory
 
 ```bash
@@ -102,41 +118,51 @@ python scripts/generate_accuracy_table.py --runs-dir path/to/runs
 python scripts/generate_accuracy_table.py \
   --by-model \
   --scenario SHIP-002 \
-  --detailed
+  --detailed \
+  --include-baseline
 ```
 
 ---
 
 ## Common Use Cases
 
-### 1. Compare Multiple Models
+### 1. Compare AI Models to Human Baseline
+
+```bash
+# Compare all AI models to human counselors
+python scripts/generate_accuracy_table.py --by-model --include-baseline --scenario SHIP-002
+```
+
+This shows which AI models outperform human SHIP counselors and by how much.
+
+### 2. Compare Multiple Models
 
 ```bash
 # Run evaluations for multiple models
 ./compare_models.sh
 
-# Generate comparison table
-python scripts/generate_accuracy_table.py --by-model --scenario SHIP-002
+# Generate comparison table with human baseline
+python scripts/generate_accuracy_table.py --by-model --include-baseline --scenario SHIP-002
 ```
 
-### 2. Track Model Performance Over Time
+### 3. Track Model Performance Over Time
 
 ```bash
 # Keep separate run directories
 python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:openai/gpt-4-turbo --output-dir runs/2026-01
 python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:openai/gpt-4-turbo --output-dir runs/2026-02
 
-# Compare
-python scripts/generate_accuracy_table.py --runs-dir runs/2026-01
-python scripts/generate_accuracy_table.py --runs-dir runs/2026-02
+# Compare both time periods to baseline
+python scripts/generate_accuracy_table.py --runs-dir runs/2026-01 --include-baseline
+python scripts/generate_accuracy_table.py --runs-dir runs/2026-02 --include-baseline
 ```
 
-### 3. Generate Report for Publication
+### 4. Generate Report for Publication
 
 ```bash
-# Generate all tables
-python scripts/generate_accuracy_table.py > reports/accuracy_by_scenario.txt
-python scripts/generate_accuracy_table.py --by-model > reports/accuracy_by_model.txt
+# Generate all tables with baseline data
+python scripts/generate_accuracy_table.py --include-baseline > reports/accuracy_by_scenario.txt
+python scripts/generate_accuracy_table.py --by-model --include-baseline > reports/accuracy_by_model.txt
 python scripts/generate_accuracy_table.py --detailed > reports/detailed_stats.txt
 ```
 
@@ -144,28 +170,70 @@ python scripts/generate_accuracy_table.py --detailed > reports/detailed_stats.tx
 
 ## Comparing to SHIP Study Results
 
-### SHIP Study (Human Counselors)
+### Understanding SHIP Study Scenarios
 
-From [Table 2](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/table/zoi250151t2/), for Question #3 (MA vs TM comparison):
+The SHIP study tested human counselors on **TWO main scenarios:**
 
-**Human counselor performance (n = 88):**
-- Accurate & Complete: ~30-40%
-- Accurate but Incomplete: ~40-50%
-- Not Substantive: ~10-20%
-- Incorrect: <5%
+1. **"Medicare"** = Medicare-only scenario (n=88)
+   - Beneficiary without Medicaid
+   - Questions about Traditional Medicare vs Medicare Advantage
+   - Tests general Medicare knowledge
 
-### Your AI Results
+2. **"Dual"** = Dual-eligible scenario (n=96)
+   - Beneficiary with both Medicare and Medicaid
+   - Questions about D-SNPs (Dual Special Needs Plans)
+   - Tests knowledge of integrated coverage
 
-Use the reporting script to compare:
+Each scenario included multiple questions testing different aspects of counselor knowledge.
+
+### Direct Comparison with Baseline Data
+
+**NEW:** You can now directly compare AI performance to human counselors using the `--include-baseline` flag:
 
 ```bash
-python scripts/generate_accuracy_table.py --scenario SHIP-002
+python scripts/generate_accuracy_table.py --scenario SHIP-002 --include-baseline
 ```
 
+**Output:**
+```
+Test: MA vs TM Comparison (maps to SHIP Medicare scenario)   4/7      1 (25.0%)     2 (50.0%)     1 (25.0%)     0 ( 0.0%)     3 (42.9%)
+  └─ SHIP Baseline: TM vs MA differences (Medicare, n=88)     88     5 ( 5.7%)    77 (88.6%)     5 ( 5.7%)     0 ( 0.0%)     0 ( 0.0%)
+```
+
+This shows:
+- **Top row**: Your AI test results
+- **Bottom row**: SHIP study baseline (human counselors) from the **Medicare scenario**
+
+### SHIP Study Baseline Performance
+
+From [Table 2](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/table/zoi250151t2/), for the MA vs TM comparison question:
+
+**Human counselor performance (Medicare scenario, n=88):**
+- Accurate & Complete: 5.7%
+- Accurate but Incomplete: 88.6%
+- Not Substantive: 5.7%
+- Incorrect: 0.0%
+
+**Key insight:** Human counselors were highly consistent (88.6% substantive) but rarely provided complete answers (only 5.7%).
+
+### Compare AI to Human Performance
+
+Use the `--by-model` and `--include-baseline` flags together for the best comparison:
+
+```bash
+python scripts/generate_accuracy_table.py --by-model --include-baseline --scenario SHIP-002
+```
+
+This shows:
+1. The SHIP study baseline (human counselors) first
+2. Each AI model's performance below it
+3. Easy visual comparison between AI and human performance
+
 **Key comparisons:**
-- Are AI models achieving similar accuracy rates?
+- Are AI models achieving similar accuracy rates to humans?
 - Are AI models more likely to be incomplete vs. incorrect?
 - How do different AI models compare to each other and to humans?
+- Which AI models outperform human counselors on specific metrics?
 
 ---
 
@@ -329,11 +397,11 @@ recent = [r for r in results if r.get("timestamp", "").startswith("2026-01-26")]
 
 Planned features:
 
+- [x] Comparison to baseline (IMPLEMENTED: use `--include-baseline`)
 - [ ] CSV export
 - [ ] JSON export
 - [ ] Statistical significance testing
 - [ ] Confidence intervals
-- [ ] Comparison to baseline
 - [ ] Trend analysis over time
 - [ ] Cost per accuracy tier
 - [ ] HTML report generation

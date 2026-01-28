@@ -103,6 +103,9 @@ cat runs/$(ls -t runs/ | head -1)/results.jsonl | python -m json.tool | grep -A 
 
 # Generate SHIP-style accuracy table
 python scripts/generate_accuracy_table.py
+
+# Compare AI performance to human counselors from the SHIP study
+python scripts/generate_accuracy_table.py --by-model --include-baseline
 ```
 
 **For detailed instructions, see [USER_GUIDE.md](USER_GUIDE.md) and [REPORTING_GUIDE.md](REPORTING_GUIDE.md)**

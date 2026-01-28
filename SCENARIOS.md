@@ -16,6 +16,39 @@ Scenarios are located in: `scenarios/v1/`
 
 ---
 
+## Understanding SHIP Study Scenarios
+
+The original [SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) tested human counselors on **TWO main scenarios:**
+
+### 1. Medicare-Only Scenario ("Medicare")
+- **Study sample:** n=88 human counselors
+- **Beneficiary profile:** Medicare-eligible person WITHOUT Medicaid
+- **Key questions:**
+  - Traditional Medicare vs Medicare Advantage comparison
+  - Medicare supplement (Medigap) considerations
+  - Prescription drug coverage
+  - Plan-specific details (premiums, copays, networks)
+  - Long-term care coverage
+
+**Our test scenario SHIP-002 maps to this scenario.**
+
+### 2. Dual-Eligible Scenario ("Dual")
+- **Study sample:** n=96 human counselors
+- **Beneficiary profile:** Person eligible for BOTH Medicare and Medicaid
+- **Key questions:**
+  - D-SNP (Dual Special Needs Plans) availability and benefits
+  - Medicaid premium/cost-sharing assistance
+  - Medicare enrollment options for dual-eligible beneficiaries
+  - Integrated care considerations
+  - Long-term care coverage (with Medicaid)
+
+**We do not yet have test scenarios for the Dual scenario.**
+
+### Both Scenarios Combined
+Some questions were asked in both scenarios (e.g., initial enrollment timing), giving a combined sample of n=184.
+
+---
+
 ## Available Scenarios
 
 ### Scenario 001: Original Medicare vs Medicare Advantage (Synthetic)
@@ -57,9 +90,11 @@ Scenarios are located in: `scenarios/v1/`
 
 ---
 
-### Scenario 002: SHIP Question #3 - MA vs TM Comparison (SHIP Study Aligned)
+### Scenario 002: SHIP Medicare Question #3 - MA vs TM Comparison
 
 **File:** `scenarios/v1/scenario_002.json`
+
+**SHIP Scenario:** Medicare-only (n=88 human counselors)
 
 **Question:**
 > "I keep hearing about Medicare Advantage. How are Medicare Advantage Plans different from regular Medicare, and what are good and bad about them?"
@@ -77,7 +112,7 @@ Scenarios are located in: `scenarios/v1/`
 
 **Source:**
 - [SHIP Mystery-Shopper Study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) (Dugan et al., JAMA Network Open 2025)
-- eAppendix 1: Question #3 (exact wording)
+- **Medicare-only scenario** - Question #3 (exact wording from eAppendix 1)
 - eAppendix 4: Question Group 10 (scoring rubric)
 
 **Scoring Rubric (SHIP 4-Tier):**
