@@ -53,3 +53,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Spec-kit infrastructure (keep .specify/memory/ tracked)
+.claude/
+.specify/scripts/
+.specify/templates/
