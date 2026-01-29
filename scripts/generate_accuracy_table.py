@@ -10,11 +10,16 @@ SHIP Study Scenario Naming:
   - "Dual" = Dual-eligible scenario (n=96 human counselors)
   - "Both" = Questions asked in both scenarios (n=184 total)
 
+Default Behavior:
+  - Excludes incomplete runs (without rubric scores)
+  - Excludes fake: test models
+  - Use --include-incomplete and --include-fake to include them
+
 Usage:
     python scripts/generate_accuracy_table.py
-    python scripts/generate_accuracy_table.py --by-model
+    python scripts/generate_accuracy_table.py --by-model --include-baseline
     python scripts/generate_accuracy_table.py --scenario SHIP-002
-    python scripts/generate_accuracy_table.py --include-baseline
+    python scripts/generate_accuracy_table.py --include-incomplete --include-fake
 """
 
 import json
@@ -46,7 +51,7 @@ from typing import Any
 SHIP_BASELINE_DATA = {
     # Question asked in both scenarios (combined n=184)
     "SHIP-001": {  # Initial enrollment timing
-        "title": "SHIP Baseline: Initial enrollment timing (Both scenarios, n=184)",
+        "title": "SHIP Baseline: Initial enrollment timing",
         "scenario_type": "Both",
         "score_1_pct": 57.1,
         "score_2_pct": 33.2,
@@ -58,7 +63,7 @@ SHIP_BASELINE_DATA = {
 
     # Medicare-only scenario questions (n=88)
     "Medicare-EnrollmentInteraction": {
-        "title": "SHIP Baseline: Enrollment/employer plan interaction (Medicare, n=88)",
+        "title": "SHIP Baseline: Enrollment/employer plan interaction",
         "scenario_type": "Medicare",
         "score_1_pct": 62.5,
         "score_2_pct": 22.7,
@@ -68,7 +73,7 @@ SHIP_BASELINE_DATA = {
         "total": 88,
     },
     "SHIP-002": {  # Main MA vs TM comparison question - matches our test scenario
-        "title": "SHIP Baseline: TM vs MA differences (Medicare, n=88)",
+        "title": "SHIP Baseline: TM vs MA differences",
         "scenario_type": "Medicare",
         "score_1_pct": 5.7,
         "score_2_pct": 88.6,
@@ -78,7 +83,7 @@ SHIP_BASELINE_DATA = {
         "total": 88,
     },
     "Medicare-Supplement": {
-        "title": "SHIP Baseline: Medicare supplement considerations (Medicare, n=88)",
+        "title": "SHIP Baseline: Medicare supplement considerations",
         "scenario_type": "Medicare",
         "score_1_pct": 3.4,
         "score_2_pct": 88.6,
@@ -88,7 +93,7 @@ SHIP_BASELINE_DATA = {
         "total": 88,
     },
     "Medicare-LTC": {
-        "title": "SHIP Baseline: Long-term care coverage (Medicare, n=88)",
+        "title": "SHIP Baseline: Long-term care coverage",
         "scenario_type": "Medicare",
         "score_1_pct": 86.4,
         "score_2_pct": 1.1,
@@ -98,7 +103,7 @@ SHIP_BASELINE_DATA = {
         "total": 88,
     },
     "Medicare-DrugCoverage": {
-        "title": "SHIP Baseline: Prescription drug coverage (Medicare, n=88)",
+        "title": "SHIP Baseline: Prescription drug coverage",
         "scenario_type": "Medicare",
         "score_1_pct": 23.9,
         "score_2_pct": 69.3,
@@ -108,7 +113,7 @@ SHIP_BASELINE_DATA = {
         "total": 88,
     },
     "Medicare-PCPNetwork": {
-        "title": "SHIP Baseline: PCP network status (Medicare, n=88)",
+        "title": "SHIP Baseline: PCP network status",
         "scenario_type": "Medicare",
         "score_1_pct": 26.1,
         "score_2_pct": 0.0,
@@ -118,7 +123,7 @@ SHIP_BASELINE_DATA = {
         "total": 88,
     },
     "Medicare-MAPremium": {
-        "title": "SHIP Baseline: MA plan premium (Medicare, n=88)",
+        "title": "SHIP Baseline: MA plan premium",
         "scenario_type": "Medicare",
         "score_1_pct": 19.3,
         "score_2_pct": 47.7,
@@ -128,7 +133,7 @@ SHIP_BASELINE_DATA = {
         "total": 88,
     },
     "Medicare-OutOfNetwork": {
-        "title": "SHIP Baseline: Out-of-network care (Medicare, n=88)",
+        "title": "SHIP Baseline: Out-of-network care",
         "scenario_type": "Medicare",
         "score_1_pct": 61.4,
         "score_2_pct": 15.9,
@@ -138,7 +143,7 @@ SHIP_BASELINE_DATA = {
         "total": 88,
     },
     "Medicare-PCPCopay": {
-        "title": "SHIP Baseline: In-network PCP copay (Medicare, n=88)",
+        "title": "SHIP Baseline: In-network PCP copay",
         "scenario_type": "Medicare",
         "score_1_pct": 48.9,
         "score_2_pct": 6.8,
@@ -148,7 +153,7 @@ SHIP_BASELINE_DATA = {
         "total": 88,
     },
     "Medicare-MaxOOP": {
-        "title": "SHIP Baseline: Max out-of-pocket limit (Medicare, n=88)",
+        "title": "SHIP Baseline: Max out-of-pocket limit",
         "scenario_type": "Medicare",
         "score_1_pct": 46.6,
         "score_2_pct": 11.4,
@@ -158,7 +163,7 @@ SHIP_BASELINE_DATA = {
         "total": 88,
     },
     "Medicare-DrugInclusion": {
-        "title": "SHIP Baseline: Drug coverage inclusion (Medicare, n=88)",
+        "title": "SHIP Baseline: Drug coverage inclusion",
         "scenario_type": "Medicare",
         "score_1_pct": 76.1,
         "score_2_pct": 2.3,
@@ -168,7 +173,7 @@ SHIP_BASELINE_DATA = {
         "total": 88,
     },
     "Medicare-SpecificDrug": {
-        "title": "SHIP Baseline: Specific drug (Lipitor) coverage (Medicare, n=88)",
+        "title": "SHIP Baseline: Specific drug coverage",
         "scenario_type": "Medicare",
         "score_1_pct": 45.5,
         "score_2_pct": 17.0,
@@ -180,7 +185,7 @@ SHIP_BASELINE_DATA = {
 
     # Dual-eligible scenario questions (n=96)
     "Dual-Enrollment": {
-        "title": "SHIP Baseline: Medicare enrollment options (Dual, n=96)",
+        "title": "SHIP Baseline: Medicare enrollment options",
         "scenario_type": "Dual",
         "score_1_pct": 24.0,
         "score_2_pct": 47.9,
@@ -190,7 +195,7 @@ SHIP_BASELINE_DATA = {
         "total": 96,
     },
     "Dual-DSNPConsiderations": {
-        "title": "SHIP Baseline: D-SNP considerations (Dual, n=96)",
+        "title": "SHIP Baseline: D-SNP considerations",
         "scenario_type": "Dual",
         "score_1_pct": 1.0,
         "score_2_pct": 74.0,
@@ -200,7 +205,7 @@ SHIP_BASELINE_DATA = {
         "total": 96,
     },
     "Dual-DSNPAvailability": {
-        "title": "SHIP Baseline: D-SNP availability (Dual, n=96)",
+        "title": "SHIP Baseline: D-SNP availability",
         "scenario_type": "Dual",
         "score_1_pct": 68.8,
         "score_2_pct": 9.4,
@@ -210,7 +215,7 @@ SHIP_BASELINE_DATA = {
         "total": 96,
     },
     "Dual-LTC": {
-        "title": "SHIP Baseline: Long-term care coverage (Dual, n=96)",
+        "title": "SHIP Baseline: Long-term care coverage",
         "scenario_type": "Dual",
         "score_1_pct": 10.4,
         "score_2_pct": 59.4,
@@ -220,7 +225,7 @@ SHIP_BASELINE_DATA = {
         "total": 96,
     },
     "Dual-MedicaidPremium": {
-        "title": "SHIP Baseline: Medicaid premium/cost-sharing (Dual, n=96)",
+        "title": "SHIP Baseline: Medicaid premium/cost-sharing",
         "scenario_type": "Dual",
         "score_1_pct": 65.6,
         "score_2_pct": 10.4,
@@ -230,7 +235,7 @@ SHIP_BASELINE_DATA = {
         "total": 96,
     },
     "Dual-CostSharing": {
-        "title": "SHIP Baseline: Medicare cost-sharing assistance (Dual, n=96)",
+        "title": "SHIP Baseline: Medicare cost-sharing assistance",
         "scenario_type": "Dual",
         "score_1_pct": 27.1,
         "score_2_pct": 46.9,
@@ -242,12 +247,13 @@ SHIP_BASELINE_DATA = {
 }
 
 
-def load_all_results(runs_dir: Path, exclude_incomplete: bool = True) -> list[dict[str, Any]]:
+def load_all_results(runs_dir: Path, exclude_incomplete: bool = True, exclude_fake: bool = True) -> list[dict[str, Any]]:
     """Load all results.jsonl files from runs directory.
 
     Args:
         runs_dir: Directory containing evaluation runs
         exclude_incomplete: If True, filter out runs without rubric scores
+        exclude_fake: If True, filter out runs from fake: models (test adapters)
     """
     results = []
 
@@ -268,6 +274,13 @@ def load_all_results(runs_dir: Path, exclude_incomplete: bool = True) -> list[di
                     final_scores = data.get("final_scores", {})
                     rubric_score = final_scores.get("rubric_score")
                     if rubric_score is None:
+                        continue
+
+                # Filter out fake models if requested
+                if exclude_fake:
+                    target = data.get("target", {})
+                    model_name = target.get("model_name", "")
+                    if model_name.startswith("fake:"):
                         continue
 
                 results.append(data)
@@ -403,15 +416,15 @@ def get_scenario_title(results: list[dict[str, Any]]) -> str:
     scenario_id = results[0].get("scenario_id", "Unknown")
 
     # Map scenario IDs to readable titles
-    # Test scenarios map to their corresponding SHIP study questions
+    # Use "All Models" for aggregated view
     titles = {
-        "SHIP-001": "Test: Initial Enrollment (maps to SHIP Both scenarios)",
-        "SHIP-002": "Test: MA vs TM Comparison (maps to SHIP Medicare scenario)",
-        "scenario_001": "Test: General MA vs TM",
-        "scenario_002": "Test: SHIP Medicare Question #3",
+        "SHIP-001": "All Models",
+        "SHIP-002": "All Models",
+        "scenario_001": "All Models",
+        "scenario_002": "All Models",
     }
 
-    return titles.get(scenario_id, scenario_id)
+    return titles.get(scenario_id, "All Models")
 
 
 def print_accuracy_table_by_scenario(results: list[dict[str, Any]], title: str = "AI Model Accuracy Table", include_baseline: bool = False, include_incomplete: bool = True):
@@ -689,7 +702,7 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Generate table by scenario (incomplete runs excluded by default)
+  # Generate table by scenario (incomplete runs and fake models excluded by default)
   python scripts/generate_accuracy_table.py
 
   # Generate table by model
@@ -701,11 +714,17 @@ Examples:
   # Include SHIP study baseline for comparison
   python scripts/generate_accuracy_table.py --include-baseline
 
+  # Compare AI models to human baseline (most useful command)
+  python scripts/generate_accuracy_table.py --by-model --include-baseline --scenario SHIP-002
+
   # Include incomplete runs (runs without rubric scores)
   python scripts/generate_accuracy_table.py --include-incomplete
 
-  # Compare AI models to human baseline (most useful command)
-  python scripts/generate_accuracy_table.py --by-model --include-baseline --scenario SHIP-002
+  # Include fake: test models
+  python scripts/generate_accuracy_table.py --include-fake
+
+  # Include both incomplete and fake models
+  python scripts/generate_accuracy_table.py --include-incomplete --include-fake
 
   # Include detailed statistics
   python scripts/generate_accuracy_table.py --detailed
@@ -749,23 +768,40 @@ Examples:
         help="Include incomplete runs (without rubric scores) in the results. By default, incomplete runs are excluded."
     )
 
+    parser.add_argument(
+        "--include-fake",
+        action="store_true",
+        help="Include fake: test models in the results. By default, fake models are excluded."
+    )
+
     args = parser.parse_args()
 
-    # Load all results (exclude incomplete by default)
+    # Load all results (exclude incomplete and fake by default)
     exclude_incomplete = not args.include_incomplete
-    results = load_all_results(args.runs_dir, exclude_incomplete=exclude_incomplete)
+    exclude_fake = not args.include_fake
+    results = load_all_results(args.runs_dir, exclude_incomplete=exclude_incomplete, exclude_fake=exclude_fake)
 
     if not results:
-        if exclude_incomplete:
-            print(f"No completed results found in {args.runs_dir}", file=sys.stderr)
-            print(f"(Use --include-incomplete to include runs without rubric scores)", file=sys.stderr)
+        if exclude_incomplete or exclude_fake:
+            print(f"No results found in {args.runs_dir}", file=sys.stderr)
+            filters = []
+            if exclude_incomplete:
+                filters.append("--include-incomplete to include runs without rubric scores")
+            if exclude_fake:
+                filters.append("--include-fake to include fake: test models")
+            print(f"(Use {' and/or '.join(filters)})", file=sys.stderr)
         else:
             print(f"No results found in {args.runs_dir}", file=sys.stderr)
         sys.exit(1)
 
     status_msg = f"Loaded {len(results)} evaluation runs from {args.runs_dir}"
+    filters_applied = []
     if exclude_incomplete:
-        status_msg += " (incomplete runs excluded)"
+        filters_applied.append("incomplete runs excluded")
+    if exclude_fake:
+        filters_applied.append("fake models excluded")
+    if filters_applied:
+        status_msg += f" ({', '.join(filters_applied)})"
     print(status_msg)
 
     # Filter by scenario if requested

@@ -10,7 +10,7 @@ This guide explains how to generate accuracy reports that replicate [Table 2 fro
 
 ### Basic Table (Group by Scenario)
 
-**By default, incomplete runs (without rubric scores) are excluded:**
+**By default, incomplete runs (without rubric scores) and fake: test models are excluded:**
 
 ```bash
 python scripts/generate_accuracy_table.py
@@ -19,10 +19,15 @@ python scripts/generate_accuracy_table.py
 **Output:**
 ```
 Question/Scenario                                   Total      Score 1      Score 2      Score 3      Score 4
-Test: MA vs TM Comparison                              4     1 (25.0%)     2 (50.0%)     1 (25.0%)     0 ( 0.0%)
+All Models                                              3     1 (33.3%)     2 (66.7%)     0 ( 0.0%)     0 ( 0.0%)
 ```
 
-Note: The "Incomplete" column is hidden by default since incomplete runs are excluded.
+**Default filtering:**
+- Incomplete runs (without rubric scores) are excluded
+- Fake test models (fake:perfect, fake:incorrect, etc.) are excluded
+- The "Incomplete" column is hidden
+
+This provides clean, focused output showing only real evaluation results.
 
 ### Table by Model (Most Useful)
 
@@ -34,16 +39,16 @@ python scripts/generate_accuracy_table.py --by-model --include-baseline
 ```
 Scenario / Model                                              Total      Score 1      Score 2      Score 3      Score 4
 
-Test: MA vs TM Comparison (maps to SHIP Medicare scenario)
-SHIP Baseline: TM vs MA differences (Medicare, n=88)             88     5 ( 5.7%)    77 (88.6%)     5 ( 5.7%)     0 ( 0.0%)
+All Models
+SHIP Baseline: TM vs MA differences                              88     5 ( 5.7%)    77 (88.6%)     5 ( 5.7%)     0 ( 0.0%)
 anthropic/claude-3-5-sonnet                                       1     0 ( 0.0%)     1 (100.0%)     0 ( 0.0%)     0 ( 0.0%)
 openai/gpt-4-turbo                                                2     1 (50.0%)     1 (50.0%)     0 ( 0.0%)     0 ( 0.0%)
 ```
 
 **Key improvements:**
-- Baseline appears as a peer row (not indented) alongside models
-- Easy to compare AI vs human performance
-- Incomplete runs excluded by default for cleaner output
+- Clean, concise titles: "All Models" section header, "SHIP Baseline" prefix
+- Baseline appears as a peer row alongside models for easy comparison
+- Incomplete runs and fake test models excluded by default
 
 ### Detailed Statistics
 
@@ -75,25 +80,25 @@ Based on the SHIP study rubric:
 
 ### Reading the Results
 
-**Default output (incomplete runs excluded):**
+**Default output (incomplete runs and fake models excluded):**
 ```
-Test: MA vs TM Comparison                              4    1 (25.0%)    2 (50.0%)    1 (25.0%)    0 (0.0%)
-SHIP Baseline: TM vs MA differences (Medicare, n=88)  88    5 ( 5.7%)   77 (88.6%)    5 ( 5.7%)    0 (0.0%)
+All Models                                  3    1 (33.3%)    2 (66.7%)    0 ( 0.0%)    0 (0.0%)
+SHIP Baseline: TM vs MA differences        88    5 ( 5.7%)   77 (88.6%)    5 ( 5.7%)    0 (0.0%)
 ```
 
 **Interpretation:**
-- **Total n = 4**: 4 completed evaluations (incomplete runs excluded by default)
-- **Score 1: 1 (25.0%)**: 1 of 4 runs (25%) achieved perfect accuracy
-- **Score 2: 2 (50.0%)**: 2 of 4 runs (50%) were substantive but incomplete
-- **Score 3: 1 (25.0%)**: 1 of 4 runs (25%) did not provide substantive information
-- **Score 4: 0 (0.0%)**: 0 of 4 runs provided incorrect information
+- **Total n = 3**: 3 completed evaluations (incomplete runs and fake models excluded)
+- **Score 1: 1 (33.3%)**: 1 of 3 runs achieved perfect accuracy
+- **Score 2: 2 (66.7%)**: 2 of 3 runs were substantive but incomplete
+- **Score 3: 0 (0.0%)**: No runs with insufficient information
+- **Score 4: 0 (0.0%)**: No incorrect information provided
 - **Baseline row**: Shows human counselor performance (5.7% complete, 88.6% incomplete)
 
-**Note:** Percentages for Scores 1-4 add to 100% (25% + 50% + 25% + 0% = 100%)
+**Note:** Percentages for Scores 1-4 add to 100% (33.3% + 66.7% + 0% + 0% = 100%)
 
 **With incomplete runs included (--include-incomplete):**
 ```
-Test: MA vs TM Comparison    4/7    1 (25.0%)    2 (50.0%)    1 (25.0%)    0 (0.0%)    3 (42.9%)
+All Models    4/7    1 (25.0%)    2 (50.0%)    1 (25.0%)    0 (0.0%)    3 (42.9%)
 ```
 
 **Additional column:**
@@ -140,6 +145,24 @@ python scripts/generate_accuracy_table.py --include-incomplete
 
 This adds an "Incomplete" column and shows the total as "scored/total" (e.g., "4/7").
 
+### Include Fake Test Models
+
+By default, fake: test models (fake:perfect, fake:incorrect, etc.) are excluded. To include them:
+
+```bash
+python scripts/generate_accuracy_table.py --include-fake
+```
+
+Useful for debugging or testing the evaluation system itself.
+
+### Include Both Incomplete and Fake
+
+```bash
+python scripts/generate_accuracy_table.py --include-incomplete --include-fake
+```
+
+Shows all evaluation runs including incomplete and test models.
+
 ### Custom Runs Directory
 
 ```bash
@@ -179,14 +202,20 @@ This shows which AI models outperform human SHIP counselors and by how much. Inc
 python scripts/generate_accuracy_table.py --by-model --include-baseline --scenario SHIP-002
 ```
 
-### 3. Include Incomplete Runs in Analysis
+### 3. Include Incomplete Runs or Test Models
 
 ```bash
 # Show all runs including incomplete ones
 python scripts/generate_accuracy_table.py --by-model --include-baseline --include-incomplete --scenario SHIP-002
+
+# Include fake test models (for debugging evaluation system)
+python scripts/generate_accuracy_table.py --by-model --include-fake --scenario SHIP-002
+
+# Include both incomplete and fake models
+python scripts/generate_accuracy_table.py --by-model --include-incomplete --include-fake --scenario SHIP-002
 ```
 
-Use this when you need to see failure rates or debug incomplete evaluations.
+Use these when you need to see failure rates, debug incomplete evaluations, or test the evaluation system itself.
 
 ### 4. Track Model Performance Over Time
 
@@ -239,13 +268,13 @@ python scripts/generate_accuracy_table.py --scenario SHIP-002 --include-baseline
 
 **Output:**
 ```
-Test: MA vs TM Comparison (maps to SHIP Medicare scenario)   4/7      1 (25.0%)     2 (50.0%)     1 (25.0%)     0 ( 0.0%)     3 (42.9%)
-  └─ SHIP Baseline: TM vs MA differences (Medicare, n=88)     88     5 ( 5.7%)    77 (88.6%)     5 ( 5.7%)     0 ( 0.0%)     0 ( 0.0%)
+All Models                              3      1 (33.3%)     2 (66.7%)     0 ( 0.0%)     0 ( 0.0%)
+SHIP Baseline: TM vs MA differences    88      5 ( 5.7%)    77 (88.6%)     5 ( 5.7%)     0 ( 0.0%)
 ```
 
 This shows:
-- **Top row**: Your AI test results
-- **Bottom row**: SHIP study baseline (human counselors) from the **Medicare scenario**
+- **Top row**: Your AI test results aggregated across all models
+- **Bottom row**: SHIP study baseline (human counselors) from the Medicare scenario
 
 ### SHIP Study Baseline Performance
 

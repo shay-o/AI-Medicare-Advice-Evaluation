@@ -101,7 +101,7 @@ python -m src run \
 # View latest results
 cat runs/$(ls -t runs/ | head -1)/results.jsonl | python -m json.tool | grep -A 10 final_scores
 
-# Generate SHIP-style accuracy table (clean, incomplete runs excluded by default)
+# Generate SHIP-style accuracy table (clean, filtered by default)
 python scripts/generate_accuracy_table.py
 
 # Compare AI performance to human counselors from the SHIP study (most useful)
@@ -110,8 +110,8 @@ python scripts/generate_accuracy_table.py --by-model --include-baseline --scenar
 
 **Key features:**
 - Baseline appears as a peer row alongside AI models for easy comparison
-- Incomplete runs (without rubric scores) are excluded by default for cleaner output
-- Use `--include-incomplete` to show incomplete runs when needed
+- Clean default output: excludes incomplete runs and fake test models
+- Use `--include-incomplete` and `--include-fake` flags when needed
 
 **For detailed instructions, see [USER_GUIDE.md](USER_GUIDE.md) and [REPORTING_GUIDE.md](REPORTING_GUIDE.md)**
 
