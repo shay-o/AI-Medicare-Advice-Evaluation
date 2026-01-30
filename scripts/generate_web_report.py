@@ -124,8 +124,8 @@ class ChartDataset:
     """One dataset in a Chart.js chart."""
     label: str
     data: list[float]
-    background_colors: list[str]
-    border_colors: list[str]
+    background_color: str  # Single color for entire dataset (for grouped charts)
+    border_color: str      # Single border color for entire dataset
 
 
 @dataclass
@@ -258,8 +258,12 @@ def prepare_table_data(
         # Group by model
         grouped = group_by_model(results)
 
-        # Create "All Models" section
-        rows = []
+        # Calculate aggregate statistics across all models
+        aggregate_stats = calculate_score_distribution(results)
+        aggregate_dist = create_score_distribution_from_dict(aggregate_stats)
+
+        # Create individual model rows
+        model_rows = []
         for model_name, model_results in sorted(grouped.items()):
             stats = calculate_score_distribution(model_results)
             score_dist = create_score_distribution_from_dict(stats)
@@ -272,7 +276,17 @@ def prepare_table_data(
                 css_class="model-row",
                 scenario_id=config.scenario_filter,  # Will be None if not filtering by scenario
             )
-            rows.append(row)
+            model_rows.append(row)
+
+        # Create All Models aggregate row
+        aggregate_row = TableRow(
+            row_id="all-models-aggregate",
+            label="All Models",
+            score_dist=aggregate_dist,
+            is_baseline=False,
+            css_class="aggregate-row",
+            scenario_id=config.scenario_filter,
+        )
 
         # Add baseline if requested
         baseline_row = None
@@ -311,6 +325,9 @@ def prepare_table_data(
                         css_class="baseline-row",
                         scenario_id=baseline_scenario,
                     )
+
+        # Construct rows in correct order: aggregate first, then individual models
+        rows = [aggregate_row] + model_rows
 
         section = TableSection(
             section_id="all-models",
@@ -383,6 +400,8 @@ def prepare_chart_data(
 ) -> list[ChartData]:
     """Create bar chart data for score distributions.
 
+    Creates grouped bar chart comparing All Models aggregate with SHIP Study baseline.
+
     Args:
         results: List of evaluation runs
         config: Report configuration
@@ -392,51 +411,91 @@ def prepare_chart_data(
     """
     charts = []
 
-    # Calculate overall distribution
+    # Calculate All Models aggregate distribution
     stats = calculate_score_distribution(results)
 
-    # Create dataset
-    dataset = ChartDataset(
-        label="Count",
+    # Create All Models dataset (using percentages)
+    all_models_dataset = ChartDataset(
+        label="All Models",
         data=[
-            float(stats["score_1_count"]),
-            float(stats["score_2_count"]),
-            float(stats["score_3_count"]),
-            float(stats["score_4_count"]),
+            float(stats["score_1_pct"]),
+            float(stats["score_2_pct"]),
+            float(stats["score_3_pct"]),
+            float(stats["score_4_pct"]),
         ],
-        background_colors=[
-            "#4CAF50",  # Green for Score 1
-            "#2196F3",  # Blue for Score 2
-            "#FFC107",  # Amber for Score 3
-            "#F44336",  # Red for Score 4
-        ],
-        border_colors=[
-            "#388E3C",
-            "#1976D2",
-            "#FFA000",
-            "#D32F2F",
-        ],
+        background_color="#1976D2",  # Blue for All Models
+        border_color="#1565C0",
     )
+
+    datasets = [all_models_dataset]
+
+    # Add SHIP Study baseline dataset if included
+    if config.include_baseline:
+        # Determine which scenario baseline to show
+        baseline_scenario = config.scenario_filter
+
+        # If no scenario filter, check if all results are from a single scenario
+        if not baseline_scenario:
+            scenarios_in_data = set(r.get("scenario_id") for r in results if r.get("scenario_id"))
+            if len(scenarios_in_data) == 1:
+                baseline_scenario = scenarios_in_data.pop()
+
+        # Get baseline data if we have a scenario
+        if baseline_scenario:
+            baseline_data = get_baseline_data(baseline_scenario)
+            if baseline_data:
+                # Create SHIP Study dataset (using percentages)
+                ship_dataset = ChartDataset(
+                    label="SHIP Study",
+                    data=[
+                        float(baseline_data["score_1_pct"]),
+                        float(baseline_data["score_2_pct"]),
+                        float(baseline_data["score_3_pct"]),
+                        float(baseline_data["score_4_pct"]),
+                    ],
+                    background_color="#FF6F00",  # Orange for SHIP Study
+                    border_color="#E65100",
+                )
+                datasets.append(ship_dataset)
+
+    # Determine title based on whether baseline is included
+    if len(datasets) > 1:
+        title = "Score Distribution: AI Models vs Human Counselors"
+    else:
+        title = "Score Distribution: All Models"
 
     chart = ChartData(
         chart_id="scoreDistChart",
-        title="Score Distribution: All Models",
-        labels=["Score 1\n(Complete)", "Score 2\n(Incomplete)", "Score 3\n(Not Substantive)", "Score 4\n(Incorrect)"],
-        datasets=[dataset],
+        title=title,
+        labels=["Score 1", "Score 2", "Score 3", "Score 4"],
+        datasets=datasets,
         options={
             "responsive": True,
             "maintainAspectRatio": True,
             "plugins": {
-                "legend": {"display": False},
+                "legend": {
+                    "display": True,
+                    "position": "top"
+                },
                 "title": {
                     "display": True,
-                    "text": "Score Distribution"
+                    "text": title
                 }
             },
             "scales": {
                 "y": {
                     "beginAtZero": True,
-                    "ticks": {"stepSize": 1}
+                    "title": {
+                        "display": True,
+                        "text": "Percentage (%)"
+                    },
+                    "ticks": {"stepSize": 10}
+                },
+                "x": {
+                    "title": {
+                        "display": True,
+                        "text": "Rubric Score"
+                    }
                 }
             }
         }

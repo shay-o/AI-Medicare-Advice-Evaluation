@@ -112,7 +112,15 @@ def test_prepare_table_data_by_model():
 
     assert len(sections) == 1
     assert sections[0].section_title == "All Models"
-    assert len(sections[0].rows) == 2
+    assert len(sections[0].rows) == 3  # Aggregate + 2 individual models
+
+    # Verify aggregate row is first
+    assert sections[0].rows[0].label == "All Models"
+    assert sections[0].rows[0].css_class == "aggregate-row"
+
+    # Verify individual models follow
+    assert sections[0].rows[1].label in ["model-a", "model-b"]
+    assert sections[0].rows[2].label in ["model-a", "model-b"]
 
 
 def test_prepare_chart_data():
@@ -130,7 +138,11 @@ def test_prepare_chart_data():
     assert charts[0].chart_id == "scoreDistChart"
     assert len(charts[0].labels) == 4  # 4 score categories
     assert len(charts[0].datasets) == 1
-    assert charts[0].datasets[0].data == [1.0, 2.0, 0.0, 0.0]  # 1x Score 1, 2x Score 2
+    # Chart now uses percentages: 1/3 = 33.33%, 2/3 = 66.67%
+    assert abs(charts[0].datasets[0].data[0] - 33.33) < 0.1  # Score 1: ~33.33%
+    assert abs(charts[0].datasets[0].data[1] - 66.67) < 0.1  # Score 2: ~66.67%
+    assert charts[0].datasets[0].data[2] == 0.0  # Score 3: 0%
+    assert charts[0].datasets[0].data[3] == 0.0  # Score 4: 0%
 
 
 if __name__ == "__main__":

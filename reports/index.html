@@ -179,6 +179,21 @@
             color: #1565C0;
         }
 
+        /* Aggregate row styling */
+        .aggregate-row {
+            background: #F5F5F5 !important;
+            font-weight: 700;
+            border-bottom: 2px solid #1976D2;
+        }
+
+        .aggregate-row:hover {
+            background: #EEEEEE !important;
+        }
+
+        .aggregate-row td {
+            color: #1565C0;
+        }
+
         /* Score columns with color coding */
         .score-1 { color: #4CAF50; font-weight: 600; }
         .score-2 { color: #2196F3; font-weight: 600; }
@@ -477,7 +492,7 @@
         <div class="header">
             <h1>AI Medicare Evaluation - Latest Results</h1>
             <div class="metadata">
-                <p><strong>Generated:</strong> 2026-01-30 11:43:50</p>
+                <p><strong>Generated:</strong> 2026-01-30 12:18:55</p>
                 <p><strong>Source:</strong> runs</p>
                 <p><strong>Runs Analyzed:</strong> 14 (3 included, 11 excluded)</p>
                 
@@ -525,6 +540,17 @@ Results should not be used to make healthcare decisions. This tool presents comp
                 Example: A response mentioning 7 out of 10 required facts (70% completeness), with all 7 being correct (100% accuracy),
                 would receive Score 2 (Accurate but Incomplete).
             </p>
+
+            <!-- SHIP Study Baseline Limitations Note -->
+            <div style="margin-top: 15px; padding: 12px; background: #FFF3E0; border-left: 4px solid #FF6F00; border-radius: 4px;">
+                <p style="margin: 0; line-height: 1.6; color: #E65100;">
+                    <strong>Note on SHIP Study Baseline:</strong> The SHIP study baseline data represents human Medicare counselor
+                    performance from the original research study. This baseline includes only Score 1-4 distributions
+                    (percentage of responses in each rubric category). Detailed completeness and accuracy percentages were not
+                    measured for human counselors in the original study, so these columns show "-" for the SHIP Baseline row.
+                    AI model runs include all metrics (scores, completeness, and accuracy).
+                </p>
+            </div>
         </div>
 
         <!-- Filter Controls -->
@@ -561,7 +587,7 @@ Results should not be used to make healthcare decisions. This tool presents comp
         <!-- Charts -->
         
         <div class="chart-container">
-            <h2>Score Distribution: All Models</h2>
+            <h2>Score Distribution: AI Models vs Human Counselors</h2>
             <div class="chart-wrapper">
                 <canvas id="scoreDistChart"></canvas>
             </div>
@@ -606,6 +632,27 @@ Results should not be used to make healthcare decisions. This tool presents comp
                         
 
                         <!-- Data rows -->
+                        
+                        <tr class="aggregate-row" data-label="All Models" data-scenario="">
+                            <td>All Models</td>
+                            <td>3</td>
+                            <td class="score-1">1 (33.3%)</td>
+                            <td class="score-2">2 (66.7%)</td>
+                            <td class="score-3">0 (0.0%)</td>
+                            <td class="score-4">0 (0.0%)</td>
+                            
+                            <td class="detail-col detail-stat-col">
+                                
+                                76.2%
+                                
+                            </td>
+                            <td class="detail-col detail-stat-col">
+                                
+                                100.0%
+                                
+                            </td>
+                            
+                        </tr>
                         
                         <tr class="model-row" data-label="anthropic/claude-3-5-sonnet" data-scenario="">
                             <td>anthropic/claude-3-5-sonnet</td>
@@ -694,7 +741,7 @@ Results should not be used to make healthcare decisions. This tool presents comp
     <!-- Chart Initialization -->
     <script>
         // Chart data injected from Python
-        const chartDataList = [{"chart_id": "scoreDistChart", "datasets": [{"background_colors": ["#4CAF50", "#2196F3", "#FFC107", "#F44336"], "border_colors": ["#388E3C", "#1976D2", "#FFA000", "#D32F2F"], "data": [1.0, 2.0, 0.0, 0.0], "label": "Count"}], "labels": ["Score 1\n(Complete)", "Score 2\n(Incomplete)", "Score 3\n(Not Substantive)", "Score 4\n(Incorrect)"], "options": {"maintainAspectRatio": true, "plugins": {"legend": {"display": false}, "title": {"display": true, "text": "Score Distribution"}}, "responsive": true, "scales": {"y": {"beginAtZero": true, "ticks": {"stepSize": 1}}}}, "title": "Score Distribution: All Models"}];
+        const chartDataList = [{"chart_id": "scoreDistChart", "datasets": [{"background_color": "#1976D2", "border_color": "#1565C0", "data": [33.33333333333333, 66.66666666666666, 0.0, 0.0], "label": "All Models"}, {"background_color": "#FF6F00", "border_color": "#E65100", "data": [5.7, 88.6, 5.7, 0.0], "label": "SHIP Study"}], "labels": ["Score 1", "Score 2", "Score 3", "Score 4"], "options": {"maintainAspectRatio": true, "plugins": {"legend": {"display": true, "position": "top"}, "title": {"display": true, "text": "Score Distribution: AI Models vs Human Counselors"}}, "responsive": true, "scales": {"x": {"title": {"display": true, "text": "Rubric Score"}}, "y": {"beginAtZero": true, "ticks": {"stepSize": 10}, "title": {"display": true, "text": "Percentage (%)"}}}}, "title": "Score Distribution: AI Models vs Human Counselors"}];
 
         // Initialize charts when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
@@ -720,8 +767,8 @@ Results should not be used to make healthcare decisions. This tool presents comp
                             return {
                                 label: ds.label,
                                 data: ds.data,
-                                backgroundColor: ds.background_colors,
-                                borderColor: ds.border_colors,
+                                backgroundColor: ds.background_color,
+                                borderColor: ds.border_color,
                                 borderWidth: 1
                             };
                         })

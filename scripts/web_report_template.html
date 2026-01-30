@@ -179,6 +179,21 @@
             color: #1565C0;
         }
 
+        /* Aggregate row styling */
+        .aggregate-row {
+            background: #F5F5F5 !important;
+            font-weight: 700;
+            border-bottom: 2px solid #1976D2;
+        }
+
+        .aggregate-row:hover {
+            background: #EEEEEE !important;
+        }
+
+        .aggregate-row td {
+            color: #1565C0;
+        }
+
         /* Score columns with color coding */
         .score-1 { color: #4CAF50; font-weight: 600; }
         .score-2 { color: #2196F3; font-weight: 600; }
@@ -517,6 +532,17 @@
                 Example: A response mentioning 7 out of 10 required facts (70% completeness), with all 7 being correct (100% accuracy),
                 would receive Score 2 (Accurate but Incomplete).
             </p>
+
+            <!-- SHIP Study Baseline Limitations Note -->
+            <div style="margin-top: 15px; padding: 12px; background: #FFF3E0; border-left: 4px solid #FF6F00; border-radius: 4px;">
+                <p style="margin: 0; line-height: 1.6; color: #E65100;">
+                    <strong>Note on SHIP Study Baseline:</strong> The SHIP study baseline data represents human Medicare counselor
+                    performance from the original research study. This baseline includes only Score 1-4 distributions
+                    (percentage of responses in each rubric category). Detailed completeness and accuracy percentages were not
+                    measured for human counselors in the original study, so these columns show "-" for the SHIP Baseline row.
+                    AI model runs include all metrics (scores, completeness, and accuracy).
+                </p>
+            </div>
         </div>
 
         <!-- Filter Controls -->
@@ -676,8 +702,8 @@
                             return {
                                 label: ds.label,
                                 data: ds.data,
-                                backgroundColor: ds.background_colors,
-                                borderColor: ds.border_colors,
+                                backgroundColor: ds.background_color,
+                                borderColor: ds.border_color,
                                 borderWidth: 1
                             };
                         })
