@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline';">
+    <title>{{ metadata.title }}</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header styles */
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .header .metadata {
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .header .metadata strong {
+            color: #333;
+        }
+
+        /* Ethics disclaimer */
+        .ethics-disclaimer {
+            background: #FFF3CD;
+            border-left: 4px solid #FFC107;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .ethics-disclaimer h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .ethics-disclaimer p {
+            color: #856404;
+            font-size: 14px;
+            white-space: pre-line;
+        }
+
+        /* Chart container */
+        .chart-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .chart-container h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+        }
+
+        /* Table section */
+        .table-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .table-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-bottom: 2px solid #1976D2;
+            padding-bottom: 10px;
+        }
+
+        /* Table styles */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 900px;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            position: sticky;
+            top: 0;
+            background: #f8f9fa;
+            z-index: 10;
+        }
+
+        th:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 11;
+        }
+
+        td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        td:first-child {
+            font-weight: 500;
+            position: sticky;
+            left: 0;
+            background: white;
+            z-index: 2;
+        }
+
+        tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        tbody tr:hover td:first-child {
+            background: #f5f5f5;
+        }
+
+        /* Baseline row styling */
+        .baseline-row {
+            background: #E3F2FD !important;
+            font-weight: 600;
+        }
+
+        .baseline-row:hover {
+            background: #BBDEFB !important;
+        }
+
+        .baseline-row td {
+            color: #1565C0;
+        }
+
+        /* Score columns with color coding */
+        .score-1 { color: #4CAF50; font-weight: 600; }
+        .score-2 { color: #2196F3; font-weight: 600; }
+        .score-3 { color: #FFC107; font-weight: 600; }
+        .score-4 { color: #F44336; font-weight: 600; }
+
+        /* Detailed stats columns */
+        .detail-col {
+            font-style: italic;
+            color: #666;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .chart-container,
+            .table-section {
+                padding: 15px;
+            }
+
+            table {
+                font-size: 12px;
+                min-width: 800px;
+            }
+
+            th, td {
+                padding: 8px 4px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .header,
+            .chart-container,
+            .table-section {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            .table-wrapper {
+                overflow: visible;
+            }
+
+            table {
+                min-width: auto;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #1976D2;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Score legend */
+        .score-legend {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-size: 13px;
+        }
+
+        .score-legend h4 {
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .score-legend ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .score-legend li {
+            margin: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .score-legend li::before {
+            content: "●";
+            position: absolute;
+            left: 0;
+            font-size: 16px;
+        }
+
+        .score-legend li.s1::before { color: #4CAF50; }
+        .score-legend li.s2::before { color: #2196F3; }
+        .score-legend li.s3::before { color: #FFC107; }
+        .score-legend li.s4::before { color: #F44336; }
+
+        /* Filter controls */
+        .filter-controls {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .filter-controls h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-controls h3::before {
+            content: "🔍";
+            font-size: 20px;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .filter-group select,
+        .filter-group input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 200px;
+            background: white;
+        }
+
+        .filter-group select:focus,
+        .filter-group input[type="text"]:focus {
+            outline: none;
+            border-color: #1976D2;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+
+        .toggle-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .toggle-item label {
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .reset-button {
+            padding: 8px 16px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .reset-button:hover {
+            background: #d32f2f;
+        }
+
+        .reset-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Sortable column headers */
+        th.sortable {
+            cursor: pointer;
+            position: relative;
+            padding-right: 24px;
+            user-select: none;
+        }
+
+        th.sortable:hover {
+            background: #e8e9ea;
+        }
+
+        th.sortable::after {
+            content: "⇅";
+            position: absolute;
+            right: 8px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        th.sortable.sort-asc::after {
+            content: "↑";
+            color: #1976D2;
+        }
+
+        th.sortable.sort-desc::after {
+            content: "↓";
+            color: #1976D2;
+        }
+
+        /* Hidden columns */
+        .col-hidden {
+            display: none;
+        }
+
+        /* Search highlight */
+        tr.search-hidden {
+            display: none;
+        }
+
+        /* Responsive filter controls */
+        @media (max-width: 768px) {
+            .filter-controls {
+                padding: 15px;
+            }
+
+            .filter-row {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .filter-group select,
+            .filter-group input[type="text"] {
+                min-width: 100%;
+            }
+
+            .toggle-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>{{ metadata.title }}</h1>
+            <div class="metadata">
+                <p><strong>Generated:</strong> {{ metadata.generated_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                <p><strong>Source:</strong> {{ metadata.runs_directory }}</p>
+                <p><strong>Runs Analyzed:</strong> {{ metadata.total_runs_analyzed }} ({{ metadata.runs_included }} included, {{ metadata.runs_excluded }} excluded)</p>
+                {% if metadata.filters_applied %}
+                <p><strong>Filters:</strong> {{ ', '.join(metadata.filters_applied) }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Ethics Disclaimer -->
+        <div class="ethics-disclaimer">
+            <h3>⚠️ Research Use Only</h3>
+            <p>{{ metadata.ethics_disclaimer }}</p>
+        </div>
+
+        <!-- Score Legend -->
+        <div class="score-legend">
+            <h4>Score Definitions (SHIP Rubric):</h4>
+            <ul>
+                <li class="s1"><strong>Score 1 - Accurate & Complete:</strong> All required facts covered correctly</li>
+                <li class="s2"><strong>Score 2 - Accurate but Incomplete:</strong> Some facts covered, no major errors (typical result)</li>
+                <li class="s3"><strong>Score 3 - Not Substantive:</strong> Insufficient coverage or "I don't know"</li>
+                <li class="s4"><strong>Score 4 - Incorrect:</strong> Materially wrong information that could affect decisions</li>
+            </ul>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-controls">
+            <h3>Interactive Filters</h3>
+
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="scenarioFilter">Filter by Scenario:</label>
+                    <select id="scenarioFilter">
+                        <option value="">All Scenarios</option>
+                        <!-- Options populated by JavaScript -->
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="searchInput">Search Models/Scenarios:</label>
+                    <input type="text" id="searchInput" placeholder="Type to search...">
+                </div>
+
+                <button class="reset-button" onclick="resetFilters()">Reset All</button>
+            </div>
+
+            <div class="filter-row">
+                <div class="toggle-group">
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggleDetailedStats" {% if config.show_detailed_stats %}checked{% endif %}>
+                        <label for="toggleDetailedStats">Show Detailed Statistics</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        {% for chart in chart_data %}
+        <div class="chart-container">
+            <h2>{{ chart.title }}</h2>
+            <div class="chart-wrapper">
+                <canvas id="{{ chart.chart_id }}"></canvas>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Tables -->
+        {% for section in table_sections %}
+        <div class="table-section" data-section-id="section-{{ loop.index }}">
+            <h2>{{ section.section_title }}</h2>
+            <div class="table-wrapper">
+                <table id="table-{{ loop.index }}">
+                    <thead>
+                        <tr>
+                            <th class="sortable" onclick="sortTable('table-{{ loop.index }}', 0, 'string')">Model / Scenario</th>
+                            <th class="sortable" onclick="sortTable('table-{{ loop.index }}', 1, 'number')">Total</th>
+                            <th class="sortable" onclick="sortTable('table-{{ loop.index }}', 2, 'number')">Score 1</th>
+                            <th class="sortable" onclick="sortTable('table-{{ loop.index }}', 3, 'number')">Score 2</th>
+                            <th class="sortable" onclick="sortTable('table-{{ loop.index }}', 4, 'number')">Score 3</th>
+                            <th class="sortable" onclick="sortTable('table-{{ loop.index }}', 5, 'number')">Score 4</th>
+                            {% if config.show_detailed_stats %}
+                            <th class="sortable detail-stat-col" onclick="sortTable('table-{{ loop.index }}', 6, 'number')">Completeness</th>
+                            <th class="sortable detail-stat-col" onclick="sortTable('table-{{ loop.index }}', 7, 'number')">Accuracy</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Baseline row (if exists) -->
+                        {% if section.baseline_row and config.include_baseline %}
+                        <tr class="baseline-row">
+                            <td>{{ section.baseline_row.label }}</td>
+                            <td>{{ section.baseline_row.score_dist.complete_runs }}</td>
+                            <td class="score-1">{{ section.baseline_row.score_dist.score_1_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_1_pct) }}%)</td>
+                            <td class="score-2">{{ section.baseline_row.score_dist.score_2_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_2_pct) }}%)</td>
+                            <td class="score-3">{{ section.baseline_row.score_dist.score_3_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_3_pct) }}%)</td>
+                            <td class="score-4">{{ section.baseline_row.score_dist.score_4_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_4_pct) }}%)</td>
+                            {% if config.show_detailed_stats %}
+                            <td class="detail-col">-</td>
+                            <td class="detail-col">-</td>
+                            {% endif %}
+                        </tr>
+                        {% endif %}
+
+                        <!-- Data rows -->
+                        {% for row in section.rows %}
+                        <tr class="{{ row.css_class }}" data-label="{{ row.label }}" data-scenario="{{ row.scenario_id if row.scenario_id else '' }}">
+                            <td>{{ row.label }}</td>
+                            <td>{{ row.score_dist.complete_runs }}</td>
+                            <td class="score-1">{{ row.score_dist.score_1_count }} ({{ "%.1f"|format(row.score_dist.score_1_pct) }}%)</td>
+                            <td class="score-2">{{ row.score_dist.score_2_count }} ({{ "%.1f"|format(row.score_dist.score_2_pct) }}%)</td>
+                            <td class="score-3">{{ row.score_dist.score_3_count }} ({{ "%.1f"|format(row.score_dist.score_3_pct) }}%)</td>
+                            <td class="score-4">{{ row.score_dist.score_4_count }} ({{ "%.1f"|format(row.score_dist.score_4_pct) }}%)</td>
+                            {% if config.show_detailed_stats %}
+                            <td class="detail-col detail-stat-col">
+                                {% if row.score_dist.avg_completeness is not none %}
+                                {{ "%.1f"|format(row.score_dist.avg_completeness) }}%
+                                {% else %}
+                                -
+                                {% endif %}
+                            </td>
+                            <td class="detail-col detail-stat-col">
+                                {% if row.score_dist.avg_accuracy is not none %}
+                                {{ "%.1f"|format(row.score_dist.avg_accuracy) }}%
+                                {% else %}
+                                -
+                                {% endif %}
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Generated with AI Medicare Evaluation Harness</p>
+            <p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/" target="_blank">SHIP Study Reference</a> |
+               <a href="https://github.com/yourusername/AI-Medicare-Advice-Evaluator" target="_blank">GitHub Repository</a></p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                Generated by <a href="https://claude.com/claude-code" target="_blank">Claude Code</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- PLACEHOLDER FOR CHART.JS - Will be embedded in T022 -->
+    <script>
+        // Chart.js library will be embedded here (T022)
+        console.log("Chart.js placeholder - will be replaced with actual library");
+    </script>
+
+    <!-- Chart Initialization -->
+    <script>
+        // Chart data injected from Python
+        const chartDataList = {{ chart_data | tojson | safe }};
+
+        // Initialize charts when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if Chart.js is loaded
+            if (typeof Chart === 'undefined') {
+                console.warn('Chart.js not loaded - charts will not be displayed');
+                return;
+            }
+
+            // Initialize each chart
+            chartDataList.forEach(function(chartInfo) {
+                const ctx = document.getElementById(chartInfo.chart_id);
+                if (!ctx) {
+                    console.warn('Chart canvas not found:', chartInfo.chart_id);
+                    return;
+                }
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartInfo.labels,
+                        datasets: chartInfo.datasets.map(function(ds) {
+                            return {
+                                label: ds.label,
+                                data: ds.data,
+                                backgroundColor: ds.background_colors,
+                                borderColor: ds.border_colors,
+                                borderWidth: 1
+                            };
+                        })
+                    },
+                    options: chartInfo.options
+                });
+            });
+        });
+    </script>
+
+    <!-- Interactive Filtering and Sorting -->
+    <script>
+        // State management
+        let currentSortColumn = {};
+        let currentSortDirection = {};
+
+        /**
+         * Initialize filter controls on page load
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            populateScenarioDropdown();
+            loadFiltersFromStorage();
+            loadFiltersFromURL();
+            applyAllFilters();
+            attachEventListeners();
+        });
+
+        /**
+         * Populate scenario dropdown from table data
+         */
+        function populateScenarioDropdown() {
+            const scenarios = new Set();
+
+            // Extract unique scenarios from all table rows
+            document.querySelectorAll('tr[data-scenario]').forEach(function(row) {
+                const scenario = row.getAttribute('data-scenario');
+                if (scenario && scenario.trim() !== '') {
+                    scenarios.add(scenario);
+                }
+            });
+
+            // Sort scenarios alphabetically
+            const sortedScenarios = Array.from(scenarios).sort();
+
+            // Add options to dropdown
+            const select = document.getElementById('scenarioFilter');
+            sortedScenarios.forEach(function(scenario) {
+                const option = document.createElement('option');
+                option.value = scenario;
+                option.textContent = scenario;
+                select.appendChild(option);
+            });
+        }
+
+        /**
+         * Attach event listeners to filter controls
+         */
+        function attachEventListeners() {
+            // Scenario filter
+            document.getElementById('scenarioFilter').addEventListener('change', function() {
+                applyAllFilters();
+                saveFiltersToStorage();
+                updateURL();
+            });
+
+            // Search input
+            document.getElementById('searchInput').addEventListener('input', function() {
+                applyAllFilters();
+                saveFiltersToStorage();
+            });
+
+            // Toggle detailed stats
+            document.getElementById('toggleDetailedStats').addEventListener('change', function() {
+                toggleDetailedStats();
+                saveFiltersToStorage();
+            });
+        }
+
+        /**
+         * Filter table rows by scenario
+         */
+        function filterTableByScenario(scenarioValue) {
+            document.querySelectorAll('tr[data-scenario]').forEach(function(row) {
+                if (scenarioValue === '' || row.getAttribute('data-scenario') === scenarioValue) {
+                    row.classList.remove('scenario-hidden');
+                } else {
+                    row.classList.add('scenario-hidden');
+                }
+            });
+        }
+
+        /**
+         * Filter table rows by search text
+         */
+        function filterTableBySearch(searchText) {
+            const lowerSearch = searchText.toLowerCase();
+
+            document.querySelectorAll('tr[data-label]').forEach(function(row) {
+                const label = row.getAttribute('data-label').toLowerCase();
+
+                if (searchText === '' || label.includes(lowerSearch)) {
+                    row.classList.remove('search-hidden');
+                } else {
+                    row.classList.add('search-hidden');
+                }
+            });
+        }
+
+        /**
+         * Toggle detailed statistics columns
+         */
+        function toggleDetailedStats() {
+            const isChecked = document.getElementById('toggleDetailedStats').checked;
+            const columns = document.querySelectorAll('.detail-stat-col');
+
+            columns.forEach(function(col) {
+                if (isChecked) {
+                    col.classList.remove('col-hidden');
+                } else {
+                    col.classList.add('col-hidden');
+                }
+            });
+        }
+
+        /**
+         * Apply all active filters
+         */
+        function applyAllFilters() {
+            const scenarioValue = document.getElementById('scenarioFilter').value;
+            const searchText = document.getElementById('searchInput').value;
+
+            filterTableByScenario(scenarioValue);
+            filterTableBySearch(searchText);
+        }
+
+        /**
+         * Sort table by column
+         */
+        function sortTable(tableId, columnIndex, dataType) {
+            const table = document.getElementById(tableId);
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr:not(.baseline-row)'));
+
+            // Determine sort direction
+            const header = table.querySelectorAll('th')[columnIndex];
+            let direction = 'asc';
+
+            if (currentSortColumn[tableId] === columnIndex) {
+                // Toggle direction if clicking same column
+                direction = currentSortDirection[tableId] === 'asc' ? 'desc' : 'asc';
+            }
+
+            // Remove sort indicators from all headers
+            table.querySelectorAll('th').forEach(function(th) {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+
+            // Add sort indicator to current header
+            header.classList.add(direction === 'asc' ? 'sort-asc' : 'sort-desc');
+
+            // Store current sort state
+            currentSortColumn[tableId] = columnIndex;
+            currentSortDirection[tableId] = direction;
+
+            // Sort rows
+            rows.sort(function(a, b) {
+                const aCell = a.cells[columnIndex];
+                const bCell = b.cells[columnIndex];
+
+                let aValue, bValue;
+
+                if (dataType === 'number') {
+                    // Extract numeric value (handle percentage and count formats)
+                    aValue = parseFloat(aCell.textContent.replace(/[^0-9.-]/g, '')) || 0;
+                    bValue = parseFloat(bCell.textContent.replace(/[^0-9.-]/g, '')) || 0;
+                } else {
+                    // String comparison
+                    aValue = aCell.textContent.trim().toLowerCase();
+                    bValue = bCell.textContent.trim().toLowerCase();
+                }
+
+                if (direction === 'asc') {
+                    return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+                } else {
+                    return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+                }
+            });
+
+            // Re-append sorted rows
+            rows.forEach(function(row) {
+                tbody.appendChild(row);
+            });
+        }
+
+        /**
+         * Reset all filters to default
+         */
+        function resetFilters() {
+            document.getElementById('scenarioFilter').value = '';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('toggleDetailedStats').checked = {{ 'true' if config.show_detailed_stats else 'false' }};
+
+            applyAllFilters();
+            toggleDetailedStats();
+            clearStorage();
+            updateURL();
+        }
+
+        /**
+         * Save filter state to local storage
+         */
+        function saveFiltersToStorage() {
+            const state = {
+                scenario: document.getElementById('scenarioFilter').value,
+                search: document.getElementById('searchInput').value,
+                detailedStats: document.getElementById('toggleDetailedStats').checked
+            };
+
+            try {
+                localStorage.setItem('reportFilters', JSON.stringify(state));
+            } catch (e) {
+                console.warn('Could not save filters to localStorage:', e);
+            }
+        }
+
+        /**
+         * Load filter state from local storage
+         */
+        function loadFiltersFromStorage() {
+            try {
+                const saved = localStorage.getItem('reportFilters');
+                if (saved) {
+                    const state = JSON.parse(saved);
+
+                    if (state.scenario) {
+                        document.getElementById('scenarioFilter').value = state.scenario;
+                    }
+                    if (state.search) {
+                        document.getElementById('searchInput').value = state.search;
+                    }
+                    if (typeof state.detailedStats === 'boolean') {
+                        document.getElementById('toggleDetailedStats').checked = state.detailedStats;
+                    }
+                }
+            } catch (e) {
+                console.warn('Could not load filters from localStorage:', e);
+            }
+        }
+
+        /**
+         * Clear local storage
+         */
+        function clearStorage() {
+            try {
+                localStorage.removeItem('reportFilters');
+            } catch (e) {
+                console.warn('Could not clear localStorage:', e);
+            }
+        }
+
+        /**
+         * Load filter state from URL parameters
+         */
+        function loadFiltersFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            const scenario = urlParams.get('scenario');
+            if (scenario) {
+                document.getElementById('scenarioFilter').value = scenario;
+            }
+
+            const search = urlParams.get('search');
+            if (search) {
+                document.getElementById('searchInput').value = search;
+            }
+
+            const detailedStats = urlParams.get('detailed');
+            if (detailedStats !== null) {
+                document.getElementById('toggleDetailedStats').checked = detailedStats === 'true';
+            }
+        }
+
+        /**
+         * Update URL with current filter state
+         */
+        function updateURL() {
+            const params = new URLSearchParams();
+
+            const scenario = document.getElementById('scenarioFilter').value;
+            if (scenario) {
+                params.set('scenario', scenario);
+            }
+
+            const search = document.getElementById('searchInput').value;
+            if (search) {
+                params.set('search', search);
+            }
+
+            const detailedStats = document.getElementById('toggleDetailedStats').checked;
+            params.set('detailed', detailedStats);
+
+            // Update URL without reloading page
+            const newURL = params.toString() ?
+                window.location.pathname + '?' + params.toString() :
+                window.location.pathname;
+
+            window.history.replaceState({}, '', newURL);
+        }
+    </script>
+</body>
+</html>

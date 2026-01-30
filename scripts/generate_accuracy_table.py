@@ -28,27 +28,30 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+# Import shared utilities
+from report_utils import (
+    SHIP_BASELINE_DATA,
+    load_all_results as _load_all_results,
+    filter_incomplete_runs,
+    filter_fake_models,
+    filter_by_scenario,
+    group_by_model,
+    group_by_scenario,
+    calculate_score_distribution as _calculate_score_distribution,
+    get_baseline_data,
+)
 
-# ============================================================================
-# SHIP Study Baseline Data (Human Counselors)
-# ============================================================================
+
+# SHIP_BASELINE_DATA is now imported from report_utils
+# Keep this comment for reference:
 # Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/table/zoi250151t2/
-# Table 2: Medicare Counselor Accuracy Analysis
-#
-# The SHIP study had TWO main scenarios:
-# 1. "Medicare" = Medicare-only scenario (n=88) - beneficiary without Medicaid
-# 2. "Dual" = Dual-eligible scenario (n=96) - beneficiary with both Medicare and Medicaid
-#
-# Each scenario asked multiple questions to test counselor knowledge.
-#
-# Note: SHIP study used this terminology:
 # - "Accurate and Complete" = Score 1
 # - "Accurate but Incomplete" = Score 2
 # - "Not Substantive" = Score 3
 # - "Incorrect" = Score 4
-# - "Incomplete Data" was rarely used in the study
 
-SHIP_BASELINE_DATA = {
+# Baseline data moved to report_utils - keeping old reference for compatibility
+_OLD_SHIP_BASELINE_DATA = {
     # Question asked in both scenarios (combined n=184)
     "SHIP-001": {  # Initial enrollment timing
         "title": "SHIP Baseline: Initial enrollment timing",
@@ -255,55 +258,24 @@ def load_all_results(runs_dir: Path, exclude_incomplete: bool = True, exclude_fa
         exclude_incomplete: If True, filter out runs without rubric scores
         exclude_fake: If True, filter out runs from fake: models (test adapters)
     """
-    results = []
+    # Use shared utility function
+    results = _load_all_results(runs_dir)
 
-    for run_dir in runs_dir.iterdir():
-        if not run_dir.is_dir() or run_dir.name.startswith('.'):
-            continue
-
-        results_file = run_dir / "results.jsonl"
-        if not results_file.exists():
-            continue
-
-        try:
-            with open(results_file, 'r') as f:
-                data = json.load(f)
-
-                # Filter out incomplete runs if requested
-                if exclude_incomplete:
-                    final_scores = data.get("final_scores", {})
-                    rubric_score = final_scores.get("rubric_score")
-                    if rubric_score is None:
-                        continue
-
-                # Filter out fake models if requested
-                if exclude_fake:
-                    target = data.get("target", {})
-                    model_name = target.get("model_name", "")
-                    if model_name.startswith("fake:"):
-                        continue
-
-                results.append(data)
-        except Exception as e:
-            print(f"Warning: Could not load {results_file}: {e}", file=sys.stderr)
-            continue
+    # Apply filters using shared functions
+    if exclude_incomplete:
+        results = filter_incomplete_runs(results)
+    if exclude_fake:
+        results = filter_fake_models(results)
 
     return results
 
 
-def group_by_scenario(results: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
-    """Group results by scenario_id."""
-    grouped = defaultdict(list)
-
-    for result in results:
-        scenario_id = result.get("scenario_id", "Unknown")
-        grouped[scenario_id].append(result)
-
-    return dict(grouped)
+# group_by_scenario is now imported from report_utils
 
 
 def group_by_scenario_and_model(results: list[dict[str, Any]]) -> dict[tuple[str, str], list[dict[str, Any]]]:
     """Group results by (scenario_id, model_name)."""
+    # This function is specific to CLI tool, keep it here
     grouped = defaultdict(list)
 
     for result in results:
@@ -315,6 +287,12 @@ def group_by_scenario_and_model(results: list[dict[str, Any]]) -> dict[tuple[str
 
 
 def calculate_accuracy_stats(results: list[dict[str, Any]], include_incomplete: bool = True) -> dict[str, Any]:
+    """Wrapper around shared calculate_score_distribution for CLI compatibility."""
+    # Use shared function from report_utils
+    return _calculate_score_distribution(results)
+
+
+def _old_calculate_accuracy_stats(results: list[dict[str, Any]], include_incomplete: bool = True) -> dict[str, Any]:
     """
     Calculate accuracy statistics in SHIP format.
 
