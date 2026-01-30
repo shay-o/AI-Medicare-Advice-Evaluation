@@ -437,3 +437,63 @@ Users can generate and view reports locally. Deployment and interactivity can be
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
 - **Constitution compliance**: All tasks maintain separation of concerns (presentation layer only)
+
+---
+
+## Phase 7: Version 2 Enhancements (2026-01-30)
+
+**Purpose**: Add grouped bar chart comparison, aggregate row, and baseline data limitations note
+
+### Enhancement 1: Grouped Bar Chart
+
+- [ ] T125 Update `ChartDataset` dataclass to use single color per dataset (not per bar)
+- [ ] T126 Create function `calculate_all_models_aggregate()` in `generate_web_report.py`
+- [ ] T127 Update `prepare_chart_data()` to create two datasets: "All Models" and "SHIP Study"
+- [ ] T128 Update web report template chart configuration for grouped bars
+- [ ] T129 Set chart colors: blue (#1976D2) for All Models, orange (#FF6F00) for SHIP Study
+- [ ] T130 Update chart title to "Score Distribution: AI Models vs Human Counselors"
+- [ ] T131 Add legend configuration showing both groups
+- [ ] T132 Test chart displays correctly with both datasets
+
+### Enhancement 2: All Models Aggregate Row
+
+- [ ] T133 Add CSS class `.aggregate-row` to template with distinct styling
+- [ ] T134 Update `prepare_table_data()` to calculate All Models aggregate statistics
+- [ ] T135 Create aggregate TableRow with label "All Models"
+- [ ] T136 Update row ordering logic: baseline first, aggregate second, individual models third
+- [ ] T137 Ensure aggregate statistics match sum of individual model runs
+- [ ] T138 Test aggregate row appears in correct position with correct values
+
+### Enhancement 3: SHIP Study Data Limitations Note
+
+- [ ] T139 Add HTML note to Score Legend section explaining baseline limitations
+- [ ] T140 Style note with orange background to match SHIP Study color
+- [ ] T141 Verify note explains why baseline shows "-" for Completeness/Accuracy
+- [ ] T142 Test note displays correctly in generated reports
+
+### Testing and Validation
+
+- [ ] T143 Write unit test for `calculate_all_models_aggregate()`
+- [ ] T144 Write unit test for grouped chart data preparation
+- [ ] T145 Update integration test to verify aggregate row presence
+- [ ] T146 Update integration test to verify chart has two datasets
+- [ ] T147 Generate test report and manually verify all three enhancements
+- [ ] T148 Verify table order: SHIP Baseline, All Models, individual models
+- [ ] T149 Verify chart shows grouped bars with correct colors
+- [ ] T150 Verify baseline data limitations note is clear and visible
+
+### Documentation Updates
+
+- [ ] T151 Update quickstart.md to document grouped bar chart feature
+- [ ] T152 Update quickstart.md to document All Models aggregate row
+- [ ] T153 Update quickstart.md to explain table ordering
+- [ ] T154 Add screenshot or example showing new features (optional)
+
+**Checkpoint**: All Version 2 enhancements should be working and documented.
+
+---
+
+## Phase Dependencies (Updated)
+
+- **Phase 7 (Version 2 Enhancements)**: Depends on Phases 1-5 completion (needs working report generator with interactive features)
+
