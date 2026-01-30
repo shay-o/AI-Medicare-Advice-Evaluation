@@ -276,30 +276,41 @@ def prepare_table_data(
 
         # Add baseline if requested
         baseline_row = None
-        if config.include_baseline and config.scenario_filter:
-            baseline_data = get_baseline_data(config.scenario_filter)
-            if baseline_data:
-                baseline_dist = ScoreDistribution(
-                    total_runs=baseline_data["total"],
-                    complete_runs=baseline_data["total"],
-                    incomplete_runs=0,
-                    score_1_count=int(baseline_data["total"] * baseline_data["score_1_pct"] / 100),
-                    score_2_count=int(baseline_data["total"] * baseline_data["score_2_pct"] / 100),
-                    score_3_count=int(baseline_data["total"] * baseline_data["score_3_pct"] / 100),
-                    score_4_count=int(baseline_data["total"] * baseline_data["score_4_pct"] / 100),
-                    score_1_pct=baseline_data["score_1_pct"],
-                    score_2_pct=baseline_data["score_2_pct"],
-                    score_3_pct=baseline_data["score_3_pct"],
-                    score_4_pct=baseline_data["score_4_pct"],
-                )
-                baseline_row = TableRow(
-                    row_id="baseline",
-                    label=f"{baseline_data['title']} ({baseline_data['scenario_type']}, n={baseline_data['total']})",
-                    score_dist=baseline_dist,
-                    is_baseline=True,
-                    css_class="baseline-row",
-                    scenario_id=config.scenario_filter,
-                )
+        if config.include_baseline:
+            # Determine which scenario baseline to show
+            baseline_scenario = config.scenario_filter
+
+            # If no scenario filter specified, check if all results are from a single scenario
+            if not baseline_scenario:
+                scenarios_in_data = set(r.get("scenario_id") for r in results if r.get("scenario_id"))
+                if len(scenarios_in_data) == 1:
+                    baseline_scenario = scenarios_in_data.pop()
+
+            # Get baseline data if we have a scenario
+            if baseline_scenario:
+                baseline_data = get_baseline_data(baseline_scenario)
+                if baseline_data:
+                    baseline_dist = ScoreDistribution(
+                        total_runs=baseline_data["total"],
+                        complete_runs=baseline_data["total"],
+                        incomplete_runs=0,
+                        score_1_count=int(baseline_data["total"] * baseline_data["score_1_pct"] / 100),
+                        score_2_count=int(baseline_data["total"] * baseline_data["score_2_pct"] / 100),
+                        score_3_count=int(baseline_data["total"] * baseline_data["score_3_pct"] / 100),
+                        score_4_count=int(baseline_data["total"] * baseline_data["score_4_pct"] / 100),
+                        score_1_pct=baseline_data["score_1_pct"],
+                        score_2_pct=baseline_data["score_2_pct"],
+                        score_3_pct=baseline_data["score_3_pct"],
+                        score_4_pct=baseline_data["score_4_pct"],
+                    )
+                    baseline_row = TableRow(
+                        row_id="baseline",
+                        label=f"{baseline_data['title']} ({baseline_data['scenario_type']}, n={baseline_data['total']})",
+                        score_dist=baseline_dist,
+                        is_baseline=True,
+                        css_class="baseline-row",
+                        scenario_id=baseline_scenario,
+                    )
 
         section = TableSection(
             section_id="all-models",
