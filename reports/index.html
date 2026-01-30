@@ -477,7 +477,7 @@
         <div class="header">
             <h1>AI Medicare Evaluation - Latest Results</h1>
             <div class="metadata">
-                <p><strong>Generated:</strong> 2026-01-30 11:23:48</p>
+                <p><strong>Generated:</strong> 2026-01-30 11:29:15</p>
                 <p><strong>Source:</strong> runs</p>
                 <p><strong>Runs Analyzed:</strong> 14 (3 included, 11 excluded)</p>
                 
@@ -509,6 +509,22 @@ Results should not be used to make healthcare decisions. This tool presents comp
                 <li class="s3"><strong>Score 3 - Not Substantive:</strong> Insufficient coverage or "I don't know"</li>
                 <li class="s4"><strong>Score 4 - Incorrect:</strong> Materially wrong information that could affect decisions</li>
             </ul>
+
+            <h4 style="margin-top: 15px;">Detailed Statistics (when enabled):</h4>
+            <p style="margin: 8px 0; line-height: 1.6;">
+                <strong>Completeness %:</strong> Percentage of required facts that were mentioned in the response (0-100%).
+                Calculated as: (number of facts mentioned) / (total required facts) × 100.
+                A response can be 100% complete but still receive Score 2 if some facts are inaccurate.
+            </p>
+            <p style="margin: 8px 0; line-height: 1.6;">
+                <strong>Accuracy %:</strong> Percentage of mentioned facts that were correct (0-100%).
+                Calculated as: (number of correct facts) / (number of facts mentioned) × 100.
+                A response can be 100% accurate but receive Score 2 if it doesn't cover all required facts.
+            </p>
+            <p style="margin: 8px 0; line-height: 1.6; font-style: italic; color: #666;">
+                Example: A response mentioning 7 out of 10 required facts (70% completeness), with all 7 being correct (100% accuracy),
+                would receive Score 2 (Accurate but Incomplete).
+            </p>
         </div>
 
         <!-- Filter Controls -->
