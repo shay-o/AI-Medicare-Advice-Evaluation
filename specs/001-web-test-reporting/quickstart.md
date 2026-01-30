@@ -66,7 +66,7 @@ git add index.html
 git commit -m "Update report: $(date +%Y-%m-%d)"
 git push origin gh-pages
 
-# View at: https://yourusername.github.io/AI-Medicare-Advice-Evaluator/
+# View at: https://shay-o.github.io/AI-Medicare-Advice-Evaluation/
 ```
 
 ---
@@ -404,7 +404,7 @@ git commit -m "Update report: $(date +%Y-%m-%d)"
 git push -u origin gh-pages
 
 # 5. View online (replace with your username/repo)
-# https://yourusername.github.io/AI-Medicare-Advice-Evaluator/
+# https://shay-o.github.io/AI-Medicare-Advice-Evaluation/
 ```
 
 **Option 2: Deploy from main branch** (Modern method)
@@ -433,7 +433,7 @@ To enable:
 
 **Verification**:
 - Check GitHub Actions tab for workflow status
-- Visit: `https://yourusername.github.io/AI-Medicare-Advice-Evaluator/`
+- Visit: `https://shay-o.github.io/AI-Medicare-Advice-Evaluation/`
 
 ### Automated Deployment (GitHub Actions)
 

@@ -159,7 +159,7 @@
 
 - [X] T074 [US2] Generate production report: `python scripts/generate_web_report.py --by-model --include-baseline --output reports/index.html` - **Documented in deployment-validation.md**
 - [X] T075 [US2] Manually deploy to gh-pages branch following documentation - **Documented in deployment-validation.md**
-- [X] T076 [US2] Verify report accessible at https://yourusername.github.io/AI-Medicare-Advice-Evaluator/ - **Documented in deployment-validation.md**
+- [X] T076 [US2] Verify report accessible at https://shay-o.github.io/AI-Medicare-Advice-Evaluation/ - **Documented in deployment-validation.md**
 - [X] T077 [US2] Test external access (incognito browser, no authentication required) - **Documented in deployment-validation.md**
 - [X] T078 [US2] Trigger automated workflow and verify deployment succeeds - **Documented in deployment-validation.md**
 
