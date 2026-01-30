@@ -1,0 +1,93 @@
+name: Deploy Web Reports to GitHub Pages
+
+on:
+  # Trigger on push to main branch
+  push:
+    branches: [main]
+
+  # Allow manual triggering from Actions tab
+  workflow_dispatch:
+
+# Sets permissions for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          # Install Jinja2 if not in project dependencies
+          pip install jinja2
+
+      - name: Download Chart.js
+        run: |
+          curl -s -o /tmp/chart.min.js https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js
+          echo "Chart.js downloaded: $(wc -c < /tmp/chart.min.js) bytes"
+
+      - name: Generate web reports
+        run: |
+          # Generate main report with baseline comparison
+          python scripts/generate_web_report.py \
+            --by-model \
+            --include-baseline \
+            --output reports/index.html \
+            --title "AI Medicare Evaluation - Latest Results"
+
+          echo "✓ Main report generated"
+
+          # Generate SHIP-002 specific report if data exists
+          if [ -d "runs" ] && [ "$(ls -A runs 2>/dev/null)" ]; then
+            python scripts/generate_web_report.py \
+              --scenario SHIP-002 \
+              --by-model \
+              --include-baseline \
+              --output reports/ship-002.html \
+              --title "SHIP-002: MA vs TM Comparison" || echo "Note: SHIP-002 report not generated (no matching data)"
+          fi
+
+          echo "✓ Reports generated successfully"
+          ls -lh reports/
+
+      - name: Create index page (if needed)
+        run: |
+          # If reports/index.html doesn't exist, create a simple one
+          if [ ! -f "reports/index.html" ]; then
+            echo "<html><body><h1>No reports available</h1><p>Run evaluations first.</p></body></html>" > reports/index.html
+          fi
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './reports'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Display deployment URL
+        run: |
+          echo "🎉 Reports deployed successfully!"
+          echo "URL: ${{ steps.deployment.outputs.page_url }}"
