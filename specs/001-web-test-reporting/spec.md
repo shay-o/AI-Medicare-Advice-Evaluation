@@ -21,6 +21,8 @@ A researcher wants to quickly view AI model performance compared to human SHIP c
 2. **Given** the web report is generated, **When** the user opens it in a browser, **Then** they see SHIP baseline data alongside AI model results for direct comparison
 3. **Given** incomplete or fake test runs exist, **When** the report is generated, **Then** these are excluded by default (matching CLI behavior)
 4. **Given** the report is open, **When** the user views the tables, **Then** percentages and counts match the output of CLI command `python scripts/generate_accuracy_table.py --by-model --include-baseline`
+5. **Given** the web report displays model results, **When** the user views the accuracy table, **Then** they see an "All Models" aggregate row showing combined statistics across all AI models
+6. **Given** the web report includes baseline data, **When** the user views the score distribution chart, **Then** they see a grouped bar chart comparing "All Models" aggregate vs "SHIP Study" baseline, with consistent color coding for each group
 
 ---
 
@@ -85,14 +87,19 @@ A researcher wants to filter reports by specific scenarios, view detailed statis
 - **FR-014**: System MUST parse `results.jsonl` files using the same logic as existing CLI scripts
 - **FR-015**: Reports MUST display accuracy tables alongside basic charts showing score distribution visualizations (e.g., bar charts for Score 1-4 percentages)
 - **FR-016**: System MUST generate web page versions of CLI report output using the same configuration options (scenario filters, baseline inclusion, detailed stats, etc.) for publishing specific reports
+- **FR-017**: Charts MUST display grouped bar charts comparing "All Models" aggregate data with "SHIP Study" baseline data, using consistent color coding per group (not per score)
+- **FR-018**: Accuracy tables MUST include an "All Models" aggregate row showing combined statistics across all AI model runs, in addition to individual model breakouts
+- **FR-019**: Score definition section MUST clearly indicate that SHIP study baseline data does not include accuracy and completeness metrics (only Score 1-4 distributions available)
 
 ### Key Entities
 
 - **Evaluation Run**: Represents a single test execution stored in `runs/[timestamp]/results.jsonl` containing target model, scenario, scores, and metadata
 - **Accuracy Table**: Aggregated view showing distribution of Score 1-4 across runs, grouped by model or scenario
-- **SHIP Baseline**: Reference data from original SHIP study showing human counselor performance (Score 1: 5.7%, Score 2: 88.6%, Score 3: 5.7%, Score 4: 0.0%)
+- **All Models Aggregate**: Combined statistics across all AI model evaluation runs, providing a single row that aggregates performance metrics for comparison with baseline
+- **SHIP Baseline**: Reference data from original SHIP study showing human counselor performance (Score 1: 5.7%, Score 2: 88.6%, Score 3: 5.7%, Score 4: 0.0%). Note: SHIP baseline only contains Score 1-4 distributions; accuracy and completeness percentages are not available for human counselor performance
 - **Rubric Score**: SHIP-aligned score (1-4) indicating response quality (1=complete, 2=incomplete, 3=not substantive, 4=incorrect)
 - **Report**: HTML artifact generated from evaluation runs, containing tables, filters, and metadata
+- **Grouped Bar Chart**: Chart visualization comparing "All Models" aggregate statistics with "SHIP Study" baseline using consistent color coding per group
 
 ## Success Criteria *(mandatory)*
 
@@ -140,3 +147,91 @@ A researcher wants to filter reports by specific scenarios, view detailed statis
 - Statistical significance testing or confidence intervals
 - Cost tracking or budget analysis
 - Email notifications when reports are generated
+
+---
+
+## Version 2 Enhancements *(2026-01-30)*
+
+### Enhancement 1: Grouped Bar Chart for Baseline Comparison
+
+**Motivation**: Current implementation shows score distribution for individual models but doesn't provide a clear visual comparison between aggregate AI performance and human baseline performance.
+
+**Changes**:
+- Replace simple bar chart with grouped bar chart
+- Show two groups: "All Models" (aggregate) and "SHIP Study" (baseline)
+- Use consistent color for each group across all scores (not different colors per score)
+- Each group shows Score 1, Score 2, Score 3, Score 4 as bars
+
+**Visual Design**:
+```
+Score Distribution Comparison
+
+           [█████] All Models
+Score 1    [██] SHIP Study
+
+           [████████████] All Models
+Score 2    [████████████████] SHIP Study
+
+           [███] All Models
+Score 3    [██] SHIP Study
+
+           [█] All Models
+Score 4    [] SHIP Study
+```
+
+**Acceptance Criteria**:
+- Chart displays two distinct groups with different colors
+- Both groups show all four scores (1-4)
+- Legend clearly identifies "All Models" vs "SHIP Study"
+- Values match table data exactly
+
+### Enhancement 2: All Models Aggregate Row
+
+**Motivation**: Users want to see overall AI performance at a glance, in addition to individual model breakdowns.
+
+**Changes**:
+- Add "All Models" row to accuracy table
+- Calculate aggregate statistics across all AI model runs
+- Position SHIP Baseline first (if included), then "All Models" aggregate, then individual models
+- Include all columns: Total, Score 1-4, Completeness %, Accuracy %
+- Both special rows (SHIP Baseline and All Models) are visually distinct from individual model rows
+
+**Table Layout**:
+```
+Model / Scenario          Total  Score 1  Score 2  Score 3  Score 4  Completeness  Accuracy
+SHIP Baseline (n=88)        88    5 (5.7%) 77 (89%) 5 (5.7%) 0 (0%)    -            -
+All Models                  15    3 (20%)  10 (67%) 2 (13%)  0 (0%)    75.2%        98.5%
+anthropic/claude-3.5-sonnet  8    2 (25%)  5 (63%)  1 (12%)  0 (0%)    76.3%        99.1%
+openai/gpt-4-turbo          7    1 (14%)  5 (71%)  1 (14%)  0 (0%)    74.1%        97.8%
+```
+
+**Acceptance Criteria**:
+- SHIP Baseline row appears first in table (if baseline is included)
+- "All Models" aggregate row appears second
+- Individual model rows appear below aggregate, sorted alphabetically
+- Statistics correctly aggregate all model runs
+- Both special rows are visually distinct (e.g., bold, highlighted, or styled backgrounds)
+
+### Enhancement 3: SHIP Study Data Limitations Note
+
+**Motivation**: Users may be confused why SHIP baseline shows "-" for Completeness and Accuracy columns.
+
+**Changes**:
+- Add clarification to Score Definitions section
+- Explain that SHIP study only measured Score 1-4 distributions
+- Note that Completeness % and Accuracy % were not collected for human counselors
+- Maintain existing detailed statistics display for AI models
+
+**Documentation Text**:
+```
+Note: The SHIP study baseline data represents human Medicare counselor
+performance from the original research. This baseline includes only
+Score 1-4 distributions (percentage of responses in each category).
+Detailed completeness and accuracy percentages were not measured for
+human counselors, so these columns show "-" for the SHIP Baseline row.
+```
+
+**Acceptance Criteria**:
+- Note appears in Score Definitions section
+- Clearly explains why baseline shows "-" for some columns
+- Does not remove or hide Completeness/Accuracy columns for AI models
