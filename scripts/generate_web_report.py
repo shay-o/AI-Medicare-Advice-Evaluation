@@ -580,7 +580,7 @@ def generate_web_report(
         include_incomplete=include_incomplete,
         include_fake=include_fake,
         show_detailed_stats=detailed,
-        title=title or "AI Medicare Evaluation Report",
+        title=title or "Accuracy of Medicare Information Provided by State Health Insurance Assistance Programs",
     )
 
     try:

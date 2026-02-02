@@ -44,7 +44,7 @@ def test_end_to_end_report_generation():
         # Read and verify HTML content
         html_content = output_path.read_text()
         assert "<!DOCTYPE html>" in html_content
-        assert "AI Medicare Evaluation Report" in html_content
+        assert "Accuracy of Medicare Information Provided by State Health Insurance Assistance Programs" in html_content
         assert "<table" in html_content  # Table has id attribute, so check for opening tag
 
         print(f"✓ Report generated: {result.file_size_bytes} bytes")
