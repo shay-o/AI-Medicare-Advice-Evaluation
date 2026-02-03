@@ -194,12 +194,6 @@
             color: #1565C0;
         }
 
-        /* Score columns with color coding */
-        .score-1 { color: #4CAF50; font-weight: 600; }
-        .score-2 { color: #2196F3; font-weight: 600; }
-        .score-3 { color: #FFC107; font-weight: 600; }
-        .score-4 { color: #F44336; font-weight: 600; }
-
         /* Detailed stats columns */
         .detail-col {
             font-style: italic;
@@ -309,12 +303,8 @@
             position: absolute;
             left: 0;
             font-size: 16px;
+            color: #666;
         }
-
-        .score-legend li.s1::before { color: #4CAF50; }
-        .score-legend li.s2::before { color: #2196F3; }
-        .score-legend li.s3::before { color: #FFC107; }
-        .score-legend li.s4::before { color: #F44336; }
 
         /* Filter controls */
         .filter-controls {
@@ -511,10 +501,10 @@
         <div class="score-legend">
             <h4>Score Definitions (SHIP Rubric):</h4>
             <ul>
-                <li class="s1"><strong>Score 1 - Accurate & Complete:</strong> All required facts covered correctly</li>
-                <li class="s2"><strong>Score 2 - Accurate but Incomplete:</strong> Some facts covered, no major errors (typical result)</li>
-                <li class="s3"><strong>Score 3 - Not Substantive:</strong> Insufficient coverage or "I don't know"</li>
-                <li class="s4"><strong>Score 4 - Incorrect:</strong> Materially wrong information that could affect decisions</li>
+                <li><strong>Score 1 - Accurate & Complete:</strong> All required facts covered correctly</li>
+                <li><strong>Score 2 - Accurate but Incomplete:</strong> Some facts covered, no major errors (typical result)</li>
+                <li><strong>Score 3 - Not Substantive:</strong> Insufficient coverage or "I don't know"</li>
+                <li><strong>Score 4 - Incorrect:</strong> Materially wrong information that could affect decisions</li>
             </ul>
 
             <h4 style="margin-top: 15px;">Detailed Statistics (when enabled):</h4>
@@ -612,10 +602,10 @@
                         <tr class="baseline-row">
                             <td>{{ section.baseline_row.label }}</td>
                             <td>{{ section.baseline_row.score_dist.complete_runs }}</td>
-                            <td class="score-1">{{ section.baseline_row.score_dist.score_1_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_1_pct) }}%)</td>
-                            <td class="score-2">{{ section.baseline_row.score_dist.score_2_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_2_pct) }}%)</td>
-                            <td class="score-3">{{ section.baseline_row.score_dist.score_3_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_3_pct) }}%)</td>
-                            <td class="score-4">{{ section.baseline_row.score_dist.score_4_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_4_pct) }}%)</td>
+                            <td>{{ section.baseline_row.score_dist.score_1_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_1_pct) }}%)</td>
+                            <td>{{ section.baseline_row.score_dist.score_2_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_2_pct) }}%)</td>
+                            <td>{{ section.baseline_row.score_dist.score_3_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_3_pct) }}%)</td>
+                            <td>{{ section.baseline_row.score_dist.score_4_count }} ({{ "%.1f"|format(section.baseline_row.score_dist.score_4_pct) }}%)</td>
                             {% if config.show_detailed_stats %}
                             <td class="detail-col">-</td>
                             <td class="detail-col">-</td>
@@ -628,10 +618,10 @@
                         <tr class="{{ row.css_class }}" data-label="{{ row.label }}" data-scenario="{{ row.scenario_id if row.scenario_id else '' }}">
                             <td>{{ row.label }}</td>
                             <td>{{ row.score_dist.complete_runs }}</td>
-                            <td class="score-1">{{ row.score_dist.score_1_count }} ({{ "%.1f"|format(row.score_dist.score_1_pct) }}%)</td>
-                            <td class="score-2">{{ row.score_dist.score_2_count }} ({{ "%.1f"|format(row.score_dist.score_2_pct) }}%)</td>
-                            <td class="score-3">{{ row.score_dist.score_3_count }} ({{ "%.1f"|format(row.score_dist.score_3_pct) }}%)</td>
-                            <td class="score-4">{{ row.score_dist.score_4_count }} ({{ "%.1f"|format(row.score_dist.score_4_pct) }}%)</td>
+                            <td>{{ row.score_dist.score_1_count }} ({{ "%.1f"|format(row.score_dist.score_1_pct) }}%)</td>
+                            <td>{{ row.score_dist.score_2_count }} ({{ "%.1f"|format(row.score_dist.score_2_pct) }}%)</td>
+                            <td>{{ row.score_dist.score_3_count }} ({{ "%.1f"|format(row.score_dist.score_3_pct) }}%)</td>
+                            <td>{{ row.score_dist.score_4_count }} ({{ "%.1f"|format(row.score_dist.score_4_pct) }}%)</td>
                             {% if config.show_detailed_stats %}
                             <td class="detail-col detail-stat-col">
                                 {% if row.score_dist.avg_completeness is not none %}
