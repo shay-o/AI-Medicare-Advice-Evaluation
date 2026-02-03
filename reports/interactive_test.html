@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline';">
-    <title>Accuracy of Medicare Information Provided by State Health Insurance Assistance Programs</title>
+    <title>Interactive Report Test</title>
     <style>
         /* Reset and base styles */
         * {
@@ -179,20 +179,11 @@
             color: #1565C0;
         }
 
-        /* Aggregate row styling */
-        .aggregate-row {
-            background: #F5F5F5 !important;
-            font-weight: 700;
-            border-bottom: 2px solid #1976D2;
-        }
-
-        .aggregate-row:hover {
-            background: #EEEEEE !important;
-        }
-
-        .aggregate-row td {
-            color: #1565C0;
-        }
+        /* Score columns with color coding */
+        .score-1 { color: #4CAF50; font-weight: 600; }
+        .score-2 { color: #2196F3; font-weight: 600; }
+        .score-3 { color: #FFC107; font-weight: 600; }
+        .score-4 { color: #F44336; font-weight: 600; }
 
         /* Detailed stats columns */
         .detail-col {
@@ -303,8 +294,12 @@
             position: absolute;
             left: 0;
             font-size: 16px;
-            color: #666;
         }
+
+        .score-legend li.s1::before { color: #4CAF50; }
+        .score-legend li.s2::before { color: #2196F3; }
+        .score-legend li.s3::before { color: #FFC107; }
+        .score-legend li.s4::before { color: #F44336; }
 
         /* Filter controls */
         .filter-controls {
@@ -480,9 +475,9 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>Accuracy of Medicare Information Provided by State Health Insurance Assistance Programs</h1>
+            <h1>Interactive Report Test</h1>
             <div class="metadata">
-                <p><strong>Generated:</strong> 2026-02-02 17:33:08</p>
+                <p><strong>Generated:</strong> 2026-01-30 11:04:14</p>
                 <p><strong>Source:</strong> runs</p>
                 <p><strong>Runs Analyzed:</strong> 14 (3 included, 11 excluded)</p>
                 
@@ -509,38 +504,11 @@ Results should not be used to make healthcare decisions. This tool presents comp
         <div class="score-legend">
             <h4>Score Definitions (SHIP Rubric):</h4>
             <ul>
-                <li><strong>Score 1 - Accurate & Complete:</strong> All required facts covered correctly</li>
-                <li><strong>Score 2 - Accurate but Incomplete:</strong> Some facts covered, no major errors (typical result)</li>
-                <li><strong>Score 3 - Not Substantive:</strong> Insufficient coverage or "I don't know"</li>
-                <li><strong>Score 4 - Incorrect:</strong> Materially wrong information that could affect decisions</li>
+                <li class="s1"><strong>Score 1 - Accurate & Complete:</strong> All required facts covered correctly</li>
+                <li class="s2"><strong>Score 2 - Accurate but Incomplete:</strong> Some facts covered, no major errors (typical result)</li>
+                <li class="s3"><strong>Score 3 - Not Substantive:</strong> Insufficient coverage or "I don't know"</li>
+                <li class="s4"><strong>Score 4 - Incorrect:</strong> Materially wrong information that could affect decisions</li>
             </ul>
-
-            <h4 style="margin-top: 15px;">Detailed Statistics (when enabled):</h4>
-            <p style="margin: 8px 0; line-height: 1.6;">
-                <strong>Completeness %:</strong> Percentage of required facts that were mentioned in the response (0-100%).
-                Calculated as: (number of facts mentioned) / (total required facts) × 100.
-                A response can be 100% complete but still receive Score 2 if some facts are inaccurate.
-            </p>
-            <p style="margin: 8px 0; line-height: 1.6;">
-                <strong>Accuracy %:</strong> Percentage of mentioned facts that were correct (0-100%).
-                Calculated as: (number of correct facts) / (number of facts mentioned) × 100.
-                A response can be 100% accurate but receive Score 2 if it doesn't cover all required facts.
-            </p>
-            <p style="margin: 8px 0; line-height: 1.6; font-style: italic; color: #666;">
-                Example: A response mentioning 7 out of 10 required facts (70% completeness), with all 7 being correct (100% accuracy),
-                would receive Score 2 (Accurate but Incomplete).
-            </p>
-
-            <!-- SHIP Study Baseline Limitations Note -->
-            <div style="margin-top: 15px; padding: 12px; background: #FFF3E0; border-left: 4px solid #FF6F00; border-radius: 4px;">
-                <p style="margin: 0; line-height: 1.6; color: #E65100;">
-                    <strong>Note on SHIP Study Baseline:</strong> The SHIP study baseline data represents human Medicare counselor
-                    performance from the original research study. This baseline includes only Score 1-4 distributions
-                    (percentage of responses in each rubric category). Detailed completeness and accuracy percentages were not
-                    measured for human counselors in the original study, so these columns show "-" for the SHIP Baseline row.
-                    AI model runs include all metrics (scores, completeness, and accuracy).
-                </p>
-            </div>
         </div>
 
         <!-- Filter Controls -->
@@ -577,7 +545,7 @@ Results should not be used to make healthcare decisions. This tool presents comp
         <!-- Charts -->
         
         <div class="chart-container">
-            <h2>Score Distribution: AI Models vs Human Counselors</h2>
+            <h2>Score Distribution: All Models</h2>
             <div class="chart-wrapper">
                 <canvas id="scoreDistChart"></canvas>
             </div>
@@ -607,50 +575,16 @@ Results should not be used to make healthcare decisions. This tool presents comp
                     <tbody>
                         <!-- Baseline row (if exists) -->
                         
-                        <tr class="baseline-row">
-                            <td>SHIP Baseline: TM vs MA differences (Medicare, n=88)</td>
-                            <td>88</td>
-                            <td>5 (5.7%)</td>
-                            <td>77 (88.6%)</td>
-                            <td>5 (5.7%)</td>
-                            <td>0 (0.0%)</td>
-                            
-                            <td class="detail-col">-</td>
-                            <td class="detail-col">-</td>
-                            
-                        </tr>
-                        
 
                         <!-- Data rows -->
-                        
-                        <tr class="aggregate-row" data-label="All Models" data-scenario="">
-                            <td>All Models</td>
-                            <td>3</td>
-                            <td>1 (33.3%)</td>
-                            <td>2 (66.7%)</td>
-                            <td>0 (0.0%)</td>
-                            <td>0 (0.0%)</td>
-                            
-                            <td class="detail-col detail-stat-col">
-                                
-                                76.2%
-                                
-                            </td>
-                            <td class="detail-col detail-stat-col">
-                                
-                                100.0%
-                                
-                            </td>
-                            
-                        </tr>
                         
                         <tr class="model-row" data-label="anthropic/claude-3-5-sonnet" data-scenario="">
                             <td>anthropic/claude-3-5-sonnet</td>
                             <td>1</td>
-                            <td>0 (0.0%)</td>
-                            <td>1 (100.0%)</td>
-                            <td>0 (0.0%)</td>
-                            <td>0 (0.0%)</td>
+                            <td class="score-1">0 (0.0%)</td>
+                            <td class="score-2">1 (100.0%)</td>
+                            <td class="score-3">0 (0.0%)</td>
+                            <td class="score-4">0 (0.0%)</td>
                             
                             <td class="detail-col detail-stat-col">
                                 
@@ -668,10 +602,10 @@ Results should not be used to make healthcare decisions. This tool presents comp
                         <tr class="model-row" data-label="openai/gpt-4-turbo" data-scenario="">
                             <td>openai/gpt-4-turbo</td>
                             <td>2</td>
-                            <td>1 (50.0%)</td>
-                            <td>1 (50.0%)</td>
-                            <td>0 (0.0%)</td>
-                            <td>0 (0.0%)</td>
+                            <td class="score-1">1 (50.0%)</td>
+                            <td class="score-2">1 (50.0%)</td>
+                            <td class="score-3">0 (0.0%)</td>
+                            <td class="score-4">0 (0.0%)</td>
                             
                             <td class="detail-col detail-stat-col">
                                 
@@ -696,7 +630,7 @@ Results should not be used to make healthcare decisions. This tool presents comp
         <div class="footer">
             <p>Generated with AI Medicare Evaluation Harness</p>
             <p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/" target="_blank">SHIP Study Reference</a> |
-               <a href="https://github.com/shay-o/AI-Medicare-Advice-Evaluation" target="_blank">GitHub Repository</a></p>
+               <a href="https://github.com/yourusername/AI-Medicare-Advice-Evaluator" target="_blank">GitHub Repository</a></p>
             <p style="margin-top: 10px; font-size: 12px;">
                 Generated by <a href="https://claude.com/claude-code" target="_blank">Claude Code</a>
             </p>
@@ -731,7 +665,7 @@ Results should not be used to make healthcare decisions. This tool presents comp
     <!-- Chart Initialization -->
     <script>
         // Chart data injected from Python
-        const chartDataList = [{"chart_id": "scoreDistChart", "datasets": [{"background_color": "#1976D2", "border_color": "#1565C0", "data": [33.33333333333333, 66.66666666666666, 0.0, 0.0], "label": "All Models"}, {"background_color": "#FF6F00", "border_color": "#E65100", "data": [5.7, 88.6, 5.7, 0.0], "label": "SHIP Study"}], "labels": ["Score 1", "Score 2", "Score 3", "Score 4"], "options": {"maintainAspectRatio": true, "plugins": {"legend": {"display": true, "position": "top"}, "title": {"display": true, "text": "Score Distribution: AI Models vs Human Counselors"}}, "responsive": true, "scales": {"x": {"title": {"display": true, "text": "Rubric Score"}}, "y": {"beginAtZero": true, "ticks": {"stepSize": 10}, "title": {"display": true, "text": "Percentage (%)"}}}}, "title": "Score Distribution: AI Models vs Human Counselors"}];
+        const chartDataList = [{"chart_id": "scoreDistChart", "datasets": [{"background_colors": ["#4CAF50", "#2196F3", "#FFC107", "#F44336"], "border_colors": ["#388E3C", "#1976D2", "#FFA000", "#D32F2F"], "data": [1.0, 2.0, 0.0, 0.0], "label": "Count"}], "labels": ["Score 1\n(Complete)", "Score 2\n(Incomplete)", "Score 3\n(Not Substantive)", "Score 4\n(Incorrect)"], "options": {"maintainAspectRatio": true, "plugins": {"legend": {"display": false}, "title": {"display": true, "text": "Score Distribution"}}, "responsive": true, "scales": {"y": {"beginAtZero": true, "ticks": {"stepSize": 1}}}}, "title": "Score Distribution: All Models"}];
 
         // Initialize charts when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
@@ -757,8 +691,8 @@ Results should not be used to make healthcare decisions. This tool presents comp
                             return {
                                 label: ds.label,
                                 data: ds.data,
-                                backgroundColor: ds.background_color,
-                                borderColor: ds.border_color,
+                                backgroundColor: ds.background_colors,
+                                borderColor: ds.border_colors,
                                 borderWidth: 1
                             };
                         })
