@@ -8,7 +8,7 @@ accuracy tables with visualizations, matching the CLI tool calculations exactly.
 Usage:
     python scripts/generate_web_report.py
     python scripts/generate_web_report.py --by-model --include-baseline
-    python scripts/generate_web_report.py --scenario SHIP-002 --output reports/ship-002.html
+    python scripts/generate_web_report.py --scenario SHIP-MO-Q3 --output reports/ship-mo-q3.html
 """
 
 import argparse
@@ -525,7 +525,7 @@ def generate_web_report(
     Args:
         runs_dir: Directory containing evaluation runs (default: "runs")
         output_path: Where to save generated HTML file (default: "reports/index.html")
-        scenario: Filter to specific scenario ID (e.g., "SHIP-002"), None = all
+        scenario: Filter to specific scenario ID (e.g., SHIP-MO-Q3), None = all
         by_model: Group results by model (True) or by scenario (False)
         include_baseline: Include SHIP study human baseline data
         include_incomplete: Include runs without rubric scores
@@ -777,7 +777,7 @@ Examples:
   python scripts/generate_web_report.py
 
   # Filter to SHIP-002 with baseline comparison
-  python scripts/generate_web_report.py --scenario SHIP-002 --by-model --include-baseline
+  python scripts/generate_web_report.py --scenario SHIP-MO-Q3 --by-model --include-baseline
 
   # Include all runs (incomplete and fake models)
   python scripts/generate_web_report.py --include-incomplete --include-fake

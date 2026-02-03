@@ -18,7 +18,7 @@ Default Behavior:
 Usage:
     python scripts/generate_accuracy_table.py
     python scripts/generate_accuracy_table.py --by-model --include-baseline
-    python scripts/generate_accuracy_table.py --scenario SHIP-002
+    python scripts/generate_accuracy_table.py --scenario SHIP-MO-Q3
     python scripts/generate_accuracy_table.py --include-incomplete --include-fake
 """
 
@@ -397,9 +397,9 @@ def get_scenario_title(results: list[dict[str, Any]]) -> str:
     # Use "All Models" for aggregated view
     titles = {
         "SHIP-001": "All Models",
-        "SHIP-002": "All Models",
-        "scenario_001": "All Models",
-        "scenario_002": "All Models",
+        "SHIP-MO-Q1": "Enrollment timing",
+        "SHIP-MO-Q3": "TM vs MA",
+        "synthetic-tm-vs-ma": "Synthetic TM vs MA",
     }
 
     return titles.get(scenario_id, "All Models")
@@ -687,7 +687,7 @@ Examples:
   python scripts/generate_accuracy_table.py --by-model
 
   # Filter to specific scenario
-  python scripts/generate_accuracy_table.py --scenario SHIP-002
+  python scripts/generate_accuracy_table.py --scenario SHIP-MO-Q3
 
   # Include SHIP study baseline for comparison
   python scripts/generate_accuracy_table.py --include-baseline
@@ -725,7 +725,7 @@ Examples:
     parser.add_argument(
         "--scenario",
         type=str,
-        help="Filter to specific scenario ID (e.g., SHIP-002)"
+        help="Filter to specific scenario ID (e.g., SHIP-MO-Q3)"
     )
 
     parser.add_argument(

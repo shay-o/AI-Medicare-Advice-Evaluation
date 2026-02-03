@@ -24,7 +24,7 @@ def test_process_runs():
     results = [
         {
             "timestamp": "2026-01-25T01:39:42",
-            "scenario_id": "SHIP-002",
+            "scenario_id": "SHIP-MO-Q3",
             "scenario": {"title": "MA vs TM Comparison"},
             "target": {"model_name": "openai/gpt-4-turbo", "provider": "openrouter"},
             "final_scores": {
@@ -38,7 +38,7 @@ def test_process_runs():
     processed = process_runs(results)
 
     assert len(processed) == 1
-    assert processed[0].scenario_id == "SHIP-002"
+    assert processed[0].scenario_id == "SHIP-MO-Q3"
     assert processed[0].model_name == "openai/gpt-4-turbo"
     assert processed[0].rubric_score == 2
     assert processed[0].completeness_pct == 71.0
@@ -89,13 +89,13 @@ def test_prepare_table_data_by_model():
     """Test table data preparation grouped by model."""
     results = [
         {
-            "scenario_id": "SHIP-002",
+            "scenario_id": "SHIP-MO-Q3",
             "scenario": {"title": "MA vs TM"},
             "target": {"model_name": "model-a"},
             "final_scores": {"rubric_score": 1, "completeness_percentage": 1.0, "accuracy_percentage": 1.0}
         },
         {
-            "scenario_id": "SHIP-002",
+            "scenario_id": "SHIP-MO-Q3",
             "scenario": {"title": "MA vs TM"},
             "target": {"model_name": "model-b"},
             "final_scores": {"rubric_score": 2, "completeness_percentage": 0.7, "accuracy_percentage": 1.0}
@@ -105,7 +105,7 @@ def test_prepare_table_data_by_model():
     config = ReportConfig(
         group_by_model=True,
         include_baseline=False,
-        scenario_filter="SHIP-002"
+        scenario_filter="SHIP-MO-Q3"
     )
 
     sections = prepare_table_data(results, config)

@@ -66,7 +66,7 @@ def test_report_with_baseline():
         result = generate_web_report(
             runs_dir=runs_dir,
             output_path=output_path,
-            scenario="SHIP-002",
+            scenario="SHIP-MO-Q3",
             by_model=True,
             include_baseline=True,
         )

@@ -1,5 +1,5 @@
 {
-  "scenario_id": "SHIP-001",
+  "scenario_id": "synthetic-tm-vs-ma",
   "title": "Choosing between Original Medicare and Medicare Advantage",
   "effective_date": "2024-01-01",
   "persona": {
