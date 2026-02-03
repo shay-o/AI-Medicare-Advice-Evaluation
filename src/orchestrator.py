@@ -420,19 +420,46 @@ def create_adapter(provider: str, model_name: str) -> BaseLLMAdapter:
         )
 
 
+def _resolve_scenario_paths(scenario_arg: str) -> list[Path]:
+    """Resolve --scenario argument to list of scenario file paths.
+
+    Supports:
+    - medicare_only: All questions in scenarios/medicare_only/
+    - dual_eligible: All questions in scenarios/dual_eligible/
+    - path/to/file.json: Single scenario file
+    """
+    scenarios_dir = Path(__file__).parent.parent / "scenarios"
+    scenario_arg_lower = scenario_arg.lower().replace("-", "_")
+
+    if scenario_arg_lower == "medicare_only":
+        scenario_dir = scenarios_dir / "medicare_only"
+    elif scenario_arg_lower == "dual_eligible":
+        scenario_dir = scenarios_dir / "dual_eligible"
+    else:
+        # Treat as file path
+        path = Path(scenario_arg)
+        if not path.is_absolute():
+            path = Path.cwd() / path
+        if not path.exists():
+            return []
+        return [path] if path.suffix == ".json" else []
+
+    if not scenario_dir.exists():
+        return []
+
+    paths = sorted(scenario_dir.glob("*.json"))
+    return paths
+
+
 async def run_evaluation_cli(args: argparse.Namespace) -> None:
     """Run evaluation from CLI arguments"""
 
-    # Load scenario
-    scenario_path = Path(args.scenario)
-    if not scenario_path.exists():
-        print(f"Error: Scenario file not found: {scenario_path}")
+    # Resolve scenario path(s)
+    scenario_paths = _resolve_scenario_paths(args.scenario)
+    if not scenario_paths:
+        print(f"Error: No scenario(s) found for: {args.scenario}")
+        print("  Use 'medicare_only', 'dual_eligible', or path to a .json file")
         sys.exit(1)
-
-    with scenario_path.open() as f:
-        scenario_data = json.load(f)
-
-    scenario = Scenario(**scenario_data)
 
     # Parse target specification
     target_provider, target_model = parse_target_spec(args.target)
@@ -448,44 +475,62 @@ async def run_evaluation_cli(args: argparse.Namespace) -> None:
         # Default to mock adapter for agents during testing
         agent_adapter = MockAgentAdapter()
 
-    # Create orchestrator
+    # Create storage; use single run_dir when multiple scenarios or run_id specified
     storage = ResultsStorage(args.output_dir)
-    orchestrator = EvaluationOrchestrator(
-        scenario=scenario,
-        target_adapter=target_adapter,
-        agent_adapter=agent_adapter,
-        num_verifiers=args.judges,
-        seed=args.seed,
-        storage=storage,
-    )
-
-    # Run evaluation
     run_dir = None
-    if args.run_id:
+    if args.run_id or len(scenario_paths) > 1:
         run_dir = storage.create_run_directory(args.run_id)
 
-    result = await orchestrator.run_evaluation(run_dir)
+    results_summary = []
 
-    # Print summary
-    print("\n" + "=" * 70)
-    print("EVALUATION SUMMARY")
-    print("=" * 70)
-    print(f"Trial ID:          {result.trial_id}")
-    print(f"Scenario:          {scenario.title}")
-    print(f"Target Model:      {result.target.model_version}")
-    if result.final_scores.rubric_label:
-        print(f"Classification:    {result.final_scores.rubric_label} (Score {result.final_scores.rubric_score})")
-    print(f"Completeness:      {result.final_scores.completeness_percentage:.1%}")
-    print(f"Accuracy:          {result.final_scores.accuracy_percentage:.1%}")
-    print(f"Claims Extracted:  {len(result.claims)}")
-    print(f"Verifiers:         {len(result.verifications)}")
-    print(f"Flags:")
-    print(f"  - Refusal:       {result.flags.refusal}")
-    print(f"  - Hallucinated:  {result.flags.hallucinated_specifics}")
-    print(f"  - References:    {result.flags.referenced_external_resources}")
-    print(f"\nJustification:")
-    print(f"  {result.final_scores.justification}")
-    print("=" * 70 + "\n")
+    for scenario_path in scenario_paths:
+        with scenario_path.open() as f:
+            scenario_data = json.load(f)
+
+        scenario = Scenario(**scenario_data)
+
+        orchestrator = EvaluationOrchestrator(
+            scenario=scenario,
+            target_adapter=target_adapter,
+            agent_adapter=agent_adapter,
+            num_verifiers=args.judges,
+            seed=args.seed,
+            storage=storage,
+        )
+
+        result = await orchestrator.run_evaluation(run_dir)
+
+        results_summary.append((scenario, result))
+
+        # Print summary for this scenario
+        print("\n" + "=" * 70)
+        print(f"EVALUATION: {scenario.scenario_id} - {scenario.title}")
+        print("=" * 70)
+        print(f"Trial ID:          {result.trial_id}")
+        print(f"Scenario:          {scenario.title}")
+        print(f"Target Model:      {result.target.model_version}")
+        if result.final_scores.rubric_label:
+            print(f"Classification:    {result.final_scores.rubric_label} (Score {result.final_scores.rubric_score})")
+        print(f"Completeness:      {result.final_scores.completeness_percentage:.1%}")
+        print(f"Accuracy:          {result.final_scores.accuracy_percentage:.1%}")
+        print(f"Claims Extracted:  {len(result.claims)}")
+        print(f"Verifiers:         {len(result.verifications)}")
+        print(f"Flags:")
+        print(f"  - Refusal:       {result.flags.refusal}")
+        print(f"  - Hallucinated:  {result.flags.hallucinated_specifics}")
+        print(f"  - References:    {result.flags.referenced_external_resources}")
+        print(f"\nJustification:")
+        print(f"  {result.final_scores.justification}")
+        print("=" * 70 + "\n")
+
+    if len(results_summary) > 1:
+        print("\n" + "=" * 70)
+        print("RUN COMPLETE - All scenarios in this run")
+        print("=" * 70)
+        for scenario, result in results_summary:
+            score = result.final_scores.rubric_score or "N/A"
+            print(f"  {scenario.scenario_id}: Score {score} - {result.final_scores.rubric_label or 'N/A'}")
+        print("=" * 70 + "\n")
 
 
 def main() -> None:
@@ -505,8 +550,14 @@ Examples:
   # Use multiple verifiers
   python -m src.orchestrator run --scenario scenarios/v1/scenario_001.json --target fake:perfect --judges 3
 
-  # Specify custom run ID
-  python -m src.orchestrator run --scenario scenarios/v1/scenario_001.json --target fake:perfect --run-id test_001
+  # Run all Medicare-only questions
+  python -m src.orchestrator run --scenario medicare_only --target fake:perfect
+
+  # Run all dual-eligible questions
+  python -m src.orchestrator run --scenario dual_eligible --target fake:perfect
+
+  # Run single scenario by path
+  python -m src.orchestrator run --scenario scenarios/medicare_only/q03_tm_vs_ma.json --target fake:perfect --run-id test_001
         """,
     )
 
@@ -517,7 +568,7 @@ Examples:
     run_parser.add_argument(
         "--scenario",
         required=True,
-        help="Path to scenario JSON file",
+        help="'medicare_only', 'dual_eligible', or path to scenario JSON file",
     )
     run_parser.add_argument(
         "--target",

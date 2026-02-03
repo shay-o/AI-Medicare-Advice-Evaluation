@@ -20,10 +20,10 @@ from typing import Any
 # Table 2: Medicare Counselor Accuracy Analysis
 
 SHIP_BASELINE_DATA = {
-    # Question asked in both scenarios (combined n=184)
-    "SHIP-001": {  # Initial enrollment timing
+    # Medicare-only scenario questions (n=88) - SHIP-MO-Qn naming
+    "SHIP-MO-Q1": {  # Timing for initial enrollment and subsequent changes (also asked in dual, n=184 for "Both")
         "title": "SHIP Baseline: Initial enrollment timing",
-        "scenario_type": "Both",
+        "scenario_type": "Medicare",
         "score_1_pct": 57.1,
         "score_2_pct": 33.2,
         "score_3_pct": 7.1,
@@ -31,8 +31,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 0.0,
         "total": 184,
     },
-    # Medicare-only scenario questions (n=88)
-    "Medicare-EnrollmentInteraction": {
+    "SHIP-MO-Q2": {  # Medicare enrollment and employer plan interaction
         "title": "SHIP Baseline: Enrollment/employer plan interaction",
         "scenario_type": "Medicare",
         "score_1_pct": 62.5,
@@ -42,7 +41,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 0.0,
         "total": 88,
     },
-    "SHIP-002": {  # Main MA vs TM comparison question
+    "SHIP-MO-Q3": {  # TM vs MA comparison
         "title": "SHIP Baseline: TM vs MA differences",
         "scenario_type": "Medicare",
         "score_1_pct": 5.7,
@@ -52,7 +51,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 0.0,
         "total": 88,
     },
-    "Medicare-Supplement": {
+    "SHIP-MO-Q4": {
         "title": "SHIP Baseline: Medicare supplement considerations",
         "scenario_type": "Medicare",
         "score_1_pct": 3.4,
@@ -62,7 +61,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 0.0,
         "total": 88,
     },
-    "Medicare-LTC": {
+    "SHIP-MO-Q5": {
         "title": "SHIP Baseline: Long-term care coverage",
         "scenario_type": "Medicare",
         "score_1_pct": 86.4,
@@ -72,7 +71,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 1.1,
         "total": 88,
     },
-    "Medicare-DrugCoverage": {
+    "SHIP-MO-Q6": {
         "title": "SHIP Baseline: Prescription drug coverage",
         "scenario_type": "Medicare",
         "score_1_pct": 23.9,
@@ -82,8 +81,8 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 0.0,
         "total": 88,
     },
-    "Medicare-PCPNetwork": {
-        "title": "SHIP Baseline: PCP network status",
+    "SHIP-MO-Q7": {
+        "title": "SHIP Baseline: PCP in network for MA plan",
         "scenario_type": "Medicare",
         "score_1_pct": 26.1,
         "score_2_pct": 0.0,
@@ -92,7 +91,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 0.0,
         "total": 88,
     },
-    "Medicare-MAPremium": {
+    "SHIP-MO-Q8": {
         "title": "SHIP Baseline: MA plan premium",
         "scenario_type": "Medicare",
         "score_1_pct": 19.3,
@@ -102,7 +101,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 2.3,
         "total": 88,
     },
-    "Medicare-OutOfNetwork": {
+    "SHIP-MO-Q9": {
         "title": "SHIP Baseline: Out-of-network care",
         "scenario_type": "Medicare",
         "score_1_pct": 61.4,
@@ -112,7 +111,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 3.4,
         "total": 88,
     },
-    "Medicare-PCPCopay": {
+    "SHIP-MO-Q10": {
         "title": "SHIP Baseline: In-network PCP copay",
         "scenario_type": "Medicare",
         "score_1_pct": 48.9,
@@ -122,9 +121,50 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 2.3,
         "total": 88,
     },
-    # Dual-eligible scenario questions (n=96)
-    "Dual-DSNPDescription": {
-        "title": "SHIP Baseline: D-SNP description",
+    # Additional Medicare-only (Q11-Q13) - placeholders for when scenarios exist
+    "SHIP-MO-Q11": {
+        "title": "SHIP Baseline: Maximum out-of-pocket limit",
+        "scenario_type": "Medicare",
+        "score_1_pct": 46.6,
+        "score_2_pct": 11.4,
+        "score_3_pct": 28.4,
+        "score_4_pct": 13.6,
+        "incomplete_pct": 0.0,
+        "total": 88,
+    },
+    "SHIP-MO-Q12": {
+        "title": "SHIP Baseline: MA plan includes Part D",
+        "scenario_type": "Medicare",
+        "score_1_pct": 76.1,
+        "score_2_pct": 2.3,
+        "score_3_pct": 15.9,
+        "score_4_pct": 2.3,
+        "incomplete_pct": 3.4,
+        "total": 88,
+    },
+    "SHIP-MO-Q13": {
+        "title": "SHIP Baseline: MA plan covers Lipitor/generic",
+        "scenario_type": "Medicare",
+        "score_1_pct": 45.5,
+        "score_2_pct": 17.0,
+        "score_3_pct": 31.8,
+        "score_4_pct": 3.4,
+        "incomplete_pct": 2.3,
+        "total": 88,
+    },
+    # Dual-eligible scenario questions (n=96) - SHIP-DE-Qn naming
+    "SHIP-DE-Q1": {
+        "title": "SHIP Baseline: Options for enrolling with full Medicaid",
+        "scenario_type": "Dual",
+        "score_1_pct": 24.0,
+        "score_2_pct": 47.9,
+        "score_3_pct": 19.8,
+        "score_4_pct": 8.3,
+        "incomplete_pct": 0.0,
+        "total": 96,
+    },
+    "SHIP-DE-Q2": {
+        "title": "SHIP Baseline: Considerations for D-SNP",
         "scenario_type": "Dual",
         "score_1_pct": 1.0,
         "score_2_pct": 74.0,
@@ -133,7 +173,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 0.0,
         "total": 96,
     },
-    "Dual-DSNPAvailability": {
+    "SHIP-DE-Q3": {
         "title": "SHIP Baseline: D-SNP availability",
         "scenario_type": "Dual",
         "score_1_pct": 68.8,
@@ -143,7 +183,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 0.0,
         "total": 96,
     },
-    "Dual-LTC": {
+    "SHIP-DE-Q4": {
         "title": "SHIP Baseline: Long-term care coverage",
         "scenario_type": "Dual",
         "score_1_pct": 10.4,
@@ -153,7 +193,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 0.0,
         "total": 96,
     },
-    "Dual-MedicaidPremium": {
+    "SHIP-DE-Q5": {
         "title": "SHIP Baseline: Medicaid premium/cost-sharing",
         "scenario_type": "Dual",
         "score_1_pct": 65.6,
@@ -163,7 +203,7 @@ SHIP_BASELINE_DATA = {
         "incomplete_pct": 1.0,
         "total": 96,
     },
-    "Dual-CostSharing": {
+    "SHIP-DE-Q6": {
         "title": "SHIP Baseline: Medicare cost-sharing assistance",
         "scenario_type": "Dual",
         "score_1_pct": 27.1,
@@ -247,7 +287,7 @@ def filter_by_scenario(results: list[dict[str, Any]], scenario_id: str) -> list[
 
     Args:
         results: List of evaluation results
-        scenario_id: Scenario identifier (e.g., "SHIP-002")
+        scenario_id: Scenario identifier (e.g., SHIP-MO-Q3)
 
     Returns:
         Filtered list containing only runs matching scenario_id
@@ -375,7 +415,7 @@ def get_baseline_data(scenario_id: str) -> dict[str, Any] | None:
     """Get SHIP study baseline data for scenario.
 
     Args:
-        scenario_id: Scenario identifier (e.g., "SHIP-002")
+        scenario_id: Scenario identifier (e.g., SHIP-MO-Q3)
 
     Returns:
         Baseline data dictionary if available, None otherwise

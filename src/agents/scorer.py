@@ -227,23 +227,38 @@ class ScorerAgent:
         # For SHIP scenario_002: Check coverage of MA and TM facts
         # MA facts: F1_MA through F6_MA (6 total)
         # TM facts: F1_TM through F8_TM (8 total)
-        ma_facts = {f for f in covered_facts if "_MA" in f}
-        tm_facts = {f for f in covered_facts if "_TM" in f}
-
-        # Count expected facts from answer key
         all_ma_facts = {f for f in answer_key.required_points if "_MA" in f}
         all_tm_facts = {f for f in answer_key.required_points if "_TM" in f}
 
-        # Score 1: Accurate and Complete - ALL MA points AND ALL TM points
-        if ma_facts == all_ma_facts and tm_facts == all_tm_facts:
+        if all_ma_facts or all_tm_facts:
+            # Scenario 002 style: MA/TM fact coverage
+            ma_facts = {f for f in covered_facts if "_MA" in f}
+            tm_facts = {f for f in covered_facts if "_TM" in f}
+
+            # Score 1: Accurate and Complete - ALL MA points AND ALL TM points
+            if ma_facts == all_ma_facts and tm_facts == all_tm_facts:
+                return 1, scoring_rubric.get("score_1", {}).get("label", "Accurate and Complete")
+
+            # Score 3: Not Substantive - No MA or TM points covered
+            if not ma_facts and not tm_facts:
+                return 3, scoring_rubric.get("score_3", {}).get("label", "Not Substantive")
+
+            # Score 2: Substantive but Incomplete - SOME (but not all) MA or TM points
+            return 2, scoring_rubric.get("score_2", {}).get("label", "Substantive but Incomplete")
+
+        # Generic SHIP rubric: use required_points coverage
+        required_set = set(answer_key.required_points)
+        covered_required = covered_facts & required_set
+
+        # Score 1: Accurate and Complete - ALL required points covered
+        if covered_required == required_set:
             return 1, scoring_rubric.get("score_1", {}).get("label", "Accurate and Complete")
 
-        # Score 3: Not Substantive - No MA or TM points covered
-        if not ma_facts and not tm_facts:
+        # Score 3: Not Substantive - No required points covered
+        if not covered_required:
             return 3, scoring_rubric.get("score_3", {}).get("label", "Not Substantive")
 
-        # Score 2: Substantive but Incomplete - SOME (but not all) MA or TM points
-        # This covers any case where at least one MA or TM fact is present but not all are covered
+        # Score 2: Substantive but Incomplete - SOME required points covered
         return 2, scoring_rubric.get("score_2", {}).get("label", "Substantive but Incomplete")
 
     def _identify_harm(

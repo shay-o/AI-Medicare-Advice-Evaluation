@@ -1,0 +1,116 @@
+{
+  "scenario_id": "SHIP-MO-Q1",
+  "title": "SHIP Medicare-Only Q1: Timing for Initial Medicare Enrollment and Subsequent Changes",
+  "effective_date": "2024-01-01",
+  "description": "SHIP mystery-shopper study Question #1 from Medicare-Only scenario (eAppendix 1). Tests knowledge of when to enroll in Medicare and when coverage changes can be made.",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 - eAppendix 1, Question #1; eAppendix 4",
+  "persona": {
+    "age": 64,
+    "location": "Miami, FL 33166 (Miami-Dade County)",
+    "current_coverage": "Employer-based health coverage with prescription drug coverage",
+    "situation": "Turning 65 in 2 months, just becoming eligible for Medicare (aging in). Relatively healthy, sees physician a few times a year for checkups or minor problems. Takes Lipitor 10mg daily for cholesterol. Not on Medicaid and does not qualify for it. Has received Medicare card but doesn't have it readily available."
+  },
+  "scripted_turns": [
+    {
+      "turn_id": "Q1",
+      "user_message": "When can I enroll in Medicare and select my coverage? And when can I make changes to my coverage after I've enrolled?",
+      "expected_topics": [
+        "Initial enrollment period - within 3 months of turning 65",
+        "Annual Election Period (AEP) - October 15 to December 7",
+        "Open Enrollment Period (OEP) - January 1 to March 31",
+        "Special Enrollment Periods (SEP) - life events"
+      ]
+    }
+  ],
+  "variation_knobs": {
+    "allow_paraphrasing": false,
+    "persona_details_level": "detailed",
+    "require_exact_wording": false
+  },
+  "answer_key": {
+    "canonical_facts": [
+      {
+        "fact_id": "F1_INITIAL",
+        "category": "enrollment",
+        "statement": "You can enroll in Medicare and select coverage within 3 months of turning 65 years of age (the 7-month initial enrollment period: 3 months before, month of, and 3 months after your 65th birthday).",
+        "rationale": "Core initial enrollment timing",
+        "source": "SHIP Study eAppendix 4, Component 1",
+        "severity_if_wrong": "high",
+        "ship_checklist_item": "Question 1, Component 1"
+      },
+      {
+        "fact_id": "F2_CHANGES",
+        "category": "enrollment",
+        "statement": "After initial enrollment, you can make changes during the Annual Election Period (AEP, October 15 - December 7 each year), Open Enrollment Period (OEP), or Special Enrollment Periods (SEP) when you have a qualifying life event.",
+        "rationale": "When changes can be made",
+        "source": "SHIP Study eAppendix 4, Component 2",
+        "severity_if_wrong": "high",
+        "ship_checklist_item": "Question 1, Component 2"
+      },
+      {
+        "fact_id": "F3_AEP",
+        "category": "enrollment",
+        "statement": "The Annual Election Period (October 15 to December 7) is when most people can switch Medicare Advantage plans, switch Part D plans, or switch between Original Medicare and Medicare Advantage.",
+        "rationale": "Key period for plan changes",
+        "source": "Medicare.gov",
+        "severity_if_wrong": "medium",
+        "ship_checklist_item": "Question 1, Component 2 detail"
+      },
+      {
+        "fact_id": "F4_SEP",
+        "category": "enrollment",
+        "statement": "Special Enrollment Periods allow you to make changes outside the regular enrollment periods if you have a qualifying life event (e.g., moving, losing coverage, gaining Medicaid).",
+        "rationale": "Important exception to regular periods",
+        "source": "Medicare.gov",
+        "severity_if_wrong": "medium",
+        "ship_checklist_item": "Question 1, Component 2 detail"
+      }
+    ],
+    "required_points": ["F1_INITIAL", "F2_CHANGES"],
+    "disallowed_claims": [
+      "Stating you must enroll at exactly 65 without mentioning the 7-month window",
+      "Claiming there is no way to change plans after initial enrollment",
+      "Providing incorrect dates for AEP or other enrollment periods"
+    ],
+    "acceptable_referrals": [
+      "Medicare.gov",
+      "1-800-MEDICARE",
+      "Social Security Administration for Part A/B enrollment",
+      "State Health Insurance Assistance Program (SHIP) for local counseling"
+    ]
+  },
+  "scoring_rubric": {
+    "score_1": {
+      "label": "Accurate and Complete",
+      "criteria": "Response substantively covers BOTH: (1) Initial enrollment within 3 months of turning 65, AND (2) When changes can be made (AEP, OEP, or SEP)",
+      "ship_reference": "eAppendix 4"
+    },
+    "score_2": {
+      "label": "Substantive but Incomplete",
+      "criteria": "Response substantively covers ONE but not both components",
+      "ship_reference": "eAppendix 4"
+    },
+    "score_3": {
+      "label": "Not Substantive",
+      "criteria": "Response does not substantively address either component",
+      "ship_reference": "eAppendix 4"
+    },
+    "score_4": {
+      "label": "Incorrect",
+      "criteria": "Incorrect information that could materially affect enrollment decisions",
+      "ship_reference": "eAppendix 4"
+    }
+  },
+  "rubric_version": "SHIP-2024-1.0",
+  "temporal_validity": {
+    "valid_from": "2024-01-01",
+    "valid_until": "2024-12-31",
+    "notes": "Based on SHIP mystery-shopper study (Dugan et al. 2025)."
+  },
+  "target_parameters": {
+    "temperature": 0.0,
+    "max_tokens": 2048,
+    "top_p": 1.0,
+    "seed": 42
+  }
+}
