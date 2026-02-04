@@ -1,0 +1,243 @@
+{
+  "scenario_id": "SHIP-MO-ALL",
+  "title": "SHIP Medicare-Only: Complete 16-Question Sequence",
+  "effective_date": "2024-01-01",
+  "description": "Complete SHIP mystery-shopper study script for Medicare-Only scenario (eAppendix 1). Contains all 16 questions in sequence as scripted in the original study. Tests comprehensive Medicare counseling knowledge including enrollment timing, coverage options, plan details, and prescription drug coverage.",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 - eAppendix 1 (Medicare-Only Scenario Script)",
+  "persona": {
+    "age": 64,
+    "location": "Miami, FL 33166 (Miami-Dade County)",
+    "current_coverage": "Employer-based health coverage with prescription drug coverage",
+    "situation": "Turning 65 in 2 months, just becoming eligible for Medicare (aging in). Relatively healthy, sees physician a few times a year for checkups or minor problems. Takes Lipitor 10mg daily for cholesterol. Not on Medicaid and does not qualify for it. Has received Medicare card but doesn't have it readily available. Currently pays a few dollars for most prescriptions, about $50 for expensive medications.",
+    "primary_care_physician": "[To be specified per test run]",
+    "birthdate_instruction": "Give a date 2 months out, year must be 1958 or 1959 (depending on date of evaluation)"
+  },
+  "opening_statement": "I am turning 65 soon and will be eligible for Medicare. I would like help choosing my coverage. Can you help?",
+  "scripted_turns": [
+    {
+      "turn_id": "Q1",
+      "question_number": 1,
+      "user_message": "When can I select my Medicare coverage plan, and when can I change it later?",
+      "topic": "Timing for Initial Medicare Enrollment & Subsequent Changes",
+      "expected_topics": [
+        "Can select Medicare coverage within 3 months of turning 65",
+        "Open Enrollment Period (10/15-12/7)",
+        "Annual Election Period (1/1-3/31)",
+        "Special Enrollment Period"
+      ]
+    },
+    {
+      "turn_id": "Q2",
+      "question_number": 2,
+      "user_message": "Do I have to sign up for Medicare when I turn 65, or can I remain on my employer plan?",
+      "topic": "Medicare Enrollment & Interaction with Employer Plan",
+      "expected_topics": [
+        "Not required to sign up for Medicare",
+        "Can remain on employer plan",
+        "Late enrollment penalty may apply depending on employer size",
+        "Can enroll in Medicare and also remain covered by employer plan"
+      ]
+    },
+    {
+      "turn_id": "Q3",
+      "question_number": 3,
+      "user_message": "I keep hearing about Medicare Advantage. How are Medicare Advantage Plans different from regular Medicare, and what are good and bad about them?",
+      "topic": "Traditional Medicare vs Medicare Advantage Comparison",
+      "expected_topics": [
+        "Medicare Advantage: lower costs, network restrictions, cannot keep doctor, covers Part A/B/D, still pay Part B premium, extra benefits",
+        "Original Medicare: automatic Part A enrollment, optional Part B, Part A has deductible but no premium, Part B has premium and deductible, costs can be higher, choose any provider, need separate Part D, can pair with Medigap"
+      ]
+    },
+    {
+      "turn_id": "Q4",
+      "question_number": 4,
+      "user_message": "What is a Medicare Supplement Plan, how much do they cost, and when do I enroll?",
+      "topic": "Medicare Supplement Plan Considerations",
+      "expected_topics": [
+        "Can be purchased separately with traditional Medicare to help cover out-of-pocket costs",
+        "All supplement plans cover Part A and Part B copays and hospital and hospice costs",
+        "Some cover Part A and Part B deductibles",
+        "Some have out-of-pocket limits",
+        "Costs vary based on coverage but usually range from $50-$300 per month",
+        "Can enroll at any time",
+        "Better rates during open enrollment period (day you turn 65 for six months)"
+      ]
+    },
+    {
+      "turn_id": "Q5",
+      "question_number": 5,
+      "user_message": "Do either regular Medicare, Medicare Advantage Plans, or Medicare Supplement Plans cover long-term care?",
+      "topic": "Long-Term Care Coverage",
+      "expected_topics": [
+        "In general, none of these cover long-term care",
+        "Some time-limited nursing facility stays or in-home services may be covered in certain circumstances"
+      ]
+    },
+    {
+      "turn_id": "Q6",
+      "question_number": 6,
+      "user_message": "What are my options for Medicare prescription drug coverage, and how should I choose?",
+      "topic": "Prescription Drug Coverage Considerations",
+      "expected_topics": [
+        "Can choose either a Medicare Advantage Plan that covers prescription drugs or a stand-alone Part D plan",
+        "Most Medicare Advantage options include prescription drug (Part D) coverage",
+        "If you choose original Medicare, you could purchase a separate prescription drug (Part D) plan",
+        "Each plan has a different list of covered drugs, choose based on the medicine you take",
+        "Each plan has different out-of-pocket costs for different drugs"
+      ]
+    },
+    {
+      "turn_id": "Q7",
+      "question_number": 7,
+      "user_message": "My friend told me about [plan name]. Can you tell me if [doctor name] is in the network there?",
+      "topic": "Specific Plan Network Verification",
+      "note": "Plan name and doctor name to be specified per test run",
+      "expected_topics": [
+        "Ability to look up specific provider network participation",
+        "Direction to Medicare.gov Plan Finder or other verification tools"
+      ]
+    },
+    {
+      "turn_id": "Q8",
+      "question_number": 8,
+      "user_message": "What is the monthly premium for [plan name]?",
+      "topic": "Specific Plan Premium Information",
+      "note": "Plan name to be specified per test run",
+      "expected_topics": [
+        "Plan premium amount",
+        "Part B premium amount",
+        "Total monthly cost"
+      ]
+    },
+    {
+      "turn_id": "Q9",
+      "question_number": 9,
+      "user_message": "Would [plan name] let me go out of network?",
+      "topic": "Out-of-Network Coverage for Specific Plan",
+      "note": "Plan name to be specified per test run. Response depends on whether plan is PPO or HMO.",
+      "expected_topics": [
+        "PPO: Yes, but with higher cost sharing",
+        "HMO: No, does not allow out-of-network care (except emergencies)"
+      ]
+    },
+    {
+      "turn_id": "Q10",
+      "question_number": 10,
+      "user_message": "What is the copay for a primary care doctor visit for [plan name]?",
+      "topic": "In-Network PCP Copay",
+      "note": "Plan name to be specified per test run. If both in-network and out-of-network copays are provided, note both. If only one copay is given, ask if it's for in-network or out-of-network visits.",
+      "expected_topics": [
+        "In-network copay amount",
+        "Out-of-network copay amount (if applicable)"
+      ]
+    },
+    {
+      "turn_id": "Q11",
+      "question_number": 11,
+      "user_message": "What is the copay to see a specialist for [plan name]?",
+      "topic": "Specialist Visit Copay",
+      "note": "Plan name to be specified per test run. If both in-network and out-of-network copays are provided, note both. If only one copay is given, ask if it's for in-network or out-of-network visits.",
+      "expected_topics": [
+        "In-network specialist copay amount",
+        "Out-of-network specialist copay amount (if applicable)"
+      ]
+    },
+    {
+      "turn_id": "Q12",
+      "question_number": 12,
+      "user_message": "For [plan name], is there a limit on out-of-pocket costs I would have to pay each year?",
+      "topic": "Maximum Out-of-Pocket Limit",
+      "note": "Plan name to be specified per test run",
+      "expected_topics": [
+        "Maximum out-of-pocket limit amount",
+        "What costs count toward the limit",
+        "What costs do not count (premiums, prescription drugs, out-of-network care for HMO)"
+      ]
+    },
+    {
+      "turn_id": "Q13",
+      "question_number": 13,
+      "user_message": "Does [plan name] include prescription drug coverage?",
+      "topic": "Prescription Drug Coverage Inclusion",
+      "note": "Plan name to be specified per test run",
+      "expected_topics": [
+        "Whether plan includes Part D prescription drug coverage"
+      ]
+    },
+    {
+      "turn_id": "Q14a",
+      "question_number": 14,
+      "user_message": "I take Lipitor. Is that covered by [plan name]?",
+      "topic": "Specific Drug Coverage - Lipitor",
+      "note": "Plan name to be specified per test run",
+      "expected_topics": [
+        "Lipitor coverage status",
+        "Generic equivalent (atorvastatin) coverage and cost advantage"
+      ]
+    },
+    {
+      "turn_id": "Q14b",
+      "question_number": 14,
+      "user_message": "Is a generic version of Lipitor covered? I would be willing to take that.",
+      "topic": "Generic Lipitor Coverage",
+      "note": "Only ask if generic version not mentioned in response to Q14a",
+      "expected_topics": [
+        "Generic atorvastatin coverage",
+        "Cost comparison with brand name Lipitor"
+      ]
+    },
+    {
+      "turn_id": "Q15",
+      "question_number": 15,
+      "user_message": "How much would Lipitor be out of pocket vs. the generic version?",
+      "topic": "Prescription Drug Cost Comparison",
+      "note": "If counselor mentions it varies by pharmacy, say you are willing to go to a local pharmacy that is in network or offers the cheapest drugs. You do not want to fill prescriptions by mail.",
+      "expected_topics": [
+        "Brand name Lipitor out-of-pocket cost",
+        "Generic atorvastatin out-of-pocket cost",
+        "Pharmacy cost variation"
+      ]
+    },
+    {
+      "turn_id": "Q16",
+      "question_number": 16,
+      "user_message": "I have a friend who does not speak much English. Do you offer Spanish translation services at your location?",
+      "topic": "Language Accessibility - Spanish Translation Services",
+      "expected_topics": [
+        "Availability of Spanish translation services",
+        "Days/times when services are available",
+        "Other language services available"
+      ]
+    }
+  ],
+  "variation_knobs": {
+    "allow_paraphrasing": false,
+    "persona_details_level": "detailed",
+    "require_exact_wording": true,
+    "note": "Questions should be asked in the exact order listed, exactly as worded in the script. Do not skip any questions."
+  },
+  "instructions": {
+    "primary_objective": "Ask every question listed. Do not skip any questions.",
+    "if_counselor_doesnt_know": "Move on to the next question until all questions have been asked.",
+    "questioning_approach": "Ask questions in the order listed, exactly as written.",
+    "persona_consistency": "Answer questions based on the Scenario Details. Do not embellish your scenario or give any information that is not requested."
+  },
+  "notes": [
+    "This scenario contains the complete 16-question sequence from the SHIP mystery-shopper study.",
+    "Questions 7-15 require specific plan names and doctor names to be provided at test execution time.",
+    "The answer_key and scoring_rubric should be developed separately based on eAppendix 4 of the SHIP study.",
+    "This file is designed to be executed as a sequential conversation with a target AI model.",
+    "Each question tests different aspects of Medicare counseling knowledge and abilities."
+  ],
+  "temporal_validity": {
+    "valid_from": "2024-01-01",
+    "valid_until": "2024-12-31",
+    "notes": "Based on SHIP mystery-shopper study (Dugan et al. 2025). Specific plan details, premiums, and copays are year-dependent and must be updated for the test year."
+  },
+  "target_parameters": {
+    "temperature": 0.0,
+    "max_tokens": 4096,
+    "top_p": 1.0,
+    "seed": 42
+  }
+}

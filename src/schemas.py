@@ -97,7 +97,7 @@ class Scenario(BaseModel):
     variation_knobs: dict[str, Any] = Field(
         default_factory=dict, description="Parameters for generating variations"
     )
-    answer_key: AnswerKey
+    answer_key: AnswerKey | None = None
     scoring_rubric: dict[str, Any] | None = Field(
         None, description="Scenario-specific scoring rubric (e.g., SHIP 4-tier classification)"
     )
