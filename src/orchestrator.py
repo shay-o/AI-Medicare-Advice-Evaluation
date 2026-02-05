@@ -128,9 +128,14 @@ class EvaluationOrchestrator:
         questions = self.questioner.generate_questions_simple(self.scenario)
         print(f"  ✓ Generated {len(questions['turns'])} question(s)")
 
+        # Step 1.5: Substitute plan variables (if plan information provided)
+        turns_with_substitutions = self._substitute_plan_variables(questions["turns"])
+        if self.scenario.plan_information:
+            print(f"  ✓ Substituted plan name: {self.scenario.plan_information.plan_name}")
+
         # Step 2: Get target model responses
         print("\n[2/6] Querying target model...")
-        conversation = await self._conduct_conversation(questions["turns"])
+        conversation = await self._conduct_conversation(turns_with_substitutions)
         print(f"  ✓ Received {len(conversation)} turn(s)")
 
         # Save raw transcript
@@ -304,6 +309,48 @@ class EvaluationOrchestrator:
         print(f"{'='*70}\n")
 
         return trial_result
+
+    def _substitute_plan_variables(self, turns: list[dict[str, str]]) -> list[dict[str, str]]:
+        """
+        Substitute plan-related placeholders in questions with actual values.
+
+        Per SHIP study fidelity: This only substitutes plan name and similar variables
+        that would appear in the original study questions. Plan details are NOT
+        provided to the target model as context.
+
+        Args:
+            turns: List of scripted turns with potential placeholders
+
+        Returns:
+            Turns with placeholders substituted
+        """
+        substituted_turns = []
+
+        for turn in turns:
+            substituted_turn = turn.copy()
+            message = turn.get("user_message", "")
+
+            # Substitute plan name (if plan information provided)
+            if self.scenario.plan_information:
+                plan = self.scenario.plan_information
+                message = message.replace("[plan name]", plan.plan_name)
+                message = message.replace("{plan_name}", plan.plan_name)
+
+                # Substitute service area if present
+                if plan.service_area:
+                    message = message.replace("[service area]", plan.service_area)
+                    message = message.replace("{service_area}", plan.service_area)
+
+            # Substitute doctor name (if specified in persona)
+            if self.scenario.persona.primary_care_physician:
+                doctor_name = self.scenario.persona.primary_care_physician
+                message = message.replace("[doctor name]", doctor_name)
+                message = message.replace("{doctor_name}", doctor_name)
+
+            substituted_turn["user_message"] = message
+            substituted_turns.append(substituted_turn)
+
+        return substituted_turns
 
     async def _conduct_conversation(self, turns: list[dict[str, str]]) -> list[ConversationTurn]:
         """Conduct conversation with target model"""

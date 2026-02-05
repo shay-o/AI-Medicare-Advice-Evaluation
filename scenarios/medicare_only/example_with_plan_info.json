@@ -1,0 +1,101 @@
+{
+  "scenario_id": "SHIP-MO-PLAN-EXAMPLE",
+  "title": "SHIP Medicare-Only: Plan-Specific Questions (Example with Plan Information)",
+  "effective_date": "2024-01-01",
+  "description": "Example scenario demonstrating plan information feature. Contains questions 7-14 which ask about specific Medicare Advantage plan details. Shows how plan_information field is used for question substitution and answer verification while maintaining SHIP study fidelity.",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 - eAppendix 1",
+  "persona": {
+    "age": 64,
+    "location": "Miami, FL 33166 (Miami-Dade County)",
+    "current_coverage": "Employer-based health coverage with prescription drug coverage",
+    "situation": "Turning 65 in 2 months, just becoming eligible for Medicare. Takes Lipitor 10mg daily for cholesterol.",
+    "primary_care_physician": "Dr. Smith",
+    "birthdate_instruction": "Give a date 2 months out"
+  },
+  "opening_statement": "I am turning 65 soon and will be eligible for Medicare. I would like help choosing my coverage. Can you help?",
+  "plan_information": {
+    "plan_name": "Humana Gold Plus HMO",
+    "plan_type": "HMO",
+    "contract_number": "H1036-333",
+    "service_area": "Miami-Dade County, FL",
+    "monthly_premium": 25.0,
+    "part_b_premium": 174.70,
+    "deductible": 0.0,
+    "max_out_of_pocket": 3400.0,
+    "primary_care_copay": 10.0,
+    "specialist_copay": 40.0,
+    "out_of_network_allowed": false,
+    "out_of_network_primary_care_copay": null,
+    "out_of_network_specialist_copay": null,
+    "includes_drug_coverage": true,
+    "drug_formulary": [
+      {
+        "drug_name": "Lipitor",
+        "is_covered": true,
+        "tier": 2,
+        "copay": 15.0,
+        "prior_authorization_required": false,
+        "quantity_limits": null
+      }
+    ],
+    "additional_benefits": ["Dental", "Vision", "Hearing"],
+    "requires_referrals": true,
+    "available_in_service_area": true
+  },
+  "scripted_turns": [
+    {
+      "turn_id": "Q7",
+      "question_number": 7,
+      "user_message": "Is [plan name] available where I live?",
+      "topic": "Plan Availability in Service Area",
+      "note": "Plan name will be substituted with 'Humana Gold Plus HMO'"
+    },
+    {
+      "turn_id": "Q8",
+      "question_number": 8,
+      "user_message": "What is the monthly premium for [plan name]?",
+      "topic": "Specific Plan Premium Information"
+    },
+    {
+      "turn_id": "Q9",
+      "question_number": 9,
+      "user_message": "Would [plan name] let me go out of network?",
+      "topic": "Out-of-Network Coverage for Specific Plan"
+    },
+    {
+      "turn_id": "Q10",
+      "question_number": 10,
+      "user_message": "What is the copay for a primary care doctor visit for [plan name]?",
+      "topic": "In-Network PCP Copay"
+    },
+    {
+      "turn_id": "Q11",
+      "question_number": 11,
+      "user_message": "What is the copay to see a specialist for [plan name]?",
+      "topic": "Specialist Visit Copay"
+    },
+    {
+      "turn_id": "Q12",
+      "question_number": 12,
+      "user_message": "For [plan name], is there a limit on out-of-pocket costs I would have to pay each year?",
+      "topic": "Maximum Out-of-Pocket Limit"
+    },
+    {
+      "turn_id": "Q13",
+      "question_number": 13,
+      "user_message": "Does [plan name] include prescription drug coverage?",
+      "topic": "Prescription Drug Coverage Inclusion"
+    },
+    {
+      "turn_id": "Q14",
+      "question_number": 14,
+      "user_message": "Does [plan name] cover Lipitor?",
+      "topic": "Specific Drug Coverage (Lipitor)"
+    }
+  ],
+  "target_parameters": {
+    "temperature": 0.0,
+    "max_tokens": 2048,
+    "seed": 42
+  }
+}

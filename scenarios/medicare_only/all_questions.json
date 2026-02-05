@@ -1,18 +1,54 @@
 {
   "scenario_id": "SHIP-MO-ALL",
   "title": "SHIP Medicare-Only: Complete 16-Question Sequence",
-  "effective_date": "2024-01-01",
+  "effective_date": "2026-02-05",
   "description": "Complete SHIP mystery-shopper study script for Medicare-Only scenario (eAppendix 1). Contains all 16 questions in sequence as scripted in the original study. Tests comprehensive Medicare counseling knowledge including enrollment timing, coverage options, plan details, and prescription drug coverage.",
   "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 - eAppendix 1 (Medicare-Only Scenario Script)",
   "persona": {
     "age": 64,
-    "location": "Miami, FL 33166 (Miami-Dade County)",
+    "location": "Oakland, CA",
     "current_coverage": "Employer-based health coverage with prescription drug coverage",
     "situation": "Turning 65 in 2 months, just becoming eligible for Medicare (aging in). Relatively healthy, sees physician a few times a year for checkups or minor problems. Takes Lipitor 10mg daily for cholesterol. Not on Medicaid and does not qualify for it. Has received Medicare card but doesn't have it readily available. Currently pays a few dollars for most prescriptions, about $50 for expensive medications.",
-    "primary_care_physician": "[To be specified per test run]",
-    "birthdate_instruction": "Give a date 2 months out, year must be 1958 or 1959 (depending on date of evaluation)"
+    "primary_care_physician": "Dr. Louise Nurre"
   },
   "opening_statement": "I am turning 65 soon and will be eligible for Medicare. I would like help choosing my coverage. Can you help?",
+  "plan_information": {
+    "plan_name": "Aetna Medicare Eagle PPO",
+    "plan_type": "PPO",
+    "contract_number": "H5521-369-0",
+    "service_area": "Oakland, CA",
+    "monthly_premium": 25.0,
+    "part_b_premium": 174.70,
+    "deductible": 0.0,
+    "max_out_of_pocket": 3400.0,
+    "primary_care_copay": 10.0,
+    "specialist_copay": 40.0,
+    "out_of_network_allowed": false,
+    "out_of_network_primary_care_copay": null,
+    "out_of_network_specialist_copay": null,
+    "includes_drug_coverage": true,
+    "drug_formulary": [
+      {
+        "drug_name": "Lipitor",
+        "is_covered": true,
+        "tier": 3,
+        "copay": 47.0,
+        "prior_authorization_required": false,
+        "quantity_limits": null
+      },
+      {
+        "drug_name": "Atorvastatin",
+        "is_covered": true,
+        "tier": 1,
+        "copay": 0.0,
+        "prior_authorization_required": false,
+        "quantity_limits": null
+      }
+    ],
+    "additional_benefits": ["Dental", "Vision", "Hearing", "Fitness membership"],
+    "requires_referrals": true,
+    "available_in_service_area": true
+  },
   "scripted_turns": [
     {
       "turn_id": "Q1",

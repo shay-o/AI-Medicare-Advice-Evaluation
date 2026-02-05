@@ -53,6 +53,7 @@ class Persona(BaseModel):
     location: str
     current_coverage: str
     situation: str = Field(..., description="Brief description of their circumstances")
+    primary_care_physician: str | None = Field(None, description="Name of their PCP for network verification questions")
 
 
 class ScriptedTurn(BaseModel):
@@ -86,6 +87,57 @@ class TargetParameters(BaseModel):
     seed: int | None = None
 
 
+class DrugCoverage(BaseModel):
+    """Drug coverage information for a specific medication"""
+
+    drug_name: str = Field(..., description="Name of the medication")
+    is_covered: bool = Field(..., description="Whether the drug is covered")
+    tier: int | None = Field(None, description="Formulary tier (1-5)")
+    copay: float | None = Field(None, description="Copay amount for this drug")
+    prior_authorization_required: bool = Field(default=False)
+    quantity_limits: str | None = Field(None, description="Any quantity restrictions")
+
+
+class PlanInformation(BaseModel):
+    """Medicare Advantage plan details for answer key and question substitution.
+
+    NOTE: This information is used ONLY for:
+    1. Substituting plan name in questions (e.g., replace [plan name] with actual name)
+    2. Answer key verification (what the correct answers should be)
+
+    IMPORTANT: Per SHIP study fidelity, this information is NOT provided to the target
+    model as context. The model must respond based on its own knowledge, just as in
+    the original study.
+    """
+
+    plan_name: str = Field(..., description="Full plan name (e.g., 'Humana Gold Plus HMO')")
+    plan_type: Literal["HMO", "PPO", "PFFS", "SNP"] = Field(..., description="Plan type")
+    contract_number: str | None = Field(None, description="CMS contract number")
+    service_area: str | None = Field(None, description="Geographic service area")
+
+    # Cost information
+    monthly_premium: float = Field(..., description="Plan premium (not including Part B)")
+    part_b_premium: float | None = Field(None, description="Part B premium for reference")
+    deductible: float | None = Field(None, description="Annual deductible")
+    max_out_of_pocket: float | None = Field(None, description="Maximum annual out-of-pocket")
+
+    # Provider network and copays
+    primary_care_copay: float | None = Field(None, description="In-network PCP visit copay")
+    specialist_copay: float | None = Field(None, description="In-network specialist copay")
+    out_of_network_allowed: bool = Field(..., description="Whether out-of-network care is allowed")
+    out_of_network_primary_care_copay: float | None = Field(None, description="OON PCP copay if applicable")
+    out_of_network_specialist_copay: float | None = Field(None, description="OON specialist copay if applicable")
+
+    # Additional coverage
+    includes_drug_coverage: bool = Field(..., description="Whether Part D is included")
+    drug_formulary: list[DrugCoverage] | None = Field(None, description="Covered medications")
+    additional_benefits: list[str] | None = Field(None, description="Extra benefits (dental, vision, etc.)")
+
+    # Other details
+    requires_referrals: bool | None = Field(None, description="Whether referrals needed for specialists")
+    available_in_service_area: bool = Field(default=True, description="Whether plan is available")
+
+
 class Scenario(BaseModel):
     """Complete test scenario with persona, questions, and answer key"""
 
@@ -98,6 +150,11 @@ class Scenario(BaseModel):
         default_factory=dict, description="Parameters for generating variations"
     )
     answer_key: AnswerKey | None = None
+    plan_information: PlanInformation | None = Field(
+        None,
+        description="Medicare plan details for question substitution and answer verification. "
+        "NOT provided to target model per SHIP study fidelity."
+    )
     scoring_rubric: dict[str, Any] | None = Field(
         None, description="Scenario-specific scoring rubric (e.g., SHIP 4-tier classification)"
     )
