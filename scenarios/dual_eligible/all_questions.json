@@ -1,0 +1,153 @@
+{
+  "scenario_id": "SHIP-DE-ALL",
+  "title": "SHIP Dual-Eligible: Complete Question Sequence",
+  "effective_date": "2024-01-01",
+  "description": "Complete SHIP mystery-shopper study script for Dual-Eligible scenario (eAppendix 2). Contains all questions in sequence as scripted in the original study. Tests comprehensive knowledge of D-SNP plans, Medicaid integration, cost-sharing assistance, and dual-eligible enrollment options.",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 - eAppendix 2 (Dual-Eligible Scenario Script)",
+  "persona": {
+    "age": 66,
+    "location": "Los Angeles, CA 90012 (Los Angeles County)",
+    "current_coverage": "Medicare Parts A and B, full Medicaid (Medi-Cal in California)",
+    "situation": "Dual-eligible beneficiary (Medicare + Medicaid). Has been on Medicare for one year. Currently uses Original Medicare with Medicaid covering cost-sharing. Interested in exploring D-SNP options. Takes medications for chronic conditions. Limited income qualifies for full Medicaid benefits including cost-sharing assistance.",
+    "primary_care_physician": "Dr. Sarah Chen"
+  },
+  "opening_statement": "I am on Medicare and also have full Medicaid coverage. I would like help understanding my coverage options. Can you help?",
+  "scripted_turns": [
+    {
+      "turn_id": "Q1",
+      "question_number": 1,
+      "user_message": "When can I select my Medicare coverage plan, and when can I change it later?",
+      "topic": "Timing for Initial Medicare Enrollment & Subsequent Changes",
+      "note": "Same question as Medicare-Only Q1, but for dual-eligible context",
+      "expected_topics": [
+        "Can select Medicare coverage within 3 months of turning 65",
+        "Open Enrollment Period (10/15-12/7)",
+        "Annual Election Period (1/1-3/31)",
+        "Special Enrollment Period",
+        "Dual-eligible beneficiaries may have additional SEP opportunities"
+      ]
+    },
+    {
+      "turn_id": "Q2",
+      "question_number": 2,
+      "user_message": "What are my options for enrolling in Medicare coverage with full Medicaid?",
+      "topic": "Medicare Enrollment Options for Dual-Eligible Beneficiaries",
+      "expected_topics": [
+        "Can enroll in Original Medicare with Medicaid as secondary",
+        "Can enroll in a D-SNP (Dual Special Needs Plan)",
+        "Medicaid will help cover Medicare costs",
+        "Must have Medicare Part A and Part B to enroll in D-SNP",
+        "D-SNPs provide integrated care coordination"
+      ]
+    },
+    {
+      "turn_id": "Q3",
+      "question_number": 3,
+      "user_message": "What should I consider when deciding whether to enroll in a D-SNP?",
+      "topic": "Considerations for D-SNP Enrollment Decision",
+      "note": "Most difficult question in SHIP study (1% accurate-complete baseline)",
+      "expected_topics": [
+        "D-SNPs integrate Medicare and Medicaid benefits",
+        "Must use plan's network of providers",
+        "May need to change doctors if current PCP not in network",
+        "D-SNPs coordinate medical, pharmacy, and long-term care",
+        "May offer additional benefits beyond Original Medicare",
+        "Medicaid continues to cover cost-sharing",
+        "Can only enroll if eligible for both Medicare and Medicaid"
+      ]
+    },
+    {
+      "turn_id": "Q4",
+      "question_number": 4,
+      "user_message": "Are there any D-SNPs available where I live?",
+      "topic": "D-SNP Availability in Service Area",
+      "expected_topics": [
+        "Need to check Medicare.gov Plan Finder for local availability",
+        "D-SNP availability varies by county",
+        "Plans available in California/Los Angeles County",
+        "Direction to resources for finding plans"
+      ]
+    },
+    {
+      "turn_id": "Q5",
+      "question_number": 5,
+      "user_message": "Do either regular Medicare, Medicare Advantage Plans, D-SNPs, or Medicaid cover long-term care?",
+      "topic": "Long-Term Care Coverage for Dual-Eligible",
+      "expected_topics": [
+        "Medicare and Medicare Advantage generally do not cover long-term care",
+        "Some time-limited nursing facility stays may be covered",
+        "Medicaid may cover long-term care for eligible beneficiaries",
+        "D-SNPs may help coordinate long-term care services through Medicaid",
+        "State-specific Medicaid rules apply"
+      ]
+    },
+    {
+      "turn_id": "Q6",
+      "question_number": 6,
+      "user_message": "Will Medicaid cover my Medicare premiums and cost-sharing?",
+      "topic": "Medicaid Coverage of Medicare Costs",
+      "expected_topics": [
+        "Full Medicaid (QMB Plus) covers Medicare Part B premium",
+        "Medicaid covers Medicare deductibles, copays, and coinsurance",
+        "Level of assistance depends on Medicaid eligibility category",
+        "QMB (Qualified Medicare Beneficiary) program specifics",
+        "SLMB (Specified Low-Income Medicare Beneficiary) program"
+      ]
+    },
+    {
+      "turn_id": "Q7",
+      "question_number": 7,
+      "user_message": "Are there programs that can help me pay for Medicare costs if I don't qualify for full Medicaid?",
+      "topic": "Medicare Cost-Sharing Assistance Programs",
+      "expected_topics": [
+        "Medicare Savings Programs (QMB, SLMB, QI)",
+        "Extra Help/Low-Income Subsidy for Part D",
+        "State Pharmaceutical Assistance Programs",
+        "Income and asset limits for each program",
+        "How to apply for assistance"
+      ]
+    },
+    {
+      "turn_id": "Q8",
+      "question_number": 8,
+      "user_message": "I have a friend who does not speak much English. Do you offer Spanish translation services at your location?",
+      "topic": "Language Accessibility - Spanish Translation Services",
+      "note": "Same question as Medicare-Only Q16",
+      "expected_topics": [
+        "Availability of Spanish translation services",
+        "Days/times when services are available",
+        "Other language services available"
+      ]
+    }
+  ],
+  "variation_knobs": {
+    "allow_paraphrasing": false,
+    "persona_details_level": "detailed",
+    "require_exact_wording": true,
+    "note": "Questions should be asked in the exact order listed, exactly as worded in the script. Do not skip any questions."
+  },
+  "instructions": {
+    "primary_objective": "Ask every question listed. Do not skip any questions.",
+    "if_counselor_doesnt_know": "Move on to the next question until all questions have been asked.",
+    "questioning_approach": "Ask questions in the order listed, exactly as written.",
+    "persona_consistency": "Answer questions based on the Scenario Details. Do not embellish your scenario or give any information that is not requested."
+  },
+  "notes": [
+    "This scenario contains the complete question sequence from the SHIP dual-eligible mystery-shopper study.",
+    "Q3 (D-SNP considerations) had only 1% accurate-complete responses in the SHIP study - the most difficult question.",
+    "The answer_key and scoring_rubric should be developed separately based on eAppendix 4 of the SHIP study.",
+    "This file is designed to be executed as a sequential conversation with a target AI model.",
+    "Each question tests different aspects of dual-eligible Medicare and Medicaid knowledge."
+  ],
+  "temporal_validity": {
+    "valid_from": "2024-01-01",
+    "valid_until": "2024-12-31",
+    "notes": "Based on SHIP mystery-shopper study (Dugan et al. 2025). D-SNP availability, Medicaid rules, and MSP income limits are year-dependent and state-specific."
+  },
+  "target_parameters": {
+    "temperature": 0.0,
+    "max_tokens": 4096,
+    "top_p": 1.0,
+    "seed": 42
+  }
+}

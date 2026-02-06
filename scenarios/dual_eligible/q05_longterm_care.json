@@ -1,0 +1,36 @@
+{
+  "scenario_id": "SHIP-DE-Q5",
+  "title": "SHIP Dual-Eligible Q5: Long-Term Care Coverage",
+  "effective_date": "2024-01-01",
+  "description": "Tests knowledge of long-term care coverage options for dual-eligible beneficiaries, including the role of Medicaid in covering long-term care services.",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 - eAppendix 2, Question 5",
+  "persona": {
+    "age": 66,
+    "location": "Los Angeles, CA 90012 (Los Angeles County)",
+    "current_coverage": "Medicare Parts A and B, full Medicaid (Medi-Cal)",
+    "situation": "Dual-eligible beneficiary concerned about potential long-term care needs"
+  },
+  "opening_statement": "I am on Medicare and also have full Medicaid coverage. I'm worried about needing long-term care in the future. Can you help?",
+  "scripted_turns": [
+    {
+      "turn_id": "Q5",
+      "question_number": 5,
+      "user_message": "Do either regular Medicare, Medicare Advantage Plans, D-SNPs, or Medicaid cover long-term care?",
+      "topic": "Long-Term Care Coverage for Dual-Eligible",
+      "expected_topics": [
+        "Medicare and Medicare Advantage generally do not cover long-term care",
+        "Some time-limited nursing facility stays may be covered by Medicare",
+        "Medicaid may cover long-term care for eligible beneficiaries",
+        "D-SNPs may help coordinate long-term care services through Medicaid",
+        "State-specific Medicaid rules apply (California/Medi-Cal)",
+        "Difference between skilled nursing (Medicare) and custodial care (Medicaid)",
+        "Home and community-based services through Medicaid"
+      ]
+    }
+  ],
+  "target_parameters": {
+    "temperature": 0.0,
+    "max_tokens": 2048,
+    "seed": 42
+  }
+}

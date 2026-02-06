@@ -392,16 +392,224 @@ QUESTION_GROUPS_MEDICARE_ONLY = [
     QUESTION_GROUP_20,  # Q14
 ]
 
-# Map question numbers to question groups
-QUESTION_TO_GROUP_MAP = {}
+# ============================================================================
+# Dual-Eligible Question Groups
+# ============================================================================
+
+# Question Group 21: Dual-Eligible Q2 - Medicare Enrollment Options with Medicaid
+QUESTION_GROUP_21 = QuestionGroup(
+    group_id="QG21",
+    group_name="Medicare Enrollment Options for Dual-Eligible Beneficiaries",
+    scenario="dual_eligible",
+    question_numbers=[2],
+    topic="What are my options for enrolling in Medicare coverage with full Medicaid?",
+    accurate_complete_criteria=[
+        "Mentioned can enroll in Original Medicare with Medicaid as secondary/supplemental coverage",
+        "Mentioned can enroll in a D-SNP (Dual Special Needs Plan)",
+        "Explained that Medicaid will help cover Medicare costs (premiums, deductibles, copays)",
+        "Mentioned that D-SNPs integrate/coordinate Medicare and Medicaid benefits"
+    ],
+    substantive_incomplete_criteria=[
+        "Mentioned D-SNP option but did not explain Medicaid cost-sharing assistance",
+        "Mentioned Original Medicare option but did not mention D-SNP alternative",
+        "Provided some substantive information but missed key details about integration"
+    ],
+    not_substantive_criteria=[
+        "Counselor did not answer the question",
+        "Said they did not know",
+        "Only said 'you have options' without elaborating"
+    ],
+    incorrect_criteria=[
+        "Said dual-eligible beneficiaries cannot enroll in Medicare Advantage",
+        "Said Medicaid and Medicare cannot work together",
+        "Provided materially incorrect information about enrollment options"
+    ]
+)
+
+# Question Group 22: Dual-Eligible Q3 - D-SNP Enrollment Considerations
+QUESTION_GROUP_22 = QuestionGroup(
+    group_id="QG22",
+    group_name="Considerations for D-SNP Enrollment Decision",
+    scenario="dual_eligible",
+    question_numbers=[3],
+    topic="What should I consider when deciding whether to enroll in a D-SNP?",
+    accurate_complete_criteria=[
+        "Mentioned must use plan's network of providers (HMO/PPO restrictions)",
+        "Mentioned may need to change doctors if current providers not in network",
+        "Mentioned D-SNPs integrate Medicare and Medicaid benefits",
+        "Mentioned care coordination/case management services",
+        "Mentioned that Medicaid continues to cover cost-sharing",
+        "Mentioned additional benefits may be available (dental, vision, etc.)",
+        "Explained difference from Original Medicare in terms of provider choice"
+    ],
+    substantive_incomplete_criteria=[
+        "Mentioned network restrictions but did not discuss care coordination benefits",
+        "Mentioned integration but did not discuss potential provider changes",
+        "Provided some considerations but missed key tradeoffs between flexibility and coordination"
+    ],
+    not_substantive_criteria=[
+        "Counselor did not answer the question",
+        "Said they did not know",
+        "Only said 'it depends' without providing specific considerations"
+    ],
+    incorrect_criteria=[
+        "Said D-SNPs do not have network restrictions",
+        "Said cannot keep Medicaid if enrolled in D-SNP",
+        "Provided materially incorrect information about D-SNP characteristics"
+    ]
+)
+
+# Question Group 23: Dual-Eligible Q4 - D-SNP Availability
+QUESTION_GROUP_23 = QuestionGroup(
+    group_id="QG23",
+    group_name="D-SNP Availability in Service Area",
+    scenario="dual_eligible",
+    question_numbers=[4],
+    topic="Are there any D-SNPs available where I live?",
+    accurate_complete_criteria=[
+        "Directed shopper to Medicare.gov Plan Finder or similar tool",
+        "Mentioned that D-SNP availability varies by county/ZIP code",
+        "Offered to help look up plans or explained how to find them"
+    ],
+    substantive_incomplete_criteria=[
+        "Said plans are available but did not direct to verification tool",
+        "Mentioned checking online but did not specify Medicare.gov"
+    ],
+    not_substantive_criteria=[
+        "Counselor did not know",
+        "Said they cannot look up plan availability",
+        "Did not provide actionable guidance"
+    ],
+    incorrect_criteria=[
+        "Stated definitively that plans are/are not available without checking",
+        "Provided incorrect information about how to find plans"
+    ]
+)
+
+# Question Group 24: Dual-Eligible Q5 - Long-Term Care Coverage
+QUESTION_GROUP_24 = QuestionGroup(
+    group_id="QG24",
+    group_name="Long-Term Care Coverage for Dual-Eligible Beneficiaries",
+    scenario="dual_eligible",
+    question_numbers=[5],
+    topic="Do either regular Medicare, Medicare Advantage Plans, D-SNPs, or Medicaid cover long-term care?",
+    accurate_complete_criteria=[
+        "Stated that Medicare/MA generally do not cover long-term custodial care",
+        "Mentioned that Medicaid may cover long-term care for eligible beneficiaries",
+        "Explained difference between skilled nursing (Medicare) and custodial care (Medicaid)",
+        "Mentioned that D-SNPs may help coordinate long-term care services through Medicaid"
+    ],
+    substantive_incomplete_criteria=[
+        "Mentioned Medicare does not cover LTC but did not explain Medicaid coverage",
+        "Mentioned Medicaid covers LTC but did not distinguish from Medicare's limited coverage",
+        "Provided some accurate information but missed key distinctions"
+    ],
+    not_substantive_criteria=[
+        "Counselor did not know",
+        "Did not substantively answer the question",
+        "Only said 'it depends' without explanation"
+    ],
+    incorrect_criteria=[
+        "Said Medicare covers long-term custodial care",
+        "Said Medicaid does not cover long-term care",
+        "Confused skilled nursing with custodial care in a materially incorrect way"
+    ]
+)
+
+# Question Group 25: Dual-Eligible Q6 - Medicaid Coverage of Medicare Costs
+QUESTION_GROUP_25 = QuestionGroup(
+    group_id="QG25",
+    group_name="Medicaid Coverage of Medicare Premiums and Cost-Sharing",
+    scenario="dual_eligible",
+    question_numbers=[6],
+    topic="Will Medicaid cover my Medicare premiums and cost-sharing?",
+    accurate_complete_criteria=[
+        "Stated that full Medicaid (or QMB Plus) covers Medicare Part B premium",
+        "Stated that Medicaid covers Medicare cost-sharing (deductibles, copays, coinsurance)",
+        "Mentioned that level of assistance depends on Medicaid eligibility category",
+        "May have mentioned QMB (Qualified Medicare Beneficiary) program"
+    ],
+    substantive_incomplete_criteria=[
+        "Mentioned premium coverage but not cost-sharing coverage (or vice versa)",
+        "Said Medicaid helps with costs but did not specify what costs",
+        "Provided partial information about coverage"
+    ],
+    not_substantive_criteria=[
+        "Counselor did not know",
+        "Did not answer the question",
+        "Said 'maybe' or 'it depends' without further explanation"
+    ],
+    incorrect_criteria=[
+        "Said Medicaid does not cover Medicare premiums or cost-sharing",
+        "Said all Medicaid beneficiaries get the same level of assistance regardless of eligibility",
+        "Provided materially incorrect information about coverage"
+    ]
+)
+
+# Question Group 26: Dual-Eligible Q7 - Medicare Cost-Sharing Assistance Programs
+QUESTION_GROUP_26 = QuestionGroup(
+    group_id="QG26",
+    group_name="Medicare Cost-Sharing Assistance Programs (Non-Full Medicaid)",
+    scenario="dual_eligible",
+    question_numbers=[7],
+    topic="Are there programs that can help me pay for Medicare costs if I don't qualify for full Medicaid?",
+    accurate_complete_criteria=[
+        "Mentioned Medicare Savings Programs (QMB, SLMB, QI, or QDWI)",
+        "Mentioned Extra Help/Low-Income Subsidy (LIS) for Part D prescription drugs",
+        "Mentioned that these programs have income and asset limits",
+        "Mentioned that these programs help with premiums, deductibles, or copays"
+    ],
+    substantive_incomplete_criteria=[
+        "Mentioned Medicare Savings Programs but not Extra Help (or vice versa)",
+        "Said programs exist but did not name specific programs",
+        "Mentioned assistance but did not explain eligibility or what costs are covered"
+    ],
+    not_substantive_criteria=[
+        "Counselor did not know",
+        "Did not answer the question",
+        "Only mentioned full Medicaid without discussing other programs"
+    ],
+    incorrect_criteria=[
+        "Said no programs exist to help with Medicare costs",
+        "Provided materially incorrect information about eligibility or benefits",
+        "Confused these programs with other assistance programs"
+    ]
+)
+
+# Dual-Eligible Question Groups List
+QUESTION_GROUPS_DUAL_ELIGIBLE = [
+    QUESTION_GROUP_1,   # Q1 (both scenarios)
+    QUESTION_GROUP_21,  # Q2
+    QUESTION_GROUP_22,  # Q3
+    QUESTION_GROUP_23,  # Q4
+    QUESTION_GROUP_24,  # Q5
+    QUESTION_GROUP_25,  # Q6
+    QUESTION_GROUP_26,  # Q7
+    QUESTION_GROUP_2,   # Q8 (both scenarios)
+]
+
+# Map question numbers to question groups (Medicare-Only)
+QUESTION_TO_GROUP_MAP_MO = {}
 for group in QUESTION_GROUPS_MEDICARE_ONLY:
     for qnum in group.question_numbers:
-        QUESTION_TO_GROUP_MAP[qnum] = group
+        QUESTION_TO_GROUP_MAP_MO[qnum] = group
+
+# Map question numbers to question groups (Dual-Eligible)
+QUESTION_TO_GROUP_MAP_DE = {}
+for group in QUESTION_GROUPS_DUAL_ELIGIBLE:
+    for qnum in group.question_numbers:
+        QUESTION_TO_GROUP_MAP_DE[qnum] = group
+
+# Legacy map for backwards compatibility (defaults to Medicare-Only)
+QUESTION_TO_GROUP_MAP = QUESTION_TO_GROUP_MAP_MO
 
 
 def get_question_group(question_number: int, scenario: str = "medicare_only") -> QuestionGroup:
-    """Get the question group for a given question number."""
-    return QUESTION_TO_GROUP_MAP.get(question_number)
+    """Get the question group for a given question number and scenario."""
+    if scenario == "dual_eligible":
+        return QUESTION_TO_GROUP_MAP_DE.get(question_number)
+    else:
+        return QUESTION_TO_GROUP_MAP_MO.get(question_number)
 
 
 def get_all_question_groups(scenario: str = "medicare_only") -> List[QuestionGroup]:
@@ -409,7 +617,6 @@ def get_all_question_groups(scenario: str = "medicare_only") -> List[QuestionGro
     if scenario == "medicare_only":
         return QUESTION_GROUPS_MEDICARE_ONLY
     elif scenario == "dual_eligible":
-        # TODO: Add dual-eligible question groups
-        return []
+        return QUESTION_GROUPS_DUAL_ELIGIBLE
     else:
         return []

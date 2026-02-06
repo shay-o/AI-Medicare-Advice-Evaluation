@@ -1,0 +1,39 @@
+{
+  "scenario_id": "SHIP-DE-Q3",
+  "title": "SHIP Dual-Eligible Q3: D-SNP Enrollment Considerations",
+  "effective_date": "2024-01-01",
+  "description": "Tests knowledge of considerations when deciding whether to enroll in a D-SNP. This was the most difficult question in the SHIP study with only 1% accurate-complete responses from human counselors.",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 - eAppendix 2, Question 3",
+  "persona": {
+    "age": 66,
+    "location": "Los Angeles, CA 90012 (Los Angeles County)",
+    "current_coverage": "Medicare Parts A and B, full Medicaid (Medi-Cal)",
+    "situation": "Dual-eligible beneficiary considering D-SNP enrollment"
+  },
+  "opening_statement": "I am on Medicare and also have full Medicaid coverage. I'm trying to decide if I should enroll in a D-SNP. Can you help?",
+  "scripted_turns": [
+    {
+      "turn_id": "Q3",
+      "question_number": 3,
+      "user_message": "What should I consider when deciding whether to enroll in a D-SNP?",
+      "topic": "Considerations for D-SNP Enrollment Decision",
+      "note": "SHIP study baseline: Only 1% accurate-complete (most difficult question)",
+      "expected_topics": [
+        "D-SNPs integrate Medicare and Medicaid benefits",
+        "Must use plan's network of providers",
+        "May need to change doctors if current PCP not in network",
+        "D-SNPs coordinate medical, pharmacy, and long-term care",
+        "May offer additional benefits beyond Original Medicare",
+        "Medicaid continues to cover cost-sharing",
+        "Can only enroll if eligible for both Medicare and Medicaid",
+        "Care coordination and case management services",
+        "Potential restrictions compared to Original Medicare"
+      ]
+    }
+  ],
+  "target_parameters": {
+    "temperature": 0.0,
+    "max_tokens": 2048,
+    "seed": 42
+  }
+}

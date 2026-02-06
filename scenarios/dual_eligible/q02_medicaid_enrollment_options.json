@@ -1,0 +1,34 @@
+{
+  "scenario_id": "SHIP-DE-Q2",
+  "title": "SHIP Dual-Eligible Q2: Medicare Enrollment Options with Full Medicaid",
+  "effective_date": "2024-01-01",
+  "description": "Tests knowledge of Medicare enrollment options for dual-eligible beneficiaries with full Medicaid coverage. Focuses on D-SNP vs Original Medicare decisions and how Medicaid integration works.",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 - eAppendix 2, Question 2",
+  "persona": {
+    "age": 66,
+    "location": "Los Angeles, CA 90012 (Los Angeles County)",
+    "current_coverage": "Medicare Parts A and B, full Medicaid (Medi-Cal)",
+    "situation": "Dual-eligible beneficiary exploring coverage options"
+  },
+  "opening_statement": "I am on Medicare and also have full Medicaid coverage. I would like help understanding my coverage options. Can you help?",
+  "scripted_turns": [
+    {
+      "turn_id": "Q2",
+      "question_number": 2,
+      "user_message": "What are my options for enrolling in Medicare coverage with full Medicaid?",
+      "topic": "Medicare Enrollment Options for Dual-Eligible Beneficiaries",
+      "expected_topics": [
+        "Can enroll in Original Medicare with Medicaid as secondary",
+        "Can enroll in a D-SNP (Dual Special Needs Plan)",
+        "Medicaid will help cover Medicare costs",
+        "Must have Medicare Part A and Part B to enroll in D-SNP",
+        "D-SNPs provide integrated care coordination"
+      ]
+    }
+  ],
+  "target_parameters": {
+    "temperature": 0.0,
+    "max_tokens": 2048,
+    "seed": 42
+  }
+}
