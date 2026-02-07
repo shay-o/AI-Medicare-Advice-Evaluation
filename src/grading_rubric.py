@@ -60,7 +60,7 @@ QUESTION_GROUP_2 = QuestionGroup(
     group_id="QG2",
     group_name="Availability of Spanish Translation Services",
     scenario="both",
-    question_numbers=[16],  # Q16 for Medicare-Only, Q8 for Dual-Eligible
+    question_numbers=[8, 16],  # Q8 for Dual-Eligible, Q16 for Medicare-Only
     topic="Do you offer Spanish translation services at your location?",
     accurate_complete_criteria=[
         "Substantively said yes to Spanish translation services being available"
