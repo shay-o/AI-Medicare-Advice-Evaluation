@@ -209,21 +209,25 @@ class EvaluationOrchestrator:
         # Step 4: Verify claims (run verifiers in parallel)
         # Skip if no answer_key (Phase 1 - execution only)
         if self.scenario.answer_key is None:
-            print(f"\n[4/6] Skipping verification (no answer_key)")
-            print("  ℹ Running in execution-only mode (Phase 1)")
+            print(f"\n[4/6] Skipping claim verification (no answer_key)")
             from .schemas import VerificationResult, ScoreResult, AdjudicationResult
             verifications = []
+            justification = (
+                "Scored via SHIP rubric grading (see grading results above)"
+                if self.use_grading
+                else "No answer_key provided - use --grade for SHIP rubric scoring"
+            )
             adjudication = AdjudicationResult(
                 final_claims=all_claims,
                 final_verdicts=[],
                 final_scores=ScoreResult(
                     completeness_percentage=0.0,
                     accuracy_percentage=0.0,
-                    justification="No scoring - running in execution-only mode"
+                    justification=justification
                 ),
                 needs_manual_review=False,
                 disagreement_percentage=0.0,
-                adjudication_notes="Scenario has no answer_key - skipping verification and scoring"
+                adjudication_notes="Scenario has no answer_key - skipping claim verification"
             )
         else:
             print(f"\n[4/6] Verifying claims ({self.num_verifiers} verifiers)...")
@@ -293,6 +297,7 @@ class EvaluationOrchestrator:
             verifications=verifications,
             final_scores=adjudication.final_scores,
             flags=flags,
+            grading=grading_result,
             metadata={
                 "num_verifiers": self.num_verifiers,
                 "seed": self.seed,
@@ -648,18 +653,27 @@ async def run_evaluation_cli(args: argparse.Namespace) -> None:
         print(f"Trial ID:          {result.trial_id}")
         print(f"Scenario:          {scenario.title}")
         print(f"Target Model:      {result.target.model_version}")
-        if result.final_scores.rubric_label:
+        if result.grading:
+            g = result.grading
+            print(f"\nSHIP Rubric Grading:")
+            print(f"  Accurate & Complete: {g.accurate_complete_count}/{g.total_questions} ({g.accuracy_rate:.1f}%)")
+            print(f"  Substantive Incomplete: {g.substantive_incomplete_count}")
+            print(f"  Not Substantive:     {g.not_substantive_count}")
+            print(f"  Incorrect:           {g.incorrect_count}")
+        elif result.final_scores.rubric_label:
             print(f"Classification:    {result.final_scores.rubric_label} (Score {result.final_scores.rubric_score})")
-        print(f"Completeness:      {result.final_scores.completeness_percentage:.1%}")
-        print(f"Accuracy:          {result.final_scores.accuracy_percentage:.1%}")
+        if not result.grading:
+            print(f"Completeness:      {result.final_scores.completeness_percentage:.1%}")
+            print(f"Accuracy:          {result.final_scores.accuracy_percentage:.1%}")
         print(f"Claims Extracted:  {len(result.claims)}")
         print(f"Verifiers:         {len(result.verifications)}")
         print(f"Flags:")
         print(f"  - Refusal:       {result.flags.refusal}")
         print(f"  - Hallucinated:  {result.flags.hallucinated_specifics}")
         print(f"  - References:    {result.flags.referenced_external_resources}")
-        print(f"\nJustification:")
-        print(f"  {result.final_scores.justification}")
+        if not result.grading:
+            print(f"\nJustification:")
+            print(f"  {result.final_scores.justification}")
         print("=" * 70 + "\n")
 
     if len(results_summary) > 1:

@@ -366,5 +366,6 @@ class TrialResult(BaseModel):
     verifications: list[VerificationResult]
     final_scores: ScoreResult
     flags: TrialFlags
+    grading: Any | None = Field(default=None, description="SHIP rubric grading results (RunScore)")
     timestamp: datetime = Field(default_factory=datetime.utcnow)
     metadata: dict[str, Any] = Field(default_factory=dict)
