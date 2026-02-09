@@ -52,11 +52,11 @@ class EvaluationOrchestrator:
         scenario: Scenario,
         target_adapter: BaseLLMAdapter,
         agent_adapter: BaseLLMAdapter,
+        grade_adapter: BaseLLMAdapter,
         num_verifiers: int = 2,
         seed: int = 42,
         storage: ResultsStorage | None = None,
-        use_grading: bool = False,
-        grade_adapter: BaseLLMAdapter | None = None,
+        verify_claims: bool = False,
     ):
         """
         Initialize the orchestrator.
@@ -65,11 +65,11 @@ class EvaluationOrchestrator:
             scenario: The test scenario to evaluate
             target_adapter: Adapter for the model being evaluated
             agent_adapter: Adapter for the evaluation agents (extractor, verifier)
+            grade_adapter: Adapter for SHIP rubric grading (required, defaults to Claude Sonnet)
             num_verifiers: Number of independent verifiers to run (default: 2)
             seed: Random seed for reproducibility
             storage: Storage instance (creates new one if None)
-            use_grading: Whether to use SHIP rubric grading (default: False)
-            grade_adapter: Adapter for grading model (required if use_grading=True)
+            verify_claims: Whether to run claim verification (default: False, requires answer_key)
         """
         self.scenario = scenario
         self.target_adapter = target_adapter
@@ -77,7 +77,7 @@ class EvaluationOrchestrator:
         self.num_verifiers = num_verifiers
         self.seed = seed
         self.storage = storage or ResultsStorage()
-        self.use_grading = use_grading
+        self.verify_claims = verify_claims
 
         # Initialize agents
         self.questioner = QuestionerAgent(agent_adapter)
@@ -89,14 +89,12 @@ class EvaluationOrchestrator:
         self.scorer = ScorerAgent()  # Rule-based scorer
         self.adjudicator = AdjudicatorAgent(self.scorer)
 
-        # Initialize grader if requested
-        self.grader = None
-        if use_grading:
-            if not GRADING_AVAILABLE:
-                raise ValueError("Grading system not available. Ensure grader.py is properly installed.")
-            if not grade_adapter:
-                raise ValueError("grade_adapter is required when use_grading=True")
-            self.grader = MedicareAdviceGrader(adapter=grade_adapter)
+        # Initialize SHIP rubric grader (always enabled)
+        if not GRADING_AVAILABLE:
+            raise ValueError("Grading system not available. Ensure grader.py is properly installed.")
+        if not grade_adapter:
+            raise ValueError("grade_adapter is required for SHIP rubric grading")
+        self.grader = MedicareAdviceGrader(adapter=grade_adapter)
 
     async def run_evaluation(self, run_dir: Path | None = None) -> TrialResult:
         """
@@ -145,92 +143,86 @@ class EvaluationOrchestrator:
             run_dir,
         )
 
-        # Step 2.5: Grade responses using SHIP rubric (if enabled)
-        grading_result = None
-        if self.use_grading and self.grader:
-            print("\n[2.5/6] Grading responses using SHIP rubric...")
+        # Step 2.5: Grade responses using SHIP rubric (always enabled)
+        print("\n[2.5/6] Grading responses using SHIP rubric...")
 
-            # Extract question-response pairs from conversation
-            questions_and_responses = []
-            question_num = 0
-            for i, turn in enumerate(conversation):
-                if turn.role == "user":
-                    question_num += 1
-                    # Find corresponding assistant response
-                    if i + 1 < len(conversation) and conversation[i + 1].role == "assistant":
-                        questions_and_responses.append({
-                            "question_number": question_num,
-                            "question_text": turn.content,
-                            "response_text": conversation[i + 1].content
-                        })
+        # Extract question-response pairs from conversation
+        questions_and_responses = []
+        question_num = 0
+        for i, turn in enumerate(conversation):
+            if turn.role == "user":
+                question_num += 1
+                # Find corresponding assistant response
+                if i + 1 < len(conversation) and conversation[i + 1].role == "assistant":
+                    questions_and_responses.append({
+                        "question_number": question_num,
+                        "question_text": turn.content,
+                        "response_text": conversation[i + 1].content
+                    })
 
-            # Determine scenario type from scenario_id
-            scenario_type = "medicare_only" if "MO" in self.scenario.scenario_id else "dual_eligible"
+        # Determine scenario type from scenario_id
+        scenario_type = "medicare_only" if "MO" in self.scenario.scenario_id else "dual_eligible"
 
-            # Grade the responses
-            grading_result = await self.grader.grade_run(
-                run_id=trial_id,
-                questions_and_responses=questions_and_responses,
-                scenario=scenario_type
-            )
+        # Grade the responses
+        grading_result = await self.grader.grade_run(
+            run_id=trial_id,
+            questions_and_responses=questions_and_responses,
+            scenario=scenario_type
+        )
 
-            print(f"  ✓ Graded {grading_result.total_questions} question(s)")
-            print(f"  ✓ Accuracy: {grading_result.accuracy_rate:.1f}% ({grading_result.accurate_complete_count}/{grading_result.total_questions} accurate & complete)")
+        print(f"  ✓ Graded {grading_result.total_questions} question(s)")
+        print(f"  ✓ Accuracy: {grading_result.accuracy_rate:.1f}% ({grading_result.accurate_complete_count}/{grading_result.total_questions} accurate & complete)")
 
-            # Save grading results
-            self.storage.save_intermediate_results(
-                trial_id,
-                "grading",
-                grading_result.model_dump(),
-                run_dir,
-            )
-
-        # Step 3: Extract claims from responses
-        print("\n[3/6] Extracting claims...")
-        all_claims = []
-        for turn in conversation:
-            if turn.role == "assistant":
-                extraction = await self.extractor.extract_claims(
-                    turn.content,
-                    seed=self.seed,
-                )
-                all_claims.extend(extraction.claims)
-
-        print(f"  ✓ Extracted {len(all_claims)} claim(s)")
-
-        # Save extraction results
+        # Save grading results
         self.storage.save_intermediate_results(
             trial_id,
-            "extraction",
-            {"claims": [c.model_dump() for c in all_claims]},
+            "grading",
+            grading_result.model_dump(),
             run_dir,
         )
 
-        # Step 4: Verify claims (run verifiers in parallel)
-        # Skip if no answer_key (Phase 1 - execution only)
-        if self.scenario.answer_key is None:
-            print(f"\n[4/6] Skipping claim verification (no answer_key)")
-            from .schemas import VerificationResult, ScoreResult, AdjudicationResult
-            verifications = []
-            justification = (
-                "Scored via SHIP rubric grading (see grading results above)"
-                if self.use_grading
-                else "No answer_key provided - use --grade for SHIP rubric scoring"
+        # Step 3 & 4: Claim verification (optional, requires --verify-claims flag)
+        if self.verify_claims:
+            # Step 3: Extract claims from responses
+            print("\n[3/6] Extracting claims...")
+            all_claims = []
+            for turn in conversation:
+                if turn.role == "assistant":
+                    extraction = await self.extractor.extract_claims(
+                        turn.content,
+                        seed=self.seed,
+                    )
+                    all_claims.extend(extraction.claims)
+
+            print(f"  ✓ Extracted {len(all_claims)} claim(s)")
+
+            # Save extraction results
+            self.storage.save_intermediate_results(
+                trial_id,
+                "extraction",
+                {"claims": [c.model_dump() for c in all_claims]},
+                run_dir,
             )
-            adjudication = AdjudicationResult(
-                final_claims=all_claims,
-                final_verdicts=[],
-                final_scores=ScoreResult(
-                    completeness_percentage=0.0,
-                    accuracy_percentage=0.0,
-                    justification=justification
-                ),
-                needs_manual_review=False,
-                disagreement_percentage=0.0,
-                adjudication_notes="Scenario has no answer_key - skipping claim verification"
-            )
-        else:
-            print(f"\n[4/6] Verifying claims ({self.num_verifiers} verifiers)...")
+
+            # Step 4: Verify claims (requires answer_key)
+            if self.scenario.answer_key is None:
+                print(f"\n[4/6] Skipping claim verification (no answer_key)")
+                from .schemas import VerificationResult, ScoreResult, AdjudicationResult
+                verifications = []
+                adjudication = AdjudicationResult(
+                    final_claims=all_claims,
+                    final_verdicts=[],
+                    final_scores=ScoreResult(
+                        completeness_percentage=0.0,
+                        accuracy_percentage=0.0,
+                        justification="Claim verification requires answer_key - scored via SHIP rubric instead"
+                    ),
+                    needs_manual_review=False,
+                    disagreement_percentage=0.0,
+                    adjudication_notes="Scenario has no answer_key - skipping claim verification"
+                )
+            else:
+                print(f"\n[4/6] Verifying claims ({self.num_verifiers} verifiers)...")
             verification_tasks = [
                 verifier.verify_claims(all_claims, self.scenario.answer_key, seed=self.seed)
                 for verifier in self.verifiers
@@ -275,6 +267,25 @@ class EvaluationOrchestrator:
                 "adjudication",
                 adjudication.model_dump(),
                 run_dir,
+            )
+        else:
+            # Skip claim verification entirely (--verify-claims not specified)
+            print(f"\n[3/6] Skipping claim extraction and verification (not requested)")
+            print(f"  ℹ Using SHIP rubric grading only (use --verify-claims to enable claim verification)")
+            from .schemas import VerificationResult, ScoreResult, AdjudicationResult
+            all_claims = []
+            verifications = []
+            adjudication = AdjudicationResult(
+                final_claims=[],
+                final_verdicts=[],
+                final_scores=ScoreResult(
+                    completeness_percentage=0.0,
+                    accuracy_percentage=0.0,
+                    justification="Scored via SHIP rubric grading (see results above)"
+                ),
+                needs_manual_review=False,
+                disagreement_percentage=0.0,
+                adjudication_notes="Claim verification not requested - using SHIP rubric grading only"
             )
 
         # Step 6: Detect flags and build final result
@@ -607,15 +618,13 @@ async def run_evaluation_cli(args: argparse.Namespace) -> None:
         # Default to mock adapter for agents during testing
         agent_adapter = MockAgentAdapter()
 
-    # For grading, create grade adapter if --grade is specified
-    grade_adapter = None
-    if args.grade:
-        if args.grade_model:
-            grade_provider, grade_model = parse_target_spec(args.grade_model)
-            grade_adapter = create_adapter(grade_provider, grade_model)
-        else:
-            # Default to Claude Sonnet for grading
-            grade_adapter = create_adapter("anthropic", "claude-3-5-sonnet-20241022")
+    # Create grading adapter (always enabled for SHIP rubric grading)
+    if args.grade_model:
+        grade_provider, grade_model = parse_target_spec(args.grade_model)
+        grade_adapter = create_adapter(grade_provider, grade_model)
+    else:
+        # Default to Claude Sonnet for SHIP rubric grading
+        grade_adapter = create_adapter("anthropic", "claude-3-5-sonnet-20241022")
 
     # Create storage; use single run_dir when multiple scenarios or run_id specified
     storage = ResultsStorage(args.output_dir)
@@ -635,11 +644,11 @@ async def run_evaluation_cli(args: argparse.Namespace) -> None:
             scenario=scenario,
             target_adapter=target_adapter,
             agent_adapter=agent_adapter,
+            grade_adapter=grade_adapter,
             num_verifiers=args.judges,
             seed=args.seed,
             storage=storage,
-            use_grading=args.grade,
-            grade_adapter=grade_adapter,
+            verify_claims=args.verify_claims,
         )
 
         result = await orchestrator.run_evaluation(run_dir)
@@ -693,33 +702,23 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Run with fake adapter (for testing)
-  python -m src.orchestrator run --scenario scenarios/v1/scenario_001.json --target-model fake:perfect
-
-  # Run with different response types
-  python -m src.orchestrator run --scenario scenarios/v1/scenario_001.json --target-model fake:incomplete
-  python -m src.orchestrator run --scenario scenarios/v1/scenario_001.json --target-model fake:incorrect
-
-  # Use multiple verifiers
-  python -m src.orchestrator run --scenario scenarios/v1/scenario_001.json --target-model fake:perfect --judges 3
-
-  # Run all Medicare-only questions
+  # Basic run (SHIP rubric grading always enabled)
   python -m src.orchestrator run --scenario medicare_only --target-model fake:perfect
 
   # Run all dual-eligible questions
   python -m src.orchestrator run --scenario dual_eligible --target-model fake:perfect
 
-  # Run single scenario by path
-  python -m src.orchestrator run --scenario scenarios/medicare_only/q03_tm_vs_ma.json --target-model fake:perfect --run-id test_001
+  # Specify custom grading model
+  python -m src.orchestrator run --scenario medicare_only --target-model fake:perfect --grade-model openrouter:anthropic/claude-3-haiku
 
-  # Run with SHIP rubric grading
-  python -m src.orchestrator run --scenario medicare_only --target-model fake:perfect --grade
+  # Run with real model via OpenRouter
+  python -m src.orchestrator run --scenario scenarios/medicare_only/all_questions.json --target-model openrouter:anthropic/claude-3-5-sonnet
 
-  # Run with grading using OpenRouter
-  python -m src.orchestrator run --scenario medicare_only --target-model fake:perfect --grade --grade-model openrouter:anthropic/claude-3.5-sonnet
+  # Enable claim verification (requires answer_key in scenario)
+  python -m src.orchestrator run --scenario scenarios/v1/scenario_001.json --target-model fake:perfect --verify-claims
 
-  # Run with grading against real model
-  python -m src.orchestrator run --scenario scenarios/medicare_only/all_questions.json --target-model anthropic:claude-3-5-sonnet-20241022 --grade
+  # Use multiple verifiers with claim verification
+  python -m src.orchestrator run --scenario scenarios/v1/scenario_001.json --target-model fake:perfect --verify-claims --judges 3
         """,
     )
 
@@ -767,9 +766,9 @@ Examples:
         help="Custom run ID (default: timestamp)",
     )
     run_parser.add_argument(
-        "--grade",
+        "--verify-claims",
         action="store_true",
-        help="Grade responses using SHIP rubric",
+        help="Enable claim extraction and verification (requires answer_key in scenario)",
     )
 
     args = parser.parse_args()
