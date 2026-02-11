@@ -402,7 +402,7 @@ QUESTION_GROUP_21 = QuestionGroup(
     group_name="Medicare Enrollment Options for Dual-Eligible Beneficiaries",
     scenario="dual_eligible",
     question_numbers=[2],
-    topic="What are my options for enrolling in Medicare coverage with full Medicaid?",
+    topic="If I stay eligible for Medicaid, what are my options for enrolling in Medicare?",
     accurate_complete_criteria=[
         "Mentioned can enroll in Original Medicare with Medicaid as secondary/supplemental coverage",
         "Mentioned can enroll in a D-SNP (Dual Special Needs Plan)",
@@ -432,7 +432,7 @@ QUESTION_GROUP_22 = QuestionGroup(
     group_name="Considerations for D-SNP Enrollment Decision",
     scenario="dual_eligible",
     question_numbers=[3],
-    topic="What should I consider when deciding whether to enroll in a D-SNP?",
+    topic="I saw a commercial about special plans for people with both Medicaid and Medicare. Can you tell me more about them and why I may or may not want to choose one?",
     accurate_complete_criteria=[
         "Mentioned must use plan's network of providers (HMO/PPO restrictions)",
         "Mentioned may need to change doctors if current providers not in network",
@@ -465,7 +465,7 @@ QUESTION_GROUP_23 = QuestionGroup(
     group_name="D-SNP Availability in Service Area",
     scenario="dual_eligible",
     question_numbers=[4],
-    topic="Are there any D-SNPs available where I live?",
+    topic="Are special plans for people with Medicaid and Medicare available in my area?",
     accurate_complete_criteria=[
         "Directed shopper to Medicare.gov Plan Finder or similar tool",
         "Mentioned that D-SNP availability varies by county/ZIP code",
@@ -492,7 +492,7 @@ QUESTION_GROUP_24 = QuestionGroup(
     group_name="Long-Term Care Coverage for Dual-Eligible Beneficiaries",
     scenario="dual_eligible",
     question_numbers=[5],
-    topic="Do either regular Medicare, Medicare Advantage Plans, D-SNPs, or Medicaid cover long-term care?",
+    topic="Q5a: If I ever need long-term care in the future, would it be covered under any of the Medicare options we've talked about? Q5b: What about Medicaid? If I stay eligible, will Medicaid pay for long-term care?",
     accurate_complete_criteria=[
         "Stated that Medicare/MA generally do not cover long-term custodial care",
         "Mentioned that Medicaid may cover long-term care for eligible beneficiaries",
@@ -522,7 +522,7 @@ QUESTION_GROUP_25 = QuestionGroup(
     group_name="Medicaid Coverage of Medicare Premiums and Cost-Sharing",
     scenario="dual_eligible",
     question_numbers=[6],
-    topic="Will Medicaid cover my Medicare premiums and cost-sharing?",
+    topic="If I stay eligible for Medicaid, will it pay for my Medicare premiums and cost sharing and deductibles no matter if I choose a Dual Eligible Special Needs Plan, a Medicare Advantage Plan, or regular Medicare?",
     accurate_complete_criteria=[
         "Stated that full Medicaid (or QMB Plus) covers Medicare Part B premium",
         "Stated that Medicaid covers Medicare cost-sharing (deductibles, copays, coinsurance)",
@@ -552,7 +552,7 @@ QUESTION_GROUP_26 = QuestionGroup(
     group_name="Medicare Cost-Sharing Assistance Programs (Non-Full Medicaid)",
     scenario="dual_eligible",
     question_numbers=[7],
-    topic="Are there programs that can help me pay for Medicare costs if I don't qualify for full Medicaid?",
+    topic="I was told that if I'm not eligible for Medicaid, there are other programs to help with out-of-pocket costs for Medicare. My income is $1,600 a month. Would I get any help?",
     accurate_complete_criteria=[
         "Mentioned Medicare Savings Programs (QMB, SLMB, QI, or QDWI)",
         "Mentioned Extra Help/Low-Income Subsidy (LIS) for Part D prescription drugs",

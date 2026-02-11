@@ -30,7 +30,7 @@
     {
       "turn_id": "Q2",
       "question_number": 2,
-      "user_message": "What are my options for enrolling in Medicare coverage with full Medicaid?",
+      "user_message": "If I stay eligible for Medicaid, what are my options for enrolling in Medicare?",
       "topic": "Medicare Enrollment Options for Dual-Eligible Beneficiaries",
       "expected_topics": [
         "Can enroll in Original Medicare with Medicaid as secondary",
@@ -43,7 +43,7 @@
     {
       "turn_id": "Q3",
       "question_number": 3,
-      "user_message": "What should I consider when deciding whether to enroll in a D-SNP?",
+      "user_message": "I saw a commercial about special plans for people with both Medicaid and Medicare. Can you tell me more about them and why I may or may not want to choose one?",
       "topic": "Considerations for D-SNP Enrollment Decision",
       "note": "Most difficult question in SHIP study (1% accurate-complete baseline)",
       "expected_topics": [
@@ -59,8 +59,9 @@
     {
       "turn_id": "Q4",
       "question_number": 4,
-      "user_message": "Are there any D-SNPs available where I live?",
+      "user_message": "Are special plans for people with Medicaid and Medicare available in my area?",
       "topic": "D-SNP Availability in Service Area",
+      "note": "Give the city, state, zip code, and county from the persona details if asked",
       "expected_topics": [
         "Need to check Medicare.gov Plan Finder for local availability",
         "D-SNP availability varies by county",
@@ -69,22 +70,32 @@
       ]
     },
     {
-      "turn_id": "Q5",
+      "turn_id": "Q5a",
       "question_number": 5,
-      "user_message": "Do either regular Medicare, Medicare Advantage Plans, D-SNPs, or Medicaid cover long-term care?",
-      "topic": "Long-Term Care Coverage for Dual-Eligible",
+      "user_message": "If I ever need long-term care in the future, would it be covered under any of the Medicare options we've talked about?",
+      "topic": "Long-Term Care Coverage for Dual-Eligible (Part 1: Medicare)",
       "expected_topics": [
         "Medicare and Medicare Advantage generally do not cover long-term care",
         "Some time-limited nursing facility stays may be covered",
+        "D-SNPs may help coordinate long-term care services through Medicaid"
+      ]
+    },
+    {
+      "turn_id": "Q5b",
+      "question_number": 5,
+      "user_message": "What about Medicaid? If I stay eligible, will Medicaid pay for long-term care?",
+      "topic": "Long-Term Care Coverage for Dual-Eligible (Part 2: Medicaid)",
+      "note": "Follow-up question to Q5a",
+      "expected_topics": [
         "Medicaid may cover long-term care for eligible beneficiaries",
-        "D-SNPs may help coordinate long-term care services through Medicaid",
+        "Must meet financial criteria and criteria for medical/functional need",
         "State-specific Medicaid rules apply"
       ]
     },
     {
       "turn_id": "Q6",
       "question_number": 6,
-      "user_message": "Will Medicaid cover my Medicare premiums and cost-sharing?",
+      "user_message": "If I stay eligible for Medicaid, will it pay for my Medicare premiums and cost sharing and deductibles no matter if I choose a Dual Eligible Special Needs Plan, a Medicare Advantage Plan, or regular Medicare?",
       "topic": "Medicaid Coverage of Medicare Costs",
       "expected_topics": [
         "Full Medicaid (QMB Plus) covers Medicare Part B premium",
@@ -97,8 +108,9 @@
     {
       "turn_id": "Q7",
       "question_number": 7,
-      "user_message": "Are there programs that can help me pay for Medicare costs if I don't qualify for full Medicaid?",
+      "user_message": "I was told that if I'm not eligible for Medicaid, there are other programs to help with out-of-pocket costs for Medicare. My income is $1,600 a month. Would I get any help?",
       "topic": "Medicare Cost-Sharing Assistance Programs",
+      "note": "Persona income is $1,600/month, which is important context for this question",
       "expected_topics": [
         "Medicare Savings Programs (QMB, SLMB, QI)",
         "Extra Help/Low-Income Subsidy for Part D",
