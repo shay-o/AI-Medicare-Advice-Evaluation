@@ -57,16 +57,26 @@
       ]
     },
     {
-      "turn_id": "Q4",
+      "turn_id": "Q4a",
       "question_number": 4,
       "user_message": "Are special plans for people with Medicaid and Medicare available in my area?",
       "topic": "D-SNP Availability in Service Area",
-      "note": "Give the city, state, zip code, and county from the persona details if asked",
       "expected_topics": [
         "Need to check Medicare.gov Plan Finder for local availability",
         "D-SNP availability varies by county",
         "Plans available in California/Los Angeles County",
         "Direction to resources for finding plans"
+      ]
+    },
+    {
+      "turn_id": "Q4b",
+      "question_number": 4,
+      "user_message": "I live in Los Angeles, CA 90012, in Los Angeles County.",
+      "topic": "D-SNP Availability - Location Information",
+      "note": "Only provide if counselor asks for location. This is a response, not a question.",
+      "expected_topics": [
+        "Counselor looks up D-SNP availability for Los Angeles County",
+        "Confirms plans are or are not available in the area"
       ]
     },
     {
