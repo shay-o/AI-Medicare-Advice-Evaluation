@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline';">
+    <title>AI vs SHIP Counselors — eTable 3 Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .header .metadata {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .header .metadata strong {
+            color: #333;
+        }
+
+        /* Ethics disclaimer */
+        .ethics-disclaimer {
+            background: #FFF3CD;
+            border-left: 4px solid #FFC107;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .ethics-disclaimer h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .ethics-disclaimer p {
+            color: #856404;
+            font-size: 14px;
+            white-space: pre-line;
+        }
+
+        /* Score legend */
+        .score-legend {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .score-legend h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .score-legend .columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .score-legend .col-def {
+            padding: 4px 0;
+        }
+
+        .score-legend .col-def strong {
+            color: #1565C0;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            color: #333;
+            font-size: 20px;
+            border-bottom: 2px solid #1976D2;
+            padding-bottom: 10px;
+            margin-bottom: 5px;
+        }
+
+        .section .section-note {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        /* Table */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 800px;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 10px 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            font-size: 12px;
+        }
+
+        th:first-child {
+            text-align: left;
+            min-width: 220px;
+        }
+
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        td:first-child {
+            text-align: left;
+        }
+
+        /* Question header row */
+        .question-header td {
+            background: #E8EAF6;
+            font-weight: 600;
+            color: #283593;
+            font-size: 13px;
+            padding: 10px 8px;
+            border-bottom: 1px solid #C5CAE9;
+        }
+
+        /* Row types */
+        .row-baseline {
+            background: #E3F2FD;
+        }
+
+        .row-baseline td {
+            color: #1565C0;
+            font-weight: 600;
+        }
+
+        .row-all-ai {
+            background: #F3E5F5;
+        }
+
+        .row-all-ai td {
+            color: #6A1B9A;
+            font-weight: 600;
+        }
+
+        .row-company td {
+            font-weight: 500;
+            padding-left: 24px;
+        }
+
+        .row-company td:first-child {
+            padding-left: 24px;
+        }
+
+        .row-model td {
+            color: #666;
+            padding-left: 40px;
+        }
+
+        .row-model td:first-child {
+            padding-left: 40px;
+            font-style: italic;
+        }
+
+        .row-model {
+            display: none;
+        }
+
+        .row-model.visible {
+            display: table-row;
+        }
+
+        /* Toggle button for expand/collapse */
+        .toggle-btn {
+            cursor: pointer;
+            user-select: none;
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            background: #eee;
+            border-radius: 3px;
+            margin-right: 6px;
+            vertical-align: middle;
+            border: 1px solid #ccc;
+        }
+
+        .toggle-btn:hover {
+            background: #ddd;
+        }
+
+        /* No data message */
+        .no-data td {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 12px 8px;
+        }
+
+        /* Hover */
+        tbody tr:not(.question-header):hover {
+            background: #f5f5f5;
+        }
+
+        .row-baseline:hover {
+            background: #BBDEFB !important;
+        }
+
+        .row-all-ai:hover {
+            background: #E1BEE7 !important;
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #1976D2;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Controls */
+        .controls {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .controls button {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+
+        .controls button:hover {
+            background: #f0f0f0;
+        }
+
+        .controls button.active {
+            background: #1976D2;
+            color: white;
+            border-color: #1976D2;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .header, .section { padding: 15px; }
+            .header h1 { font-size: 20px; }
+            table { font-size: 11px; min-width: 700px; }
+            th, td { padding: 6px 4px; }
+        }
+
+        /* Print */
+        @media print {
+            body { background: white; }
+            .header, .section, .score-legend, .footer { box-shadow: none; }
+            .controls { display: none; }
+            .table-wrapper { overflow: visible; }
+            table { min-width: auto; }
+            .row-model { display: table-row; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>AI vs SHIP Counselors — Question-Level Accuracy Comparison</h1>
+            <p class="subtitle">
+                Structured after eTable 3 (Phone Shops) from
+                {{ source_citation }}
+            </p>
+            <div class="metadata">
+                <p><strong>Generated:</strong> {{ generated_at }}</p>
+                <p><strong>AI Runs Analyzed:</strong> {{ total_runs }} across {{ total_models }} models</p>
+                <p><strong>Models:</strong> {{ model_list | join(', ') }}</p>
+            </div>
+        </div>
+
+        <!-- Ethics Disclaimer -->
+        <div class="ethics-disclaimer">
+            <h3>Research Use Only</h3>
+            <p>{{ ethics_disclaimer }}</p>
+        </div>
+
+        <!-- Score Legend -->
+        <div class="score-legend">
+            <h3>Column Definitions</h3>
+            <div class="columns">
+                <div class="col-def"><strong>N:</strong> Number of sessions/shops</div>
+                <div class="col-def"><strong>Accurate &amp; Complete:</strong> All required facts covered correctly</div>
+                <div class="col-def"><strong>Accurate but Incomplete:</strong> Correct but missing some facts</div>
+                <div class="col-def"><strong>Not Substantive:</strong> Insufficient information provided</div>
+                <div class="col-def"><strong>Incorrect:</strong> Materially wrong information</div>
+                <div class="col-def"><strong>Incomplete Data:</strong> Grading data unavailable</div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button id="expandAllBtn" onclick="toggleAllModels(true)">Show All Models</button>
+            <button id="collapseAllBtn" onclick="toggleAllModels(false)">Hide Individual Models</button>
+        </div>
+
+        <!-- Sections -->
+        {% for section in sections %}
+        <div class="section">
+            <h2>{{ section.section_name }}
+                <span style="font-size: 14px; font-weight: normal; color: #666;">
+                    (SHIP n={{ section.ship_sample_size }})
+                </span>
+            </h2>
+            {% if section.section_note %}
+            <p class="section-note">{{ section.section_note }}</p>
+            {% endif %}
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>N</th>
+                            <th>Accurate &amp;<br>Complete (%)</th>
+                            <th>Accurate but<br>Incomplete (%)</th>
+                            <th>Not<br>Substantive (%)</th>
+                            <th>Incorrect (%)</th>
+                            <th>Incomplete<br>Data (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for question in section.questions %}
+                        <!-- Question header -->
+                        <tr class="question-header">
+                            <td colspan="7">{{ question.etable3_label }}</td>
+                        </tr>
+
+                        {% for row in question.rows %}
+                        {% if row.type == 'baseline' %}
+                        <tr class="row-baseline">
+                            <td>{{ row.label }}</td>
+                            <td>{{ row.n }}</td>
+                            <td>{{ "%.1f" | format(row.ac) }}%</td>
+                            <td>{{ "%.1f" | format(row.si) }}%</td>
+                            <td>{{ "%.1f" | format(row.ns) }}%</td>
+                            <td>{{ "%.1f" | format(row.inc) }}%</td>
+                            <td>{{ "%.1f" | format(row.id) }}%</td>
+                        </tr>
+                        {% elif row.type == 'all_ai' %}
+                        <tr class="row-all-ai">
+                            <td>{{ row.label }}</td>
+                            <td>{{ row.n }}</td>
+                            <td>{{ "%.1f" | format(row.ac) }}%</td>
+                            <td>{{ "%.1f" | format(row.si) }}%</td>
+                            <td>{{ "%.1f" | format(row.ns) }}%</td>
+                            <td>{{ "%.1f" | format(row.inc) }}%</td>
+                            <td>{{ "%.1f" | format(row.id) }}%</td>
+                        </tr>
+                        {% elif row.type == 'company' %}
+                        <tr class="row-company" data-question="{{ question.group_id }}">
+                            <td><span class="toggle-btn" onclick="toggleModels(this, '{{ question.group_id }}-{{ row.label | replace(' ', '_') }}')">+</span>{{ row.label }}</td>
+                            <td>{{ row.n }}</td>
+                            <td>{{ "%.1f" | format(row.ac) }}%</td>
+                            <td>{{ "%.1f" | format(row.si) }}%</td>
+                            <td>{{ "%.1f" | format(row.ns) }}%</td>
+                            <td>{{ "%.1f" | format(row.inc) }}%</td>
+                            <td>{{ "%.1f" | format(row.id) }}%</td>
+                        </tr>
+                        {% elif row.type == 'model' %}
+                        <tr class="row-model" data-parent="{{ question.group_id }}-{{ row.company | replace(' ', '_') }}">
+                            <td>{{ row.label }}</td>
+                            <td>{{ row.n }}</td>
+                            <td>{{ "%.1f" | format(row.ac) }}%</td>
+                            <td>{{ "%.1f" | format(row.si) }}%</td>
+                            <td>{{ "%.1f" | format(row.ns) }}%</td>
+                            <td>{{ "%.1f" | format(row.inc) }}%</td>
+                            <td>{{ "%.1f" | format(row.id) }}%</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if question.rows | length <= 1 %}
+                        <tr class="no-data">
+                            <td colspan="7">No AI data available for this question yet</td>
+                        </tr>
+                        {% endif %}
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Generated with AI Medicare Evaluation Harness</p>
+            <p>
+                <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/" target="_blank">SHIP Study Reference</a> |
+                <a href="https://github.com/shay-o/AI-Medicare-Advice-Evaluation" target="_blank">GitHub Repository</a>
+            </p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                Generated by <a href="https://claude.com/claude-code" target="_blank">Claude Code</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function toggleModels(btn, parentId) {
+            var rows = document.querySelectorAll('tr[data-parent="' + parentId + '"]');
+            var isExpanded = btn.textContent === '−';
+
+            rows.forEach(function(row) {
+                if (isExpanded) {
+                    row.classList.remove('visible');
+                } else {
+                    row.classList.add('visible');
+                }
+            });
+
+            btn.textContent = isExpanded ? '+' : '−';
+        }
+
+        function toggleAllModels(show) {
+            var modelRows = document.querySelectorAll('.row-model');
+            var toggleBtns = document.querySelectorAll('.toggle-btn');
+
+            modelRows.forEach(function(row) {
+                if (show) {
+                    row.classList.add('visible');
+                } else {
+                    row.classList.remove('visible');
+                }
+            });
+
+            toggleBtns.forEach(function(btn) {
+                btn.textContent = show ? '−' : '+';
+            });
+        }
+    </script>
+</body>
+</html>

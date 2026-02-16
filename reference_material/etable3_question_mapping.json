@@ -1,0 +1,398 @@
+{
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 - eTable 3 (Phone Shops)",
+  "description": "Maps internal question group IDs (from grading_rubric.py) to eTable 3 rows for reporting. Each row corresponds to a scored question in the SHIP study. The group_id field links to grading results in results.jsonl (grading.question_scores[].group_id).",
+  "score_columns": {
+    "accurate_complete": "Accurate and Complete (% of shops)",
+    "substantive_incomplete": "Accurate but Incomplete (% of shops)",
+    "not_substantive": "Not Substantive (% of shops)",
+    "incorrect": "Incorrect (% of shops)",
+    "incomplete_data": "Incomplete Data (% of shops)"
+  },
+  "sections": [
+    {
+      "section_name": "Both Scenarios",
+      "section_note": "Question asked in both Medicare-Only and Dual-Eligible scenarios",
+      "ship_sample_size": 139,
+      "rows": [
+        {
+          "group_id": "QG1",
+          "etable3_label": "Timing for Initial Medicare Enrollment & Subsequent Changes",
+          "scenario": "both",
+          "scenario_ids": ["SHIP-MO-ALL", "SHIP-DE-ALL"],
+          "question_numbers": {
+            "medicare_only": [1],
+            "dual_eligible": [1]
+          },
+          "baseline_key": "Q1_timing",
+          "baseline_phone": {
+            "n": 139,
+            "accurate_complete": 48.9,
+            "substantive_incomplete": 38.8,
+            "not_substantive": 8.6,
+            "incorrect": 3.6,
+            "incomplete_data": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "section_name": "Medicare-Only Scenario",
+      "section_note": "Questions specific to the Medicare-Only scenario script (eAppendix 1)",
+      "ship_sample_size": 65,
+      "rows": [
+        {
+          "group_id": "QG9",
+          "etable3_label": "Medicare Enrollment & Interaction with Employer Plan",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [2]
+          },
+          "baseline_key": "Q2_employer_plan",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 63.1,
+            "substantive_incomplete": 18.5,
+            "not_substantive": 3.1,
+            "incorrect": 15.4,
+            "incomplete_data": 0.0
+          }
+        },
+        {
+          "group_id": "QG10",
+          "etable3_label": "Differences between Traditional Medicare and Medicare Advantage",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [3]
+          },
+          "baseline_key": "Q3_ma_vs_traditional",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 1.5,
+            "substantive_incomplete": 90.8,
+            "not_substantive": 7.7,
+            "incorrect": 0.0,
+            "incomplete_data": 0.0
+          }
+        },
+        {
+          "group_id": "QG11",
+          "etable3_label": "Medicare Supplement Plan Considerations",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [4]
+          },
+          "baseline_key": "Q4_supplement",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 3.1,
+            "substantive_incomplete": 86.2,
+            "not_substantive": 9.2,
+            "incorrect": 1.5,
+            "incomplete_data": 0.0
+          }
+        },
+        {
+          "group_id": "QG12",
+          "etable3_label": "Long-Term Care Coverage",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [5]
+          },
+          "baseline_key": "Q5_long_term_care",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 84.6,
+            "substantive_incomplete": 1.5,
+            "not_substantive": 4.6,
+            "incorrect": 7.7,
+            "incomplete_data": 1.5
+          }
+        },
+        {
+          "group_id": "QG13",
+          "etable3_label": "Prescription Drug Coverage Considerations",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [6]
+          },
+          "baseline_key": "Q6_drug_coverage",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 20.0,
+            "substantive_incomplete": 70.8,
+            "not_substantive": 7.7,
+            "incorrect": 1.5,
+            "incomplete_data": 0.0
+          }
+        },
+        {
+          "group_id": "QG14",
+          "etable3_label": "Whether Specific PCP is in Network for Specific Plan",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [7]
+          },
+          "baseline_key": "Q7_pcp_network",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 23.1,
+            "substantive_incomplete": 0.0,
+            "not_substantive": 69.2,
+            "incorrect": 7.7,
+            "incomplete_data": 0.0
+          }
+        },
+        {
+          "group_id": "QG15",
+          "etable3_label": "Premium for Specific Plan",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [8]
+          },
+          "baseline_key": "Q8_premium",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 10.8,
+            "substantive_incomplete": 47.7,
+            "not_substantive": 27.7,
+            "incorrect": 10.8,
+            "incomplete_data": 3.1
+          }
+        },
+        {
+          "group_id": "QG16",
+          "etable3_label": "Whether Specific Plan Allows Out-of-Network Care",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [9]
+          },
+          "baseline_key": "Q9_out_of_network",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 60.0,
+            "substantive_incomplete": 13.8,
+            "not_substantive": 18.5,
+            "incorrect": 3.1,
+            "incomplete_data": 4.6
+          }
+        },
+        {
+          "group_id": "QG17",
+          "etable3_label": "In-Network PCP Copay",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [10]
+          },
+          "baseline_key": "Q10_pcp_copay",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 43.1,
+            "substantive_incomplete": 7.7,
+            "not_substantive": 30.8,
+            "incorrect": 13.8,
+            "incomplete_data": 4.6
+          }
+        },
+        {
+          "group_id": "QG18",
+          "etable3_label": "Maximum Out-of-Pocket Limit",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [12]
+          },
+          "baseline_key": "Q12_max_oop",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 32.3,
+            "substantive_incomplete": 13.8,
+            "not_substantive": 35.4,
+            "incorrect": 18.5,
+            "incomplete_data": 0.0
+          }
+        },
+        {
+          "group_id": "QG19",
+          "etable3_label": "Whether Specific Plan Includes Coverage for Prescription Drugs",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [13]
+          },
+          "baseline_key": "Q13_drug_coverage_inclusion",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 70.8,
+            "substantive_incomplete": 3.1,
+            "not_substantive": 20.0,
+            "incorrect": 1.5,
+            "incomplete_data": 4.6
+          }
+        },
+        {
+          "group_id": "QG20",
+          "etable3_label": "Whether Specific Plan Covers Specific Drug (Lipitor) and/or its Generic Equivalent",
+          "scenario": "medicare_only",
+          "scenario_ids": ["SHIP-MO-ALL"],
+          "question_numbers": {
+            "medicare_only": [14]
+          },
+          "baseline_key": "Q14_lipitor",
+          "baseline_phone": {
+            "n": 65,
+            "accurate_complete": 38.5,
+            "substantive_incomplete": 15.4,
+            "not_substantive": 40.0,
+            "incorrect": 3.1,
+            "incomplete_data": 3.1
+          }
+        }
+      ]
+    },
+    {
+      "section_name": "Dual-Eligible Scenario",
+      "section_note": "Questions specific to the Dual-Eligible scenario script (eAppendix 2)",
+      "ship_sample_size": 74,
+      "rows": [
+        {
+          "group_id": "QG21",
+          "etable3_label": "Options for Enrolling in Medicare with Full Medicaid Benefits",
+          "scenario": "dual_eligible",
+          "scenario_ids": ["SHIP-DE-ALL"],
+          "question_numbers": {
+            "dual_eligible": [2]
+          },
+          "baseline_key": "Q2_medicaid_enrollment_options",
+          "baseline_phone": {
+            "n": 74,
+            "accurate_complete": 18.9,
+            "substantive_incomplete": 51.4,
+            "not_substantive": 21.6,
+            "incorrect": 8.1,
+            "incomplete_data": 0.0
+          }
+        },
+        {
+          "group_id": "QG22",
+          "etable3_label": "Considerations for Choosing an Integrated Care Option (D-SNP)",
+          "scenario": "dual_eligible",
+          "scenario_ids": ["SHIP-DE-ALL"],
+          "question_numbers": {
+            "dual_eligible": [3]
+          },
+          "baseline_key": "Q3_dsnp_considerations",
+          "baseline_phone": {
+            "n": 74,
+            "accurate_complete": 1.4,
+            "substantive_incomplete": 70.3,
+            "not_substantive": 28.4,
+            "incorrect": 0.0,
+            "incomplete_data": 0.0
+          }
+        },
+        {
+          "group_id": "QG23",
+          "etable3_label": "D-SNP Availability in Shopper's Area",
+          "scenario": "dual_eligible",
+          "scenario_ids": ["SHIP-DE-ALL"],
+          "question_numbers": {
+            "dual_eligible": [4]
+          },
+          "baseline_key": "Q4_dsnp_availability",
+          "baseline_phone": {
+            "n": 74,
+            "accurate_complete": 64.9,
+            "substantive_incomplete": 10.8,
+            "not_substantive": 17.6,
+            "incorrect": 6.8,
+            "incomplete_data": 0.0
+          }
+        },
+        {
+          "group_id": "QG24",
+          "etable3_label": "Coverage for Long-Term Care",
+          "scenario": "dual_eligible",
+          "scenario_ids": ["SHIP-DE-ALL"],
+          "question_numbers": {
+            "dual_eligible": [5]
+          },
+          "baseline_key": "Q5_long_term_care",
+          "baseline_phone": {
+            "n": 74,
+            "accurate_complete": 12.2,
+            "substantive_incomplete": 55.4,
+            "not_substantive": 12.2,
+            "incorrect": 20.3,
+            "incomplete_data": 0.0
+          }
+        },
+        {
+          "group_id": "QG25",
+          "etable3_label": "Medicaid Coverage of Medicare Premiums and Cost Sharing",
+          "scenario": "dual_eligible",
+          "scenario_ids": ["SHIP-DE-ALL"],
+          "question_numbers": {
+            "dual_eligible": [6]
+          },
+          "baseline_key": "Q6_medicaid_coverage",
+          "baseline_phone": {
+            "n": 74,
+            "accurate_complete": 59.5,
+            "substantive_incomplete": 10.8,
+            "not_substantive": 24.3,
+            "incorrect": 4.1,
+            "incomplete_data": 0.0
+          }
+        },
+        {
+          "group_id": "QG26",
+          "etable3_label": "Medicare Cost Sharing Assistance",
+          "scenario": "dual_eligible",
+          "scenario_ids": ["SHIP-DE-ALL"],
+          "question_numbers": {
+            "dual_eligible": [7]
+          },
+          "baseline_key": "Q7_cost_assistance",
+          "baseline_phone": {
+            "n": 74,
+            "accurate_complete": 27.0,
+            "substantive_incomplete": 48.6,
+            "not_substantive": 16.2,
+            "incorrect": 8.1,
+            "incomplete_data": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "excluded_questions": [
+    {
+      "scenario": "medicare_only",
+      "question_number": 11,
+      "topic": "Specialist Visit Copay",
+      "reason": "Not scored in SHIP study eTable 3"
+    },
+    {
+      "scenario": "medicare_only",
+      "question_number": 15,
+      "topic": "Prescription Drug Cost Comparison (Lipitor vs Generic)",
+      "reason": "Not scored in SHIP study eTable 3"
+    },
+    {
+      "scenario": "both",
+      "question_numbers": { "medicare_only": 16, "dual_eligible": 8 },
+      "group_id": "QG2",
+      "topic": "Spanish Translation Services",
+      "reason": "Scored as yes/no only in SHIP study, not on the 4-point rubric. All SHIP counselors answered yes."
+    }
+  ]
+}

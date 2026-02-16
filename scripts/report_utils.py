@@ -237,8 +237,11 @@ def load_all_results(runs_dir: Path) -> list[dict[str, Any]]:
 
         try:
             with open(results_file, 'r') as f:
-                data = json.load(f)
-                results.append(data)
+                for line in f:
+                    line = line.strip()
+                    if line:
+                        data = json.loads(line)
+                        results.append(data)
         except Exception as e:
             print(f"Warning: Could not load {results_file}: {e}", file=sys.stderr)
             continue
