@@ -15,7 +15,7 @@ Goal of this doc is to determine which models to include for analysis and report
 #### OpenAI
 - GPT-5.2 is current default. But there are auto, instant, and thinking. Test each. (https://openrouter.ai/openai/gpt-5.2)
 - GPT 5.2 Instant (https://openrouter.ai/openai/gpt-5.2-chat)
-- GPT 5.2 Instant (https://openrouter.ai/openai/gpt-5.2-pro) (Expensive!!)
+- GPT 5.2 Pro (https://openrouter.ai/openai/gpt-5.2-pro) (Expensive!!)
 
 ##### Google
 - Gemini 3 Flash. Default for search results. (https://openrouter.ai/google/gemini-3-flash-preview)
@@ -44,8 +44,103 @@ None at this point
 
 ## References
 
-None at this point
+Command line call:
+
+# Run same scenario on different models via OpenRouter
+for model in \
+  "openai/gpt-5.2" \
+  "google/gemini-3-flash-preview"; do
+
+  python -m src run \
+    --scenario scenarios/dual_eligible/all_questions.json \
+    --target-model openrouter:$model \
+    --agent-model openrouter:anthropic/claude-3-haiku \
+    --grade-model openrouter:anthropic/claude-3-haiku \
+    --judges 1 \
+    --run-id "test_dual_eligible_allquestions_GA-Candidate_GPT52-GEM3Flash_$(date +%Y%m%d%H%M)"
+
+done
+
 ---
+
+- GPT 5.2 Instant (https://openrouter.ai/openai/gpt-5.2-chat)
+- GPT 5.2 Pro (https://openrouter.ai/openai/gpt-5.2-pro) (Expensive!!)
+
+## Commands for running
+
+### Command for GPT models
+
+for model in \
+  "openai/gpt-5.2-chat" \
+  "openai/gpt-5.2-pro" \
+  "openai/gpt-5.2"; do 
+
+  python -m src run \
+    --scenario scenarios/dual_eligible/all_questions.json \
+    --target-model openrouter:$model \
+    --agent-model openrouter:anthropic/claude-3-haiku \
+    --grade-model openrouter:anthropic/claude-3-haiku \
+    --judges 1 \
+    --run-id "test_dual_eligible_GA-Candidate_${safe_model}_$(date +%Y%m%d%H%M)"
+
+done
+
+### Command for Anthropic models
+
+##### - Sonnet 4.5 (https://openrouter.ai/anthropic/claude-sonnet-4.5) 
+##### - Sonnet 3.5 (https://openrouter.ai/anthropic/claude-3.5-sonnet)
+
+for model in \
+  "anthropic/claude-sonnet-4.5" \
+  "anthropic/claude-3.5-sonnet"; do
+
+  python -m src run \
+    --scenario scenarios/dual_eligible/all_questions.json \
+    --target-model openrouter:$model \
+    --agent-model openrouter:anthropic/claude-3-haiku \
+    --grade-model openrouter:anthropic/claude-3-haiku \
+    --judges 1 \
+    --run-id "test_dual_eligible_allquestions_GA-Candidate_Anthropic_$(date +%Y%m%d%H%M)"
+
+done
+
+### Command for Google models
+
+Gemini 3 Flash. Default for search results. (https://openrouter.ai/google/gemini-3-flash-preview)
+Gemini 3 Pro (https://openrouter.ai/google/gemini-3-pro-preview) (Expensive!!)
+
+for model in \
+  "google/gemini-3-flash-preview" \
+  "google/gemini-3-pro-preview"; do
+
+  python -m src run \
+    --scenario scenarios/dual_eligible/all_questions.json \
+    --target-model openrouter:$model \
+    --agent-model openrouter:anthropic/claude-3-haiku \
+    --grade-model openrouter:anthropic/claude-3-haiku \
+    --judges 1 \
+    --run-id "test_dual_eligible_allquestions_GA-Candidate_Google_$(date +%Y%m%d%H%M)"
+
+done
+
+### Command for xAI models
+
+- Grok 4 (https://openrouter.ai/x-ai/grok-4 )
+- Grok 4.1 Fast (https://openrouter.ai/x-ai/grok-4.1-fast)
+
+for model in \
+  "x-ai/grok-4" \
+  "x-ai/grok-4.1-fast"; do
+
+  python -m src run \
+    --scenario scenarios/dual_eligible/all_questions.json \
+    --target-model openrouter:$model \
+    --agent-model openrouter:anthropic/claude-3-haiku \
+    --grade-model openrouter:anthropic/claude-3-haiku \
+    --judges 1 \
+    --run-id "test_dual_eligible_allquestions_GA-Candidate_xAI_$(date +%Y%m%d%H%M)"
+
+done
 
 ## Notes
 
