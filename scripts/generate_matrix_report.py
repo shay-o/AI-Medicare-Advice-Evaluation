@@ -110,17 +110,19 @@ def tally_to_pcts(tally: dict[str, int]) -> dict[str, Any]:
 
 def extract_tallies_and_responses(
     results: list[dict[str, Any]],
-) -> tuple[dict, dict]:
+) -> tuple[dict, dict, dict]:
     """Extract per-question score tallies and verbatim response data.
 
     Returns:
-        tallies:   {group_id: {model_name: {score_category: count}}}
-        responses: {group_id: {model_name: [run_dict, ...]}}
+        tallies:        {group_id: {model_name: {score_category: count}}}
+        responses:      {group_id: {model_name: [run_dict, ...]}}
+        question_texts: {group_id: question_text}
     """
     tallies: dict[str, dict[str, dict[str, int]]] = defaultdict(
         lambda: defaultdict(lambda: defaultdict(int))
     )
     responses: dict[str, dict[str, list]] = defaultdict(lambda: defaultdict(list))
+    question_texts: dict[str, str] = {}
 
     for result in results:
         model_name = result.get("target", {}).get("model_name", "Unknown")
@@ -134,6 +136,11 @@ def extract_tallies_and_responses(
                 continue
 
             tallies[group_id][model_name][score] += 1
+
+            if group_id not in question_texts:
+                qt = qs.get("question_text", "")
+                if qt:
+                    question_texts[group_id] = qt
 
             response_text = qs.get("response_text", "")
             # Treat ['None'] / ['none'] as empty lists
@@ -152,7 +159,7 @@ def extract_tallies_and_responses(
                     "missed": criteria_missed,
                 })
 
-    return tallies, responses
+    return tallies, responses, question_texts
 
 
 # ============================================================================
@@ -164,7 +171,7 @@ def build_js_data(
     mapping: dict[str, Any],
 ) -> dict[str, Any]:
     """Build all JS data structures for the HTML report."""
-    tallies, raw_responses = extract_tallies_and_responses(results)
+    tallies, raw_responses, question_texts = extract_tallies_and_responses(results)
 
     # Discover all models and group by company
     all_models: set[str] = set()
@@ -210,18 +217,19 @@ def build_js_data(
             delta = round(ai["ac"] - baseline["accurate_complete"], 1) if ai["n"] > 0 else 0.0
 
             questions_js.append({
-                "id":       qid,
-                "group_id": group_id,
-                "num":      q_num,
-                "label":    row_def["etable3_label"],
-                "section":  section_name,
-                "shipN":    baseline["n"],
-                "aiN":      ai["n"],
-                "aiAC":     ai["ac"],
-                "aiInc":    ai["si"],   # Accurate but Incomplete
-                "aiNS":     ai["ns"],
-                "aiIncorr": ai["inc"],  # Incorrect
-                "delta":    delta,
+                "id":           qid,
+                "group_id":     group_id,
+                "num":          q_num,
+                "label":        row_def["etable3_label"],
+                "section":      section_name,
+                "questionText": question_texts.get(group_id, ""),
+                "shipN":        baseline["n"],
+                "aiN":          ai["n"],
+                "aiAC":         ai["ac"],
+                "aiInc":        ai["si"],   # Accurate but Incomplete
+                "aiNS":         ai["ns"],
+                "aiIncorr":     ai["inc"],  # Incorrect
+                "delta":        delta,
             })
 
     # ── CO_SCORES ─────────────────────────────────────────────────────────
@@ -1012,6 +1020,12 @@ function openDrawer(key, modelName, qId, rowEl) {{
     return;
   }}
 
+  var questionHtml = '';
+  if (qDef && qDef.questionText) {{
+    questionHtml = '<div class="q-block"><span class="q-block-label">Question asked</span>' +
+      escHtml(qDef.questionText) + '</div>';
+  }}
+
   var tabsHtml = '<div class="run-tabs" id="run-tabs">';
   data.runs.forEach(function(r, i) {{
     tabsHtml += '<div class="run-tab' + (i===0?' active':'') +
@@ -1020,7 +1034,7 @@ function openDrawer(key, modelName, qId, rowEl) {{
   }});
   tabsHtml += '</div>';
 
-  document.getElementById('drawer-body').innerHTML = tabsHtml + '<div id="run-content"></div>';
+  document.getElementById('drawer-body').innerHTML = questionHtml + tabsHtml + '<div id="run-content"></div>';
   renderRun(data, 0);
 }}
 
