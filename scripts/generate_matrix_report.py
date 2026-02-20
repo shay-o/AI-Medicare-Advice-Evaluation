@@ -166,6 +166,43 @@ def extract_tallies_and_responses(
 # JS Data Building
 # ============================================================================
 
+# Maps section name → short suffix used to make qids unique when a row appears
+# in multiple sections (scenario="both").
+SECTION_SUFFIXES: dict[str, str] = {
+    "Medicare-Only Scenario": "mo",
+    "Dual-Eligible Scenario": "de",
+}
+
+
+def expand_sections(mapping: dict) -> list[dict]:
+    """Move 'both' scenario rows to the top of each scenario-specific section.
+
+    Rows that originated in an all-'both' section are tagged with
+    '_qid_suffix' so callers can derive a unique JS qid per section.
+    """
+    both_rows: list[dict] = []
+    scenario_sections: list[dict] = []
+
+    for sec in mapping["sections"]:
+        if all(r.get("scenario") == "both" for r in sec["rows"]):
+            both_rows.extend(sec["rows"])
+        else:
+            scenario_sections.append(sec)
+
+    result = []
+    for sec in scenario_sections:
+        suffix = SECTION_SUFFIXES.get(
+            sec["section_name"],
+            sec["section_name"].split()[0].lower(),
+        )
+        tagged_both = [{**row, "_qid_suffix": suffix} for row in both_rows]
+        result.append({
+            "section_name": sec["section_name"],
+            "rows": tagged_both + sec["rows"],
+        })
+    return result
+
+
 def build_js_data(
     results: list[dict[str, Any]],
     mapping: dict[str, Any],
@@ -188,18 +225,38 @@ def build_js_data(
         key=lambda c: COMPANY_SORT_ORDER.get(c, 99),
     )
 
+    # Expand "both" scenario rows into each scenario-specific section
+    expanded_sections = expand_sections(mapping)
+
+    # Build group_id → [qid, ...] mapping (for response entry duplication)
+    gid_to_qids: dict[str, list[str]] = {}
+    for section_def in expanded_sections:
+        for row_def in section_def["rows"]:
+            group_id = row_def["group_id"]
+            suffix = row_def.get("_qid_suffix", "")
+            qid = group_id.lower() + ("_" + suffix if suffix else "")
+            if qid not in gid_to_qids.get(group_id, []):
+                gid_to_qids.setdefault(group_id, []).append(qid)
+
     # ── SHIP & QUESTIONS ──────────────────────────────────────────────────
     ship_js: dict[str, Any] = {}
     questions_js: list[dict[str, Any]] = []
-    q_num = 0
+    seen_group_num: dict[str, int] = {}
+    group_num_counter = 0
 
-    for section_def in mapping["sections"]:
+    for section_def in expanded_sections:
         section_name = section_def["section_name"]
         for row_def in section_def["rows"]:
-            q_num += 1
             group_id = row_def["group_id"]
             baseline = row_def["baseline_phone"]
-            qid = group_id.lower()
+            suffix = row_def.get("_qid_suffix", "")
+            qid = group_id.lower() + ("_" + suffix if suffix else "")
+
+            # Preserve the same display number for rows that appear in multiple sections
+            if group_id not in seen_group_num:
+                group_num_counter += 1
+                seen_group_num[group_id] = group_num_counter
+            q_num = seen_group_num[group_id]
 
             ship_js[qid] = {
                 "ac":        baseline["accurate_complete"],
@@ -237,10 +294,11 @@ def build_js_data(
     for company in sorted_companies:
         company_models = models_by_company[company]
         co_scores_js[company] = {}
-        for section_def in mapping["sections"]:
+        for section_def in expanded_sections:
             for row_def in section_def["rows"]:
                 group_id = row_def["group_id"]
-                qid = group_id.lower()
+                suffix = row_def.get("_qid_suffix", "")
+                qid = group_id.lower() + ("_" + suffix if suffix else "")
                 co_tally = merge_tallies(
                     *[tallies.get(group_id, {}).get(m, {}) for m in company_models]
                 )
@@ -259,10 +317,11 @@ def build_js_data(
         for model_full in sorted(models_by_company[company]):
             short_name = get_model_short_name(model_full)
             model_scores: dict[str, Any] = {}
-            for section_def in mapping["sections"]:
+            for section_def in expanded_sections:
                 for row_def in section_def["rows"]:
                     group_id = row_def["group_id"]
-                    qid = group_id.lower()
+                    suffix = row_def.get("_qid_suffix", "")
+                    qid = group_id.lower() + ("_" + suffix if suffix else "")
                     mt = tally_to_pcts(tallies.get(group_id, {}).get(model_full, {}))
                     model_scores[qid] = {
                         "ac":        mt["ac"],
@@ -280,12 +339,13 @@ def build_js_data(
     # ── RESPONSES ─────────────────────────────────────────────────────────
     responses_js: dict[str, Any] = {}
     for group_id, model_runs in raw_responses.items():
-        qid = group_id.lower()
+        qids = gid_to_qids.get(group_id, [group_id.lower()])
         for model_full, runs in model_runs.items():
             short_name = get_model_short_name(model_full)
             slug = model_slug(short_name)
-            key = f"{qid}-{slug}"
-            responses_js[key] = {"runs": runs}
+            for qid in qids:
+                key = f"{qid}-{slug}"
+                responses_js[key] = {"runs": runs}
 
     return {
         "ship":      ship_js,
@@ -323,9 +383,12 @@ def generate_html(
     disclaimer_html = (
         f'<strong>Research Use Only.</strong> {ethics_disclaimer}'
         if ethics_disclaimer
-        else "<strong>Research Use Only.</strong> This report evaluates AI Medicare advice "
-             "using SHIP study methodology (Dugan et al., JAMA Network Open 2025). "
-             "Not for clinical or consumer use."
+        else (
+            "<strong>Research Use Only.</strong> This report evaluates AI Medicare advice "
+            "using SHIP study methodology (<a href=\"https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052\" "
+            "target=\"_blank\" rel=\"noopener\">Dugan et al., JAMA Network Open 2025</a>). "
+            "Not for clinical or consumer use."
+        )
     )
 
     return f"""<!DOCTYPE html>
@@ -394,6 +457,18 @@ body {{
 .ctrl-btn.active {{ background: #1a237e; color: #ffffff; border-color: #1a237e; }}
 .ctrl-divider {{ width: 1px; height: 18px; background: #e0e0e0; flex-shrink: 0; }}
 
+/* ── SECTION NAV ── */
+.sec-nav {{
+  display: flex; gap: 6px; margin-bottom: 8px;
+}}
+.sec-nav-btn {{
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.06em; padding: 4px 12px; border-radius: 3px;
+  background: #c5cae9; color: #1a237e; text-decoration: none;
+  border: 1px solid #9fa8da; white-space: nowrap;
+}}
+.sec-nav-btn:hover {{ background: #9fa8da; color: #1a237e; }}
+
 /* ── TOGGLE SWITCH ── */
 .model-toggle-wrap {{ display: flex; align-items: center; gap: 8px; }}
 .toggle-lbl {{ font-size: 12px; color: #999999; cursor: pointer; user-select: none; }}
@@ -419,6 +494,14 @@ body {{
 }}
 .section-meta {{
   font-size: 12px; color: #666666; font-style: italic; margin-bottom: 12px;
+}}
+
+/* ── FIRST SECTION HEADING (outside table, immune to sticky column header overlap) ── */
+.sec-first-heading {{
+  background: #c5cae9; color: #1a237e;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; padding: 8px 12px;
+  border-top: 3px solid #5c6bc0; margin-bottom: 0;
 }}
 
 /* ── MATRIX TABLE ── */
@@ -455,10 +538,12 @@ body {{
 
 /* Section separator row */
 .row-section td {{
-  background: #e8eaf6 !important; color: #1a237e !important;
-  font-size: 10px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.6px; padding: 5px 10px; border-top: 2px solid #9fa8da;
+  background: #c5cae9 !important; color: #1a237e !important;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; padding: 8px 12px; border-top: 3px solid #5c6bc0;
 }}
+/* First section row is represented by the heading div above the table */
+.row-section-first {{ display: none; }}
 
 /* Company rows */
 .row-company {{ display: none; }}
@@ -647,7 +732,9 @@ body {{
     </div>
   </div>
   <div style="font-size:11px;color:#9fa8da;">
-    Dugan et al., JAMA Network Open 2025
+    <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052"
+       target="_blank" rel="noopener"
+       style="color:#9fa8da;text-decoration:underline;">Dugan et al., JAMA Network Open 2025</a>
   </div>
 </div>
 
@@ -670,6 +757,12 @@ body {{
       Click a model row to view its verbatim response.
     </div>
 
+    <!-- Section navigation -->
+    <div class="sec-nav">
+      <a href="#sec-medicare-only" class="sec-nav-btn">↓ Medicare-Only Scenario</a>
+      <a href="#sec-dual-eligible" class="sec-nav-btn">↓ Dual-Eligible Scenario</a>
+    </div>
+
     <!-- Controls -->
     <div class="controls-bar">
       <div class="model-toggle-wrap">
@@ -686,6 +779,9 @@ body {{
       <button class="ctrl-btn" id="sort-delta" onclick="sortMatrix('delta', this)">&Delta; A&amp;C Size</button>
       <button class="ctrl-btn" id="sort-ship" onclick="sortMatrix('shipAC', this)">SHIP A&amp;C</button>
     </div>
+
+    <!-- First section heading: outside the table so sticky column headers can't cover it -->
+    <div class="sec-first-heading" id="sec-medicare-only">Medicare-Only Scenario</div>
 
     <!-- Matrix table -->
     <div class="tbl-wrap">
@@ -813,8 +909,14 @@ function buildTable() {{
 
     // Section separator row
     if (q.section !== lastSection) {{
+      var isFirst = (lastSection === null);
       lastSection = q.section;
-      html += '<tr class="row-section" data-rowtype="section">' +
+      var secId = 'sec-' + q.section.toLowerCase().replace(/\\s+scenario\\s*$/i,'').replace(/[^a-z0-9]+/g, '-').replace(/-+$/,'');
+      // First section heading is shown by the div above the table; hide the in-table row
+      // but keep it in the DOM so the sort grouping logic still works.
+      var secClass = isFirst ? 'row-section row-section-first' : 'row-section';
+      var secIdAttr = isFirst ? '' : ' id="' + secId + '"';
+      html += '<tr class="' + secClass + '"' + secIdAttr + ' data-rowtype="section">' +
         '<td colspan="7">' + q.section + '</td></tr>';
     }}
 

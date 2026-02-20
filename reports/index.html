@@ -17,12 +17,13 @@
             line-height: 1.7;
             color: #333;
             background: #f5f5f5;
-            padding: 20px;
+            padding: 0;
         }
 
         .container {
             max-width: 820px;
             margin: 0 auto;
+            padding: 20px;
         }
 
         /* Academic Masthead */
@@ -30,7 +31,7 @@
             background: white;
             border-bottom: 2px solid #111111;
             padding: 20px 40px 0;
-            margin-bottom: 24px;
+            margin-bottom: 0;
         }
 
         .masthead-eyebrow {
@@ -320,6 +321,7 @@
             margin-top: 4px;
         }
 
+        /* Page nav banner */
         /* Ethics */
         .ethics {
             background: #FFF8E1;
@@ -354,18 +356,18 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Shared masthead — full-bleed -->
+    <header class="masthead">
+        <div class="masthead-eyebrow">Research Project</div>
+        <div class="masthead-name">AI Medicare Advice Evaluator</div>
+        <div class="masthead-byline">Replicating the SHIP mystery-shopper methodology &middot; <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Dugan et al., JAMA Network Open 2025</a></div>
+        <nav class="masthead-nav">
+            <a href="index.html" class="masthead-link current">Overview</a>
+            <a href="matrix_report.html" class="masthead-link">Data</a>
+        </nav>
+    </header>
 
-        <!-- Academic Masthead -->
-        <header class="masthead">
-            <div class="masthead-eyebrow">Research Project</div>
-            <div class="masthead-name">AI Medicare Advice Evaluator</div>
-            <div class="masthead-byline">Replicating the SHIP mystery-shopper methodology &middot; Dugan et al., JAMA Network Open 2025</div>
-            <nav class="masthead-nav">
-                <a href="index.html" class="masthead-link current">Project Overview</a>
-                <a href="matrix_report.html" class="masthead-link">Findings &amp; Data</a>
-            </nav>
-        </header>
+    <div class="container">
 
         <!-- Hero -->
         <div class="hero">
@@ -375,78 +377,34 @@
                 answering follow-up questions, and doing so instantly, in any language, at any hour.
                 Medicare is a compelling test case: it affects tens of millions of Americans, its rules are
                 genuinely complicated, and getting information wrong carries real consequences.
-                This project investigates whether AI is ready for that responsibility.
+                This project examines the quality of AI responses to a standardized set of questions about Medicare.
             </p>
         </div>
 
         <!-- Access section -->
         <div class="card">
-            <h2>The Promise of Access</h2>
+            <h2>An Opportunity to Measure AI Performance</h2>
             <p>
                 Knowing Medicare's rules matters — but getting reliable guidance has always been difficult.
                 Programs like SHIP (State Health Insurance Assistance Programs) connect beneficiaries with
-                trained counselors who can answer questions for free. These programs do important work.
-                But like any human-staffed service, their availability is limited.
+                trained counselors who can answer questions for free. These counselors are trained for several 
+                weeks to answer questions about Medicare. The question is whether AI can provide information that 
+                is useufl in conjuction with or in addition to these and other information resources.
             </p>
             <p>
-                A 2025 study published in <em>JAMA Network Open</em> used a mystery-shopper methodology
-                to evaluate the accuracy of SHIP counselors. In the course of conducting that research,
-                the authors documented a striking structural reality:
+                A 2025 study published in <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052" target="_blank" rel="noopener"><em>JAMA Network Open</em></a> used a mystery-shopper methodology
+                to evaluate the accuracy of SHIP counselors. This provides a codified way of measuring the 
+                quality of AI responses. The study used a set of 16 questions about Medicare, and evaluated the 
+                responses against a detailed rubric. We can reproduce this study using the same methodology, and 
+                compare the quality of AI responses to the quality of SHIP counselors.
             </p>
-
-            <div class="stat-row">
-                <div class="stat-box">
-                    <div class="stat-number">47%</div>
-                    <div class="stat-label">of counselor calls could not be completed &mdash; no one answered</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">AI is available immediately, without hold times or callbacks</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number">100+</div>
-                    <div class="stat-label">languages supported by leading AI systems, versus English-primary services</div>
-                </div>
-            </div>
-
-            <p>
-                AI cannot replace the expertise of a skilled counselor. But it can reach people who
-                can't get through — anyone with a smartphone, in any language, on a Sunday evening.
-                That gap in access is precisely where AI's potential is most significant.
-            </p>
-        </div>
-
-        <!-- Verification challenge -->
-        <div class="card">
-            <h2>The Verification Problem</h2>
-            <p>
-                AI systems have demonstrated remarkable capabilities — but not all tasks are created equal
-                when it comes to accountability. In software development, code either runs correctly or it
-                doesn't. A test suite provides immediate, objective feedback. This tight feedback loop is
-                one reason AI coding assistants have advanced so rapidly: the system can be measured,
-                corrected, and improved.
-            </p>
-            <p>
-                Giving advice is harder to evaluate. When someone asks an AI about Medicare, there's no
-                compiler to catch an error. A response can sound authoritative and still omit critical facts
-                or subtly mislead. Without a way to measure accuracy, it's impossible to know whether AI
-                is helping or harming — and impossible to systematically improve it.
-            </p>
-            <div class="callout">
-                <p>
-                    <strong>The central challenge:</strong> To assess AI advice quality, compare models,
-                    and improve responses through prompt engineering or better context, you first need
-                    ground truth — a defined set of correct answers to measure against.
-                </p>
-            </div>
         </div>
 
         <!-- SHIP solution -->
         <div class="card">
             <h2>The SHIP Study as a Benchmark</h2>
             <p>
-                The SHIP mystery-shopper study (Dugan et al., <em>JAMA Network Open</em>, 2025) provides
-                exactly that ground truth. Researchers posed as Medicare beneficiaries and called SHIP
+                In the SHIP mystery-shopper study (<a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052" target="_blank" rel="noopener">Dugan et al., <em>JAMA Network Open</em>, 2025</a>) researchers posed as Medicare beneficiaries and called SHIP
                 counselors with a standardized script of questions. They then evaluated responses against
                 a detailed rubric specifying which facts a correct, complete answer must contain.
             </p>
@@ -509,11 +467,6 @@
                 The system supports major AI providers (OpenAI, Anthropic, Google, and others) and can
                 evaluate multiple models in a single run. Results are stored with full audit trails:
                 every response, every extracted claim, every judge verdict.
-            </p>
-            <p>
-                Crucially, models are tested as a typical Medicare beneficiary would actually use them —
-                without special system prompts or added context. The question is how AI performs
-                in the real world, not under ideal conditions.
             </p>
         </div>
 
@@ -604,9 +557,9 @@
 
         <div class="footer">
             <p>
-                Based on: Dugan K, et al. "Evaluating SHIP Counselor Responses." <em>JAMA Network Open</em>. 2025;8(4):e252834.
+                Based on: <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052" target="_blank" rel="noopener">Dugan K, et al. "Evaluating SHIP Counselor Responses." <em>JAMA Network Open</em>. 2025;8(4):e252834.</a>
                 &nbsp;&middot;&nbsp;
-                <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/" target="_blank">Study Reference</a>
+                <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/" target="_blank">PubMed Central</a>
                 &nbsp;&middot;&nbsp;
                 <a href="https://github.com/shay-o/AI-Medicare-Advice-Evaluation" target="_blank">GitHub Repository</a>
             </p>
