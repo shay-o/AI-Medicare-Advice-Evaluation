@@ -13,9 +13,7 @@ body {
 
 /* ── SHARED MASTHEAD ── */
 .masthead {
-  background: white;
-  border-bottom: 2px solid #111111;
-  padding: 20px 40px 0;
+  background: white; border-bottom: 2px solid #111111; padding: 20px 40px 0;
 }
 .masthead-eyebrow {
   font-size: 10px; font-weight: 700; text-transform: uppercase;
@@ -47,7 +45,6 @@ body {
 }
 .disclaimer strong { color: #000000; }
 
-/* ── Page nav banner ── */
 /* ── MAIN LAYOUT: matrix + drawer ── */
 .app-layout {
   display: flex; align-items: flex-start; min-height: calc(100vh - 80px);
@@ -138,7 +135,7 @@ body {
 .mtable th {
   background: #e8eaf6; border: 1px solid #c5cae9;
   padding: 7px 10px; font-size: 11px; font-weight: 600; white-space: nowrap;
-  user-select: none; position: sticky; top: 41px; z-index: 10; color: #1a237e;
+  user-select: none; position: sticky; top: 0; z-index: 10; color: #1a237e;
 }
 .mtable th.sortable { cursor: pointer; }
 .mtable th.sortable:hover { background: #c5cae9; }
@@ -344,7 +341,7 @@ body {
 @media print {
   .controls-bar, .drawer-col { display: none !important; }
   .row-company, .row-model { display: table-row !important; }
-  .page-header { position: static; }
+  .masthead { border-bottom: 1px solid #ccc; }
 }
 </style>
 </head>
@@ -464,7 +461,7 @@ Results should not be used to make healthcare decisions. This tool presents comp
 
 <script>
 // ════════════════════════════════════════
-//  REAL DATA (generated 2026-02-19 13:27:17)
+//  REAL DATA (generated 2026-02-19 20:20:14)
 // ════════════════════════════════════════
 
 const SHIP      = {"qg1_mo": {"ac": 48.9, "inc": 38.8, "ns": 8.6, "incorrect": 3.6, "n": 139}, "qg9": {"ac": 63.1, "inc": 18.5, "ns": 3.1, "incorrect": 15.4, "n": 65}, "qg10": {"ac": 1.5, "inc": 90.8, "ns": 7.7, "incorrect": 0.0, "n": 65}, "qg11": {"ac": 3.1, "inc": 86.2, "ns": 9.2, "incorrect": 1.5, "n": 65}, "qg12": {"ac": 84.6, "inc": 1.5, "ns": 4.6, "incorrect": 7.7, "n": 65}, "qg13": {"ac": 20.0, "inc": 70.8, "ns": 7.7, "incorrect": 1.5, "n": 65}, "qg14": {"ac": 23.1, "inc": 0.0, "ns": 69.2, "incorrect": 7.7, "n": 65}, "qg15": {"ac": 10.8, "inc": 47.7, "ns": 27.7, "incorrect": 10.8, "n": 65}, "qg16": {"ac": 60.0, "inc": 13.8, "ns": 18.5, "incorrect": 3.1, "n": 65}, "qg17": {"ac": 43.1, "inc": 7.7, "ns": 30.8, "incorrect": 13.8, "n": 65}, "qg18": {"ac": 32.3, "inc": 13.8, "ns": 35.4, "incorrect": 18.5, "n": 65}, "qg19": {"ac": 70.8, "inc": 3.1, "ns": 20.0, "incorrect": 1.5, "n": 65}, "qg20": {"ac": 38.5, "inc": 15.4, "ns": 40.0, "incorrect": 3.1, "n": 65}, "qg1_de": {"ac": 48.9, "inc": 38.8, "ns": 8.6, "incorrect": 3.6, "n": 139}, "qg21": {"ac": 18.9, "inc": 51.4, "ns": 21.6, "incorrect": 8.1, "n": 74}, "qg22": {"ac": 1.4, "inc": 70.3, "ns": 28.4, "incorrect": 0.0, "n": 74}, "qg23": {"ac": 64.9, "inc": 10.8, "ns": 17.6, "incorrect": 6.8, "n": 74}, "qg24": {"ac": 12.2, "inc": 55.4, "ns": 12.2, "incorrect": 20.3, "n": 74}, "qg25": {"ac": 59.5, "inc": 10.8, "ns": 24.3, "incorrect": 4.1, "n": 74}, "qg26": {"ac": 27.0, "inc": 48.6, "ns": 16.2, "incorrect": 8.1, "n": 74}};

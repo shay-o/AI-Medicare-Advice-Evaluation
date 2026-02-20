@@ -404,15 +404,32 @@ body {{
   background: #f5f5f5; color: #333333; font-size: 14px; line-height: 1.5;
 }}
 
-/* ── PAGE HEADER ── */
-.page-header {{
-  background: #1a237e; color: #ffffff;
-  padding: 12px 20px;
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  position: sticky; top: 0; z-index: 200;
+/* ── SHARED MASTHEAD ── */
+.masthead {{
+  background: white; border-bottom: 2px solid #111111; padding: 20px 40px 0;
 }}
-.page-header-title {{ font-size: 14px; font-weight: 600; }}
-.page-header-meta {{ font-size: 11px; color: #9fa8da; }}
+.masthead-eyebrow {{
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: #999999; margin-bottom: 5px;
+}}
+.masthead-name {{ font-size: 16px; font-weight: 600; color: #111111; margin-bottom: 4px; }}
+.masthead-byline {{ font-size: 12px; color: #666666; line-height: 1.5; margin-bottom: 16px; }}
+.masthead-nav {{ display: flex; gap: 24px; }}
+.masthead-link {{
+  font-size: 13px; color: #333333; text-decoration: none;
+  padding-bottom: 10px; border-bottom: 3px solid transparent;
+  margin-bottom: -2px; display: inline-block;
+}}
+.masthead-link:hover {{ color: #000000; border-bottom-color: #cccccc; }}
+.masthead-link.current {{ font-weight: 700; color: #111111; border-bottom-color: #111111; }}
+
+/* ── SITE FOOTER ── */
+.site-footer {{
+  text-align: center; font-size: 12px; color: #aaa;
+  padding: 24px 20px 16px; border-top: 1px solid #e0e0e0; margin-top: 20px;
+}}
+.site-footer a {{ color: #aaa; text-decoration: none; }}
+.site-footer a:hover {{ color: #666; text-decoration: underline; }}
 
 /* ── DISCLAIMER ── */
 .disclaimer {{
@@ -511,7 +528,7 @@ body {{
 .mtable th {{
   background: #e8eaf6; border: 1px solid #c5cae9;
   padding: 7px 10px; font-size: 11px; font-weight: 600; white-space: nowrap;
-  user-select: none; position: sticky; top: 41px; z-index: 10; color: #1a237e;
+  user-select: none; position: sticky; top: 0; z-index: 10; color: #1a237e;
 }}
 .mtable th.sortable {{ cursor: pointer; }}
 .mtable th.sortable:hover {{ background: #c5cae9; }}
@@ -717,26 +734,22 @@ body {{
 @media print {{
   .controls-bar, .drawer-col {{ display: none !important; }}
   .row-company, .row-model {{ display: table-row !important; }}
-  .page-header {{ position: static; }}
+  .masthead {{ border-bottom: 1px solid #ccc; }}
 }}
 </style>
 </head>
 <body>
 
-<!-- PAGE HEADER -->
-<div class="page-header">
-  <div>
-    <div class="page-header-title">AI vs SHIP Score Comparison</div>
-    <div class="page-header-meta">
-      Generated {generated_at} &nbsp;·&nbsp; {total_models} AI models &nbsp;·&nbsp; {total_runs} runs
-    </div>
-  </div>
-  <div style="font-size:11px;color:#9fa8da;">
-    <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052"
-       target="_blank" rel="noopener"
-       style="color:#9fa8da;text-decoration:underline;">Dugan et al., JAMA Network Open 2025</a>
-  </div>
-</div>
+<!-- Shared masthead -->
+<header class="masthead">
+  <div class="masthead-eyebrow">Research Project</div>
+  <div class="masthead-name">AI Medicare Advice Evaluator</div>
+  <div class="masthead-byline">Replicating the SHIP mystery-shopper methodology &middot; <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Dugan et al., JAMA Network Open 2025</a></div>
+  <nav class="masthead-nav">
+    <a href="index.html" class="masthead-link">Overview</a>
+    <a href="matrix_report.html" class="masthead-link current">Data</a>
+  </nav>
+</header>
 
 <div class="disclaimer">
   {disclaimer_html}
@@ -1192,6 +1205,16 @@ function escHtml(s) {{
     .replace(/"/g,'&quot;');
 }}
 </script>
+
+<div class="site-footer">
+  <p>
+    Based on: <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052" target="_blank" rel="noopener">Dugan K, et al. "Evaluating SHIP Counselor Responses." <em>JAMA Network Open</em>. 2025;8(4):e252834.</a>
+    &nbsp;&middot;&nbsp;
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/" target="_blank">PubMed Central</a>
+    &nbsp;&middot;&nbsp;
+    <a href="https://github.com/shay-o/AI-Medicare-Advice-Evaluation" target="_blank">GitHub Repository</a>
+  </p>
+</div>
 </body>
 </html>"""
 
