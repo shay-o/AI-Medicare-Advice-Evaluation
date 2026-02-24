@@ -414,7 +414,7 @@ body {{
 }}
 .masthead-name {{ font-size: 16px; font-weight: 600; color: #111111; margin-bottom: 4px; }}
 .masthead-byline {{ font-size: 12px; color: #666666; line-height: 1.5; margin-bottom: 16px; }}
-.masthead-nav {{ display: flex; gap: 24px; }}
+.masthead-nav {{ display: flex; gap: 24px; align-items: flex-end; }}
 .masthead-link {{
   font-size: 13px; color: #333333; text-decoration: none;
   padding-bottom: 10px; border-bottom: 3px solid transparent;
@@ -422,6 +422,11 @@ body {{
 }}
 .masthead-link:hover {{ color: #000000; border-bottom-color: #cccccc; }}
 .masthead-link.current {{ font-weight: 700; color: #111111; border-bottom-color: #111111; }}
+.masthead-link-external {{
+  font-size: 12px; color: #666666; text-decoration: none;
+  margin-left: auto; padding-bottom: 10px; white-space: nowrap;
+}}
+.masthead-link-external:hover {{ color: #000000; text-decoration: underline; }}
 
 /* ── SITE FOOTER ── */
 .site-footer {{
@@ -744,10 +749,11 @@ body {{
 <header class="masthead">
   <div class="masthead-eyebrow">Research Project</div>
   <div class="masthead-name">AI Medicare Advice Evaluator</div>
-  <div class="masthead-byline">Replicating the SHIP mystery-shopper methodology &middot; <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Dugan et al., JAMA Network Open 2025</a></div>
+  <div class="masthead-byline">Based on <a href="https://doi.org/10.1001/jamanetworkopen.2025.2834" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Accuracy of Medicare Information Provided by State Health Insurance Assistance Programs</a> &mdash; Dugan et al., <em>JAMA Network Open</em>, 2025</div>
   <nav class="masthead-nav">
-    <a href="index.html" class="masthead-link">Overview</a>
+    <a href="overview.html" class="masthead-link">Overview</a>
     <a href="matrix_report.html" class="masthead-link current">Data</a>
+    <a href="https://github.com/shay-o/AI-Medicare-Advice-Evaluation" target="_blank" rel="noopener" class="masthead-link-external">GitHub ↗</a>
   </nav>
 </header>
 
@@ -1208,7 +1214,7 @@ function escHtml(s) {{
 
 <div class="site-footer">
   <p>
-    Based on: <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052" target="_blank" rel="noopener">Dugan K, et al. "Evaluating SHIP Counselor Responses." <em>JAMA Network Open</em>. 2025;8(4):e252834.</a>
+    Dugan, K., Peterson, I., Dorneo, A., &amp; Garrido, M. M. (2025). <a href="https://doi.org/10.1001/jamanetworkopen.2025.2834" target="_blank" rel="noopener">Accuracy of Medicare information provided by State Health Insurance Assistance Programs.</a> <em>JAMA Network Open</em>, <em>8</em>(4), e252834. https://doi.org/10.1001/jamanetworkopen.2025.2834
     &nbsp;&middot;&nbsp;
     <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/" target="_blank">PubMed Central</a>
     &nbsp;&middot;&nbsp;
