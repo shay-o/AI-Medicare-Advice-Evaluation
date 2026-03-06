@@ -203,6 +203,92 @@ def expand_sections(mapping: dict) -> list[dict]:
     return result
 
 
+def _compute_summary(
+    expanded_sections: list[dict],
+    tallies: dict,
+    all_models: set[str],
+    models_by_company: dict[str, list[str]],
+    sorted_companies: list[str],
+) -> dict[str, Any]:
+    """Aggregate scores across all unique questions (deduplicating Q1)."""
+    # Deduplicate: Q1 appears in both sections but has the same underlying data.
+    seen_group_ids: set[str] = set()
+    unique_rows: list[dict] = []
+    for sec in expanded_sections:
+        for row in sec["rows"]:
+            gid = row["group_id"]
+            if gid not in seen_group_ids:
+                seen_group_ids.add(gid)
+                unique_rows.append(row)
+
+    # SHIP: weighted average by n across unique questions
+    ship_ac = ship_inc = ship_ns = ship_incorr = ship_n = 0.0
+    for row in unique_rows:
+        b = row["baseline_phone"]
+        n = b["n"]
+        ship_ac     += n * b["accurate_complete"]
+        ship_inc    += n * b["substantive_incomplete"]
+        ship_ns     += n * b["not_substantive"]
+        ship_incorr += n * b["incorrect"]
+        ship_n      += n
+    ship_ac_pct = round(ship_ac / ship_n, 1) if ship_n else 0.0
+    ship_summary = {
+        "ac":        ship_ac_pct,
+        "inc":       round(ship_inc    / ship_n, 1) if ship_n else 0.0,
+        "ns":        round(ship_ns     / ship_n, 1) if ship_n else 0.0,
+        "incorrect": round(ship_incorr / ship_n, 1) if ship_n else 0.0,
+        "n":         int(ship_n),
+    }
+
+    def _row_summary(models: list[str]) -> dict[str, Any]:
+        tally = merge_tallies(
+            *[tallies.get(row["group_id"], {}).get(m, {})
+              for row in unique_rows for m in models]
+        )
+        p = tally_to_pcts(tally)
+        if p["n"] == 0:
+            return {}
+        return {
+            "ac":        round(p["ac"],  1),
+            "inc":       round(p["si"],  1),
+            "ns":        round(p["ns"],  1),
+            "incorrect": round(p["inc"], 1),
+            "n":         p["n"],
+            "delta":     round(p["ac"] - ship_ac_pct, 1),
+        }
+
+    # All AI aggregate
+    all_ai = _row_summary(list(all_models))
+
+    # Per-company
+    by_company = {}
+    for co in sorted_companies:
+        s = _row_summary(models_by_company[co])
+        if s:
+            by_company[co] = s
+
+    # Per-model (grouped under their company)
+    by_model = []
+    for co in sorted_companies:
+        for model_full in models_by_company[co]:
+            s = _row_summary([model_full])
+            if s:
+                by_model.append({
+                    "name":    get_model_short_name(model_full),
+                    "slug":    model_slug(get_model_short_name(model_full)),
+                    "company": co,
+                    **s,
+                })
+
+    return {
+        "ship":       ship_summary,
+        "allAi":      all_ai,
+        "byCompany":  by_company,
+        "byModel":    by_model,
+        "nQuestions": len(unique_rows),
+    }
+
+
 def build_js_data(
     results: list[dict[str, Any]],
     mapping: dict[str, Any],
@@ -347,6 +433,11 @@ def build_js_data(
                 key = f"{qid}-{slug}"
                 responses_js[key] = {"runs": runs}
 
+    # ── SUMMARY (aggregate across all unique questions) ────────────────────
+    summary_js = _compute_summary(
+        expanded_sections, tallies, all_models, models_by_company, sorted_companies
+    )
+
     return {
         "ship":      ship_js,
         "questions": questions_js,
@@ -354,6 +445,7 @@ def build_js_data(
         "co_scores": co_scores_js,
         "models":    models_js,
         "responses": responses_js,
+        "summary":   summary_js,
     }
 
 
@@ -379,6 +471,7 @@ def generate_html(
     co_scores_json = _j(js_data["co_scores"])
     models_json    = _j(js_data["models"])
     responses_json = _j(js_data["responses"])
+    summary_json   = _j(js_data["summary"])
 
     disclaimer_html = (
         f'<strong>Research Use Only.</strong> {ethics_disclaimer}'
@@ -478,6 +571,58 @@ body {{
 .ctrl-btn:hover {{ background: #f5f5f5; }}
 .ctrl-btn.active {{ background: #1a237e; color: #ffffff; border-color: #1a237e; }}
 .ctrl-divider {{ width: 1px; height: 18px; background: #e0e0e0; flex-shrink: 0; }}
+
+/* ── SUMMARY PANEL ── */
+.summary-panel {{
+  margin-bottom: 12px; border: 1px solid #c5cae9; border-radius: 4px; overflow: hidden;
+}}
+.summary-hdr {{
+  background: #e8eaf6; padding: 8px 12px; font-size: 12px; font-weight: 700;
+  color: #1a237e; cursor: pointer; display: flex; align-items: center; gap: 8px;
+  user-select: none;
+}}
+.summary-hdr::before {{ content: "▾"; font-size: 11px; transition: transform 0.15s; }}
+.summary-hdr.collapsed::before {{ content: "▸"; }}
+.summary-body {{ overflow-x: auto; }}
+.summary-body.hidden {{ display: none; }}
+.stable {{
+  border-collapse: collapse; width: 100%; font-size: 12px; min-width: 580px;
+}}
+.stable th {{
+  background: #e8eaf6; border: 1px solid #c5cae9; padding: 6px 10px;
+  font-size: 11px; font-weight: 600; color: #1a237e; white-space: nowrap;
+  text-align: center;
+}}
+.stable th:nth-child(1) {{ text-align: left; min-width: 200px; }}
+.stable td {{
+  border: 1px solid #eeeeee; padding: 5px 10px; white-space: nowrap; text-align: center;
+}}
+.stable td:nth-child(1) {{ text-align: left; }}
+.stable .sr-ship td {{ background: #e3f2fd; font-weight: 700; }}
+.stable .sr-allai td {{ background: #ede7f6; font-weight: 600; }}
+.stable .sr-company td {{ background: #fafafa; }}
+.stable .sr-model td {{ background: #ffffff; font-style: italic; display: none; }}
+.stable .sr-model.visible td {{ display: table-cell; }}
+.stable .sr-company td:nth-child(1),
+.stable .sr-model td:nth-child(1) {{ padding-left: 22px; }}
+.stable .sr-model td:nth-child(1) {{ padding-left: 38px; }}
+.s-pct {{ font-size: 12px; font-weight: 600; }}
+.s-bar-wrap {{ display: flex; align-items: center; gap: 4px; justify-content: center; }}
+.s-bar {{ height: 8px; border-radius: 2px; min-width: 2px; }}
+.s-bar-ac {{ background: #5c6bc0; }}
+.s-bar-inc {{ background: #9575cd; }}
+.s-bar-ns {{ background: #b0bec5; }}
+.s-bar-incorr {{ background: #ef9a9a; }}
+.s-delta {{ font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 3px; }}
+.s-delta.pos {{ color: #2e7d32; background: #e8f5e9; }}
+.s-delta.neg {{ color: #c62828; background: #ffebee; }}
+.s-delta.neu {{ color: #555; background: #f5f5f5; }}
+.stable .xbtn {{
+  background: none; border: 1px solid #ccc; border-radius: 3px; font-size: 10px;
+  width: 16px; height: 16px; line-height: 14px; text-align: center; cursor: pointer;
+  margin-right: 5px; padding: 0; vertical-align: middle; flex-shrink: 0;
+}}
+.stable .xbtn:hover {{ background: #eee; }}
 
 /* ── SECTION NAV ── */
 .sec-nav {{
@@ -799,6 +944,31 @@ body {{
       <button class="ctrl-btn" id="sort-ship" onclick="sortMatrix('shipAC', this)">SHIP A&amp;C</button>
     </div>
 
+    <!-- Summary panel: overall aggregate across all questions -->
+    <div class="summary-panel">
+      <div class="summary-hdr" onclick="toggleSummary(this)">
+        Overall Accuracy Across All Questions &nbsp;<span id="summary-n-label"></span>
+      </div>
+      <div class="summary-body" id="summary-body">
+        <div class="tbl-wrap">
+          <table class="stable" id="summary-table">
+            <thead>
+              <tr>
+                <th>Model / Group</th>
+                <th>Accurate &amp; Complete</th>
+                <th>Accurate but Incomplete</th>
+                <th>Not Substantive</th>
+                <th>Incorrect</th>
+                <th>n</th>
+                <th>&Delta; A&amp;C vs SHIP</th>
+              </tr>
+            </thead>
+            <tbody id="summary-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <!-- First section heading: outside the table so sticky column headers can't cover it -->
     <div class="sec-first-heading" id="sec-medicare-only">Medicare-Only Scenario</div>
 
@@ -861,6 +1031,7 @@ const COMPANIES = {companies_json};
 const CO_SCORES = {co_scores_json};
 const MODELS    = {models_json};
 const RESPONSES = {responses_json};
+const SUMMARY   = {summary_json};
 
 
 // ════════════════════════════════════════
@@ -1001,6 +1172,105 @@ function buildTable() {{
 }}
 
 buildTable();
+
+
+// ════════════════════════════════════════
+//  SUMMARY PANEL
+// ════════════════════════════════════════
+
+function sPct(v) {{ return (v || 0).toFixed(1) + '%'; }}
+
+function sPctCell(v, barClass) {{
+  var pxW = Math.max(Math.round((v || 0) * 0.6), 2);
+  return '<td><div class="s-bar-wrap">' +
+    '<span class="s-bar ' + barClass + '" style="width:' + pxW + 'px"></span>' +
+    '<span class="s-pct">' + sPct(v) + '</span>' +
+    '</div></td>';
+}}
+
+function sDeltaCell(delta) {{
+  if (delta === undefined || delta === null) return '<td>\u2014</td>';
+  var cls = delta > 0.05 ? 'pos' : delta < -0.05 ? 'neg' : 'neu';
+  return '<td><span class="s-delta ' + cls + '">' + (delta >= 0 ? '+' : '') + delta.toFixed(1) + '%</span></td>';
+}}
+
+function sSummaryRow(rowClass, label, d, showDelta) {{
+  return '<tr class="' + rowClass + '">' +
+    '<td>' + label + '</td>' +
+    sPctCell(d.ac, 's-bar-ac') +
+    sPctCell(d.inc, 's-bar-inc') +
+    sPctCell(d.ns, 's-bar-ns') +
+    sPctCell(d.incorrect, 's-bar-incorr') +
+    '<td>' + (d.n !== undefined ? d.n : '\u2014') + '</td>' +
+    (showDelta ? sDeltaCell(d.delta) : '<td>\u2014</td>') +
+    '</tr>';
+}}
+
+function buildSummary() {{
+  var tbody = document.getElementById('summary-tbody');
+  if (!tbody || !SUMMARY || !SUMMARY.ship) return;
+
+  var nLbl = document.getElementById('summary-n-label');
+  if (nLbl) nLbl.textContent = '(' + SUMMARY.nQuestions + ' questions)';
+
+  var html = '';
+
+  // SHIP baseline row
+  html += sSummaryRow('sr-ship', 'SHIP Counselors', SUMMARY.ship, false);
+
+  // All AI aggregate row
+  html += sSummaryRow('sr-allai', 'All AI Models', SUMMARY.allAi, true);
+
+  // Company rows + model sub-rows
+  COMPANIES.forEach(function(co) {{
+    var cd = SUMMARY.byCompany[co];
+    if (!cd) return;
+    var coSlug = co.replace(/[^a-z0-9]/gi, '').toLowerCase();
+    var coModels = SUMMARY.byModel.filter(function(m) {{ return m.company === co; }});
+
+    html += '<tr class="sr-company">' +
+      '<td><button class="xbtn" data-co="' + coSlug + '" data-open="false"' +
+        ' onclick="toggleSummaryCompany(this,\\'' + coSlug + '\\');event.stopPropagation()">+</button>' +
+        co + '</td>' +
+      sPctCell(cd.ac, 's-bar-ac') +
+      sPctCell(cd.inc, 's-bar-inc') +
+      sPctCell(cd.ns, 's-bar-ns') +
+      sPctCell(cd.incorrect, 's-bar-incorr') +
+      '<td>' + cd.n + '</td>' +
+      sDeltaCell(cd.delta) +
+      '</tr>';
+
+    coModels.forEach(function(m) {{
+      html += '<tr class="sr-model" data-sco="' + coSlug + '">' +
+        '<td>' + m.name + '</td>' +
+        sPctCell(m.ac, 's-bar-ac') +
+        sPctCell(m.inc, 's-bar-inc') +
+        sPctCell(m.ns, 's-bar-ns') +
+        sPctCell(m.incorrect, 's-bar-incorr') +
+        '<td>' + m.n + '</td>' +
+        sDeltaCell(m.delta) +
+        '</tr>';
+    }});
+  }});
+
+  tbody.innerHTML = html;
+}}
+
+function toggleSummaryCompany(btn, coSlug) {{
+  var isOpen = btn.dataset.open === 'true';
+  document.querySelectorAll('#summary-tbody .sr-model[data-sco="' + coSlug + '"]')
+    .forEach(function(r) {{ r.classList.toggle('visible', !isOpen); }});
+  btn.dataset.open = isOpen ? 'false' : 'true';
+  btn.textContent  = isOpen ? '+' : '\u2212';
+}}
+
+function toggleSummary(hdr) {{
+  hdr.classList.toggle('collapsed');
+  var body = document.getElementById('summary-body');
+  if (body) body.classList.toggle('hidden');
+}}
+
+buildSummary();
 
 
 // ════════════════════════════════════════
