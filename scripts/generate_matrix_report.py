@@ -607,7 +607,7 @@ body {{
 .stable .sr-model td:nth-child(1) {{ padding-left: 22px; }}
 .stable .sr-model td:nth-child(1) {{ padding-left: 38px; }}
 .s-pct {{ font-size: 12px; font-weight: 600; }}
-.s-bar-wrap {{ display: flex; align-items: center; gap: 4px; justify-content: center; }}
+.s-bar-wrap {{ display: flex; align-items: center; gap: 4px; justify-content: flex-start; }}
 .s-bar {{ height: 8px; border-radius: 2px; min-width: 2px; }}
 .s-bar-ac {{ background: #5c6bc0; }}
 .s-bar-inc {{ background: #9575cd; }}
