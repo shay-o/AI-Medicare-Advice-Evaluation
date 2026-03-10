@@ -119,6 +119,8 @@
             font-size: 18px;
             color: #555;
             line-height: 1.6;
+            margin-top: 12px;
+            margin-bottom: 18px;
         }
 
         /* Content cards */
@@ -386,39 +388,77 @@
     <div class="container">
 
         <!-- Hero -->
-        <div class="hero">
-            <h1>Can AI Give Good Medicare Advice?</h1>
-            <p class="subtitle">
-                AI can help people navigate complex systems by explaining options clearly, answering follow-up questions,
-                and responding instantly, in any language, at any hour.
+        <div class="card">
+            <h2>Overview: Evaluating AI responses about Medicare</h2>
+            <p>
+                AI tools have the the potential to help people navigate complex systems while also having the potential to cause harm by providing incorrect or biased 
+                information. This project evaluates how well AI models answer a standardized set of Medicare questions, using a
+                published research rubric.
             </p>
-            <p class="subtitle">
-                Medicare is a powerful test case: it affects tens of millions of Americans, its rules are genuinely
-                complicated, and getting information wrong carries real consequences.
+            <p>
+                <a href="matrix_report.html">Initial results</a> indicate AI responses are more accurate than trained counselors providing an ideal answer 65% of the time vs 37% from trained counselors. 
+                This is a *preliminary* result from a non-expert as part of a personal project.
             </p>
-            <p class="subtitle">
-                This project evaluates how well AI models answer a standardized set of Medicare questions, using a
-                published research rubric so their performance can be measured and compared.
+            <p> 
+                <b>Acknowledgement:</b> This project essentially re-implements the <a href="https://doi.org/10.1001/jamanetworkopen.2025.2834" target="_blank" rel="noopener">original SHIP study</a> using AI models. The vast majority of the work was done by the original authors of the study.
             </p>
         </div>
 
-        <!-- Access section -->
+        <!-- How the system works -->
         <div class="card">
-            <h2>An Opportunity to Measure AI Performance</h2>
+            <h2>What This System Does</h2>
             <p>
-                Knowing Medicare's rules matters — but getting reliable guidance has always been difficult.
-                Programs like SHIP (State Health Insurance Assistance Programs) connect beneficiaries with
-                trained counselors who can answer questions for free. These counselors are trained for several 
-                weeks to answer questions about Medicare. The question is whether AI can provide information that 
-                is useufl in conjuction with or in addition to these and other information resources.
+                This project implements that evaluation pipeline as an automated harness. It can run
+                any AI model through the SHIP question sequence and score the result against the
+                published rubric. Models are tested under identical conditions — the same questions,
+                the same grading criteria — so results are directly comparable to each other and to
+                the published human counselor data.
             </p>
             <p>
-                A 2025 study published in <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2832052" target="_blank" rel="noopener"><em>JAMA Network Open</em></a> used a mystery-shopper methodology
-                to evaluate the accuracy of SHIP counselors. This provides a codified way of measuring the 
-                quality of AI responses. The study used a set of 16 questions about Medicare, and evaluated the 
-                responses against a detailed rubric. We can reproduce this study using the same methodology, and 
-                compare the quality of AI responses to the quality of SHIP counselors.
+                The system supports major AI providers (OpenAI, Anthropic, Google, and others) and can
+                evaluate multiple models in a single run. Results are stored with full audit trails:
+                every response, every extracted claim, every judge verdict.
             </p>
+        </div>
+
+        <!-- Findings -->
+        <div class="card">
+            <h2>Findings and Caveats</h2>
+            <p>
+                This section summarizes what the evaluation has found. Detailed results are available
+                in the data reports linked below.
+            </p>
+
+            <div class="finding-card finding-access">
+                <span class="finding-tag">Accuracy **Preliminary**</span>
+                <h3>AI models are consistently more accurate</h3>
+                <p>
+                    From the <a href="matrix_report.html">preliminary results</a>, it appears that AI models provide more accurate responses than trained counselors - giving
+                    responses that were Accurate and Complete, the best response under this rubric, to 65% of questions compared to 37% from experts.
+                </p>
+            </div>
+
+            <div class="finding-card finding-access">
+                <span class="finding-tag">Access</span>
+                <h3>AI dramatically expands who can get Medicare guidance</h3>
+                <p>
+                    The SHIP study's own data shows that 47% of outreach calls went unanswered — meaning
+                    nearly half of people seeking help couldn't reach a counselor at all. AI systems are
+                    available immediately, at any time, without hold times or geographic constraints, and
+                    in dozens of languages. For the many Medicare beneficiaries who can't access in-person
+                    or phone assistance, AI represents a meaningful expansion of who can get help.
+                </p>
+            </div>
+
+            <div class="finding-card finding-access">
+                <span class="finding-tag">Caveats</span>
+                <h3>Important limitations of this evaluation</h3>
+                <ul style="margin: 0 0 0 18px; padding: 0; color: #555; line-height: 1.7;">
+                    <li>The accuracy data is preliminary.</li>
+                    <li>This is a personal project by a non-expert. The approach has not been validated with any experts.</li>
+                    <li>The test questions are not exhaustive and do not cover all the questions that people may have about Medicare.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- SHIP solution -->
@@ -473,63 +513,6 @@
                 for full auditability.
             </p>
         </div>
-
-        <!-- How the system works -->
-        <div class="card">
-            <h2>What This System Does</h2>
-            <p>
-                This project implements that evaluation pipeline as an automated harness. It can run
-                any AI model through the SHIP question sequence and score the result against the
-                published rubric. Models are tested under identical conditions — the same questions,
-                the same grading criteria — so results are directly comparable to each other and to
-                the published human counselor data.
-            </p>
-            <p>
-                The system supports major AI providers (OpenAI, Anthropic, Google, and others) and can
-                evaluate multiple models in a single run. Results are stored with full audit trails:
-                every response, every extracted claim, every judge verdict.
-            </p>
-        </div>
-
-        <!-- Findings -->
-        <div class="card">
-            <h2>Findings</h2>
-            <p>
-                This section summarizes what the evaluation has found. Detailed results are available
-                in the data reports linked below.
-            </p>
-
-            <div class="finding-card finding-access">
-                <span class="finding-tag">Access</span>
-                <h3>AI dramatically expands who can get Medicare guidance</h3>
-                <p>
-                    The SHIP study's own data shows that 47% of outreach calls went unanswered — meaning
-                    nearly half of people seeking help couldn't reach a counselor at all. AI systems are
-                    available immediately, at any time, without hold times or geographic constraints, and
-                    in dozens of languages. For the many Medicare beneficiaries who can't access in-person
-                    or phone assistance, AI represents a meaningful expansion of who can get help.
-                </p>
-            </div>
-
-            <div class="finding-card finding-placeholder">
-                <span class="finding-tag">Accuracy &mdash; Coming Soon</span>
-                <h3>How accurate is AI-generated Medicare advice?</h3>
-                <p>
-                    Findings on factual accuracy across tested models will be summarized here.
-                    See the Accuracy Report for current data.
-                </p>
-            </div>
-
-            <div class="finding-card finding-placeholder">
-                <span class="finding-tag">Completeness &mdash; Coming Soon</span>
-                <h3>Does AI cover everything a beneficiary needs to know?</h3>
-                <p>
-                    Findings on information completeness — which required facts models consistently miss —
-                    will be summarized here. See the Model Comparison for current data.
-                </p>
-            </div>
-        </div>
-
         <!-- What's next -->
         <div class="card">
             <h2>What's Next: Improving AI Responses</h2>
