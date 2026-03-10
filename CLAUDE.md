@@ -2,6 +2,22 @@
 
 Auto-generated from all feature plans. Last updated: 2026-01-30
 
+## Status
+
+- **Most recent**: Defined development guidelines and SHIP fidelity principles; added TaskSync status and task sections.
+- **Focus**: Evaluating AI Medicare advice accuracy vs the SHIP study and wiring up reporting based on `scripts/generate_accuracy_table.py` logic.
+
+## Current tasks
+
+- [x] Set up TaskSync sections in `CLAUDE.md` for this project.
+- [ ] Refine or extend web-test reporting using the existing accuracy table generation logic.
+- [ ] Document how to run evaluations (`pytest`, `ruff`) and interpret accuracy/quality results.
+
+## Backlog / ideas
+
+- [ ] Add this project to the future TaskSync dashboard (`PROJECTS_OVERVIEW.md`) when it exists.
+- [ ] Extend evaluation to additional AI models or Medicare scenarios while preserving SHIP study fidelity.
+
 ## Active Technologies
 
 - Python 3.11+ (matches existing project) + Existing Python standard library, scripts/generate_accuracy_table.py logic (001-web-test-reporting)
