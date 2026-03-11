@@ -36,7 +36,7 @@ export OPENAI_API_KEY="sk-your_key_here"
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openai:gpt-4-turbo \
+  --target-model openai:gpt-4-turbo \
   --judges 2
 ```
 
@@ -73,7 +73,7 @@ export ANTHROPIC_API_KEY="sk-ant-your_key_here"
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target anthropic:claude-3-5-sonnet-20241022 \
+  --target-model anthropic:claude-3-5-sonnet-20241022 \
   --judges 2
 ```
 
@@ -110,7 +110,7 @@ export GOOGLE_API_KEY="your_key_here"
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target google:gemini-1.5-pro \
+  --target-model google:gemini-1.5-pro \
   --judges 2
 ```
 
@@ -145,7 +145,7 @@ export XAI_API_KEY="your_key_here"
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target xai:grok-beta \
+  --target-model xai:grok-beta \
   --judges 2
 ```
 
@@ -182,7 +182,7 @@ echo "OPENAI_API_KEY=sk-your_actual_key_here" >> .env
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openai:gpt-4-turbo \
+  --target-model openai:gpt-4-turbo \
   --judges 2
 ```
 
@@ -193,17 +193,17 @@ python -m src run \
 # Evaluate GPT-4
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openai:gpt-4-turbo
+  --target-model openai:gpt-4-turbo
 
 # Evaluate Claude
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target anthropic:claude-3-5-sonnet-20241022
+  --target-model anthropic:claude-3-5-sonnet-20241022
 
 # Evaluate Gemini
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target google:gemini-1.5-pro
+  --target-model google:gemini-1.5-pro
 ```
 
 ### Using Real Agents
@@ -212,7 +212,7 @@ By default, agents use the mock adapter (no API calls). To use real LLMs for age
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openai:gpt-4-turbo \
+  --target-model openai:gpt-4-turbo \
   --agent-model anthropic:claude-3-5-sonnet-20241022 \
   --judges 2
 ```
@@ -228,7 +228,7 @@ python -m src run \
 # Use cheaper model for agents, expensive model for target
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openai:gpt-4-turbo \
+  --target-model openai:gpt-4-turbo \
   --agent-model openai:gpt-3.5-turbo \
   --judges 2
 ```
@@ -294,7 +294,7 @@ All adapters implement:
 # Use fake adapter - no costs
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target fake:perfect
+  --target-model fake:perfect
 ```
 
 ### With API Calls (Real)
@@ -302,7 +302,7 @@ python -m src run \
 # Small test with real API
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openai:gpt-4-turbo \
+  --target-model openai:gpt-4-turbo \
   --judges 1  # Use 1 judge to reduce costs
 ```
 
@@ -381,10 +381,10 @@ RuntimeError: OpenAI API error: The model 'gpt-5' does not exist
 ### Testing
 ```bash
 # Test with mock (no API calls)
-python -m src run --scenario scenarios/v1/scenario_001.json --target fake:perfect
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model fake:perfect
 
 # Test with real API (requires API key)
-python -m src run --scenario scenarios/v1/scenario_001.json --target openai:gpt-4-turbo
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model openai:gpt-4-turbo
 ```
 
 ## Next Steps
@@ -403,7 +403,7 @@ With adapters complete, you can now:
 for model in "openai:gpt-4-turbo" "anthropic:claude-3-5-sonnet-20241022" "google:gemini-1.5-pro"; do
   python -m src run \
     --scenario scenarios/v1/scenario_001.json \
-    --target "$model" \
+    --target-model "$model" \
     --judges 2 \
     --run-id "comparison_$(date +%Y%m%d)"
 done

@@ -37,7 +37,7 @@ The evaluation orchestrator is fully implemented and working end-to-end.
 # Run evaluation with fake adapter (for testing)
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target fake:perfect \
+  --target-model fake:perfect \
   --judges 2 \
   --seed 42
 ```
@@ -46,7 +46,7 @@ python -m src run \
 
 ```
 --scenario PATH          Path to scenario JSON file (required)
---target SPEC           Target model: provider:model_name (required)
+--target-model SPEC           Target model: provider:model_name (required)
                         Examples: fake:perfect, fake:incomplete, fake:incorrect
 --agent-model SPEC      Model for agents (default: mock-agent-v1.0)
 --judges N              Number of verifiers (default: 2)
@@ -116,7 +116,7 @@ fake:refusal     # Appropriate referral without substance
 
 ### Command
 ```bash
-python -m src run --scenario scenarios/v1/scenario_001.json --target fake:perfect --judges 2
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model fake:perfect --judges 2
 ```
 
 ### Output
@@ -222,26 +222,26 @@ Append-only JSONL file with complete trial results. Each line is a valid JSON ob
 
 ### Perfect Response
 ```bash
-python -m src run --scenario scenarios/v1/scenario_001.json --target fake:perfect
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model fake:perfect
 ```
 Result: **ACCURATE_INCOMPLETE** (50% completeness, 100% accuracy)
 
 ### Incomplete Response
 ```bash
-python -m src run --scenario scenarios/v1/scenario_001.json --target fake:incomplete
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model fake:incomplete
 ```
 Result: **ACCURATE_INCOMPLETE** (33% completeness, 100% accuracy)
 
 ### Incorrect Response
 ```bash
-python -m src run --scenario scenarios/v1/scenario_001.json --target fake:incorrect
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model fake:incorrect
 ```
 Result: **ACCURATE_INCOMPLETE** (33% completeness, 100% accuracy)
 *Note: Mock verifier uses simple keyword matching, doesn't detect contradictions in this test*
 
 ### Refusal Response
 ```bash
-python -m src run --scenario scenarios/v1/scenario_001.json --target fake:refusal
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model fake:refusal
 ```
 Result: **NOT_SUBSTANTIVE** (low completeness, refusal flag=true)
 
@@ -377,7 +377,7 @@ Create more test scenarios:
 # Run your first evaluation
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target fake:perfect \
+  --target-model fake:perfect \
   --judges 2
 
 # Check the results

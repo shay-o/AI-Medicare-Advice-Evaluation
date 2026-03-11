@@ -78,8 +78,8 @@ Your response must start with '{' and end with '}'.
 
 ```bash
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 ```
@@ -196,22 +196,22 @@ The fix is transparent to users. Just use real LLM agents:
 ```bash
 # Use Claude for agents (recommended - good quality, lower cost)
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 
 # Use GPT-4 for agents (higher quality, higher cost)
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:openai/gpt-4o \
   --judges 2
 
 # Use Gemini for agents (experimental)
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:google/gemini-pro-1.5 \
   --judges 2
 ```

@@ -486,7 +486,7 @@ Edit `.github/workflows/deploy-reports.yml` to:
 **Solutions**:
 1. Check runs directory exists: `ls runs/`
 2. Verify results.jsonl files exist: `ls runs/*/results.jsonl`
-3. Run evaluations first: `python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:openai/gpt-4-turbo`
+3. Run evaluations first: `python -m src run --scenario scenarios/v1/scenario_001.json --target-model openrouter:openai/gpt-4-turbo`
 
 ### No runs match filters
 

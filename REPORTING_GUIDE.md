@@ -221,8 +221,8 @@ Use these when you need to see failure rates, debug incomplete evaluations, or t
 
 ```bash
 # Keep separate run directories
-python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:openai/gpt-4-turbo --output-dir runs/2026-01
-python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:openai/gpt-4-turbo --output-dir runs/2026-02
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model openrouter:openai/gpt-4-turbo --output-dir runs/2026-01
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model openrouter:openai/gpt-4-turbo --output-dir runs/2026-02
 
 # Compare both time periods to baseline
 python scripts/generate_accuracy_table.py --runs-dir runs/2026-01 --by-model --include-baseline

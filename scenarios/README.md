@@ -19,17 +19,17 @@ scenarios/
 
 **Run all Medicare-only questions:**
 ```bash
-python -m src run --scenario medicare_only --target openai:gpt-4-turbo
+python -m src run --scenario medicare_only --target-model openai:gpt-4-turbo
 ```
 
 **Run all dual-eligible questions:**
 ```bash
-python -m src run --scenario dual_eligible --target openai:gpt-4-turbo
+python -m src run --scenario dual_eligible --target-model openai:gpt-4-turbo
 ```
 
 **Run a single question:**
 ```bash
-python -m src run --scenario scenarios/medicare_only/q03_tm_vs_ma.json --target openai:gpt-4-turbo
+python -m src run --scenario scenarios/medicare_only/q03_tm_vs_ma.json --target-model openai:gpt-4-turbo
 ```
 
 ## Scenario ID Naming

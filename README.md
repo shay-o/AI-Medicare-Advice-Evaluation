@@ -79,8 +79,9 @@ Get OpenRouter API key at: [openrouter.ai/keys](https://openrouter.ai/keys)
 ```bash
 # Verify system works with fake adapter
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target fake:perfect \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model fake:perfect \
+  --grade-model fake:perfect \
   --judges 2
 ```
 
@@ -89,8 +90,8 @@ python -m src run \
 ```bash
 # Evaluate GPT-4 on SHIP Question #3
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 ```
@@ -137,9 +138,9 @@ Access all major AI models through a single API:
 
 **Usage:**
 ```bash
---target openrouter:openai/gpt-4-turbo
---target openrouter:anthropic/claude-3-5-sonnet
---target openrouter:google/gemini-pro-1.5
+--target-model openrouter:openai/gpt-4-turbo
+--target-model openrouter:anthropic/claude-3-5-sonnet
+--target-model openrouter:google/gemini-pro-1.5
 ```
 
 See full guide: **[OPENROUTER_GUIDE.md](OPENROUTER_GUIDE.md)**
@@ -147,14 +148,14 @@ See full guide: **[OPENROUTER_GUIDE.md](OPENROUTER_GUIDE.md)**
 ### Direct Provider Access
 
 You can also use direct provider APIs:
-- **OpenAI** - `--target openai:gpt-4-turbo`
-- **Anthropic** - `--target anthropic:claude-3-5-sonnet-20241022`
-- **Google** - `--target google:gemini-1.5-pro`
-- **xAI** - `--target xai:grok-beta`
+- **OpenAI** - `--target-model openai:gpt-4-turbo`
+- **Anthropic** - `--target-model anthropic:claude-3-5-sonnet-20241022`
+- **Google** - `--target-model google:gemini-1.5-pro`
+- **xAI** - `--target-model xai:grok-beta`
 
 ### Testing (No API Key)
 
-- **Fake** - `--target fake:perfect` (no API calls, for testing)
+- **Fake** - `--target-model fake:perfect` (no API calls, for testing)
 
 ## Project Structure
 
@@ -205,7 +206,8 @@ python test_basic.py
 # Test full pipeline with mock agents
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target fake:perfect \
+  --target-model fake:perfect \
+  --grade-model fake:perfect \
   --judges 2
 ```
 

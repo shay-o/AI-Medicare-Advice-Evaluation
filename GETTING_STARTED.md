@@ -31,8 +31,9 @@ Let's verify everything works using the fake adapter (no API calls):
 
 ```bash
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target fake:perfect \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model fake:perfect \
+  --grade-model fake:perfect \
   --judges 2
 ```
 
@@ -93,8 +94,8 @@ Now let's evaluate a real AI model!
 
 ```bash
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 ```
@@ -179,8 +180,8 @@ cat runs/$(ls -t runs/ | head -1)/transcripts/*.json | python -m json.tool | les
 ```bash
 # Try Claude Sonnet
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:anthropic/claude-3-5-sonnet \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:anthropic/claude-3-5-sonnet \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 ```
@@ -200,7 +201,7 @@ This will test 5 models and generate a comparison table.
 # Test with scenario_001 (simpler)
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 ```
@@ -212,8 +213,8 @@ python -m src run \
 ### Test One Model
 ```bash
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:MODEL_NAME \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:MODEL_NAME \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 ```
@@ -277,7 +278,7 @@ Now that you've run your first evaluation:
 ### Cost Management
 - Use Claude Haiku for agents (cheap and accurate)
 - Use 1 judge for testing: `--judges 1`
-- Test with fake adapter first: `--target fake:perfect`
+- Test with fake adapter first: `--target-model fake:perfect`
 
 ### Good Practices
 - Always test with `fake:perfect` before using real API
@@ -288,16 +289,16 @@ Now that you've run your first evaluation:
 ### Common Patterns
 ```bash
 # Quick test (free)
---target fake:perfect
+--target-model fake:perfect
 
 # Real evaluation (cheap)
---target openrouter:anthropic/claude-3-haiku --judges 1
+--target-model openrouter:anthropic/claude-3-haiku --judges 1
 
 # High quality (moderate cost)
---target openrouter:openai/gpt-4-turbo --judges 2
+--target-model openrouter:openai/gpt-4-turbo --judges 2
 
 # Premium (expensive)
---target openrouter:anthropic/claude-3-opus --judges 2
+--target-model openrouter:anthropic/claude-3-opus --judges 2
 ```
 
 ---

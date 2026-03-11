@@ -61,8 +61,9 @@ echo "ANTHROPIC_API_KEY=sk-ant-your_key" >> .env
 ```bash
 # Test with fake adapter to verify installation
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target fake:perfect \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model fake:perfect \
+  --grade-model fake:perfect \
   --judges 2
 ```
 
@@ -100,7 +101,7 @@ See [SCENARIOS.md](SCENARIOS.md) for detailed descriptions.
 ```bash
 python -m src run \
   --scenario scenarios/v1/SCENARIO_FILE.json \
-  --target PROVIDER:MODEL_NAME \
+  --target-model PROVIDER:MODEL_NAME \
   --agent-model PROVIDER:AGENT_MODEL \
   --judges NUMBER_OF_JUDGES
 ```
@@ -109,8 +110,8 @@ python -m src run \
 
 ```bash
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 ```
@@ -126,8 +127,8 @@ python -m src run \
 
 | Option | Description | Example | Default |
 |--------|-------------|---------|---------|
-| `--scenario` | Path to scenario JSON file | `scenarios/v1/scenario_002.json` | Required |
-| `--target` | Model to evaluate | `openrouter:openai/gpt-4-turbo` | Required |
+| `--scenario` | Path to scenario JSON file | `scenarios/v1/scenario_001.json` | Required |
+| `--target-model` | Model to evaluate | `openrouter:openai/gpt-4-turbo` | Required |
 | `--agent-model` | Model for evaluation agents | `openrouter:anthropic/claude-3-haiku` | `fake:perfect` |
 | `--judges` | Number of independent verifiers | `2` | `2` |
 | `--seed` | Random seed for reproducibility | `42` | `42` |
@@ -140,8 +141,8 @@ python -m src run \
 # Target: GPT-4 (expensive)
 # Agents: Claude Haiku (cheap)
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 1  # Use 1 judge instead of 2 to save costs
 ```
@@ -149,8 +150,8 @@ python -m src run \
 **Use mock agents (FREE but less accurate):**
 ```bash
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --judges 2
 # Agents default to fake:perfect (no API calls)
 ```
@@ -167,7 +168,7 @@ Create a file `compare_models.sh`:
 #!/bin/bash
 
 # Test scenario
-SCENARIO="scenarios/v1/scenario_002.json"
+SCENARIO="scenarios/v1/scenario_001.json"
 
 # Agent model (same for all tests for consistency)
 AGENT_MODEL="openrouter:anthropic/claude-3-haiku"
@@ -189,7 +190,7 @@ for MODEL in "${MODELS[@]}"; do
 
   python -m src run \
     --scenario "$SCENARIO" \
-    --target "$MODEL" \
+    --target-model "$MODEL" \
     --agent-model "$AGENT_MODEL" \
     --judges 2
 
@@ -213,20 +214,20 @@ chmod +x compare_models.sh
 ```bash
 # Run each model one at a time
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:anthropic/claude-3-5-sonnet \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:anthropic/claude-3-5-sonnet \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:google/gemini-pro-1.5 \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:google/gemini-pro-1.5 \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 ```
@@ -298,26 +299,26 @@ OpenRouter uses: `provider/model-name`
 
 ```bash
 # OpenAI Models
---target openrouter:openai/gpt-4-turbo
---target openrouter:openai/gpt-4o
---target openrouter:openai/gpt-3.5-turbo
+--target-model openrouter:openai/gpt-4-turbo
+--target-model openrouter:openai/gpt-4o
+--target-model openrouter:openai/gpt-3.5-turbo
 
 # Anthropic Claude
---target openrouter:anthropic/claude-3-5-sonnet
---target openrouter:anthropic/claude-3-opus
---target openrouter:anthropic/claude-3-haiku
+--target-model openrouter:anthropic/claude-3-5-sonnet
+--target-model openrouter:anthropic/claude-3-opus
+--target-model openrouter:anthropic/claude-3-haiku
 
 # Google Gemini
---target openrouter:google/gemini-pro-1.5
---target openrouter:google/gemini-flash-1.5
+--target-model openrouter:google/gemini-pro-1.5
+--target-model openrouter:google/gemini-flash-1.5
 
 # Meta Llama
---target openrouter:meta-llama/llama-3.1-70b-instruct
---target openrouter:meta-llama/llama-3.1-405b-instruct
+--target-model openrouter:meta-llama/llama-3.1-70b-instruct
+--target-model openrouter:meta-llama/llama-3.1-405b-instruct
 
 # Mistral
---target openrouter:mistralai/mistral-large
---target openrouter:mistralai/mixtral-8x7b-instruct
+--target-model openrouter:mistralai/mistral-large
+--target-model openrouter:mistralai/mixtral-8x7b-instruct
 ```
 
 See full list: [openrouter.ai/models](https://openrouter.ai/models)
@@ -326,11 +327,11 @@ See full list: [openrouter.ai/models](https://openrouter.ai/models)
 
 ```bash
 # All using single OpenRouter API key
-python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:openai/gpt-4-turbo --judges 2
-python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:anthropic/claude-3-5-sonnet --judges 2
-python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:google/gemini-pro-1.5 --judges 2
-python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:meta-llama/llama-3.1-70b-instruct --judges 2
-python -m src run --scenario scenarios/v1/scenario_002.json --target openrouter:mistralai/mistral-large --judges 2
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model openrouter:openai/gpt-4-turbo --judges 2
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model openrouter:anthropic/claude-3-5-sonnet --judges 2
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model openrouter:google/gemini-pro-1.5 --judges 2
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model openrouter:meta-llama/llama-3.1-70b-instruct --judges 2
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model openrouter:mistralai/mistral-large --judges 2
 ```
 
 ---
@@ -433,7 +434,7 @@ Missing required facts: F1_TM, F2_TM, F5_MA, F8_TM
 Look these up in the scenario file to see what was omitted:
 
 ```bash
-grep -A 5 '"fact_id": "F5_MA"' scenarios/v1/scenario_002.json
+grep -A 5 '"fact_id": "F5_MA"' scenarios/v1/scenario_001.json
 ```
 
 Output:
@@ -482,8 +483,8 @@ This tells you **what the model failed to mention** - a common and important det
 # Agents use fake adapter (no API calls)
 # Only pay for target model
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --judges 2
 # Cost: ~$0.02 per run
 ```
@@ -491,8 +492,8 @@ python -m src run \
 **4. Test with cheaper target models first:**
 ```bash
 # Test with GPT-3.5-turbo or Gemini Flash first
---target openrouter:openai/gpt-3.5-turbo      # ~$0.001 per call
---target openrouter:google/gemini-flash-1.5    # ~$0.0001 per call
+--target-model openrouter:openai/gpt-3.5-turbo      # ~$0.001 per call
+--target-model openrouter:google/gemini-flash-1.5    # ~$0.0001 per call
 ```
 
 ### Monitoring Costs
@@ -558,7 +559,7 @@ FileNotFoundError: scenarios/v1/scenario_003.json
 ls scenarios/v1/
 
 # Use an existing scenario
---scenario scenarios/v1/scenario_002.json
+--scenario scenarios/v1/scenario_001.json
 ```
 
 #### 5. JSON Parsing Errors
@@ -582,8 +583,9 @@ If you see JSON parsing errors with real LLM agents, this was fixed in the recen
    ```bash
    # Verify system works without API calls
    python -m src run \
-     --scenario scenarios/v1/scenario_002.json \
-     --target fake:perfect \
+     --scenario scenarios/v1/scenario_001.json \
+     --target-model fake:perfect \
+     --grade-model fake:perfect \
      --judges 2
    ```
 
@@ -605,8 +607,8 @@ If you see JSON parsing errors with real LLM agents, this was fixed in the recen
 ```bash
 # Basic evaluation
 python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --scenario scenarios/v1/scenario_001.json \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 

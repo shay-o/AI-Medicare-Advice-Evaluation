@@ -278,8 +278,8 @@ cat runs/20260125_014231/intermediate/*/extraction.json | python -m json.tool | 
 ### 3. Compare Model Responses
 ```bash
 # Run evaluations on different models
-python -m src run --scenario scenarios/v1/scenario_001.json --target openai:gpt-4-turbo
-python -m src run --scenario scenarios/v1/scenario_001.json --target anthropic:claude-3-5-sonnet-20241022
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model openai:gpt-4-turbo
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model anthropic:claude-3-5-sonnet-20241022
 
 # View both
 python -m src.view_run runs/<run1>

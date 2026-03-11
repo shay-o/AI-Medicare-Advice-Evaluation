@@ -19,7 +19,7 @@ echo "=========================================="
 echo ""
 
 # Configuration
-SCENARIO="scenarios/v1/scenario_002.json"
+SCENARIO="scenarios/v1/scenario_001.json"
 AGENT_MODEL="openrouter:anthropic/claude-3-haiku"  # Cheap and accurate
 JUDGES=2
 
@@ -67,7 +67,7 @@ for MODEL in "${MODELS[@]}"; do
 
   python -m src run \
     --scenario "$SCENARIO" \
-    --target "$MODEL" \
+    --target-model "$MODEL" \
     --agent-model "$AGENT_MODEL" \
     --judges "$JUDGES"
 

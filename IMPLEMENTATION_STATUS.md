@@ -227,7 +227,7 @@ cp .env.example .env
 # Run evaluation
 python -m src.orchestrator run \
   --scenario scenarios/v1/scenario_001.json \
-  --target fake:perfect \
+  --target-model fake:perfect \
   --judges 2 \
   --seed 42
 

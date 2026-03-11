@@ -111,7 +111,7 @@ All adapters support:
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openai:gpt-4-turbo \
+  --target-model openai:gpt-4-turbo \
   --judges 2 \
   --seed 42
 ```
@@ -209,13 +209,13 @@ echo "OPENAI_API_KEY=sk-your_key" >> .env
 # Test with fake adapter (no API calls)
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target fake:perfect \
+  --target-model fake:perfect \
   --judges 2
 
 # Evaluate real model
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openai:gpt-4-turbo \
+  --target-model openai:gpt-4-turbo \
   --judges 2
 ```
 
