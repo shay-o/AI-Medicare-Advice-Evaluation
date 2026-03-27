@@ -156,10 +156,33 @@ You can also use direct provider APIs:
 
 - **Fake** - `--target fake:perfect` (no API calls, for testing)
 
+## Eval Dataset
+
+The `eval_dataset/` directory contains a standalone, structured version of the SHIP question bank that can be used independently of the evaluation harness — for example, to build your own grader, run manual evaluations, or compare AI outputs against the human baseline.
+
+```
+eval_dataset/
+├── index.json                        # Manifest linking all files
+├── scenarios/                        # Persona definitions and question sequences
+│   ├── medicare_only_v1.json         # Turning-65, employer coverage persona
+│   └── dual_eligible_v1.json         # Medicare + full Medicaid persona
+├── question_groups/                  # One file per scored SHIP question (19 total)
+│   ├── QG01_enrollment_timing.json
+│   ├── QG09–QG20_*.json             # Medicare-Only questions
+│   └── QG21–QG26_*.json             # Dual-Eligible questions
+└── baselines/
+    └── ship_2025_human_baseline.json # SHIP counselor accuracy rates (eTable 3)
+```
+
+Each question group file contains the exact question text from the SHIP study script, a four-tier scoring rubric (`accurate_complete`, `accurate_incomplete`, `not_substantive`, `incorrect`) derived from eAppendix 4, and the SHIP human baseline percentages for that question. Questions that require real-time plan lookup (network status, premiums, formulary) are flagged `external_validation_required: true`.
+
+To use the dataset, start with `eval_dataset/index.json` for a full listing of files and per-question baseline rates.
+
 ## Project Structure
 
 ```
 ai-medicare-eval/
+├── eval_dataset/      # Standalone SHIP question bank (scenarios, rubrics, baselines)
 ├── scenarios/          # Test scenarios with answer keys
 ├── prompts/           # System prompts for each agent
 ├── src/               # Core implementation
