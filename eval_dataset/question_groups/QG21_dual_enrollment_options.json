@@ -1,0 +1,44 @@
+{
+  "question_group_id": "QG21",
+  "title": "Options for Enrolling in Medicare with Full Medicaid Benefits",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["dual_eligible_v1"],
+  "scenario_question_numbers": {
+    "dual_eligible": 2
+  },
+  "question_text": "If I stay eligible for Medicaid, what are my options for enrolling in Medicare?",
+  "external_validation_required": false,
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Mentioned can enroll in Original Medicare with Medicaid acting as secondary / supplemental coverage",
+      "Mentioned can enroll in a D-SNP (Dual Special Needs Plan)",
+      "Explained that Medicaid will help cover Medicare costs (premiums, deductibles, copays)",
+      "Mentioned that D-SNPs integrate / coordinate Medicare and Medicaid benefits"
+    ],
+    "accurate_incomplete": [
+      "Mentioned the D-SNP option but did not explain Medicaid cost-sharing assistance",
+      "Mentioned the Original Medicare option but did not mention the D-SNP alternative",
+      "Provided some substantive information but missed key details about benefit integration"
+    ],
+    "not_substantive": [
+      "Counselor did not answer the question",
+      "Said they did not know",
+      "Only said 'you have options' without elaborating"
+    ],
+    "incorrect": [
+      "Said dual-eligible beneficiaries cannot enroll in Medicare Advantage",
+      "Said Medicaid and Medicare cannot work together",
+      "Provided materially incorrect information about dual-eligible enrollment options"
+    ]
+  },
+  "scoring_notes": "All 4 criteria are required for Accurate and Complete. The most commonly missed element is explaining how Medicaid covers Medicare cost-sharing. The 18.9% accurate_complete baseline reflects the complexity of dual-eligible enrollment — most counselors cover part of this but not all components.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 74,
+    "accurate_complete_pct": 18.9,
+    "accurate_incomplete_pct": 51.4,
+    "not_substantive_pct": 21.6,
+    "incorrect_pct": 8.1,
+    "incomplete_data_pct": 0.0
+  }
+}

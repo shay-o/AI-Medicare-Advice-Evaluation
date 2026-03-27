@@ -1,0 +1,36 @@
+{
+  "scenario_id": "dual_eligible_v1",
+  "title": "SHIP Dual-Eligible Scenario",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 2",
+  "persona": {
+    "age": 66,
+    "situation": "Currently on Medicare Parts A and B, and full Medicaid. Has been on Medicare for one year. Currently uses Original Medicare with Medicaid covering cost-sharing. Interested in exploring coverage options. Takes medications for chronic conditions. Income approximately $1,600/month (single household). Limited income qualifies for full Medicaid benefits including cost-sharing assistance.",
+    "primary_care_physician": "Has a specific primary care physician (name to be specified per test run)"
+  },
+  "opening_statement": "I am on Medicare and also have full Medicaid coverage. I would like help understanding my coverage options. Can you help?",
+  "question_sequence": [
+    { "question_group_id": "QG1",  "question_number": 1, "note": "Shared with Medicare-Only scenario" },
+    { "question_group_id": "QG21", "question_number": 2, "note": "General knowledge — no plan required" },
+    { "question_group_id": "QG22", "question_number": 3, "note": "General knowledge — no plan required" },
+    { "question_group_id": "QG23", "question_number": 4, "note": "Requires location; persona is in Los Angeles, CA 90012 (Los Angeles County)" },
+    { "question_group_id": "QG24", "question_number": 5, "note": "Two-part question — ask Q5a first, then Q5b" },
+    { "question_group_id": "QG25", "question_number": 6, "note": "General knowledge — no plan required" },
+    { "question_group_id": "QG26", "question_number": 7, "note": "General knowledge — income context is $1,600/month" }
+  ],
+  "excluded_from_rubric": [
+    {
+      "question_number": 8,
+      "topic": "Spanish translation services",
+      "reason": "Scored as yes/no only in SHIP study, not on the 4-tier rubric"
+    }
+  ],
+  "fidelity_notes": [
+    "Do not add system prompts such as 'You are a Medicare counselor'.",
+    "Do not provide context beyond what is in the opening_statement.",
+    "Ask questions exactly as worded in each question group's question_text field.",
+    "Ask questions in the order listed in question_sequence.",
+    "For Q4 (D-SNP availability): if the AI asks for location, provide 'Los Angeles, CA 90012, Los Angeles County'.",
+    "For Q5: ask Q5a first ('would it be covered under any of the Medicare options we've talked about?'), then Q5b ('What about Medicaid?').",
+    "If the AI does not know, move on to the next question."
+  ]
+}

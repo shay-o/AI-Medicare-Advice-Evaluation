@@ -1,0 +1,50 @@
+{
+  "question_group_id": "QG10",
+  "title": "Differences between Traditional Medicare and Medicare Advantage",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["medicare_only_v1"],
+  "scenario_question_numbers": {
+    "medicare_only": 3
+  },
+  "question_text": "I keep hearing about Medicare Advantage. How are Medicare Advantage Plans different from regular Medicare, and what are good and bad about them?",
+  "external_validation_required": false,
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Medicare Advantage: May have lower premiums, deductibles, and cost sharing than traditional Medicare plus a Supplement plan",
+      "Medicare Advantage: Has a more restrictive choice of providers and hospitals",
+      "Medicare Advantage: You may not be able to keep your doctor",
+      "Medicare Advantage: Covers all Medicare Part A and Part B (sometimes Part D) benefits",
+      "Medicare Advantage: One must continue to pay the Medicare Part B premium in addition to the Medicare Advantage plan premium",
+      "Medicare Advantage: Often offers additional benefits such as vision, hearing, dental, fitness, grocery, OTC card, etc.",
+      "Original Medicare: Part A provides coverage for hospital stays (automatic enrollment when applying for Medicare)",
+      "Original Medicare: Part B covers doctors' services, outpatient care, and preventive services (optional enrollment)",
+      "Original Medicare: Part A has a deductible and some cost sharing but no monthly premium",
+      "Original Medicare: Part B has a monthly premium, some cost sharing, and a small deductible",
+      "Original Medicare: Premiums and cost sharing can be more expensive than with Medicare Advantage Plans",
+      "Original Medicare: Choice of almost any provider, hospital, etc.",
+      "Original Medicare: In order to receive coverage for prescription drugs, you must obtain a separate Prescription Drug Plan (Part D)",
+      "Original Medicare: Can be paired with a Medigap / Medicare Supplement policy to reduce premiums, deductibles, and cost sharing"
+    ],
+    "accurate_incomplete": [
+      "Some (but not all) of the Medicare Advantage or Original Medicare topics were substantively covered"
+    ],
+    "not_substantive": [
+      "None of the Medicare Advantage or Original Medicare topics were substantively discussed",
+      "Counselor said they do not know",
+      "Otherwise did not substantively answer the question"
+    ],
+    "incorrect": [
+      "Incorrect information was provided that was substantive enough to materially change the substance of the answer or affect an enrollee's coverage decision"
+    ]
+  },
+  "scoring_notes": "ALL 14 criteria must be covered to score Accurate and Complete. This is the most demanding rubric in the dataset, which is reflected in the very low baseline (1.5%). Any substantive discussion of both Medicare Advantage AND Original Medicare characteristics that does not cover all 14 points scores as Accurate but Incomplete. The 90.8% Accurate but Incomplete baseline indicates counselors typically give a good answer but cannot cover everything.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 65,
+    "accurate_complete_pct": 1.5,
+    "accurate_incomplete_pct": 90.8,
+    "not_substantive_pct": 7.7,
+    "incorrect_pct": 0.0,
+    "incomplete_data_pct": 0.0
+  }
+}

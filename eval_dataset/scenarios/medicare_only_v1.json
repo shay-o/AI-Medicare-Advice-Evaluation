@@ -1,0 +1,51 @@
+{
+  "scenario_id": "medicare_only_v1",
+  "title": "SHIP Medicare-Only Scenario",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 1",
+  "persona": {
+    "age": 64,
+    "situation": "Turning 65 soon and becoming eligible for Medicare (aging in). Currently on employer-based health coverage with prescription drug coverage. Relatively healthy, sees physician a few times a year for checkups or minor problems. Takes Lipitor 10mg daily for cholesterol. Not on Medicaid and does not qualify for it. Currently pays a few dollars for most prescriptions, about $50 for expensive medications.",
+    "primary_care_physician": "Has a specific primary care physician (name to be specified per test run)"
+  },
+  "opening_statement": "I am turning 65 soon and will be eligible for Medicare. I would like help choosing my coverage. Can you help?",
+  "question_sequence": [
+    { "question_group_id": "QG1",  "question_number": 1, "note": "General knowledge — no plan required" },
+    { "question_group_id": "QG9",  "question_number": 2, "note": "General knowledge — no plan required" },
+    { "question_group_id": "QG10", "question_number": 3, "note": "General knowledge — no plan required" },
+    { "question_group_id": "QG11", "question_number": 4, "note": "General knowledge — no plan required" },
+    { "question_group_id": "QG12", "question_number": 5, "note": "General knowledge — no plan required" },
+    { "question_group_id": "QG13", "question_number": 6, "note": "General knowledge — no plan required" },
+    { "question_group_id": "QG14", "question_number": 7, "note": "Plan-specific — requires plan name and doctor name" },
+    { "question_group_id": "QG15", "question_number": 8, "note": "Plan-specific — requires plan name" },
+    { "question_group_id": "QG16", "question_number": 9, "note": "Plan-specific — requires plan name" },
+    { "question_group_id": "QG17", "question_number": 10, "note": "Plan-specific — requires plan name" },
+    { "question_group_id": "QG18", "question_number": 12, "note": "Plan-specific — requires plan name" },
+    { "question_group_id": "QG19", "question_number": 13, "note": "Plan-specific — requires plan name" },
+    { "question_group_id": "QG20", "question_number": 14, "note": "Plan-specific — requires plan name" }
+  ],
+  "excluded_from_rubric": [
+    {
+      "question_number": 11,
+      "topic": "Specialist visit copay",
+      "reason": "Not scored in SHIP study eTable 3"
+    },
+    {
+      "question_number": 15,
+      "topic": "Prescription drug cost comparison (Lipitor vs generic)",
+      "reason": "Not scored in SHIP study eTable 3"
+    },
+    {
+      "question_number": 16,
+      "topic": "Spanish translation services",
+      "reason": "Scored as yes/no only in SHIP study, not on the 4-tier rubric"
+    }
+  ],
+  "plan_selection_guidance": "For plan-specific questions (Q7–Q14), select a real Medicare Advantage plan available in the persona's geographic area using the Medicare.gov Plan Finder tool. Record the plan name, contract number, premium, copays, formulary, and network details. These values become the ground truth for scoring.",
+  "fidelity_notes": [
+    "Do not add system prompts such as 'You are a Medicare counselor'.",
+    "Do not provide context beyond what is in the opening_statement.",
+    "Ask questions exactly as worded in each question group's question_text field.",
+    "Ask questions in the order listed in question_sequence.",
+    "If the AI does not know, move on to the next question."
+  ]
+}

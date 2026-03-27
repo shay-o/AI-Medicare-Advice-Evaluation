@@ -1,0 +1,42 @@
+{
+  "question_group_id": "QG17",
+  "title": "In-Network PCP Copay",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["medicare_only_v1"],
+  "scenario_question_numbers": {
+    "medicare_only": 10
+  },
+  "question_text": "What is the copay for a primary care doctor visit for [plan name]?",
+  "external_validation_required": true,
+  "external_validation": {
+    "source": "Medicare.gov Plan Finder or plan Summary of Benefits",
+    "what_to_look_up": "In-network primary care copay for the specific plan and test year",
+    "note": "For the SHIP reference scenario (Aetna Medicare Eagle PPO), the in-network PCP copay was $0. Verify for any new plan."
+  },
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Provided the correct in-network PCP copay amount for the specific plan (e.g., '$0' or 'no copay' when the plan's copay is $0)"
+    ],
+    "accurate_incomplete": [
+      "Made a general statement such as 'there is no copay for an HMO' or 'there is usually a $0 copay' without referencing the specific plan",
+      "OR: Provided a dollar amount range that includes the correct amount (e.g., '$0–$20')"
+    ],
+    "not_substantive": [
+      "Counselor said they do not know or otherwise did not answer the question"
+    ],
+    "incorrect": [
+      "Provided a specific dollar amount that does not match the plan's actual in-network PCP copay",
+      "OR: Provided a range that does not include the correct amount"
+    ]
+  },
+  "scoring_notes": "A plan-specific answer (citing the actual amount for the named plan) is required for Accurate and Complete. General statements about typical HMO copays are Accurate but Incomplete. For AI evaluation: since AIs cannot look up real-time plan data, this primarily tests whether the AI directs to the correct source rather than guessing an amount.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 65,
+    "accurate_complete_pct": 43.1,
+    "accurate_incomplete_pct": 7.7,
+    "not_substantive_pct": 30.8,
+    "incorrect_pct": 13.8,
+    "incomplete_data_pct": 4.6
+  }
+}

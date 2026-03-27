@@ -1,0 +1,223 @@
+{
+  "dataset_id": "medicare-eval-ship-2025",
+  "title": "Medicare AI Evaluation Dataset — SHIP Study 2025",
+  "version": "1.0.0",
+  "description": "A structured evaluation dataset for testing AI Medicare counseling accuracy. Replicates the mystery-shopper methodology from Dugan et al. (JAMA Network Open, 2025) to enable fair comparison between AI systems and the SHIP human counselor baseline.",
+  "source_study": {
+    "citation": "Dugan K, Konetzka RT, Polsky D, et al. Accuracy of Medicare Insurance Counseling Provided by State Health Insurance Assistance Programs. JAMA Network Open. 2025;8(4):e252834.",
+    "doi": "10.1001/jamanetworkopen.2025.2834"
+  },
+  "fidelity_requirements": {
+    "summary": "To produce results comparable to the SHIP baseline, evaluators must replicate the study conditions exactly.",
+    "rules": [
+      "Use the exact opening statement and question wording from the scenario files — do not paraphrase",
+      "Do NOT add system prompts instructing the AI to act as a counselor",
+      "Do NOT provide the AI with extra context beyond what the scenario provides",
+      "Ask questions in the sequence specified by the scenario",
+      "For two-part questions, follow the question_delivery instruction in the question group file",
+      "If the counselor (AI) asks for location, provide the location specified in location_context"
+    ]
+  },
+  "scenarios": [
+    {
+      "scenario_id": "medicare_only_v1",
+      "title": "Medicare-Only Scenario",
+      "file": "scenarios/medicare_only_v1.json",
+      "description": "Persona turning 65, has employer coverage, seeking help choosing Medicare coverage. Tests general Medicare knowledge questions.",
+      "ship_n": 65,
+      "question_groups": [
+        "QG01", "QG09", "QG10", "QG11", "QG12", "QG13",
+        "QG14", "QG15", "QG16", "QG17", "QG18", "QG19", "QG20"
+      ]
+    },
+    {
+      "scenario_id": "dual_eligible_v1",
+      "title": "Dual-Eligible Scenario",
+      "file": "scenarios/dual_eligible_v1.json",
+      "description": "Persona age 66, already on Medicare and full Medicaid, exploring coverage options including D-SNPs. Tests dual-eligible and Medicaid integration knowledge.",
+      "ship_n": 74,
+      "question_groups": [
+        "QG01", "QG21", "QG22", "QG23", "QG24", "QG25", "QG26"
+      ]
+    }
+  ],
+  "question_groups": [
+    {
+      "question_group_id": "QG01",
+      "title": "Enrollment Timing",
+      "file": "question_groups/QG01_enrollment_timing.json",
+      "applicable_scenarios": ["medicare_only_v1", "dual_eligible_v1"],
+      "external_validation_required": false,
+      "ship_accurate_complete_pct": 48.9
+    },
+    {
+      "question_group_id": "QG09",
+      "title": "Employer Plan Interaction",
+      "file": "question_groups/QG09_employer_plan.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": false,
+      "ship_accurate_complete_pct": 63.1
+    },
+    {
+      "question_group_id": "QG10",
+      "title": "Traditional Medicare vs Medicare Advantage",
+      "file": "question_groups/QG10_tm_vs_ma.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": false,
+      "ship_accurate_complete_pct": 1.5
+    },
+    {
+      "question_group_id": "QG11",
+      "title": "Medicare Supplement Plan Considerations",
+      "file": "question_groups/QG11_supplement_plans.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": false,
+      "ship_accurate_complete_pct": 3.1
+    },
+    {
+      "question_group_id": "QG12",
+      "title": "Long-Term Care Coverage (Medicare-Only)",
+      "file": "question_groups/QG12_ltc_medicare.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": false,
+      "ship_accurate_complete_pct": 84.6
+    },
+    {
+      "question_group_id": "QG13",
+      "title": "Prescription Drug Coverage Considerations",
+      "file": "question_groups/QG13_rx_coverage.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": false,
+      "ship_accurate_complete_pct": 20.0
+    },
+    {
+      "question_group_id": "QG14",
+      "title": "PCP Network Status for Specific Plan",
+      "file": "question_groups/QG14_pcp_network.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": true,
+      "ship_accurate_complete_pct": 23.1
+    },
+    {
+      "question_group_id": "QG15",
+      "title": "Plan Premium",
+      "file": "question_groups/QG15_plan_premium.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": true,
+      "ship_accurate_complete_pct": 10.8
+    },
+    {
+      "question_group_id": "QG16",
+      "title": "Out-of-Network Care",
+      "file": "question_groups/QG16_out_of_network.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": true,
+      "ship_accurate_complete_pct": 60.0
+    },
+    {
+      "question_group_id": "QG17",
+      "title": "In-Network PCP Copay",
+      "file": "question_groups/QG17_pcp_copay.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": true,
+      "ship_accurate_complete_pct": 43.1
+    },
+    {
+      "question_group_id": "QG18",
+      "title": "Maximum Out-of-Pocket Limit",
+      "file": "question_groups/QG18_max_oop.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": true,
+      "ship_accurate_complete_pct": 32.3
+    },
+    {
+      "question_group_id": "QG19",
+      "title": "Plan Includes Prescription Drug Coverage",
+      "file": "question_groups/QG19_rx_included.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": true,
+      "ship_accurate_complete_pct": 70.8
+    },
+    {
+      "question_group_id": "QG20",
+      "title": "Specific Drug Coverage (Lipitor / Atorvastatin)",
+      "file": "question_groups/QG20_lipitor.json",
+      "applicable_scenarios": ["medicare_only_v1"],
+      "external_validation_required": true,
+      "ship_accurate_complete_pct": 38.5
+    },
+    {
+      "question_group_id": "QG21",
+      "title": "Dual-Eligible Medicare Enrollment Options",
+      "file": "question_groups/QG21_dual_enrollment_options.json",
+      "applicable_scenarios": ["dual_eligible_v1"],
+      "external_validation_required": false,
+      "ship_accurate_complete_pct": 18.9
+    },
+    {
+      "question_group_id": "QG22",
+      "title": "D-SNP Considerations",
+      "file": "question_groups/QG22_dsnp_considerations.json",
+      "applicable_scenarios": ["dual_eligible_v1"],
+      "external_validation_required": false,
+      "ship_accurate_complete_pct": 1.4
+    },
+    {
+      "question_group_id": "QG23",
+      "title": "D-SNP Availability",
+      "file": "question_groups/QG23_dsnp_availability.json",
+      "applicable_scenarios": ["dual_eligible_v1"],
+      "external_validation_required": true,
+      "ship_accurate_complete_pct": 64.9
+    },
+    {
+      "question_group_id": "QG24",
+      "title": "Long-Term Care Coverage (Dual-Eligible)",
+      "file": "question_groups/QG24_ltc_dual.json",
+      "applicable_scenarios": ["dual_eligible_v1"],
+      "external_validation_required": false,
+      "ship_accurate_complete_pct": 12.2
+    },
+    {
+      "question_group_id": "QG25",
+      "title": "Medicaid Coverage of Medicare Premiums and Cost Sharing",
+      "file": "question_groups/QG25_medicaid_cost_coverage.json",
+      "applicable_scenarios": ["dual_eligible_v1"],
+      "external_validation_required": false,
+      "ship_accurate_complete_pct": 59.5
+    },
+    {
+      "question_group_id": "QG26",
+      "title": "Medicare Cost Sharing Assistance Programs (MSPs)",
+      "file": "question_groups/QG26_cost_assistance.json",
+      "applicable_scenarios": ["dual_eligible_v1"],
+      "external_validation_required": false,
+      "ship_accurate_complete_pct": 27.0
+    }
+  ],
+  "baselines": [
+    {
+      "baseline_id": "ship_2025_human_baseline",
+      "title": "SHIP Human Counselor Baseline — Dugan et al. 2025",
+      "file": "baselines/ship_2025_human_baseline.json",
+      "description": "Per-question SHIP counselor accuracy rates from eTable 3 of the source study"
+    }
+  ],
+  "statistics": {
+    "total_question_groups": 19,
+    "medicare_only_question_groups": 13,
+    "dual_eligible_question_groups": 7,
+    "shared_question_groups": 1,
+    "questions_requiring_external_validation": 8,
+    "hardest_question": {
+      "question_group_id": "QG22",
+      "ship_accurate_complete_pct": 1.4,
+      "note": "D-SNP considerations — lowest human accurate-complete rate in the dataset"
+    },
+    "easiest_question": {
+      "question_group_id": "QG12",
+      "ship_accurate_complete_pct": 84.6,
+      "note": "Long-term care coverage in Medicare-Only scenario — highest human accurate-complete rate"
+    }
+  }
+}

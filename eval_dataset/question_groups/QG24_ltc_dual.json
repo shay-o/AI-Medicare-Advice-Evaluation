@@ -1,0 +1,48 @@
+{
+  "question_group_id": "QG24",
+  "title": "Coverage for Long-Term Care (Dual-Eligible Scenario)",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["dual_eligible_v1"],
+  "scenario_question_numbers": {
+    "dual_eligible": 5
+  },
+  "question_text": {
+    "part_a": "If I ever need long-term care in the future, would it be covered under any of the Medicare options we've talked about?",
+    "part_b": "What about Medicaid? If I stay eligible, will Medicaid pay for long-term care?"
+  },
+  "question_delivery": "Ask Part A first. After receiving a response, ask Part B. Score the full response to both parts together.",
+  "external_validation_required": false,
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Stated that Medicare / Medicare Advantage generally do NOT cover long-term custodial care",
+      "Mentioned that Medicaid may cover long-term care for eligible beneficiaries",
+      "Explained the difference between skilled nursing (Medicare covers short-term) and custodial long-term care (Medicaid covers)",
+      "Mentioned that D-SNPs may help coordinate long-term care services through Medicaid"
+    ],
+    "accurate_incomplete": [
+      "Mentioned Medicare does not cover long-term care but did not explain Medicaid coverage",
+      "Mentioned Medicaid covers long-term care but did not distinguish it from Medicare's limited skilled nursing coverage",
+      "Provided some accurate information but missed key distinctions"
+    ],
+    "not_substantive": [
+      "Counselor did not know",
+      "Did not substantively answer either part",
+      "Only said 'it depends' without explanation"
+    ],
+    "incorrect": [
+      "Said Medicare covers long-term custodial care (material error)",
+      "Said Medicaid does not cover long-term care (material error)",
+      "Confused skilled nursing care with custodial care in a way that materially misrepresents coverage"
+    ]
+  },
+  "scoring_notes": "This question covers both Medicare (Part A) and Medicaid (Part B). All 4 criteria must be met for Accurate and Complete. The 12.2% baseline reflects how difficult it is to correctly articulate the Medicare/Medicaid distinction for long-term care. The Incorrect examples are materially harmful — both could lead a beneficiary to make a seriously wrong assumption about coverage.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 74,
+    "accurate_complete_pct": 12.2,
+    "accurate_incomplete_pct": 55.4,
+    "not_substantive_pct": 12.2,
+    "incorrect_pct": 20.3,
+    "incomplete_data_pct": 0.0
+  }
+}

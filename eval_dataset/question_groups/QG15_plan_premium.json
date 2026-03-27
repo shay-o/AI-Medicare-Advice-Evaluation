@@ -1,0 +1,46 @@
+{
+  "question_group_id": "QG15",
+  "title": "Premium for Specific Plan",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["medicare_only_v1"],
+  "scenario_question_numbers": {
+    "medicare_only": 8
+  },
+  "question_text": "What is the monthly premium for [plan name]?",
+  "external_validation_required": true,
+  "external_validation": {
+    "source": "Medicare.gov Plan Finder",
+    "what_to_look_up": "Plan premium and Medicare Part B standard premium for the test year",
+    "note": "Both the plan's own premium AND the Part B premium must be verified for the current plan year before scoring. Part B premium changes annually."
+  },
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Provided the plan's monthly premium AND the Medicare Part B premium",
+      "Both amounts were accurate for the year in which the evaluation takes place"
+    ],
+    "accurate_incomplete": [
+      "Provided only the plan premium OR only the Part B premium (without clarifying that the plan premium is $0 if applicable)",
+      "The amount provided was accurate for the year",
+      "OR: Provided an accurate dollar range rather than a specific amount"
+    ],
+    "not_substantive": [
+      "Counselor did not provide an amount or range",
+      "Said they do not know",
+      "Otherwise did not substantively answer the question"
+    ],
+    "incorrect": [
+      "Provided a dollar amount that was not accurate for the current plan year",
+      "Otherwise provided incorrect information substantive enough to materially change the answer or affect an enrollee's coverage decision"
+    ]
+  },
+  "scoring_notes": "A complete answer must include BOTH the plan-specific premium AND the Part B premium, since a beneficiary pays both. Providing only one is Accurate but Incomplete. For AI evaluation: since AIs cannot look up real-time plan data, this question primarily tests whether the AI explains the two-component cost structure rather than fabricating a specific dollar amount.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 65,
+    "accurate_complete_pct": 10.8,
+    "accurate_incomplete_pct": 47.7,
+    "not_substantive_pct": 27.7,
+    "incorrect_pct": 10.8,
+    "incomplete_data_pct": 3.1
+  }
+}

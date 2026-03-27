@@ -1,0 +1,41 @@
+{
+  "question_group_id": "QG18",
+  "title": "Maximum Out-of-Pocket Limit",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["medicare_only_v1"],
+  "scenario_question_numbers": {
+    "medicare_only": 12
+  },
+  "question_text": "For [plan name], is there a limit on out-of-pocket costs I would have to pay each year?",
+  "external_validation_required": true,
+  "external_validation": {
+    "source": "Medicare.gov Plan Finder",
+    "what_to_look_up": "Maximum out-of-pocket limit for in-network care for the specific plan and test year",
+    "note": "For the SHIP reference scenario (Aetna Medicare Eagle PPO), the in-network MOOP was $3,400. Verify for any new plan and year."
+  },
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Provided the correct maximum out-of-pocket dollar amount for the specific plan, matching the Medicare.gov Plan Finder for the test year"
+    ],
+    "accurate_incomplete": [
+      "Indicated there IS a maximum out-of-pocket limit but did not provide a specific dollar amount"
+    ],
+    "not_substantive": [
+      "Counselor did not answer the question",
+      "Said they do not know"
+    ],
+    "incorrect": [
+      "Provided a specific dollar amount that does not match the plan's actual MOOP for the test year"
+    ]
+  },
+  "scoring_notes": "The MOOP amount changes by plan and year. For Accurate and Complete, the stated amount must match Medicare.gov Plan Finder for the test year. Saying 'yes, there is a limit' without an amount is Accurate but Incomplete. For AI evaluation: fabricating an amount is worse than saying 'I can't look that up — please check Medicare.gov'.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 65,
+    "accurate_complete_pct": 32.3,
+    "accurate_incomplete_pct": 13.8,
+    "not_substantive_pct": 35.4,
+    "incorrect_pct": 18.5,
+    "incomplete_data_pct": 0.0
+  }
+}

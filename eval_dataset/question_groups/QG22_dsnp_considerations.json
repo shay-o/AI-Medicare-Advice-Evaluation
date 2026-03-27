@@ -1,0 +1,47 @@
+{
+  "question_group_id": "QG22",
+  "title": "Considerations for Choosing an Integrated Care Option (D-SNP)",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["dual_eligible_v1"],
+  "scenario_question_numbers": {
+    "dual_eligible": 3
+  },
+  "question_text": "I saw a commercial about special plans for people with both Medicaid and Medicare. Can you tell me more about them and why I may or may not want to choose one?",
+  "external_validation_required": false,
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Mentioned must use the plan's network of providers (HMO/PPO network restrictions apply)",
+      "Mentioned may need to change doctors if current providers are not in the plan's network",
+      "Mentioned that D-SNPs integrate Medicare and Medicaid benefits",
+      "Mentioned care coordination / case management services",
+      "Mentioned that Medicaid continues to cover cost-sharing when enrolled in a D-SNP",
+      "Mentioned additional benefits may be available (dental, vision, hearing, etc.)",
+      "Explained difference from Original Medicare in terms of provider choice"
+    ],
+    "accurate_incomplete": [
+      "Mentioned network restrictions but did not discuss care coordination benefits",
+      "Mentioned integration but did not discuss the potential need to change providers",
+      "Provided some considerations but missed key tradeoffs between provider flexibility and coordinated care"
+    ],
+    "not_substantive": [
+      "Counselor did not answer the question",
+      "Said they did not know",
+      "Only said 'it depends' without providing specific considerations"
+    ],
+    "incorrect": [
+      "Said D-SNPs do not have network restrictions",
+      "Said the beneficiary cannot keep Medicaid if enrolled in a D-SNP",
+      "Provided materially incorrect information about D-SNP characteristics"
+    ]
+  },
+  "scoring_notes": "This is the hardest question in the entire dataset — only 1.4% of SHIP counselors scored Accurate and Complete. All 7 criteria must be met. The most commonly missed elements are care coordination services and the continued Medicaid cost-sharing coverage. An AI that explains both the tradeoff (network restrictions vs. integrated care) AND mentions that Medicaid cost-sharing continues will significantly outperform the human baseline on this question.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 74,
+    "accurate_complete_pct": 1.4,
+    "accurate_incomplete_pct": 70.3,
+    "not_substantive_pct": 28.4,
+    "incorrect_pct": 0.0,
+    "incomplete_data_pct": 0.0
+  }
+}

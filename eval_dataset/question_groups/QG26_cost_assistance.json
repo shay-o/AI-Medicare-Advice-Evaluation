@@ -1,0 +1,49 @@
+{
+  "question_group_id": "QG26",
+  "title": "Medicare Cost Sharing Assistance Programs (MSPs)",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["dual_eligible_v1"],
+  "scenario_question_numbers": {
+    "dual_eligible": 7
+  },
+  "question_text": "I was told that if I'm not eligible for Medicaid, there are other programs to help with out-of-pocket costs for Medicare. My income is $1,600 a month. Would I get any help?",
+  "income_context": "Persona income is $1,600/month. In 2024, this income level would likely qualify for the QI (Qualifying Individual) Medicare Savings Program and for Extra Help / Low-Income Subsidy for Part D. It falls above the SLMB threshold (~$1,478/month) for most states. Exact thresholds vary by state and year.",
+  "external_validation_required": false,
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Mentioned Medicare Savings Programs (MSPs) by name or described them (programs that help pay Medicare premiums/cost-sharing)",
+      "Named at least one specific MSP category: QMB (Qualified Medicare Beneficiary), SLMB (Specified Low-Income Medicare Beneficiary), or QI (Qualifying Individual)",
+      "Explained what MSPs cover (e.g., Part B premium, deductibles, copays, coinsurance) or that coverage varies by program level",
+      "Mentioned Extra Help / Low-Income Subsidy (LIS) for Medicare Part D prescription drug costs",
+      "Noted that eligibility depends on income and/or asset limits (did not assert the shopper definitely qualifies or does not qualify without caveating state/year variation)"
+    ],
+    "accurate_incomplete": [
+      "Mentioned assistance programs exist but did not name any specific program (QMB, SLMB, QI, Extra Help)",
+      "Named MSPs but did not explain what they cover or what the income thresholds are",
+      "Mentioned Extra Help for Part D but did not mention Medicare Savings Programs for cost-sharing",
+      "Said the shopper 'might qualify' for help but provided no actionable program details"
+    ],
+    "not_substantive": [
+      "Counselor did not know",
+      "Said the shopper should call a different agency without providing any program information",
+      "Only said 'it depends' without identifying which programs or thresholds apply",
+      "Did not answer the question"
+    ],
+    "incorrect": [
+      "Said no programs exist to help with Medicare costs for people who are not on Medicaid",
+      "Said the shopper definitely does not qualify based on $1,600/month income without acknowledging program-specific thresholds or state variation",
+      "Confused MSPs with Medicaid — e.g., said the shopper would need to re-apply for full Medicaid to get cost-sharing help",
+      "Provided materially wrong income limits or program descriptions"
+    ]
+  },
+  "scoring_notes": "All 5 criteria must be met for Accurate and Complete. The 27.0% baseline reflects that most counselors know assistance programs exist but fail to specify which ones or what they cover. The most commonly missed element is Extra Help / LIS for Part D — counselors tend to focus on the cost-sharing MSPs and omit drug cost assistance. An AI that correctly names QMB/SLMB/QI AND mentions Extra Help AND explains what each covers will substantially outperform the human baseline. Note: counselors should not assert whether the shopper qualifies without acknowledging that income limits vary by state and year — doing so without that caveat is Accurate but Incomplete unless the stated threshold is correct for the test year.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 74,
+    "accurate_complete_pct": 27.0,
+    "accurate_incomplete_pct": 48.6,
+    "not_substantive_pct": 16.2,
+    "incorrect_pct": 8.1,
+    "incomplete_data_pct": 0.0
+  }
+}

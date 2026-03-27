@@ -1,0 +1,43 @@
+{
+  "question_group_id": "QG19",
+  "title": "Whether Specific Plan Includes Coverage for Prescription Drugs",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["medicare_only_v1"],
+  "scenario_question_numbers": {
+    "medicare_only": 13
+  },
+  "question_text": "Does [plan name] include prescription drug coverage?",
+  "external_validation_required": true,
+  "external_validation": {
+    "source": "Medicare.gov Plan Finder or plan Summary of Benefits",
+    "what_to_look_up": "Whether the specific plan includes Part D prescription drug coverage",
+    "note": "For the SHIP reference scenario (Aetna Medicare Eagle PPO), drug coverage is included. Verify for any new plan."
+  },
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Confirmed yes (or no) specifically for the named plan, and the answer matches the plan's actual benefit structure"
+    ],
+    "accurate_incomplete": [
+      "Provided a correct answer that is not specific to the named plan (e.g., 'most Medicare Advantage plans include drug coverage')",
+      "Said 'I believe so' or 'that plan usually does' without confirming plan-specifically",
+      "OR: Confirmed specific drugs are covered without clarifying whether the plan includes drug coverage generally"
+    ],
+    "not_substantive": [
+      "Counselor said they do not know or otherwise did not answer the question"
+    ],
+    "incorrect": [
+      "Said no (plan does not include drug coverage) when it does, or vice versa",
+      "Otherwise provided incorrect information substantive enough to affect an enrollee's coverage decision"
+    ]
+  },
+  "scoring_notes": "A plan-specific yes/no answer is required for Accurate and Complete. Generalizations about MA plans are Accurate but Incomplete. For AI evaluation: this is one of the easier questions to get right if the AI correctly reasons that most MA plans include drug coverage and hedges appropriately.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 65,
+    "accurate_complete_pct": 70.8,
+    "accurate_incomplete_pct": 3.1,
+    "not_substantive_pct": 20.0,
+    "incorrect_pct": 1.5,
+    "incomplete_data_pct": 4.6
+  }
+}

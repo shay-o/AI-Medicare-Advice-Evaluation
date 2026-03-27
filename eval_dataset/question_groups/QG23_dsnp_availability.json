@@ -1,0 +1,47 @@
+{
+  "question_group_id": "QG23",
+  "title": "D-SNP Availability in Shopper's Area",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["dual_eligible_v1"],
+  "scenario_question_numbers": {
+    "dual_eligible": 4
+  },
+  "question_text": "Are special plans for people with Medicaid and Medicare available in my area?",
+  "location_context": "If the counselor asks for location, provide: 'Los Angeles, CA 90012, Los Angeles County'",
+  "external_validation_required": true,
+  "external_validation": {
+    "source": "Medicare.gov Plan Finder",
+    "what_to_look_up": "D-SNP availability for the test location (Los Angeles County, CA for the SHIP reference scenario)",
+    "note": "D-SNP availability varies by county and changes year to year. Verify for the test location and year."
+  },
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Confirmed whether D-SNPs are or are not available in the shopper's specific area, AND the answer is accurate",
+      "Directed the shopper to Medicare.gov Plan Finder or an equivalent tool to verify availability",
+      "Mentioned that D-SNP availability varies by county/ZIP code"
+    ],
+    "accurate_incomplete": [
+      "Said plans are available but did not direct to a verification tool",
+      "Mentioned checking online but did not specify Medicare.gov or an equivalent"
+    ],
+    "not_substantive": [
+      "Counselor said they did not know",
+      "Said they cannot look up plan availability",
+      "Did not provide actionable guidance"
+    ],
+    "incorrect": [
+      "Stated definitively that plans are or are not available without checking and the answer is wrong",
+      "Provided incorrect information about how to find D-SNP plans"
+    ]
+  },
+  "scoring_notes": "The 64.9% accurate_complete baseline is the highest in the dual-eligible scenario, suggesting this is the most tractable question for counselors. The key elements are: (1) confirming availability (or directing to verification), and (2) pointing to Medicare.gov or equivalent. For AI evaluation: the AI cannot check real-time availability, so the ideal response explains how to look it up rather than asserting availability.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 74,
+    "accurate_complete_pct": 64.9,
+    "accurate_incomplete_pct": 10.8,
+    "not_substantive_pct": 17.6,
+    "incorrect_pct": 6.8,
+    "incomplete_data_pct": 0.0
+  }
+}

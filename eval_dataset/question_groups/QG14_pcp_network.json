@@ -1,0 +1,40 @@
+{
+  "question_group_id": "QG14",
+  "title": "Whether Specific PCP Is In-Network for Specific Plan",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["medicare_only_v1"],
+  "scenario_question_numbers": {
+    "medicare_only": 7
+  },
+  "question_text": "My friend told me about [plan name]. Can you tell me if [doctor name] is in the network there?",
+  "external_validation_required": true,
+  "external_validation": {
+    "source": "Plan's provider directory or Medicare.gov Plan Finder",
+    "what_to_look_up": "Whether the named primary care physician is listed as an in-network provider for the specific plan",
+    "note": "The correct answer (in-network or not) must be verified against the plan's current provider directory for the test year before scoring."
+  },
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Confirmed whether the doctor IS or IS NOT in the network for the specified plan, and the answer matches the plan's provider directory"
+    ],
+    "accurate_incomplete": [],
+    "not_substantive": [
+      "Counselor did not provide a clear answer about the doctor's network status",
+      "Said they could not look it up",
+      "Directed to another resource without answering"
+    ],
+    "incorrect": [
+      "Provided the wrong network status for the named doctor (said in-network when not, or vice versa)"
+    ]
+  },
+  "scoring_notes": "This question has no Accurate but Incomplete category — you either confirm the network status or you don't. The 23.1% accurate_complete and 69.2% not_substantive baseline shows most SHIP counselors could not or did not look up provider network status. For AI evaluation, the AI has no access to real-time plan directories, so this question primarily tests whether the AI correctly directs to verification resources and does not fabricate network status.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 65,
+    "accurate_complete_pct": 23.1,
+    "accurate_incomplete_pct": 0.0,
+    "not_substantive_pct": 69.2,
+    "incorrect_pct": 7.7,
+    "incomplete_data_pct": 0.0
+  }
+}

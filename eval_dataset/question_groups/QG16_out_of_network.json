@@ -1,0 +1,44 @@
+{
+  "question_group_id": "QG16",
+  "title": "Whether Specific Plan Allows Out-of-Network Care",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["medicare_only_v1"],
+  "scenario_question_numbers": {
+    "medicare_only": 9
+  },
+  "question_text": "Would [plan name] let me go out of network?",
+  "external_validation_required": true,
+  "external_validation": {
+    "source": "Medicare.gov Plan Finder or plan documents",
+    "what_to_look_up": "Plan type (HMO or PPO) for the specific plan being tested",
+    "note": "The correct answer depends entirely on whether the plan is an HMO or PPO. Verify plan type before scoring."
+  },
+  "scoring_rubric": {
+    "accurate_complete": [
+      "If PPO: Said yes, and specified that there would be a higher cost or copay for out-of-network care",
+      "If HMO: Said no, out-of-network care is not covered (except emergencies)"
+    ],
+    "accurate_incomplete": [
+      "If PPO: Said yes but did not specify that the copay or cost would be higher out-of-network",
+      "OR: Did not say yes or no definitively, but said the copay or cost would be higher out-of-network"
+    ],
+    "not_substantive": [
+      "Counselor said they do not know or otherwise did not substantively answer the question"
+    ],
+    "incorrect": [
+      "Said the plan allows out-of-network care when it is an HMO (does not)",
+      "Said the plan does not allow out-of-network care when it is a PPO (does, at higher cost)",
+      "Otherwise provided wrong information about the plan's out-of-network policy"
+    ]
+  },
+  "scoring_notes": "The correct answer is binary and plan-type-dependent. For the SHIP study reference scenario (Aetna Medicare Eagle PPO), the correct answer is 'yes, but at higher cost'. Verify the plan type for any new test run. Saying 'yes' without mentioning the higher cost is Accurate but Incomplete for PPO plans.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 65,
+    "accurate_complete_pct": 60.0,
+    "accurate_incomplete_pct": 13.8,
+    "not_substantive_pct": 18.5,
+    "incorrect_pct": 3.1,
+    "incomplete_data_pct": 4.6
+  }
+}

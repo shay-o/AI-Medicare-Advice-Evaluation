@@ -1,0 +1,38 @@
+{
+  "question_group_id": "QG12",
+  "title": "Coverage of Long-Term Care (Medicare-Only Scenario)",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["medicare_only_v1"],
+  "scenario_question_numbers": {
+    "medicare_only": 5
+  },
+  "question_text": "Do either regular Medicare, Medicare Advantage Plans, or Medicare Supplement Plans cover long-term care?",
+  "external_validation_required": false,
+  "scoring_rubric": {
+    "accurate_complete": [
+      "In general, none of these cover long-term custodial care",
+      "Although some time-limited nursing facility stays or in-home services may be covered in certain circumstances",
+      "OR: Clearly stated that none of these provide coverage for long-term care (without needing to elaborate on the limited exception)"
+    ],
+    "accurate_incomplete": [
+      "Some, but not all, relevant information was provided",
+      "Accurately raised the limited Medicare coverage that may be provided in certain situations that is similar to long-term care, without clarifying that Medicare does not actually cover long-term care"
+    ],
+    "not_substantive": [
+      "Counselor said they do not know or otherwise did not substantively answer the question"
+    ],
+    "incorrect": [
+      "Said that Medicare does cover long-term care without elaborating on the limited circumstances that apply (i.e., implied general long-term care coverage)"
+    ]
+  },
+  "scoring_notes": "This is one of the cleaner questions in the rubric — a clear 'no' answer with brief acknowledgment of the skilled nursing exception scores Accurate and Complete. The Incorrect condition is particularly important here: conflating short-term skilled nursing coverage with long-term custodial care is a material error that could lead a beneficiary to make a seriously incorrect coverage assumption.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 65,
+    "accurate_complete_pct": 84.6,
+    "accurate_incomplete_pct": 1.5,
+    "not_substantive_pct": 4.6,
+    "incorrect_pct": 7.7,
+    "incomplete_data_pct": 1.5
+  }
+}

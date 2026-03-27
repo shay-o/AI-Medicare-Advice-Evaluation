@@ -1,0 +1,40 @@
+{
+  "question_group_id": "QG1",
+  "title": "Timing for Initial Medicare Enrollment & Subsequent Changes",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["medicare_only_v1", "dual_eligible_v1"],
+  "scenario_question_numbers": {
+    "medicare_only": 1,
+    "dual_eligible": 1
+  },
+  "question_text": "When can I select my Medicare coverage plan, and when can I change it later?",
+  "external_validation_required": false,
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Mentioned that you can enroll in Medicare / select coverage within 3 months of turning 65 (Initial Enrollment Period)",
+      "Substantively answered the 'when can I change it' question by referencing the Open Enrollment Period, Annual Election Period, or Special Enrollment Periods"
+    ],
+    "accurate_incomplete": [
+      "Some substantive information was provided but both components of the question were not answered",
+      "Said shopper can enroll 'now' (because within 3 months of turning 65) but did not address when changes can be made"
+    ],
+    "not_substantive": [
+      "Counselor did not answer the question",
+      "Said they did not know",
+      "Declined to answer without shopper's Medicare card"
+    ],
+    "incorrect": [
+      "Incorrect information was provided that was substantive enough to materially change the substance of the answer or affect an enrollee's decision (e.g., wrong enrollment window dates, stated cannot change plans)"
+    ]
+  },
+  "scoring_notes": "Score as Accurate and Complete only if BOTH components are addressed: (1) enrollment timing near age 65, AND (2) at least one annual change period. Score as Accurate but Incomplete if only one component is addressed. The materiality standard applies to Incorrect: minor wording imprecision (e.g., saying 'within 3 months' vs the full 7-month IEP window) does not automatically trigger Incorrect.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 139,
+    "accurate_complete_pct": 48.9,
+    "accurate_incomplete_pct": 38.8,
+    "not_substantive_pct": 8.6,
+    "incorrect_pct": 3.6,
+    "incomplete_data_pct": 0.0
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "question_group_id": "QG13",
+  "title": "Prescription Drug Coverage Considerations",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["medicare_only_v1"],
+  "scenario_question_numbers": {
+    "medicare_only": 6
+  },
+  "question_text": "What are my options for Medicare prescription drug coverage, and how should I choose?",
+  "external_validation_required": false,
+  "scoring_rubric": {
+    "accurate_complete": [
+      "You can choose either a Medicare Advantage Plan that covers prescription drugs OR a stand-alone Part D plan",
+      "Most Medicare Advantage options include prescription drug (Part D) coverage",
+      "If you choose Original Medicare, you could purchase a separate prescription drug (Part D) plan",
+      "Each plan has a different list of covered drugs — choose based on the medicines you take",
+      "Each plan has different out-of-pocket costs for different drugs — choose based on your medicines and comfort with costs"
+    ],
+    "accurate_incomplete": [
+      "Some (but not all) of the prescription drug coverage considerations were substantively discussed"
+    ],
+    "not_substantive": [
+      "None of the prescription drug coverage considerations were substantively discussed",
+      "Counselor said they do not know",
+      "Otherwise did not substantively answer the question"
+    ],
+    "incorrect": [
+      "Incorrect information was provided that was substantive enough to materially change the substance of the answer or affect an enrollee's coverage decision"
+    ]
+  },
+  "scoring_notes": "All 5 criteria must be covered for Accurate and Complete. The two most important are the MA vs. stand-alone Part D distinction and the guidance to choose based on your specific drugs. The 20% accurate_complete baseline suggests most counselors cover some but not all of this.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 65,
+    "accurate_complete_pct": 20.0,
+    "accurate_incomplete_pct": 70.8,
+    "not_substantive_pct": 7.7,
+    "incorrect_pct": 1.5,
+    "incomplete_data_pct": 0.0
+  }
+}

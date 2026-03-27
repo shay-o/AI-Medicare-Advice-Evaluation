@@ -1,0 +1,44 @@
+{
+  "question_group_id": "QG25",
+  "title": "Medicaid Coverage of Medicare Premiums and Cost Sharing",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["dual_eligible_v1"],
+  "scenario_question_numbers": {
+    "dual_eligible": 6
+  },
+  "question_text": "If I stay eligible for Medicaid, will it pay for my Medicare premiums and cost sharing and deductibles no matter if I choose a Dual Eligible Special Needs Plan, a Medicare Advantage Plan, or regular Medicare?",
+  "external_validation_required": false,
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Stated that full Medicaid (or QMB Plus status) covers the Medicare Part B premium",
+      "Stated that Medicaid covers Medicare cost-sharing (deductibles, copays, coinsurance)",
+      "Mentioned that the level of assistance depends on the beneficiary's Medicaid eligibility category",
+      "May have mentioned the QMB (Qualified Medicare Beneficiary) program specifically"
+    ],
+    "accurate_incomplete": [
+      "Mentioned premium coverage but not cost-sharing coverage (or vice versa)",
+      "Said Medicaid helps with costs but did not specify which costs",
+      "Provided partial information about coverage without the full picture"
+    ],
+    "not_substantive": [
+      "Counselor did not know",
+      "Did not answer the question",
+      "Said 'maybe' or 'it depends' without further explanation"
+    ],
+    "incorrect": [
+      "Said Medicaid does not cover Medicare premiums or cost-sharing",
+      "Said all Medicaid beneficiaries get the same level of assistance regardless of their eligibility category",
+      "Provided materially incorrect information about Medicaid coverage of Medicare costs"
+    ]
+  },
+  "scoring_notes": "All 3 mandatory criteria must be met for Accurate and Complete (mention of QMB is optional but strengthens the answer). The 59.5% accurate_complete baseline is relatively high for the dual-eligible scenario, suggesting this is a more tractable topic for counselors. The key nuance is that assistance level varies by Medicaid category — a blanket 'yes' without that caveat is Accurate but Incomplete.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 74,
+    "accurate_complete_pct": 59.5,
+    "accurate_incomplete_pct": 10.8,
+    "not_substantive_pct": 24.3,
+    "incorrect_pct": 4.1,
+    "incomplete_data_pct": 0.0
+  }
+}

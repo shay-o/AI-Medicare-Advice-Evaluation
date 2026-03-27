@@ -1,0 +1,38 @@
+{
+  "question_group_id": "QG9",
+  "title": "Medicare Enrollment & Interaction with Employer Plan",
+  "source": "Dugan K et al. JAMA Network Open. 2025;8(4):e252834 — eAppendix 4",
+  "applicable_scenarios": ["medicare_only_v1"],
+  "scenario_question_numbers": {
+    "medicare_only": 2
+  },
+  "question_text": "Do I have to sign up for Medicare when I turn 65, or can I remain on my employer plan?",
+  "external_validation_required": false,
+  "scoring_rubric": {
+    "accurate_complete": [
+      "Counselor's answer substantively makes clear that the shopper is NOT required to enroll in Medicare and can keep their employer plan",
+      "Also discusses Part B implications (e.g., mentions possible late enrollment penalty if employer coverage ends later)"
+    ],
+    "accurate_incomplete": [
+      "Counselor says the shopper can remain on employer plan and is not required to enroll in Medicare, but does not discuss Part B / late enrollment penalty implications",
+      "Says that shopper is not required to enroll in Medicare without elaborating"
+    ],
+    "not_substantive": [
+      "Counselor said they do not know or otherwise did not substantively answer the question"
+    ],
+    "incorrect": [
+      "Counselor said that the shopper would be automatically enrolled in Medicare",
+      "Said the shopper is required to enroll in Medicare at 65"
+    ]
+  },
+  "scoring_notes": "The key required fact for Accurate and Complete is both (1) enrollment is optional while on employer coverage, AND (2) mention of Part B / late penalty implications. Omitting the Part B discussion is the most common reason for Accurate but Incomplete. The Incorrect examples listed are material errors that would directly harm a beneficiary's decision.",
+  "ship_baseline": {
+    "source": "eTable 3 (Phone Shops), Dugan et al. 2025",
+    "n": 65,
+    "accurate_complete_pct": 63.1,
+    "accurate_incomplete_pct": 18.5,
+    "not_substantive_pct": 3.1,
+    "incorrect_pct": 15.4,
+    "incomplete_data_pct": 0.0
+  }
+}
