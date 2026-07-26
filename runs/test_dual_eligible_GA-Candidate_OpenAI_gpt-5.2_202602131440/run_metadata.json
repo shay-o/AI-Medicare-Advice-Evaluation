@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-02-13T22:40:11.512051",
+  "scenario_id": "SHIP-DE-ALL",
+  "scenario_title": "SHIP Dual-Eligible: Complete Question Sequence",
+  "target_model": "openai/gpt-5.2",
+  "agent_model": "anthropic/claude-3-haiku",
+  "num_verifiers": 1,
+  "seed": 42
+}

@@ -1,0 +1,153 @@
+{
+  "run_id": "0e65c047",
+  "scenario": "medicare_only",
+  "question_scores": [
+    {
+      "question_number": 1,
+      "question_text": "Is Humana Gold Plus HMO available where I live?",
+      "response_text": "I cannot determine if Humana Gold Plus HMO is available in your area without knowing your location. Humana Gold Plus HMO plans are only available in certain states and counties. To check if this plan is available where you live, you can:\n\n1. Visit Humana's website and enter your zip code\n2. Call Humana directly at 1-800-457-4708\n3. Use Medicare's Plan Finder tool at Medicare.gov\n4. Speak with a licensed insurance agent in your area",
+      "score": "not_substantive",
+      "explanation": "1. The response provided:\n- Ways to check Humana plan availability\n- Contact information and resources\n- A clear acknowledgment that location information is needed\n2. The response completely missed addressing:\n- The actual timing question about when Medicare coverage can be selected\n- Information about enrollment periods\n- When changes can be made to coverage\n3. This response earns a NOT_SUBSTANTIVE score because:\n- It answers a different question than what was asked in the rubric\n- While the information provided is accurate, it does not address the timing aspects of Medicare enrollment and changes that were specified in the question group\n- The response appears to be answering a plan availability question rather than a timing/enrollment period question\n4. Additional concerns:\n- While the information provided might be helpful for someone asking about plan availability, it completely fails to address the timing aspects that were the focus of the question group\n- The response would need to include information about Initial Enrollment Period, Annual Election Period, and/or Special Enrollment Periods to be considered substantive for this particular question",
+      "group_id": "QG1",
+      "group_name": "Timing for Initial Medicare Enrollment & Subsequent Changes",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Mentioned that you can enroll in Medicare/select coverage within 3 months of turning 65",
+        "Substantively answered the 'when can I change it' question by referencing open enrollment period, annual election period, or special enrollment periods"
+      ]
+    },
+    {
+      "question_number": 2,
+      "question_text": "What is the monthly premium for Humana Gold Plus HMO?",
+      "response_text": "The monthly premium for Humana Gold Plus HMO varies by location and specific plan. There isn't a single standard premium that applies nationwide. Premiums can range from $0 to higher amounts depending on:\n\n1. Your location (state and county)\n2. The specific plan design\n3. The benefits included\n4. The year\n\nTo find out the exact premium for Humana Gold Plus HMO plans in your area:\n1. Visit Humana's website\n2. Call Humana directly\n3. Use Medicare's Plan Finder tool\n4. Consult with a licensed insurance agent\n\nAlso note that even if a plan has a $0 premium, you must continue to pay your Medicare Part B premium.",
+      "score": "not_substantive",
+      "explanation": "1. The response provided does not address the question that was asked in the \"Question Group\" about Medicare enrollment requirements at age 65 and employer plan interactions. Instead, it answers a different question about Humana Gold Plus HMO premiums.\n2. While the response provides accurate information about Medicare Advantage plan premiums, it is completely unrelated to the question about Medicare enrollment requirements and employer plan interactions.\n3. I assigned the NOT_SUBSTANTIVE score because:\n- The response fails to address any of the criteria in the rubric\n- It answers a different question entirely\n- It provides no guidance about Medicare enrollment requirements at 65 or employer plan interactions\n4. Concerns:\n- The response appears to be answering a different question than what was intended to be evaluated\n- While the information provided about Humana premiums is accurate, it's not relevant to the evaluation criteria\n- The mismatch between question and answer makes it impossible to meet any of the rubric criteria\nThis appears to be a case where either the wrong question or wrong answer was provided for evaluation, as there is no alignment between the response and the evaluation criteria.",
+      "group_id": "QG9",
+      "group_name": "Medicare Enrollment & Interaction with Employer Plan",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Counselor's answer substantively makes clear that shopper is not required to enroll in Medicare and can keep their employer plan",
+        "Also discusses Part B implications (e.g., mentions possible late enrollment penalty)"
+      ]
+    },
+    {
+      "question_number": 3,
+      "question_text": "Would Humana Gold Plus HMO let me go out of network?",
+      "response_text": "Humana Gold Plus HMO is a Medicare Advantage HMO plan that generally requires you to stay within their network of providers. Typically:\n\n1. You must use network providers for routine care\n2. You need to select a primary care physician (PCP)\n3. You need referrals to see specialists\n4. Out-of-network care is typically NOT covered, except for:\n   - Emergency care\n   - Urgent care\n   - Out-of-area dialysis\n   - Some plans may offer limited out-of-network coverage for specific services\n\nIf you want more flexibility to see out-of-network providers, you might want to consider:\n- A Humana PPO plan\n- A different insurance carrier's PPO plan\n- Original Medicare with a supplement plan\n\nAlways verify specific coverage details with Humana directly, as plans can vary by location.",
+      "score": "substantive_incomplete",
+      "explanation": "The response provides accurate but limited information focused specifically on the network restrictions of Humana Gold Plus HMO plans. It correctly explains:\n1. The requirement to stay within network\n2. The need for a PCP and referrals\n3. The limited exceptions for out-of-network care\n4. Alternative options for those wanting more flexibility\nHowever, it misses most of the broader comparison points between Medicare Advantage and Original Medicare required by the rubric. While the response is accurate for the specific question asked about network restrictions, it doesn't provide the comprehensive overview of differences between Traditional Medicare and Medicare Advantage that the rubric requires.\nThe response is substantive enough to be helpful to someone specifically asking about network restrictions, but incomplete in terms of the full scope of information needed for making an informed choice between Traditional Medicare and Medicare Advantage. There are no incorrect statements that would mislead a beneficiary, but many important aspects of both types of coverage are not addressed.",
+      "group_id": "QG10",
+      "group_name": "Considerations for Choosing Traditional Medicare vs Medicare Advantage",
+      "criteria_met": [
+        "Medicare Advantage: Has a more restrictive choice of providers and hospitals",
+        "Medicare Advantage: You may not be able to keep your doctor"
+      ],
+      "criteria_missed": [
+        "Medicare Advantage: May have lower premiums, deductibles, and cost sharing than traditional Medicare plus Supplement plan",
+        "Medicare Advantage: Covers all Medicare Part A and Part B (sometimes Part D) benefits",
+        "Medicare Advantage: One must continue to pay the Medicare Part B premium in addition to their Medicare Advantage Plan premium",
+        "Medicare Advantage: Often offers additional benefits such as vision, hearing, dental, fitness, grocery, OTC card, etc.",
+        "Original Medicare: You automatically enroll in Medicare Part A when you apply for Medicare, which provides coverage for hospital stay",
+        "Original Medicare: You have the option to enroll in Medicare Part B to cover doctors' services, outpatient care, and preventative services",
+        "Original Medicare: Part A has a deductible and some cost sharing but no monthly premium",
+        "Original Medicare: Part B has a monthly premium, some cost sharing, and a small deductible",
+        "Original Medicare: Premiums and cost sharing can be more expensive than with Medicare Advantage Plans",
+        "Original Medicare: Your choice of almost any provider, hospital, etc.",
+        "Original Medicare: In order to receive coverage for prescription drugs, you must obtain a separate Prescription Drug Plan (Part D)",
+        "Original Medicare: Can be paired with a Medigap/Medicare Supplement policy to reduce premiums, deductibles, and cost sharing"
+      ]
+    },
+    {
+      "question_number": 4,
+      "question_text": "What is the copay for a primary care doctor visit for Humana Gold Plus HMO?",
+      "response_text": "The copay for primary care doctor visits with Humana Gold Plus HMO varies by specific plan and location. Without knowing your exact location and plan details, I cannot provide the exact copay amount. \n\nTypically, Humana Gold Plus HMO primary care visit copays can range from:\n- $0 to $15 per visit (common range)\n- Some plans may have higher copays\n\nTo find the exact copay for your area:\n1. Visit Humana's website\n2. Call Humana directly\n3. Check your plan documents if you're already enrolled\n4. Use Medicare's Plan Finder tool\n5. Speak with a licensed insurance agent\n\nRemember that copays can change from year to year, so it's important to verify current information.",
+      "score": "not_substantive",
+      "explanation": "1. The response provided information about Humana Gold Plus HMO copays, which is:\n- Not related to Medicare Supplement Plans\n- Specifically about Medicare Advantage (HMO) plans instead\n- Does not address any of the criteria about Medicare Supplement Plans\n2. The response completely missed the mark because:\n- The question asked was about a specific Medicare Advantage plan\n- The rubric is specifically looking for information about Medicare Supplement Plans\n- None of the required criteria about Medicare Supplement Plans were addressed\n3. This score was assigned because:\n- While the response was accurate for what it discussed (Humana Gold Plus HMO), it did not address Medicare Supplement Plans at all\n- Per the rubric, if \"none of the Medicare Supplement Plan topics were substantively discussed,\" the response should be scored as NOT_SUBSTANTIVE\n4. The response appears to be answering a different question than what the rubric is designed to evaluate. While the information about the Humana HMO plan may be helpful in another context, it does not address any of the required criteria about Medicare Supplement Plans.",
+      "group_id": "QG11",
+      "group_name": "Considerations for Medicare Supplement Plans",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Supplement plans can be purchased separately if you choose traditional Medicare to help cover out-of-pocket costs",
+        "All supplement plans cover Part A and Part B copays and hospital and hospice costs",
+        "Some supplement plans cover Part A and Part B deductibles",
+        "Some supplement plans have out-of-pocket limits",
+        "Supplement plan costs vary based on how much is covered but usually range from $50-$300 per month",
+        "You can enroll in a Supplement plan at any time",
+        "You will get better rates if you enroll during your open enrollment period (which begins the day you turn 65 and lasts for six months afterwards)"
+      ]
+    },
+    {
+      "question_number": 5,
+      "question_text": "What is the copay to see a specialist for Humana Gold Plus HMO?",
+      "response_text": "The specialist copay for Humana Gold Plus HMO varies by specific plan and location. Without knowing your exact location and plan details, I cannot provide the exact copay amount. \n\nTypically, Humana Gold Plus HMO specialist visit copays can range from:\n- $20 to $50 per visit (common range)\n- Some plans may have higher or lower copays\n\nImportant notes:\n1. You need a referral from your primary care physician to see a specialist\n2. The specialist must be in-network\n3. Copays may vary by type of specialist\n\nTo find the exact specialist copay for your area:\n1. Visit Humana's website\n2. Call Humana directly\n3. Check your plan documents if you're already enrolled\n4. Use Medicare's Plan Finder tool\n5. Speak with a licensed insurance agent",
+      "score": "not_substantive",
+      "explanation": "The response provided does not address the question that was asked according to the rubric. The question was supposed to be about whether Medicare (Original, Advantage Plans, or Supplement Plans) covers long-term care. Instead, the response discusses specialist copays for a specific Medicare Advantage plan (Humana Gold Plus HMO).\nWhile the information provided about specialist copays may be accurate, it is completely unrelated to the topic of long-term care coverage. The response:\n1. Does not mention long-term care at all\n2. Does not address coverage under any form of Medicare\n3. Answers a completely different question than what was intended to be evaluated\nThis is a clear case of NOT_SUBSTANTIVE because the response fails to address the actual question about long-term care coverage that should have been evaluated according to the rubric. Even though the response provides detailed information about specialist copays, it is not relevant to the evaluation criteria provided in the rubric about long-term care coverage.",
+      "group_id": "QG12",
+      "group_name": "Coverage of Long-Term Care",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "In general, none of these cover long-term care",
+        "Although some time-limited nursing facility stays or in-home services may be covered",
+        "OR: None of these provide coverage for long-term care"
+      ]
+    },
+    {
+      "question_number": 6,
+      "question_text": "For Humana Gold Plus HMO, is there a limit on out-of-pocket costs I would have to pay each year?",
+      "response_text": "Yes, Humana Gold Plus HMO plans have a yearly Maximum Out-of-Pocket (MOOP) limit. This is the most you would have to pay for covered medical services in a year. After you reach this limit, the plan pays 100% of covered services for the rest of the year.\n\nThe specific MOOP amount varies by location and plan, but:\n- Federal law requires all Medicare Advantage plans to have a MOOP no higher than $8,300 (for 2023)\n- Many Humana Gold Plus HMO plans have lower MOOP limits\n- Common ranges are between $3,000 to $7,000\n\nTo find the exact MOOP limit for plans in your area:\n1. Visit Humana's website\n2. Call Humana directly\n3. Check your plan documents if already enrolled\n4. Use Medicare's Plan Finder tool\n5. Consult with a licensed insurance agent\n\nNote: Only in-network covered services count toward the MOOP limit.",
+      "score": "not_substantive",
+      "explanation": "While the response provided accurate information about Maximum Out-of-Pocket (MOOP) limits for Humana Gold Plus HMO plans, it did not address the question that was supposed to be evaluated according to the rubric. The question to be evaluated was \"What are my options for Medicare prescription drug coverage, and how should I choose?\" but the response instead answered a different question about MOOP limits for a specific Medicare Advantage plan.\nThe response:\n1. Did not discuss any prescription drug coverage options\n2. Did not explain the choice between Medicare Advantage drug coverage and stand-alone Part D plans\n3. Did not mention drug formularies or how to choose based on specific medications\n4. Did not address prescription drug costs or considerations\nWhile the information provided about MOOP limits was accurate, it was not responsive to the prescription drug coverage question that was supposed to be evaluated. Therefore, this response must be scored as NOT_SUBSTANTIVE since it did not address any of the required criteria about prescription drug coverage options and considerations.",
+      "group_id": "QG13",
+      "group_name": "Considerations for Prescription Drug Coverage",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "You can choose either a Medicare Advantage Plan that covers prescription drugs or a stand-alone Part D plan",
+        "Most Medicare Advantage options include prescription drug (Part D) coverage",
+        "If you choose original Medicare, you could purchase a separate prescription drug (Part D) plan",
+        "Each plan has a different list of covered drugs, and you would choose based on the medicine you take",
+        "Each plan has different out-of-pocket costs for different drugs, and you would choose based on the medicine you take and your comfort with costs"
+      ]
+    },
+    {
+      "question_number": 7,
+      "question_text": "Does Humana Gold Plus HMO include prescription drug coverage?",
+      "response_text": "Yes, most Humana Gold Plus HMO plans include prescription drug coverage (Medicare Part D). However, specific drug coverage details vary by plan and location.\n\nKey points about the prescription drug coverage:\n1. Different drugs have different copays/coinsurance based on tiers\n2. Plans have different formularies (list of covered drugs)\n3. You may need to use network pharmacies\n4. Some plans may have:\n   - Deductibles for prescription drugs\n   - Mail-order pharmacy options\n   - Preferred pharmacy networks with lower costs\n\nTo find specific drug coverage details:\n1. Check Humana's website\n2. Call Humana directly\n3. Review plan documents if enrolled\n4. Use Medicare's Plan Finder to compare drug costs\n5. Speak with a licensed insurance agent\n\nIt's important to check if your specific medications are covered and what tier they're on before enrolling in a plan.",
+      "score": "not_substantive",
+      "explanation": "1. The response provided information about prescription drug coverage for Humana Gold Plus HMO plans, but this was not the question asked. The question was specifically about whether a particular doctor is in the network for a specific plan.\n2. The response completely missed addressing:\n- Network status of any specific doctor\n- How to check if a specific doctor is in network\n- Any information about provider networks\n3. This response earns a NOT_SUBSTANTIVE score because:\n- It failed to address the actual question about provider network status\n- While the information provided about prescription drug coverage is accurate, it's not relevant to the question asked\n- The response appears to be answering a different question entirely\n4. Concerns:\n- The response demonstrates a failure to address the core question about provider network status\n- While the information about prescription drug coverage might be useful in other contexts, it doesn't help the beneficiary determine if their doctor is in network\n- This type of response could lead to beneficiary confusion or frustration since their actual question remains unanswered\nThe counselor should have instead provided information about how to verify if a specific doctor is in the plan's network, either by checking directly or providing resources for checking network status.",
+      "group_id": "QG14",
+      "group_name": "Ability to Determine if Specific PCP is in Network for Specific Plan",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "The doctor is confirmed to be in the network (or not in network with accurate information)"
+      ]
+    },
+    {
+      "question_number": 8,
+      "question_text": "Does Humana Gold Plus HMO cover Lipitor?",
+      "response_text": "Humana Gold Plus HMO typically covers atorvastatin, which is the generic version of Lipitor. However, coverage details can vary by plan and location.\n\nKey points about Lipitor/atorvastatin coverage:\n1. Generic atorvastatin is usually preferred over brand-name Lipitor\n2. Generic version typically has a lower copay\n3. Coverage tier and cost can vary by plan\n4. Prior authorization might be required for brand-name Lipitor\n\nTo find specific coverage and costs:\n1. Check Humana's drug formulary\n2. Use Humana's website or Medicare's Plan Finder to look up the drug\n3. Call Humana directly\n4. Consult with your pharmacist\n5. Speak with a licensed insurance agent\n\nFor the most cost-effective option, ask your doctor if generic atorvastatin would be appropriate for you, as it typically has lower out-of-pocket costs than brand-name Lipitor.",
+      "score": "not_substantive",
+      "explanation": "1. The response provided detailed information about Lipitor/atorvastatin coverage under Humana Gold Plus HMO, but completely failed to address the actual question being evaluated, which was about the monthly premium for the plan.\n2. The response is missing:\n- Any mention of the plan's monthly premium\n- Any mention of the Medicare Part B premium\n- Any specific dollar amounts related to premiums\n3. This response receives a NOT_SUBSTANTIVE score because:\n- It does not attempt to answer the question about plan premiums at all\n- While the information provided might be useful regarding drug coverage, it is completely unrelated to the specific question being evaluated\n- The response appears to be answering a different question entirely (about drug coverage) rather than addressing plan premiums\n4. Concerns:\n- The response, while detailed and potentially helpful for drug coverage questions, is completely misaligned with the question being evaluated\n- No premium information was provided whatsoever\n- The counselor appears to have misunderstood or not properly addressed the actual question being asked\nThis is a clear example of a NOT_SUBSTANTIVE response because it fails to provide any information about plan premiums, which was the core element being evaluated in this question group.",
+      "group_id": "QG15",
+      "group_name": "Ability to Determine Premium for Specific Plan",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Counselor provided the Plan premium and the Part B premium",
+        "The amounts for each were accurate for the year in which the evaluation takes place"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-02-16T18:37:15.675647",
+  "scenario_id": "SHIP-MO-PLAN-EXAMPLE",
+  "scenario_title": "SHIP Medicare-Only: Plan-Specific Questions (Example with Plan Information)",
+  "target_model": "google/gemini-3-pro-preview",
+  "agent_model": "mock-agent-v1.0",
+  "num_verifiers": 2,
+  "seed": 42
+}

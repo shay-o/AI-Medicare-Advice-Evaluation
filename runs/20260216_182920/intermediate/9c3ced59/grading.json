@@ -1,0 +1,22 @@
+{
+  "run_id": "9c3ced59",
+  "scenario": "medicare_only",
+  "question_scores": [
+    {
+      "question_number": 1,
+      "question_text": "When can I enroll in Medicare and select my coverage? And when can I make changes to my coverage after I've enrolled?",
+      "response_text": "There are several key enrollment periods for Medicare:\n\nInitial Enrollment Period (IEP):\n- Begins 3 months before the month you turn 65\n- Includes your birth month\n- Ends 3 months after your birth month\n- Total 7-month window\n\nAnnual Enrollment Period (AEP):\n- October 15 - December 7 each year\n- Can change Medicare Advantage or Part D plans\n- Changes take effect January 1\n\nMedicare Advantage Open Enrollment:\n- January 1 - March 31 each year\n- Can switch Medicare Advantage plans\n- Can return to Original Medicare\n\nSpecial Enrollment Periods (SEPs):\nAvailable in special circumstances like:\n- Moving\n- Losing other coverage\n- Your plan changing its contract with Medicare\n- Qualifying for Extra Help\n\nGeneral Enrollment Period:\n- January 1 - March 31 each year\n- For those who missed Initial Enrollment\n- Coverage starts July 1\n- May include late enrollment penalties\n\nIt's important to enroll when first eligible to avoid penalties and gaps in coverage.",
+      "score": "accurate_complete",
+      "explanation": "The response provided comprehensive and accurate information that fully addresses both parts of the question:\n1. Initial Enrollment:\n- Clearly explained the 7-month Initial Enrollment Period (IEP), including the 3 months before turning 65, birth month, and 3 months after\n- Also mentioned the General Enrollment Period as an alternative\n2. Making Changes:\n- Detailed multiple opportunities to change coverage:\n* Annual Enrollment Period (Oct 15 - Dec 7)\n* Medicare Advantage Open Enrollment (Jan 1 - Mar 31)\n* Special Enrollment Periods for specific circumstances\nThe response went above and beyond the minimum requirements by:\n- Providing specific dates for all enrollment periods\n- Explaining what changes can be made during each period\n- Mentioning potential penalties for late enrollment\n- Including information about Special Enrollment Periods\n- Noting when coverage changes take effect\nThe information is not only complete but also accurate and would help a Medicare beneficiary make informed decisions about both initial enrollment and future coverage changes. There are no concerning inaccuracies or omissions that would affect decision-making.",
+      "group_id": "QG1",
+      "group_name": "Timing for Initial Medicare Enrollment & Subsequent Changes",
+      "criteria_met": [
+        "Mentioned that you can enroll in Medicare/select coverage within 3 months of turning 65",
+        "Substantively answered the 'when can I change it' question by referencing open enrollment period, annual election period, or special enrollment periods"
+      ],
+      "criteria_missed": [
+        "None"
+      ]
+    }
+  ]
+}

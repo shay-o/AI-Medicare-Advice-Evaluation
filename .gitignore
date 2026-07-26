@@ -43,9 +43,31 @@ htmlcov/
 .env
 .env.local
 
-# Evaluation runs (these can be large)
+# Evaluation runs (these can be large): excluded by default.
+# The runs behind the published figures ARE tracked, so the results are
+# reproducible from a clone. The list below must match reported_runs.json.
+# Regenerate with: python scripts/run_manifest.py build
 runs/*/
 !runs/.gitkeep
+
+!runs/20260216_182920/
+!runs/20260216_182923/
+!runs/20260216_182924/
+!runs/20260216_182925/
+!runs/20260216_182926/
+!runs/20260216_182930/
+!runs/20260216_184943/
+!runs/20260216_184944/
+!runs/20260216_184945/
+!runs/test_dual_eligible_GA-Candidate_OpenAI_gpt-5.2-chat_202602131008/
+!runs/test_dual_eligible_GA-Candidate_OpenAI_gpt-5.2-pro_202602131430/
+!runs/test_dual_eligible_GA-Candidate_OpenAI_gpt-5.2_202602131440/
+!runs/test_dual_eligible_allquestions_GA-Candidate_Anthropic_Sonnet35_202602111507/
+!runs/test_dual_eligible_allquestions_GA-Candidate_Anthropic_Sonnet45_202602111500/
+!runs/test_dual_eligible_allquestions_GA-Candidate_Google_Gemini3-Flash_202602111459/
+!runs/test_dual_eligible_allquestions_GA-Candidate_Google_Gemini3-Pro202602111500/
+!runs/test_dual_eligible_allquestions_GA-Candidate_xAI_grok-4.1-fast_202602130953/
+!runs/test_dual_eligible_allquestions_GA-Candidate_xAI_grok-4_202602130944/
 
 # OS
 .DS_Store

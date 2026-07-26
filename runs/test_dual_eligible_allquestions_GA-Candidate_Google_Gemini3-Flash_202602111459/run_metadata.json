@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-02-11T22:59:03.917325",
+  "scenario_id": "SHIP-DE-ALL",
+  "scenario_title": "SHIP Dual-Eligible: Complete Question Sequence",
+  "target_model": "google/gemini-3-flash-preview",
+  "agent_model": "anthropic/claude-3-haiku",
+  "num_verifiers": 1,
+  "seed": 42
+}

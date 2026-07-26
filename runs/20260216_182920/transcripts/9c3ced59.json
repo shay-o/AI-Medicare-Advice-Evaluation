@@ -1,0 +1,17 @@
+{
+  "trial_id": "9c3ced59",
+  "conversation": [
+    {
+      "turn_id": "Q1",
+      "role": "user",
+      "content": "When can I enroll in Medicare and select my coverage? And when can I make changes to my coverage after I've enrolled?",
+      "timestamp": "2026-02-16 18:36:06.672954"
+    },
+    {
+      "turn_id": "Q1_response",
+      "role": "assistant",
+      "content": "There are several key enrollment periods for Medicare:\n\nInitial Enrollment Period (IEP):\n- Begins 3 months before the month you turn 65\n- Includes your birth month\n- Ends 3 months after your birth month\n- Total 7-month window\n\nAnnual Enrollment Period (AEP):\n- October 15 - December 7 each year\n- Can change Medicare Advantage or Part D plans\n- Changes take effect January 1\n\nMedicare Advantage Open Enrollment:\n- January 1 - March 31 each year\n- Can switch Medicare Advantage plans\n- Can return to Original Medicare\n\nSpecial Enrollment Periods (SEPs):\nAvailable in special circumstances like:\n- Moving\n- Losing other coverage\n- Your plan changing its contract with Medicare\n- Qualifying for Extra Help\n\nGeneral Enrollment Period:\n- January 1 - March 31 each year\n- For those who missed Initial Enrollment\n- Coverage starts July 1\n- May include late enrollment penalties\n\nIt's important to enroll when first eligible to avoid penalties and gaps in coverage.",
+      "timestamp": "2026-02-16 18:36:14.359113"
+    }
+  ]
+}

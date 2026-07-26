@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-02-16T18:37:36.069110",
+  "scenario_id": "SHIP-MO-Q1",
+  "scenario_title": "SHIP Medicare-Only Q1: Timing for Initial Medicare Enrollment and Subsequent Changes",
+  "target_model": "openai/gpt-5.2",
+  "agent_model": "mock-agent-v1.0",
+  "num_verifiers": 2,
+  "seed": 42
+}

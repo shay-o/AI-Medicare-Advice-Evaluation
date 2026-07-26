@@ -1,0 +1,136 @@
+{
+  "run_id": "70fea434",
+  "scenario": "medicare_only",
+  "question_scores": [
+    {
+      "question_number": 1,
+      "question_text": "Is Humana Gold Plus HMO available where I live?",
+      "response_text": "No, I can't check Humana Gold Plus HMO availability without knowing your location (it's highly specific to your ZIP code, city, county, and state, as Medicare Advantage plans like this are regulated that way).\n\n**Quick ways to find out:**\n- **Humana's Plan Finder**: Go to [humana.com/medicare](https://www.humana.com/medicare), enter your ZIP code, and select \"Shop plans\" for 2024 or 2025 options. Look for \"Gold Plus HMO\" under their Medicare Advantage plans.\n- **Medicare.gov**: Visit [medicare.gov/plan-compare](https://www.medicare.gov/plan-compare), enter your ZIP code, and filter for Humana HMO plans.\n- **Call Humana**: 1-800-833-6917 (have your ZIP ready).\n\nIf you share your city/state or ZIP code, I can give more tailored guidance or point you to known coverage areas (e.g., it's widely available in states like FL, TX, CA, but varies by county). What's your location?",
+      "score": "not_substantive",
+      "explanation": "1. The response provided information about:\n- How to check Humana Gold Plus HMO availability\n- Various methods to verify plan availability (website, Medicare.gov, phone)\n- Request for location information to provide more specific guidance\n2. The response completely missed addressing:\n- Initial Medicare enrollment timing\n- When coverage can be changed\n- Any enrollment periods or deadlines\n3. This response earns a NOT_SUBSTANTIVE score because:\n- It does not address the actual question asked about timing for Medicare enrollment and plan changes\n- While the information provided is accurate regarding checking plan availability, it's answering a different question than what was asked\n- None of the timing-related criteria from the rubric were addressed\n4. Additional concerns:\n- The response appears to be answering a different question entirely (about plan availability in a specific area)\n- While the information provided might be helpful in other contexts, it completely fails to address the timing aspects that were the focus of the question group\n- The counselor should have redirected their response to address enrollment periods and timing for changes, even if they also wanted to note the location-specific nature of plan availability",
+      "group_id": "QG1",
+      "group_name": "Timing for Initial Medicare Enrollment & Subsequent Changes",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Mentioned that you can enroll in Medicare/select coverage within 3 months of turning 65",
+        "Substantively answered the 'when can I change it' question by referencing open enrollment period, annual election period, or special enrollment periods"
+      ]
+    },
+    {
+      "question_number": 2,
+      "question_text": "What is the monthly premium for Humana Gold Plus HMO?",
+      "response_text": "No single premium exists for Humana Gold Plus HMO\u2014it's a family of Medicare Advantage HMO plans (e.g., H5216-001, H1036-XXX) with rates varying by **ZIP code/county, plan variant, year (2024/2025), and benefits**. Many have **$0 monthly premiums** (beyond Medicare Part B ~$174.70/mo in 2024), but others range from **$0\u2013$150+** depending on location and extras like dental/vision.\n\n**Quick ways to check your exact premium:**\n- **Humana's Plan Finder**: [humana.com/medicare](https://www.humana.com/medicare) \u2192 Enter ZIP \u2192 \"Shop plans\" \u2192 Filter for \"Gold Plus HMO\" (shows 2025 estimates now).\n- **Medicare.gov**: [medicare.gov/plan-compare](https://www.medicare.gov/plan-compare) \u2192 ZIP code \u2192 Filter Humana HMO \u2192 View premiums/drug costs.\n- **Call Humana**: 1-800-833-6917 (ZIP ready; agents quote instantly).\n\nShare your **city/state or ZIP** for more specifics (e.g., in Miami-Dade County, FL, popular ones like H5216-274 are often $0 premium). What's your location?",
+      "score": "not_substantive",
+      "explanation": "1. The response provided detailed information about Humana Gold Plus HMO premiums, including:\n- Premium ranges\n- How premiums vary by location\n- Ways to check specific premiums\n- Contact information\n2. However, this response completely fails to address the actual question group topic about Medicare enrollment and employer plans. The counselor answered a different question about Medicare Advantage plan premiums instead of addressing whether someone needs to sign up for Medicare at 65 while having employer coverage.\n3. I assigned NOT_SUBSTANTIVE because:\n- The response, while detailed, does not address the actual question about Medicare enrollment requirements\n- None of the required criteria about Medicare enrollment requirements or Part B implications were met\n- The response appears to be answering a different question entirely\n4. Concerns:\n- While the information provided about Humana premiums appears accurate, it's not relevant to the question being evaluated\n- The response demonstrates a disconnect between the question asked and the answer provided\n- No guidance was provided about the core issue of Medicare enrollment requirements when someone has employer coverage\nThis is a clear case of NOT_SUBSTANTIVE as the response fails to address any of the required elements about Medicare enrollment requirements and employer coverage decisions.",
+      "group_id": "QG9",
+      "group_name": "Medicare Enrollment & Interaction with Employer Plan",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Counselor's answer substantively makes clear that shopper is not required to enroll in Medicare and can keep their employer plan",
+        "Also discusses Part B implications (e.g., mentions possible late enrollment penalty)"
+      ]
+    },
+    {
+      "question_number": 3,
+      "question_text": "Would Humana Gold Plus HMO let me go out of network?",
+      "response_text": "**No, Humana Gold Plus HMO does not cover out-of-network providers** (except for **emergency or urgently needed care**, which is covered worldwide at in-network rates).\n\n### Key HMO Rules for Humana Gold Plus:\n- **In-network only**: You must use Humana-approved doctors, hospitals, and specialists in your plan's service area. Referrals are often needed for specialists.\n- **Out-of-network = not covered**: Routine care outside the network costs full price (you pay 100%).\n- **Exceptions**:\n  - Emergencies (e.g., heart attack, stroke).\n  - Urgently needed services when traveling.\n- This is standard for **all Humana Gold Plus HMO plans** (e.g., H5216-XXX variants)\u2014they're **not PPOs** (which allow out-of-network at higher cost-sharing).\n\n**Verify for your plan**:\n- **Humana site**: [humana.com/medicare](https://www.humana.com/medicare) \u2192 Enter ZIP \u2192 Shop Gold Plus HMO \u2192 Check \"Provider Directory\" or Summary of Benefits.\n- **Medicare.gov**: [medicare.gov/plan-compare](https://www.medicare.gov/plan-compare) \u2192 ZIP \u2192 Humana HMO \u2192 \"Plan Details.\"\n- **Call Humana**: 1-800-833-6917.\n\nIf you share your **ZIP/city/state**, I can help check specific plan rules or alternatives like Humana PPOs (which do allow out-of-network). What's your location?",
+      "score": "substantive_incomplete",
+      "explanation": "The response provides accurate but limited information focused specifically on the network restrictions of Humana Gold Plus HMO plans. While it correctly explains the in-network requirements and emergency/urgent care exceptions, it doesn't provide the broader context needed for understanding the full comparison between Medicare Advantage and Original Medicare.\nThe response accurately addresses:\n1. Network restrictions of Medicare Advantage HMO plans\n2. The inability to see out-of-network providers except in emergencies\n3. The need for referrals and use of network providers\nHowever, it misses most of the key comparison points between Medicare Advantage and Original Medicare, including:\n- Cost structures (premiums, deductibles, cost-sharing)\n- Additional benefits often included in Medicare Advantage plans\n- The relationship with Original Medicare Parts A and B\n- Prescription drug coverage\n- Medigap options\nWhile the information provided is accurate and helpful for the specific question about network restrictions, it doesn't provide the comprehensive overview required for an ACCURATE_COMPLETE score according to the rubric. Therefore, it merits a SUBSTANTIVE_INCOMPLETE score as it provides some accurate, relevant information but misses many required elements for a complete comparison.",
+      "group_id": "QG10",
+      "group_name": "Considerations for Choosing Traditional Medicare vs Medicare Advantage",
+      "criteria_met": [
+        "Medicare Advantage: Has a more restrictive choice of providers and hospitals",
+        "Medicare Advantage: You may not be able to keep your doctor"
+      ],
+      "criteria_missed": [
+        "Medicare Advantage: May have lower premiums, deductibles, and cost sharing than traditional Medicare plus Supplement plan",
+        "Medicare Advantage: Covers all Medicare Part A and Part B (sometimes Part D) benefits",
+        "Medicare Advantage: One must continue to pay the Medicare Part B premium in addition to their Medicare Advantage Plan premium",
+        "Medicare Advantage: Often offers additional benefits such as vision, hearing, dental, fitness, grocery, OTC card, etc.",
+        "Original Medicare: You automatically enroll in Medicare Part A when you apply for Medicare, which provides coverage for hospital stay",
+        "Original Medicare: You have the option to enroll in Medicare Part B to cover doctors' services, outpatient care, and preventative services",
+        "Original Medicare: Part A has a deductible and some cost sharing but no monthly premium",
+        "Original Medicare: Part B has a monthly premium, some cost sharing, and a small deductible",
+        "Original Medicare: Premiums and cost sharing can be more expensive than with Medicare Advantage Plans",
+        "Original Medicare: Your choice of almost any provider, hospital, etc.",
+        "Original Medicare: In order to receive coverage for prescription drugs, you must obtain a separate Prescription Drug Plan (Part D)",
+        "Original Medicare: Can be paired with a Medigap/Medicare Supplement policy to reduce premiums, deductibles, and cost sharing"
+      ]
+    },
+    {
+      "question_number": 4,
+      "question_text": "What is the copay for a primary care doctor visit for Humana Gold Plus HMO?",
+      "response_text": "**Typical copay: $0\u2013$20 per primary care physician (PCP) visit** for most Humana Gold Plus HMO plans (many are **$0** in 2025, especially after deductible if any). This varies by **specific plan variant, ZIP code/county, and year** (e.g., H5216-001 often $0; others $10\u2013$15).\n\n### Examples (2025 estimates; check yours):\n- **Florida (e.g., Miami-Dade)**: Often $0 PCP copay.\n- **Texas/California**: $0\u2013$10 common.\n- No copay cap\u2014it's per visit, but plans have out-of-pocket maximums (~$5K\u2013$8K/year).\n\n**Verify your exact copay**:\n- **Humana's Plan Finder**: [humana.com/medicare](https://www.humana.com/medicare) \u2192 ZIP \u2192 \"Shop plans\" \u2192 Gold Plus HMO \u2192 \"Summary of Benefits\" (shows copays).\n- **Medicare.gov**: [medicare.gov/plan-compare](https://www.medicare.gov/plan-compare) \u2192 ZIP \u2192 Humana HMO \u2192 \"Costs\" tab.\n- **Call Humana**: 1-800-833-6917 (ZIP ready for instant quote).\n\nShare your **ZIP/city/state** for precise details on available plans (e.g., in ZIP 33101, H5216-274 is $0 PCP). What's your location?",
+      "score": "not_substantive",
+      "explanation": "1. The response provided information about Humana Gold Plus HMO copays, which is a Medicare Advantage plan, not a Medicare Supplement plan\n2. The question asked was specifically about Humana Gold Plus HMO copays, but this was being evaluated against criteria about Medicare Supplement Plans\n3. While the response gave accurate information about the HMO plan's copays, it did not address any of the required criteria about Medicare Supplement Plans\n4. This response should be scored as NOT_SUBSTANTIVE because it completely failed to address the topic of Medicare Supplement Plans, which was the subject being evaluated\nThe response appears to be a good answer to the specific question that was asked, but since we are evaluating knowledge about Medicare Supplement Plans, and the response contained no information about supplement plans, it must be scored as NOT_SUBSTANTIVE. This highlights a mismatch between the question asked and the evaluation criteria being used.",
+      "group_id": "QG11",
+      "group_name": "Considerations for Medicare Supplement Plans",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Supplement plans can be purchased separately if you choose traditional Medicare to help cover out-of-pocket costs",
+        "All supplement plans cover Part A and Part B copays and hospital and hospice costs",
+        "Some supplement plans cover Part A and Part B deductibles",
+        "Some supplement plans have out-of-pocket limits",
+        "Supplement plan costs vary based on how much is covered but usually range from $50-$300 per month",
+        "You can enroll in a Supplement plan at any time",
+        "You will get better rates if you enroll during your open enrollment period (which begins the day you turn 65 and lasts for six months afterwards)"
+      ]
+    },
+    {
+      "question_number": 5,
+      "question_text": "What is the copay to see a specialist for Humana Gold Plus HMO?",
+      "response_text": "**Typical copay: $20\u2013$50 per specialist visit** for Humana Gold Plus HMO plans (many are **$35\u2013$45** in 2025; some **$0** or $40 with PCP referral required). Varies by **plan variant, ZIP/county, and year** (e.g., cardiology, dermatology, etc., often same copay tier).\n\n### Examples (2025 estimates; in-network only):\n- **Florida (e.g., Miami-Dade, H5216-274)**: $40 specialist copay.\n- **Texas**: $35\u2013$50 common.\n- **California**: $0\u2013$45 (varies by county).\n- After deductible (if any, often $0), up to out-of-pocket max (~$5K\u2013$8K/year).\n\n**Verify your exact copay**:\n- **Humana's Plan Finder**: [humana.com/medicare](https://www.humana.com/medicare) \u2192 ZIP \u2192 \"Shop plans\" \u2192 Gold Plus HMO \u2192 \"Summary of Benefits\" (lists specialist copays).\n- **Medicare.gov**: [medicare.gov/plan-compare](https://www.medicare.gov/plan-compare) \u2192 ZIP \u2192 Humana HMO \u2192 \"Costs\" tab \u2192 \"Specialist visit.\"\n- **Call Humana**: 1-800-833-6917 (ZIP ready for specifics).\n\nShare your **ZIP/city/state** for exact plan details (e.g., in ZIP 33101, it's $40). What's your location?",
+      "score": "not_substantive",
+      "explanation": "The response provided does not address the question that was meant to be evaluated according to the rubric. The rubric asks to evaluate responses about whether Medicare (Original, Advantage Plans, or Supplement Plans) covers long-term care. However, the response instead provides detailed information about specialist copays for Humana Gold Plus HMO plans.\nWhile the response appears to be thorough and well-researched regarding specialist copays, including:\n- Typical copay ranges\n- Geographic variations\n- How to verify specific copay amounts\n- Resources for finding plan details\nIt completely fails to address the topic of long-term care coverage under Medicare plans. Therefore, it must be scored as NOT_SUBSTANTIVE since it does not attempt to answer the intended question about long-term care coverage.\nThis appears to be a case where either:\n1. The wrong question was answered\n2. The wrong rubric is being applied to evaluate this response\nFor a proper evaluation of this response, we would need either:\n- A rubric related to Medicare Advantage specialist copays\n- OR a response that actually addresses Medicare long-term care coverage",
+      "group_id": "QG12",
+      "group_name": "Coverage of Long-Term Care",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "In general, none of these cover long-term care",
+        "Although some time-limited nursing facility stays or in-home services may be covered",
+        "OR: None of these provide coverage for long-term care"
+      ]
+    },
+    {
+      "question_number": 6,
+      "question_text": "For Humana Gold Plus HMO, is there a limit on out-of-pocket costs I would have to pay each year?",
+      "response_text": "**Yes, Humana Gold Plus HMO plans have an annual **out-of-pocket (OOP) maximum** (in-network only)**\u2014typically **$3,900\u2013$8,900 per year** (2025 estimates; covers copays, coinsurance, deductibles for covered services). Once reached, the plan pays **100%** for the rest of the year (in-network).**\n\n### Key Details:\n- **In-network OOP max only**: Out-of-network costs (except emergencies) **don't count** toward the cap and have **no limit** (you pay 100%).\n- **What it includes**: Copays, coinsurance, deductibles. **Excludes**: Monthly premiums, Part B premiums, non-covered services.\n- **Examples (2025; varies by plan/ZIP)**:\n  - **Florida (e.g., Miami-Dade, H5216-274)**: ~$5,900 OOP max.\n  - **Texas**: $6,700\u2013$7,550 common.\n  - **California**: $3,900\u2013$8,900 (county-specific).\n- Per-person (individual plans) or family (if applicable).\n\n**Verify your exact OOP max**:\n- **Humana's Plan Finder**: [humana.com/medicare](https://www.humana.com/medicare) \u2192 ZIP \u2192 \"Shop plans\" \u2192 Gold Plus HMO \u2192 \"Summary of Benefits\" (search \"out-of-pocket maximum\").\n- **Medicare.gov**: [medicare.gov/plan-compare](https://www.medicare.gov/plan-compare) \u2192 ZIP \u2192 Humana HMO \u2192 \"Costs\" tab \u2192 \"Out-of-pocket maximum.\"\n- **Call Humana**: 1-800-833-6917 (ZIP ready for instant details).\n\nShare your **ZIP/city/state** for precise info (e.g., ZIP 33101: $5,900). What's your location?",
+      "score": "missing",
+      "explanation": "Error during grading: OpenRouter API error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 2000 tokens, but can only afford 597. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_38G7kwPuKzmQLhsqCWf2uZecO7T'}",
+      "group_id": "ERROR",
+      "group_name": "Error",
+      "criteria_met": [],
+      "criteria_missed": []
+    },
+    {
+      "question_number": 7,
+      "question_text": "Does Humana Gold Plus HMO include prescription drug coverage?",
+      "response_text": "**Yes, Humana Gold Plus HMO plans **include prescription drug coverage (Part D)** as standard**\u2014they're all-in-one Medicare Advantage Prescription Drug (MA-PD) plans covering most generics/brands on their formulary (drug list). No separate Part D plan needed.**\n\n### Key Details:\n- **Coverage tiers**: \n  - Tier 1\u20132 (generics/low-cost): Often **$0\u2013$10 copay**.\n  - Tier 3\u20135 (higher-cost/brands): **$35\u2013$100+** or coinsurance (up to 25\u201351%).\n- **Deductible**: Often **$0** for drugs (some $590 max in 2025 Phase 1).\n- **Out-of-pocket max**: Includes drugs (~$2,000 federal cap in 2025 for Part D; plan total OOP max applies).\n- **Formulary**: 3,000+ drugs; prior authorization may apply for some.\n- **Exceptions**: Rare \"no-drug\" variants exist\u2014confirm yours.\n\n**Verify your plan's drug coverage/details**:\n- **Humana's Plan Finder**: [humana.com/medicare](https://www.humana.com/medicare) \u2192 ZIP \u2192 \"Shop plans\" \u2192 Gold Plus HMO \u2192 \"Prescription Drugs\" tab (search specific meds).\n- **Medicare.gov**: [medicare.gov/plan-compare](https://www.medicare.gov/plan-compare) \u2192 ZIP \u2192 Humana HMO \u2192 \"Drug Costs\" or \"Drug List.\"\n- **Call Humana**: 1-800-833-6917 (ZIP + med names for copays/coverage).\n\nShare your **ZIP/city/state** (or meds) for exact formulary/copays (e.g., ZIP 33101, H5216-274: $0 Tier 1). What's your location?",
+      "score": "missing",
+      "explanation": "Error during grading: OpenRouter API error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 2000 tokens, but can only afford 597. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_38G7kwPuKzmQLhsqCWf2uZecO7T'}",
+      "group_id": "ERROR",
+      "group_name": "Error",
+      "criteria_met": [],
+      "criteria_missed": []
+    },
+    {
+      "question_number": 8,
+      "question_text": "Does Humana Gold Plus HMO cover Lipitor?",
+      "response_text": "**Yes, Humana Gold Plus HMO plans typically **cover Lipitor (atorvastatin) via Part D**, but **generic atorvastatin is preferred** (Tier 1: **$0\u2013$5 copay**). Brand-name Lipitor is often **Tier 2\u20133 ($10\u2013$47 copay or coinsurance)** with **prior authorization/step therapy** (must try generic first).\n\n### Key Details (2025 formularies):\n- **Generic atorvastatin**: Covered in **all** Humana Gold Plus HMO plans at lowest cost (e.g., $0 for 30-day supply).\n- **Brand Lipitor**: Covered but restricted in most (Quantity limits: 90 tabs/30 days; PA required).\n- **No deductible** for Tier 1 in many plans; applies to OOP max.\n- Varies by **exact plan/ZIP** (e.g., H5216-274 covers both).\n\n**Examples (2025; in-network pharmacy)**:\n- **Florida (Miami-Dade, ZIP 33101)**: Generic $0; Brand Tier 2 ($10\u2013$45).\n- **Texas**: Generic $0\u2013$2; Brand $35+ w/PA.\n- **California**: Similar, Tier 1 generic $0.\n\n**Verify coverage/copay for your plan & dosage**:\n- **Humana's Drug List**: [humana.com/medicare/drug-list](https://www.humana.com/medicare/drug-list) \u2192 Enter ZIP \u2192 Search \"Lipitor\" or \"atorvastatin\" \u2192 Select Gold Plus HMO.\n- **Plan Finder**: [humana.com/medicare](https://www.humana.com/medicare) \u2192 ZIP \u2192 Gold Plus HMO \u2192 \"Prescription Drugs\" \u2192 Search drug.\n- **Medicare.gov**: [medicare.gov/plan-compare](https://www.medicare.gov/plan-compare) \u2192 ZIP \u2192 Humana HMO \u2192 \"Drug Costs\" \u2192 Search \"Lipitor.\"\n- **Call Humana**: 1-800-833-6917 (ZIP + dosage for exact copay/PA rules).\n\nShare your **ZIP/city/state** (or dosage) for precise details (e.g., ZIP 33101: $0 generic). What's your location?",
+      "score": "missing",
+      "explanation": "Error during grading: OpenRouter API error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 2000 tokens, but can only afford 597. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_38G7kwPuKzmQLhsqCWf2uZecO7T'}",
+      "group_id": "ERROR",
+      "group_name": "Error",
+      "criteria_met": [],
+      "criteria_missed": []
+    }
+  ]
+}
