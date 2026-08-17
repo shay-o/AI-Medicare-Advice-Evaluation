@@ -69,6 +69,10 @@ runs/*/
 !runs/test_dual_eligible_allquestions_GA-Candidate_xAI_grok-4.1-fast_202602130953/
 !runs/test_dual_eligible_allquestions_GA-Candidate_xAI_grok-4_202602130944/
 
+# Local scratch notes. Temp.md holds real plan and practitioner identifiers
+# that must not be published.
+Temp.md
+
 # OS
 .DS_Store
 Thumbs.db

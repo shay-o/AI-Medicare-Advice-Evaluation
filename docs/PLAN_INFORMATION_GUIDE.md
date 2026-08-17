@@ -183,7 +183,7 @@ Here's a complete scenario showing all placeholder usage:
 The orchestrator automatically substitutes placeholders:
 
 ```bash
-python -m src.orchestrator run \
+python -m src run \
   --scenario scenarios/medicare_only/example_with_plan_info.json \
   --target-model anthropic:claude-3-5-sonnet-20241022
 ```
@@ -264,7 +264,7 @@ print(f'Premium: \${scenario.plan_information.monthly_premium}')
 ### Test Substitution
 
 ```bash
-python -m src.orchestrator run \
+python -m src run \
   --scenario scenarios/medicare_only/example_with_plan_info.json \
   --target-model fake:perfect
 ```

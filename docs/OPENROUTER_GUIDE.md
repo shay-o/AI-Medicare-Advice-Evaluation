@@ -46,7 +46,7 @@ echo "OPENROUTER_SITE_URL=https://your-site.com" >> .env
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openrouter:anthropic/claude-3.5-sonnet \
+  --target-model openrouter:anthropic/claude-3.5-sonnet \
   --judges 2
 ```
 
@@ -58,26 +58,26 @@ OpenRouter uses the format: `provider/model-name`
 
 ```bash
 # Anthropic Claude
---target openrouter:anthropic/claude-3.5-sonnet
---target openrouter:anthropic/claude-3-opus
---target openrouter:anthropic/claude-3-haiku
+--target-model openrouter:anthropic/claude-3.5-sonnet
+--target-model openrouter:anthropic/claude-3-opus
+--target-model openrouter:anthropic/claude-3-haiku
 
 # OpenAI GPT
---target openrouter:openai/gpt-4-turbo
---target openrouter:openai/gpt-4o
---target openrouter:openai/gpt-3.5-turbo
+--target-model openrouter:openai/gpt-4-turbo
+--target-model openrouter:openai/gpt-4o
+--target-model openrouter:openai/gpt-3.5-turbo
 
 # Google Gemini
---target openrouter:google/gemini-pro-1.5
---target openrouter:google/gemini-flash-1.5
+--target-model openrouter:google/gemini-pro-1.5
+--target-model openrouter:google/gemini-flash-1.5
 
 # Meta Llama
---target openrouter:meta-llama/llama-3.1-70b-instruct
---target openrouter:meta-llama/llama-3.1-405b-instruct
+--target-model openrouter:meta-llama/llama-3.1-70b-instruct
+--target-model openrouter:meta-llama/llama-3.1-405b-instruct
 
 # Mistral
---target openrouter:mistralai/mistral-large
---target openrouter:mistralai/mixtral-8x7b-instruct
+--target-model openrouter:mistralai/mistral-large
+--target-model openrouter:mistralai/mixtral-8x7b-instruct
 
 # And many more...
 ```
@@ -98,7 +98,7 @@ for model in \
 
   python -m src run \
     --scenario scenarios/v1/scenario_001.json \
-    --target openrouter:$model \
+    --target-model openrouter:$model \
     --judges 2 \
     --run-id "comparison_$(date +%Y%m%d)"
 done
@@ -117,7 +117,7 @@ OpenRouter often has competitive pricing. Use cheaper models for testing:
 # Use a more affordable model for testing
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openrouter:anthropic/claude-3-haiku \
+  --target-model openrouter:anthropic/claude-3-haiku \
   --judges 1  # Use fewer judges to save costs
 ```
 
@@ -129,17 +129,17 @@ You can use direct provider adapters for some models and OpenRouter for others:
 # Use direct OpenAI adapter (if you have OpenAI API key)
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openai:gpt-4-turbo
+  --target-model openai:gpt-4-turbo
 
 # Use OpenRouter for Anthropic (single billing)
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openrouter:anthropic/claude-3.5-sonnet
+  --target-model openrouter:anthropic/claude-3.5-sonnet
 
 # Use OpenRouter for models without direct API
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openrouter:meta-llama/llama-3.1-70b-instruct
+  --target-model openrouter:meta-llama/llama-3.1-70b-instruct
 ```
 
 ## Benefits of OpenRouter
@@ -271,12 +271,12 @@ export OPENROUTER_API_KEY="sk-or-your_key"
 # Basic usage
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target openrouter:anthropic/claude-3.5-sonnet
+  --target-model openrouter:anthropic/claude-3.5-sonnet
 
 # Compare models
-python -m src run --target openrouter:openai/gpt-4-turbo
-python -m src run --target openrouter:anthropic/claude-3.5-sonnet
-python -m src run --target openrouter:google/gemini-pro-1.5
+python -m src run --target-model openrouter:openai/gpt-4-turbo
+python -m src run --target-model openrouter:anthropic/claude-3.5-sonnet
+python -m src run --target-model openrouter:google/gemini-pro-1.5
 
 # View results
 python -m src.view_run

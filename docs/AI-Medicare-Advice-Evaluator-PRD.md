@@ -280,9 +280,9 @@ Example: Verifier System Prompt
 
 Command-line Interface:
 
-    python -m src.orchestrator run \
+    python -m src run \
       --scenario scenarios/v1/scenario_001.json \
-      --target openai:gpt-4.1 \
+      --target-model openai:gpt-4.1 \
       --judges 2 \
       --seed 42
 

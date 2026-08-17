@@ -23,7 +23,7 @@ echo "OPENROUTER_API_KEY=sk-or-your_key_here" >> .env
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_002.json \
-  --target fake:perfect \
+  --target-model fake:perfect \
   --judges 2
 ```
 
@@ -31,7 +31,7 @@ python -m src run \
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 ```
@@ -50,26 +50,26 @@ chmod +x compare_models.sh
 
 ```bash
 # OpenAI
---target openrouter:openai/gpt-4-turbo
---target openrouter:openai/gpt-4o
---target openrouter:openai/gpt-3.5-turbo
+--target-model openrouter:openai/gpt-4-turbo
+--target-model openrouter:openai/gpt-4o
+--target-model openrouter:openai/gpt-3.5-turbo
 
 # Anthropic
---target openrouter:anthropic/claude-3-5-sonnet
---target openrouter:anthropic/claude-3-opus
---target openrouter:anthropic/claude-3-haiku
+--target-model openrouter:anthropic/claude-3-5-sonnet
+--target-model openrouter:anthropic/claude-3-opus
+--target-model openrouter:anthropic/claude-3-haiku
 
 # Google
---target openrouter:google/gemini-pro-1.5
---target openrouter:google/gemini-flash-1.5
+--target-model openrouter:google/gemini-pro-1.5
+--target-model openrouter:google/gemini-flash-1.5
 
 # Meta
---target openrouter:meta-llama/llama-3.1-70b-instruct
---target openrouter:meta-llama/llama-3.1-405b-instruct
+--target-model openrouter:meta-llama/llama-3.1-70b-instruct
+--target-model openrouter:meta-llama/llama-3.1-405b-instruct
 
 # Mistral
---target openrouter:mistralai/mistral-large
---target openrouter:mistralai/mixtral-8x7b-instruct
+--target-model openrouter:mistralai/mistral-large
+--target-model openrouter:mistralai/mixtral-8x7b-instruct
 ```
 
 Find more: [openrouter.ai/models](https://openrouter.ai/models)
@@ -151,8 +151,8 @@ done
 --judges 1
 
 # Use cheaper target models
---target openrouter:openai/gpt-3.5-turbo
---target openrouter:google/gemini-flash-1.5
+--target-model openrouter:openai/gpt-3.5-turbo
+--target-model openrouter:google/gemini-flash-1.5
 
 # Use mock agents (free, less accurate)
 # Omit --agent-model flag, defaults to fake:perfect
@@ -195,7 +195,7 @@ ls scenarios/v1/
 - **[USER_GUIDE.md](USER_GUIDE.md)** - Complete usage guide
 - **[SCENARIOS.md](SCENARIOS.md)** - Scenario explanations
 - **[OPENROUTER_GUIDE.md](OPENROUTER_GUIDE.md)** - OpenRouter details
-- **[README.md](README.md)** - Project overview
+- **[README.md](../README.md)** - Project overview
 
 ---
 
@@ -205,13 +205,13 @@ ls scenarios/v1/
 # 1. Test installation
 python -m src run \
   --scenario scenarios/v1/scenario_002.json \
-  --target fake:perfect \
+  --target-model fake:perfect \
   --judges 2
 
 # 2. Evaluate one model
 python -m src run \
   --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 
@@ -232,7 +232,7 @@ open https://openrouter.ai/activity
 | Option | Description | Example | Default |
 |--------|-------------|---------|---------|
 | `--scenario` | Test scenario file | `scenarios/v1/scenario_002.json` | Required |
-| `--target` | Model to evaluate | `openrouter:openai/gpt-4-turbo` | Required |
+| `--target-model` | Model to evaluate | `openrouter:openai/gpt-4-turbo` | Required |
 | `--agent-model` | Model for agents | `openrouter:anthropic/claude-3-haiku` | `fake:perfect` |
 | `--judges` | Number of verifiers | `2` | `2` |
 | `--seed` | Random seed | `42` | `42` |

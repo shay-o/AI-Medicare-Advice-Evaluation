@@ -374,7 +374,7 @@ Based on [SHIP study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/):
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_001.json \
-  --target fake:perfect \
+  --target-model fake:perfect \
   --judges 2
 ```
 
@@ -382,7 +382,7 @@ python -m src run \
 ```bash
 python -m src run \
   --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
+  --target-model openrouter:openai/gpt-4-turbo \
   --agent-model openrouter:anthropic/claude-3-haiku \
   --judges 2
 ```
@@ -392,7 +392,7 @@ python -m src run \
 for MODEL in "openai/gpt-4-turbo" "anthropic/claude-3-5-sonnet" "google/gemini-pro-1.5"; do
   python -m src run \
     --scenario scenarios/v1/scenario_002.json \
-    --target openrouter:$MODEL \
+    --target-model openrouter:$MODEL \
     --agent-model openrouter:anthropic/claude-3-haiku \
     --judges 2
   sleep 2

@@ -256,7 +256,7 @@ Based on your current runs:
 
 # 1. Run evaluations
 python -m src run --scenario scenarios/v1/scenario_002.json \
-    --target openrouter:openai/gpt-4-turbo
+    --target-model openrouter:openai/gpt-4-turbo
 
 # 2. Generate updated report
 python scripts/generate_web_report.py \
