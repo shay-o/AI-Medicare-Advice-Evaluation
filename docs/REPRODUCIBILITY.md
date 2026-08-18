@@ -69,6 +69,10 @@ The canonical `results.jsonl` files total **2.4 MB** across all 18 runs (4.9 MB 
 
 ## Known issue affecting a subset
 
-Seven of the nineteen question groups are graded against an answer key that contradicts the real-world plan they name, and the grading agent applies that key inconsistently. The general-rules questions (12 groups, n=117) are unaffected. See [GRADING_INTEGRITY.md](GRADING_INTEGRITY.md) before citing the plan-specific figures.
+Two of the nineteen question groups (QG19 drug coverage, QG20 Lipitor) were graded against an answer key hardcoded in the rubric that contradicts the real plan the question names. Correct answers were marked `incorrect` and at least one wrong answer was marked `accurate_complete`. The general-rules questions (12 groups, n=117) are unaffected.
+
+This was fixed in code on 2026-08-17 and the stored responses are being re-graded. **The published figures on this page were produced by the old grading and still contain the defect.** See [GRADING_INTEGRITY.md](GRADING_INTEGRITY.md) before citing the plan-specific figures.
+
+Note that an earlier version of that document attributed the defect to `plan_information` in the scenario file. That was wrong: the grader never receives `plan_information`. The corrected diagnosis is recorded there.
 
 `verify_headline_numbers.py` reports the general-rules and plan-specific slices separately for this reason.

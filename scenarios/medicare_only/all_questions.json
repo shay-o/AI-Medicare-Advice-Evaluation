@@ -17,37 +17,23 @@
     "plan_type": "PPO",
     "contract_number": "H5521-369-0",
     "service_area": "Oakland, CA",
-    "monthly_premium": 25.0,
-    "part_b_premium": 174.70,
-    "deductible": 0.0,
-    "max_out_of_pocket": 3400.0,
+    "monthly_premium": 0.0,
+    "part_b_premium": 202.90,
+    "deductible": null,
+    "max_out_of_pocket": 6750.0,
     "primary_care_copay": 0.0,
     "specialist_copay": 40.0,
-    "out_of_network_allowed": false,
+    "out_of_network_allowed": true,
     "out_of_network_primary_care_copay": null,
     "out_of_network_specialist_copay": null,
-    "includes_drug_coverage": true,
-    "drug_formulary": [
-      {
-        "drug_name": "Lipitor",
-        "is_covered": true,
-        "tier": 3,
-        "copay": 47.0,
-        "prior_authorization_required": false,
-        "quantity_limits": null
-      },
-      {
-        "drug_name": "Atorvastatin",
-        "is_covered": true,
-        "tier": 1,
-        "copay": 0.0,
-        "prior_authorization_required": false,
-        "quantity_limits": null
-      }
-    ],
+    "includes_drug_coverage": false,
+    "drug_formulary": null,
     "additional_benefits": ["Dental", "Vision", "Hearing", "Fitness membership"],
-    "requires_referrals": true,
-    "available_in_service_area": true
+    "requires_referrals": false,
+    "available_in_service_area": true,
+    "_plan_year": 2026,
+    "_provenance": "reference_material/plan_facts_H5521-369-0_2026.json",
+    "_note": "Values corrected 2026-08-17 from invented figures to sourced real-world data. Previous values (premium 25.00, Part B 174.70, MOOP 3400, out_of_network_allowed false, includes_drug_coverage true, invented Lipitor formulary, requires_referrals true) contradicted the real plan. This is an MA-only PPO: no Part D coverage, therefore no formulary. out_of_network cost sharing is ~50% coinsurance, which does not map onto the flat-copay fields above and is left null. See reference_material/plan_facts_H5521-369-0_2026.json for per-field sources and confidence."
   },
   "scripted_turns": [
     {

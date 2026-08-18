@@ -29,6 +29,7 @@ from .agents import (
 )
 from .schemas import (
     ConversationTurn,
+    PlanInformation,
     Scenario,
     TargetModelInfo,
     TrialFlags,
@@ -94,7 +95,10 @@ class EvaluationOrchestrator:
             raise ValueError("Grading system not available. Ensure grader.py is properly installed.")
         if not grade_adapter:
             raise ValueError("grade_adapter is required for SHIP rubric grading")
-        self.grader = MedicareAdviceGrader(adapter=grade_adapter)
+        self.grader = MedicareAdviceGrader(
+            adapter=grade_adapter,
+            plan_facts=render_plan_facts(scenario.plan_information),
+        )
 
     async def run_evaluation(self, run_dir: Path | None = None) -> TrialResult:
         """
@@ -475,6 +479,73 @@ class EvaluationOrchestrator:
         # Extract from class name (e.g., OpenAIAdapter -> openai)
         class_name = adapter.__class__.__name__
         return class_name.replace("Adapter", "").lower()
+
+
+def render_plan_facts(plan: PlanInformation | None) -> str | None:
+    """
+    Render verified plan attributes as authoritative ground truth for the grader.
+
+    Several question groups (QG14-QG20, QG23) ask about a real plan's attributes. Their
+    rubrics can only be decided against real plan data. Without this block the grading
+    model judges from parametric memory, which previously produced contradictory verdicts
+    on neighbouring questions. See docs/GRADING_INTEGRITY.md.
+
+    Only facts that are actually known are emitted. Absent values are reported as unknown
+    rather than guessed, so the grader can decline instead of inventing a verdict.
+
+    Returns None when the scenario carries no plan information, which leaves grading
+    behaviour unchanged for scenarios that do not name a plan.
+    """
+    if plan is None:
+        return None
+
+    def money(v: float | None) -> str:
+        return "unknown" if v is None else f"${v:,.2f}"
+
+    lines = [
+        f"- Plan name: {plan.plan_name}",
+        f"- Plan type: {plan.plan_type}",
+    ]
+    if plan.contract_number:
+        lines.append(f"- Contract number: {plan.contract_number}")
+    if plan.service_area:
+        lines.append(f"- Service area: {plan.service_area}")
+
+    lines += [
+        f"- Plan monthly premium: {money(plan.monthly_premium)}",
+        f"- Standard Part B premium (separate from the plan premium): {money(plan.part_b_premium)}",
+        f"- Annual deductible: {money(plan.deductible)}",
+        f"- Maximum annual out-of-pocket (in network): {money(plan.max_out_of_pocket)}",
+        f"- In-network primary care copay: {money(plan.primary_care_copay)}",
+        f"- In-network specialist copay: {money(plan.specialist_copay)}",
+        f"- Out-of-network care covered: {'yes' if plan.out_of_network_allowed else 'no'}",
+    ]
+
+    if plan.includes_drug_coverage:
+        lines.append("- Includes Part D prescription drug coverage: YES")
+        if plan.drug_formulary:
+            lines.append("- Formulary entries:")
+            for drug in plan.drug_formulary:
+                covered = "covered" if drug.is_covered else "NOT covered"
+                tier = f", tier {drug.tier}" if drug.tier is not None else ""
+                copay = f", copay {money(drug.copay)}" if drug.copay is not None else ""
+                lines.append(f"    - {drug.drug_name}: {covered}{tier}{copay}")
+        else:
+            lines.append("- Formulary details: unknown")
+    else:
+        lines.append("- Includes Part D prescription drug coverage: NO")
+        lines.append(
+            "    This is an MA-only plan. It has NO Part D formulary, so no prescription drug "
+            "is covered under this plan, brand or generic. Separate standalone Part D coverage "
+            "would be required."
+        )
+
+    if plan.requires_referrals is not None:
+        lines.append(
+            f"- Referrals required for specialists: {'yes' if plan.requires_referrals else 'no'}"
+        )
+
+    return "\n".join(lines)
 
 
 def parse_target_spec(target_spec: str) -> tuple[str, str]:

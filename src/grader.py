@@ -69,14 +69,21 @@ class RunScore(BaseModel):
 class MedicareAdviceGrader:
     """Grades Medicare advice responses using LLM and SHIP rubric."""
 
-    def __init__(self, adapter: BaseLLMAdapter):
+    def __init__(self, adapter: BaseLLMAdapter, plan_facts: str | None = None):
         """
         Initialize grader with an LLM adapter.
 
         Args:
             adapter: LLM adapter to use for grading (e.g., AnthropicAdapter, OpenRouterAdapter)
+            plan_facts: Authoritative facts about the specific plan named in the scenario,
+                rendered as text. Several question groups ask about a real plan's attributes,
+                and their rubrics are only decidable against ground truth. Without this the
+                grading model answers from parametric memory, which previously produced
+                contradictory verdicts on neighbouring questions.
+                See docs/GRADING_INTEGRITY.md.
         """
         self.adapter = adapter
+        self.plan_facts = plan_facts
 
     async def grade_response(
         self,
@@ -155,7 +162,23 @@ class MedicareAdviceGrader:
 {response_text}
 
 ---
+"""
 
+        if self.plan_facts:
+            prompt += f"""
+**PLAN FACTS (authoritative ground truth)**:
+
+The following are verified facts about the specific plan named in the question. Where a
+criterion refers to the PLAN FACTS section, treat these values as authoritative and score
+against them. Do NOT substitute your own recollection of this plan. If a fact needed to
+decide the score is not listed here, say so in your explanation rather than guessing.
+
+{self.plan_facts}
+
+---
+"""
+
+        prompt += """
 **Scoring Rubric**:
 
 You must score this response as one of:
