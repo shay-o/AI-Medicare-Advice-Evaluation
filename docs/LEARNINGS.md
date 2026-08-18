@@ -59,7 +59,11 @@ The response contains neither figure. Both came from the facts block in the grad
 
 The prompt merged two operations that must stay separate: establishing what the response actually claims, and checking those claims against ground truth. Ground truth may judge correctness. It must never supply content.
 
-**Transferable:** any context added to a judge's prompt is context the judge can mistake for the thing it is judging. Adding reference material to improve accuracy is a change that itself requires validation, and the failure mode inflates scores, which is the direction least likely to prompt suspicion.
+The fix was to separate the operations: reframe the facts as a correctness reference the responder never saw, require the grader to quote the response verbatim before scoring, and store those quotes so verdicts can be audited. That worked. Refusals are scored as refusals again, and the headline moved from the contaminated 72.8% to 63.9%.
+
+**Transferable:** any context added to a judge's prompt is context the judge can mistake for the thing it is judging. Adding reference material to improve accuracy is a change that itself requires validation, and the failure mode inflates scores, which is the direction least likely to prompt suspicion. Forcing the judge to quote the source text before scoring is a cheap and effective guard.
+
+**A second-order lesson:** the fix changed grading for *every* question, not just the affected ones. The general-rules slice fell 4.7 points despite no rubric change and no relevance to plan facts, because requiring verbatim quotes made the grader stricter everywhere. So the final comparison measures two changes at once and cannot isolate the original defect. When fixing a measurement instrument, change one thing at a time, or accept that the resulting delta is uninterpretable.
 
 ## 6. Measure the noise floor before believing any delta
 

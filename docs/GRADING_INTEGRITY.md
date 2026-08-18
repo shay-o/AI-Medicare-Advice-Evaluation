@@ -119,7 +119,34 @@ The response contains neither figure. Both come from the `PLAN FACTS` block.
 
 The signature is unmistakable in the aggregate: `not_substantive` fell from 7.8% to **0.0%**, with all 33 such verdicts upgraded. Models that explicitly declined to answer are now scored as though they had. On the plan-specific slice, `not_substantive` went from 19.4% to 0.0%.
 
-The grading prompt must separate two operations that it currently merges: first establish what the response actually claims, then check those claims against `PLAN FACTS`. Ground truth may be used to judge correctness, never to supply content. Until that is fixed, the re-grade overstates performance.
+The grading prompt merged two operations that must stay separate: establishing what the response actually claims, and checking those claims against `PLAN FACTS`. Ground truth may judge correctness, never supply content.
+
+### The contamination fix, and the result
+
+Three changes were made:
+
+1. `PLAN FACTS` reframed as a correctness reference, stating that the facts are not part of the response and that the responder never saw them, with an explicit rule that a refusal stays `NOT_SUBSTANTIVE` even when the answer is present in the facts block.
+2. A mandatory verbatim-quote step: the grader must copy the sentences where the response answers, or write `NO ANSWER GIVEN`, before it may score.
+3. Those quotes are captured in `QuestionScore.response_quotes` so any verdict can be audited against what the response actually said.
+
+The re-grade was then rerun over the correct 180-row set, gated on reproducing the published old aggregate.
+
+| Slice | n | Published (old) | Contaminated | Decontaminated |
+| --- | --- | --- | --- | --- |
+| All questions | 180 | 65.0% | 72.8% | **63.9%** |
+| General rules | 108 | 84.3% | 85.2% | 79.6% |
+| Plan-specific | 72 | 36.1% | 54.2% | 40.3% |
+| `not_substantive`, all | 180 | 7.8% | 0.0% | 5.0% |
+
+The contamination signature is gone. Of 16 responses that open with an explicit refusal, 7 are now held at `not_substantive`, against 0 under the contaminated prompt.
+
+An automated probe for explanations citing figures absent from the response flagged three cases. Two are false positives: the grader correctly attributed the figure to `PLAN FACTS` while judging the response, which is the intended behaviour. The third is a genuine grading error of a different kind, where a response giving a MOOP range of "$4,000 to $6,000" was accepted as matching an actual value of $6,750, which lies outside that range. That is weak rubric application by a small grading model, not prompt contamination.
+
+### Why 63.9% is not simply "the corrected 65.0%"
+
+The general-rules slice fell 4.7 points, from 84.3% to 79.6%. Those questions have no plan facts and no rubric change, so nothing about the defect should have moved them. The verbatim-quote requirement made the grader stricter across every question, not only the plan-specific ones.
+
+So the comparison does not isolate the bug fix. It measures a corrected rubric and a materially different grading prompt at the same time. Isolating the defect alone would require holding the prompt constant and changing only the rubric. What can be said is that the headline sits in the mid-60s under either grader, and that the previously published figure was not inflated overall, even though two of its questions were being scored against a false key.
 
 ### A useful by-product: the grader's noise floor
 
@@ -127,7 +154,8 @@ Seven verdicts changed on general-rules question groups (QG11 x2, QG26 x2, QG13,
 
 ## Open items
 
-- **The re-grade is invalid pending the contamination fix.** The published 65.0% figure stands as the number produced by the old grading, with the two affected questions inside it. 72.8% is an artifact and should not replace it.
+- **The published pages still show 65.0% and have not been changed.** The decontaminated re-grade gives 63.9%, but because the grading prompt changed globally it is not a like-for-like replacement. Deciding what to publish is a separate call, and the honest options are to publish 63.9% with the prompt change disclosed, or to hold the prompt constant and re-run so the rubric fix can be isolated.
+- **The `not_substantive` category is the most sensitive diagnostic here.** It went 7.8% published, 0.0% contaminated, 5.0% decontaminated. Any future prompt change should check it first, because it moves before the headline does.
 - **A first attempt at the re-grade used the wrong row selection**, ignoring `allowed_scenario_ids` and grading 251 rows instead of 180, which reproduced the ~49% naive-pass figure that REPRODUCIBILITY.md warns about. Any re-grade must gate on reproducing the published old aggregate before its new aggregate is believed.
 - **Published pages are deliberately untouched.** `reported_runs.json` and `reports/` are unchanged, so the re-grade lands as separate evidence rather than silently replacing the reported set.
 - **Plan facts need confirmation against Medicare.gov Plan Finder**, which is the source the SHIP rubric names. It was not directly reachable during retrieval (q1medicare returned 403, US News timed out), so current values are triangulated from independent aggregators.
