@@ -20,7 +20,8 @@ This system evaluates responses, not intent, UX quality, tone, or persuasion.
 **Before citing any figure, read these two documents:**
 
 - **[docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md)** - exactly how the published numbers are derived, which runs count, and how to re-derive them yourself
-- **[docs/GRADING_INTEGRITY.md](docs/GRADING_INTEGRITY.md)** - an open answer-key defect affecting 7 of the 19 scored questions. The general-rules results are unaffected; the plan-specific results are not currently citable.
+- **[docs/GRADING_INTEGRITY.md](docs/GRADING_INTEGRITY.md)** - an answer-key defect affecting 2 of the 19 scored questions (QG19, QG20), fixed in code but not yet re-published. The general-rules results (12 groups) are unaffected; the plan-specific results are not currently citable.
+- **[docs/LEARNINGS.md](docs/LEARNINGS.md)** - what building and auditing this harness actually taught, including the misdiagnoses
 
 ## Architecture
 
