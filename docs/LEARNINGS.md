@@ -93,13 +93,31 @@ This is not a flaw to apologise for. It is a real property of evaluating commerc
 
 **Transferable:** record exact model identifiers and dates, keep raw outputs, and expect that reproduction will eventually mean "here is what we captured" rather than "run it again."
 
-## 9. A cheap judge adjudicating expert facts is a design smell
+## 9. A cheap judge adjudicating expert facts is a design smell, and it was measurable
 
-Grading used a small, inexpensive model. For rubric application over supplied criteria that is defensible. For questions whose answers depend on real-world plan details it is not, because the task quietly becomes "recall specific commercial insurance product attributes from training data," which is exactly what the models under test were failing at.
+This was tested rather than asserted. A gold set of 18 unambiguous items was built from the reported responses, and three grading models were run across two harness conditions, three replicates each, at temperature 0.
 
-The grader's contradictory verdicts on neighbouring questions were the visible symptom of asking it to do something it could not do.
+| Model | No plan facts | Grounded harness | Input $/M |
+| --- | --- | --- | --- |
+| claude-3-haiku (incumbent) | 63.0% | 85.2% | 0.25 |
+| gemini-3-flash | 100.0% | 100.0% | 0.50 |
+| claude-sonnet-4.5 | 100.0% | 100.0% | 3.00 |
 
-**Transferable:** match judge capability to what the judge is actually being asked to know, and notice when rubric application has silently turned into factual recall.
+Every failure in the experiment came from haiku. Three results stand out.
+
+**Model choice dominated harness quality.** Swapping the model with no prompt change moved accuracy 37 points. **A better harness partially rescued the weak model but did not substitute for a good one**: grounding lifted haiku 22 points, and grounded haiku still sat 15 points below either stronger model running bare. **The cheap strong model matched the expensive one**, with gemini-3-flash equalling sonnet-4.5 at a sixth of the price.
+
+The harness still earns its place, just not on accuracy. Both strong models were already at ceiling, so grounding could not raise them, but it improved sonnet's self-consistency from 94.4% to 100% and it is what prevents the contamination failure in section 5.
+
+The uncomfortable implication: at 63% bare, the incumbent grader was wrong on roughly one unambiguous item in three, and it graded every figure this project has published.
+
+**Transferable:** treat judge selection as an empirical question with a measurable answer, not a cost decision. Test model and harness as separate factors, because the cheap fix and the effective fix may not be the same one. And check for the cheap-strong-model case: the price ladder and the quality ladder are not the same ladder.
+
+**A gold-set audit trick fell out of this.** One item was failed by all three models in all six cells. That was not three models being wrong, it was the label being wrong. Unanimous disagreement between independent models is a good signal to re-examine the gold label first. Correcting it moved both strong models from 94.4% to 100%. Note also that 1 of 18 gold labels, 5.6%, was wrong on first construction, which is a reminder that the reference standard needs the same scrutiny as the thing being measured.
+
+The underlying reason: for rubric application over supplied criteria a small model is defensible, but for questions whose answers depend on real-world plan details the task quietly becomes "recall specific commercial insurance product attributes from training data," which is exactly what the models under test were failing at. The grader's contradictory verdicts on neighbouring questions were the visible symptom of asking it to do something it could not do.
+
+Full method and caveats in [GRADER_SELECTION.md](GRADER_SELECTION.md).
 
 ## 10. Documentation rots toward confidently wrong
 

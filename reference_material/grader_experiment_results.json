@@ -1,0 +1,2145 @@
+{
+ "generated": "2026-08-17T20:26:03.429610",
+ "n_items": 18,
+ "reps": 3,
+ "summary": {
+  "haiku|BARE": {
+   "accuracy_mean": 61.1,
+   "accuracy_reps": [
+    61.1,
+    61.1,
+    61.1
+   ],
+   "spread": 0.0,
+   "self_consistency": 88.9,
+   "errors": 0
+  },
+  "haiku|GROUNDED": {
+   "accuracy_mean": 85.2,
+   "accuracy_reps": [
+    83.3,
+    88.9,
+    83.3
+   ],
+   "spread": 5.6,
+   "self_consistency": 94.4,
+   "errors": 0
+  },
+  "gemini-3-flash|BARE": {
+   "accuracy_mean": 94.4,
+   "accuracy_reps": [
+    94.4,
+    94.4,
+    94.4
+   ],
+   "spread": 0.0,
+   "self_consistency": 100.0,
+   "errors": 0
+  },
+  "gemini-3-flash|GROUNDED": {
+   "accuracy_mean": 94.4,
+   "accuracy_reps": [
+    94.4,
+    94.4,
+    94.4
+   ],
+   "spread": 0.0,
+   "self_consistency": 100.0,
+   "errors": 0
+  },
+  "sonnet-4.5|BARE": {
+   "accuracy_mean": 94.4,
+   "accuracy_reps": [
+    94.4,
+    94.4,
+    94.4
+   ],
+   "spread": 0.0,
+   "self_consistency": 94.4,
+   "errors": 0
+  },
+  "sonnet-4.5|GROUNDED": {
+   "accuracy_mean": 94.4,
+   "accuracy_reps": [
+    94.4,
+    94.4,
+    94.4
+   ],
+   "spread": 0.0,
+   "self_consistency": 100.0,
+   "errors": 0
+  }
+ },
+ "cells": [
+  {
+   "model": "haiku",
+   "harness": "BARE",
+   "rep": 0,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "harness": "BARE",
+   "rep": 1,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "harness": "BARE",
+   "rep": 2,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "harness": "GROUNDED",
+   "rep": 0,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "harness": "GROUNDED",
+   "rep": 1,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "harness": "GROUNDED",
+   "rep": 2,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "substantive_incomplete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "gemini-3-flash",
+   "harness": "BARE",
+   "rep": 0,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "gemini-3-flash",
+   "harness": "BARE",
+   "rep": 1,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "gemini-3-flash",
+   "harness": "BARE",
+   "rep": 2,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "gemini-3-flash",
+   "harness": "GROUNDED",
+   "rep": 0,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "gemini-3-flash",
+   "harness": "GROUNDED",
+   "rep": 1,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "gemini-3-flash",
+   "harness": "GROUNDED",
+   "rep": 2,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "sonnet-4.5",
+   "harness": "BARE",
+   "rep": 0,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "sonnet-4.5",
+   "harness": "BARE",
+   "rep": 1,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "sonnet-4.5",
+   "harness": "BARE",
+   "rep": 2,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "sonnet-4.5",
+   "harness": "GROUNDED",
+   "rep": 0,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "sonnet-4.5",
+   "harness": "GROUNDED",
+   "rep": 1,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  },
+  {
+   "model": "sonnet-4.5",
+   "harness": "GROUNDED",
+   "rep": 2,
+   "results": [
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG15",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG17",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "incorrect",
+     "verdict": "incorrect",
+     "ok": true
+    },
+    {
+     "group": "QG20",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG14",
+     "gold": "not_substantive",
+     "verdict": "not_substantive",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG19",
+     "gold": "NOT_incorrect",
+     "verdict": "substantive_incomplete",
+     "ok": true
+    },
+    {
+     "group": "QG16",
+     "gold": "NOT_incorrect",
+     "verdict": "accurate_complete",
+     "ok": true
+    },
+    {
+     "group": "QG23",
+     "gold": "not_substantive",
+     "verdict": "accurate_complete",
+     "ok": false
+    }
+   ]
+  }
+ ]
+}

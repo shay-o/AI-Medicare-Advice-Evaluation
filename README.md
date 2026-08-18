@@ -186,6 +186,7 @@ ruff check .
 | [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) | How published numbers are derived and verified |
 | [docs/LEARNINGS.md](docs/LEARNINGS.md) | High-level learnings from building and auditing this harness |
 | [docs/GRADING_INTEGRITY.md](docs/GRADING_INTEGRITY.md) | Known answer-key defect and its blast radius |
+| [docs/GRADER_SELECTION.md](docs/GRADER_SELECTION.md) | Grader model vs harness experiment: how often the grader fails |
 | [docs/USER_GUIDE.md](docs/USER_GUIDE.md) | Step-by-step usage guide |
 | [docs/QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md) | Command reference card |
 | [docs/SCENARIOS.md](docs/SCENARIOS.md) | What each test scenario evaluates |
