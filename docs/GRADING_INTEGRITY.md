@@ -103,9 +103,32 @@ Re-grading the 18 stored QG19 and QG20 responses with the corrected rubric and `
 
 **Caveat worth stating plainly:** 15 of those 18 verdicts changed. That is not all bug-fixing. The new QG20 criteria are genuinely stricter, requiring a response to note that separate Part D coverage would be needed. The re-grade is therefore part correction and part rubric change, and should be described that way rather than presented purely as fixing an error.
 
+## Third defect, introduced by the fix: PLAN FACTS contaminates the grader
+
+The full re-grade of all 180 reported responses produced 72.8% accurate and complete, against 65.0% published. **That number is not trustworthy and must not be cited.**
+
+Supplying `PLAN FACTS` caused the grading model to credit responses for facts that appear only in its own prompt. On QG15 a model answered:
+
+> "I cannot provide the specific premium for the Aetna Medicare Eagle PPO as Medicare Advantage plan premiums: 1. Vary by location/county ..."
+
+and the grader wrote:
+
+> "The response provided accurate information about the $0.00 monthly premium for the Aetna Medicare Eagle PPO plan. ... The response also provided the accurate Part B premium amount of $202.90."
+
+The response contains neither figure. Both come from the `PLAN FACTS` block.
+
+The signature is unmistakable in the aggregate: `not_substantive` fell from 7.8% to **0.0%**, with all 33 such verdicts upgraded. Models that explicitly declined to answer are now scored as though they had. On the plan-specific slice, `not_substantive` went from 19.4% to 0.0%.
+
+The grading prompt must separate two operations that it currently merges: first establish what the response actually claims, then check those claims against `PLAN FACTS`. Ground truth may be used to judge correctness, never to supply content. Until that is fixed, the re-grade overstates performance.
+
+### A useful by-product: the grader's noise floor
+
+Seven verdicts changed on general-rules question groups (QG11 x2, QG26 x2, QG13, QG22, QG25) where no rubric changed and `PLAN FACTS` is irrelevant. Those are pure re-run nondeterminism: about **7 of 108, or 6.5%**, from the same grader on the same text. Any future re-grade delta smaller than roughly 6% should be treated as noise rather than signal. This is worth measuring deliberately rather than inferring accidentally.
+
 ## Open items
 
-- **Full re-grade of all 180 responses is in progress.** The corrected headline is not yet known. Until it is, the published 65.0% figure stands as the number produced by the old grading, and the two affected questions are inside it.
+- **The re-grade is invalid pending the contamination fix.** The published 65.0% figure stands as the number produced by the old grading, with the two affected questions inside it. 72.8% is an artifact and should not replace it.
+- **A first attempt at the re-grade used the wrong row selection**, ignoring `allowed_scenario_ids` and grading 251 rows instead of 180, which reproduced the ~49% naive-pass figure that REPRODUCIBILITY.md warns about. Any re-grade must gate on reproducing the published old aggregate before its new aggregate is believed.
 - **Published pages are deliberately untouched.** `reported_runs.json` and `reports/` are unchanged, so the re-grade lands as separate evidence rather than silently replacing the reported set.
 - **Plan facts need confirmation against Medicare.gov Plan Finder**, which is the source the SHIP rubric names. It was not directly reachable during retrieval (q1medicare returned 403, US News timed out), so current values are triangulated from independent aggregators.
 - **Plan naming is a confound.** Contract H5521-369 was marketed as "Aetna Medicare Eagle Plus (PPO)" in 2025 and "Aetna Medicare Eagle (PPO)" in 2026. Models are asked about the plan by name, so they may answer about a different year's product.
