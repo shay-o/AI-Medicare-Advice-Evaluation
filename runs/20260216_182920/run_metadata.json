@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-02-16T18:36:25.073629",
+  "scenario_id": "SHIP-MO-Q3",
+  "scenario_title": "SHIP Medicare-Only Q3: Traditional Medicare vs Medicare Advantage Comparison",
+  "target_model": "anthropic/claude-3.5-sonnet",
+  "agent_model": "mock-agent-v1.0",
+  "num_verifiers": 2,
+  "seed": 42
+}

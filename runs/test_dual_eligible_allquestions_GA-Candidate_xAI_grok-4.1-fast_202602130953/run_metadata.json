@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-02-13T17:53:10.241954",
+  "scenario_id": "SHIP-DE-ALL",
+  "scenario_title": "SHIP Dual-Eligible: Complete Question Sequence",
+  "target_model": "x-ai/grok-4.1-fast",
+  "agent_model": "anthropic/claude-3-haiku",
+  "num_verifiers": 1,
+  "seed": 42
+}

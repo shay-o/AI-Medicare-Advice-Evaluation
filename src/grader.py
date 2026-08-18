@@ -26,6 +26,13 @@ class QuestionScore(BaseModel):
     group_name: str
     criteria_met: List[str]
     criteria_missed: List[str]
+    response_quotes: List[str] = []
+    """Verbatim quotes the grader identified as the response's actual answer.
+
+    Recorded so a verdict can be audited against what the response really said. This
+    exists because supplying plan facts to the grader once caused it to credit responses
+    for figures that appeared only in its own prompt. See docs/GRADING_INTEGRITY.md.
+    """
 
 
 class RunScore(BaseModel):
@@ -69,14 +76,21 @@ class RunScore(BaseModel):
 class MedicareAdviceGrader:
     """Grades Medicare advice responses using LLM and SHIP rubric."""
 
-    def __init__(self, adapter: BaseLLMAdapter):
+    def __init__(self, adapter: BaseLLMAdapter, plan_facts: str | None = None):
         """
         Initialize grader with an LLM adapter.
 
         Args:
             adapter: LLM adapter to use for grading (e.g., AnthropicAdapter, OpenRouterAdapter)
+            plan_facts: Authoritative facts about the specific plan named in the scenario,
+                rendered as text. Several question groups ask about a real plan's attributes,
+                and their rubrics are only decidable against ground truth. Without this the
+                grading model answers from parametric memory, which previously produced
+                contradictory verdicts on neighbouring questions.
+                See docs/GRADING_INTEGRITY.md.
         """
         self.adapter = adapter
+        self.plan_facts = plan_facts
 
     async def grade_response(
         self,
@@ -133,7 +147,8 @@ class MedicareAdviceGrader:
             group_id=question_group.group_id,
             group_name=question_group.group_name,
             criteria_met=score_result["criteria_met"],
-            criteria_missed=score_result["criteria_missed"]
+            criteria_missed=score_result["criteria_missed"],
+            response_quotes=score_result.get("response_quotes", []),
         )
 
     def _build_grading_prompt(
@@ -155,7 +170,37 @@ class MedicareAdviceGrader:
 {response_text}
 
 ---
+"""
 
+        if self.plan_facts:
+            prompt += f"""
+**PLAN FACTS (reference for checking correctness only)**:
+
+STOP. Read this carefully before using the section below.
+
+The following facts are NOT part of the response you are grading. The person who wrote
+that response did NOT see them. They exist only so you can check whether the claims the
+response actually made are true or false.
+
+Rules for using this section, in order of importance:
+
+1. NEVER credit the response for a fact that appears here but not in the response text.
+   If a figure appears in PLAN FACTS and not in the response, the response DID NOT
+   PROVIDE IT. Saying otherwise is a grading error.
+2. If the response declines to answer, says it cannot confirm, says it does not know, or
+   tells the beneficiary to look it up elsewhere, then the response did not answer the
+   question. That remains true even when the answer is sitting in PLAN FACTS below. Score
+   it as NOT_SUBSTANTIVE.
+3. Use these facts ONLY to decide whether a claim the response did make is correct.
+4. Do not substitute your own recollection of this plan for what is written here.
+5. If a fact needed to decide the score is missing here, say so rather than guessing.
+
+{self.plan_facts}
+
+---
+"""
+
+        prompt += """
 **Scoring Rubric**:
 
 You must score this response as one of:
@@ -187,8 +232,10 @@ All of the following must be substantively addressed:
 ---
 
 **Instructions**:
-1. Carefully read the response
-2. Check which criteria from "ACCURATE_COMPLETE" are met
+1. FIRST, quote verbatim from the response the specific sentences where it answers the
+   question. Copy them exactly. If the response contains no such sentences, write
+   "NO ANSWER GIVEN".
+2. Only then, judge those quoted sentences against the criteria.
 3. Determine the appropriate score based on the rubric
 4. Provide a clear explanation of your scoring decision
 
@@ -198,9 +245,17 @@ All of the following must be substantively addressed:
 - A response is NOT_SUBSTANTIVE if it doesn't really answer the question or says "I don't know"
 - A response is INCORRECT if it provides wrong information that would materially affect a Medicare enrollee's decision
 - Focus on substance, not exact wording - if the meaning is conveyed, credit should be given
+- Grade ONLY the text of the response. Everything else in this prompt is reference
+  material that the responder never saw. If you find yourself writing that the response
+  "provided" a figure, verify that the figure appears in your verbatim quotes above. If
+  it does not, the response did not provide it.
 
 **Response Format**:
 Provide your response in this exact format:
+
+RESPONSE_QUOTES:
+- [verbatim quote from the response that answers the question]
+- [one quote per line, or the single line "NO ANSWER GIVEN"]
 
 SCORE: [ACCURATE_COMPLETE | SUBSTANTIVE_INCOMPLETE | NOT_SUBSTANTIVE | INCORRECT]
 
@@ -215,7 +270,7 @@ CRITERIA_MISSED:
 
 EXPLANATION:
 [Provide a clear, detailed explanation of your scoring decision. Explain:
-1. What information the response included
+1. What information the response included, referring only to your verbatim quotes
 2. What information was missing (if any)
 3. Why you assigned this particular score
 4. Any concerns about accuracy or completeness]
@@ -232,6 +287,7 @@ EXPLANATION:
         criteria_met = []
         criteria_missed = []
         explanation = []
+        response_quotes = []
 
         current_section = None
 
@@ -251,6 +307,9 @@ EXPLANATION:
                     score = ScoreCategory.INCORRECT
                 current_section = "score"
 
+            elif line.startswith("RESPONSE_QUOTES:"):
+                current_section = "response_quotes"
+
             elif line.startswith("CRITERIA_MET:"):
                 current_section = "criteria_met"
 
@@ -259,6 +318,9 @@ EXPLANATION:
 
             elif line.startswith("EXPLANATION:"):
                 current_section = "explanation"
+
+            elif line.startswith("-") and current_section == "response_quotes":
+                response_quotes.append(line[1:].strip())
 
             elif line.startswith("-") and current_section == "criteria_met":
                 criteria_met.append(line[1:].strip())
@@ -277,7 +339,8 @@ EXPLANATION:
             "score": score,
             "criteria_met": criteria_met,
             "criteria_missed": criteria_missed,
-            "explanation": "\n".join(explanation).strip()
+            "explanation": "\n".join(explanation).strip(),
+            "response_quotes": response_quotes,
         }
 
     async def grade_run(

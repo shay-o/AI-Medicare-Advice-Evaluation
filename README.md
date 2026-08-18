@@ -12,27 +12,16 @@ This system reproduces the methodology of the [SHIP mystery-shopper study](https
 
 This system evaluates responses, not intent, UX quality, tone, or persuasion.
 
----
+## Published results
 
-## 📚 Documentation
+- [Overview and findings](https://www.shayoreilly.net/projects/AI-Medicare-Advice-Evaluator/overview.html)
+- [Model comparison matrix](https://www.shayoreilly.net/projects/AI-Medicare-Advice-Evaluator/matrix_report.html)
 
-**New to this project?**
+**Before citing any figure, read these two documents:**
 
-👉 **Start with [USER_GUIDE.md](USER_GUIDE.md)** - step-by-step instructions for running tests
-
-**Quick access:**
-- **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - Command reference card (keep this open!)
-- **[SCENARIOS.md](SCENARIOS.md)** - What each test scenario evaluates
-- **[REPORTING_GUIDE.md](REPORTING_GUIDE.md)** - Generate SHIP-style accuracy tables
-- **[OPENROUTER_GUIDE.md](OPENROUTER_GUIDE.md)** - How to access 100+ models with one API key
-- **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - Complete documentation catalog
-
-**For developers:**
-- **[ADAPTERS_COMPLETE.md](ADAPTERS_COMPLETE.md)** - LLM adapter implementation
-- **[ORCHESTRATOR_COMPLETE.md](ORCHESTRATOR_COMPLETE.md)** - Pipeline architecture
-- **[AGENTS_COMPLETE.md](AGENTS_COMPLETE.md)** - Agent system details
-
----
+- **[docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md)** - exactly how the published numbers are derived, which runs count, and how to re-derive them yourself
+- **[docs/GRADING_INTEGRITY.md](docs/GRADING_INTEGRITY.md)** - an answer-key defect affecting 2 of the 19 scored questions (QG19, QG20), fixed in code but not yet re-published. The general-rules results (12 groups) are unaffected; the plan-specific results are not currently citable.
+- **[docs/LEARNINGS.md](docs/LEARNINGS.md)** - what building and auditing this harness actually taught, including the misdiagnoses
 
 ## Architecture
 
@@ -49,116 +38,77 @@ The system uses strict role separation with five specialized agents:
 ### 1. Install
 
 ```bash
-# Recommended: Install with OpenRouter support (one API key for 100+ models)
 pip install -e ".[openrouter]"
-
-# Or install with specific provider
-pip install -e ".[openai]"      # OpenAI only
-pip install -e ".[anthropic]"   # Anthropic only
-pip install -e ".[all]"         # All providers
 ```
 
-### 2. Set Up API Keys
+Other provider extras: `.[openai]`, `.[anthropic]`, `.[google]`, or `.[all]`.
+
+### 2. Verify the install (no API key needed)
+
+Both the target model and the grading model can be faked, so this runs entirely offline:
 
 ```bash
-# Copy example environment file
+python -m src run --scenario scenarios/v1/scenario_001.json --target-model fake:perfect --grade-model fake:perfect
+```
+
+SHIP rubric grading runs on **every** evaluation and defaults to `anthropic:claude-3-5-sonnet-20241022`. If you omit `--grade-model`, this command fails without an Anthropic key even though the target model is fake.
+
+### 3. Set up API keys
+
+```bash
 cp .env.example .env
-
-# Add your OpenRouter API key (recommended)
 echo "OPENROUTER_API_KEY=sk-or-your_key_here" >> .env
-
-# Or add direct provider keys
-echo "OPENAI_API_KEY=sk-your_key" >> .env
-echo "ANTHROPIC_API_KEY=sk-ant-your_key" >> .env
 ```
 
-Get OpenRouter API key at: [openrouter.ai/keys](https://openrouter.ai/keys)
+Get an OpenRouter API key at [openrouter.ai/keys](https://openrouter.ai/keys). Direct provider keys (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`) also work.
 
-### 3. Test Installation (No API Key Required)
+### 4. Run a real evaluation
 
 ```bash
-# Verify system works with fake adapter
-python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target fake:perfect \
-  --judges 2
+python -m src run --scenario scenarios/medicare_only/all_questions.json --target-model openrouter:openai/gpt-5.2 --grade-model openrouter:anthropic/claude-3.5-sonnet
 ```
 
-### 4. Run Your First Evaluation
+### 5. View results
 
 ```bash
-# Evaluate GPT-4 on SHIP Question #3
-python -m src run \
-  --scenario scenarios/v1/scenario_002.json \
-  --target openrouter:openai/gpt-4-turbo \
-  --agent-model openrouter:anthropic/claude-3-haiku \
-  --judges 2
+python -m src.view_run --run-dir runs/$(ls -t runs/ | head -1)
 ```
 
-### 5. View Results
+Rebuild the comparison report:
 
 ```bash
-# View latest results
-cat runs/$(ls -t runs/ | head -1)/results.jsonl | python -m json.tool | grep -A 10 final_scores
-
-# Generate SHIP-style accuracy table (clean, filtered by default)
-python scripts/generate_accuracy_table.py
-
-# Compare AI performance to human counselors from the SHIP study (most useful)
-python scripts/generate_accuracy_table.py --by-model --include-baseline --scenario SHIP-002
+python scripts/generate_matrix_report.py --runs-dir runs --output reports/matrix_report.html
 ```
 
-**Key features:**
-- Baseline appears as a peer row alongside AI models for easy comparison
-- Clean default output: excludes incomplete runs and fake test models
-- Use `--include-incomplete` and `--include-fake` flags when needed
+Re-derive the published headline figures independently:
 
-**For detailed instructions, see [USER_GUIDE.md](USER_GUIDE.md) and [REPORTING_GUIDE.md](REPORTING_GUIDE.md)**
-
-## Supported AI Providers
-
-### OpenRouter (Recommended)
-
-**One API key for 100+ models**
-
-Access all major AI models through a single API:
-- OpenAI: `gpt-4-turbo`, `gpt-4o`, `gpt-3.5-turbo`
-- Anthropic: `claude-3-5-sonnet`, `claude-3-opus`, `claude-3-haiku`
-- Google: `gemini-pro-1.5`, `gemini-flash-1.5`
-- Meta: `llama-3.1-70b-instruct`, `llama-3.1-405b-instruct`
-- Mistral: `mistral-large`, `mixtral-8x7b-instruct`
-- And 100+ more models
-
-**Benefits:**
-- ✅ Single API key and billing
-- ✅ Easy model comparison
-- ✅ Unified cost tracking
-- ✅ Access to models without direct API
-
-**Usage:**
 ```bash
---target openrouter:openai/gpt-4-turbo
---target openrouter:anthropic/claude-3-5-sonnet
---target openrouter:google/gemini-pro-1.5
+python scripts/verify_headline_numbers.py
 ```
 
-See full guide: **[OPENROUTER_GUIDE.md](OPENROUTER_GUIDE.md)**
+## Command reference
 
-### Direct Provider Access
+`python -m src run` accepts:
 
-You can also use direct provider APIs:
-- **OpenAI** - `--target openai:gpt-4-turbo`
-- **Anthropic** - `--target anthropic:claude-3-5-sonnet-20241022`
-- **Google** - `--target google:gemini-1.5-pro`
-- **xAI** - `--target xai:grok-beta`
+| Flag | Purpose | Default |
+| --- | --- | --- |
+| `--scenario` | `medicare_only`, `dual_eligible`, or a path to a scenario JSON | required |
+| `--target-model` | The model being evaluated | required |
+| `--grade-model` | Model used for SHIP rubric grading | `anthropic:claude-3-5-sonnet-20241022` |
+| `--agent-model` | Model used for claim extraction and verification | `fake:perfect` |
+| `--verify-claims` | Also extract and verify atomic claims against the answer key | off |
+| `--judges` | Number of independent verifiers (only meaningful with `--verify-claims`) | 2 |
+| `--seed` | Random seed | 42 |
+| `--output-dir` | Where runs are written | `runs/` |
+| `--run-id` | Custom run ID | timestamp |
 
-### Testing (No API Key)
+Model specs are `provider:model`, for example `openrouter:openai/gpt-5.2`, `anthropic:claude-3-5-sonnet-20241022`, or `fake:perfect`.
 
-- **Fake** - `--target fake:perfect` (no API calls, for testing)
+Supported providers: OpenRouter (recommended, one key for many models), OpenAI, Anthropic, Google, xAI, and a `fake:` adapter for testing. See [docs/OPENROUTER_GUIDE.md](docs/OPENROUTER_GUIDE.md).
 
 ## Eval Dataset
 
-The `eval_dataset/` directory contains a standalone, structured version of the SHIP question bank that can be used independently of the evaluation harness — for example, to build your own grader, run manual evaluations, or compare AI outputs against the human baseline.
+The `eval_dataset/` directory contains a standalone, structured version of the SHIP question bank that can be used independently of the evaluation harness, for example to build your own grader, run manual evaluations, or compare AI outputs against the human baseline.
 
 ```
 eval_dataset/
@@ -168,96 +118,98 @@ eval_dataset/
 │   └── dual_eligible_v1.json         # Medicare + full Medicaid persona
 ├── question_groups/                  # One file per scored SHIP question (19 total)
 │   ├── QG01_enrollment_timing.json
-│   ├── QG09–QG20_*.json             # Medicare-Only questions
-│   └── QG21–QG26_*.json             # Dual-Eligible questions
+│   ├── QG09–QG20_*.json              # Medicare-Only questions
+│   └── QG21–QG26_*.json              # Dual-Eligible questions
 └── baselines/
     └── ship_2025_human_baseline.json # SHIP counselor accuracy rates (eTable 3)
 ```
 
-Each question group file contains the exact question text from the SHIP study script, a four-tier scoring rubric (`accurate_complete`, `accurate_incomplete`, `not_substantive`, `incorrect`) derived from eAppendix 4, and the SHIP human baseline percentages for that question. Questions that require real-time plan lookup (network status, premiums, formulary) are flagged `external_validation_required: true`.
+Each question group file contains the exact question text from the SHIP study script, a four-tier scoring rubric (`accurate_complete`, `substantive_incomplete`, `not_substantive`, `incorrect`) derived from eAppendix 4, and the SHIP human baseline percentages for that question. Questions that require real-time plan lookup (network status, premiums, formulary) are flagged `external_validation_required: true`.
 
-To use the dataset, start with `eval_dataset/index.json` for a full listing of files and per-question baseline rates.
+Start with `eval_dataset/index.json` for a full listing of files and per-question baseline rates.
 
 ## Project Structure
 
 ```
 ai-medicare-eval/
-├── eval_dataset/      # Standalone SHIP question bank (scenarios, rubrics, baselines)
+├── eval_dataset/       # Standalone SHIP question bank (scenarios, rubrics, baselines)
 ├── scenarios/          # Test scenarios with answer keys
-├── prompts/           # System prompts for each agent
-├── src/               # Core implementation
-│   ├── adapters/      # LLM provider integrations
-│   └── agents/        # Evaluation agents
-└── runs/              # Evaluation results (auto-generated)
+├── prompts/            # System prompts for each agent
+├── src/
+│   ├── adapters/       # LLM provider integrations
+│   └── agents/         # Evaluation agents
+├── scripts/            # Report generation and verification
+├── reports/            # Generated HTML reports
+├── docs/               # Documentation
+├── reported_runs.json  # The exact run set behind published figures
+└── runs/               # Evaluation results
 ```
 
 ## Key Design Principles
 
-1. **Strict role separation** - Questioner ≠ Responder ≠ Judge
+1. **Strict role separation** - Questioner is not Responder is not Judge
 2. **Answer-key grounded** - Judges rely only on provided answer keys
 3. **Deterministic by default** - Fixed seeds, prompts, and parameters
 4. **Full auditability** - Raw transcripts and judge outputs stored verbatim
 5. **Snapshot-based evaluation** - Results are time-, model-, and prompt-specific
+6. **Append-only evidence** - A re-grade writes a new run and never edits an existing one
+
+## SHIP Study Fidelity
+
+Results are only comparable to the published human baseline if the study conditions are replicated exactly:
+
+- Use the exact opening statement and question wording from the scenario files, do not paraphrase
+- Do **not** add system prompts instructing the AI to act as a counselor
+- Do **not** give the AI extra context beyond what the scenario provides
+- Ask questions in the sequence the scenario specifies
+
+The study measured how counselors performed for ordinary beneficiaries. Optimally prompting the AI would measure something else.
 
 ## Ethics and Framing
 
-⚠️ **This system is for research purposes only.**
+**This system is for research purposes only.**
 
-This tool evaluates AI-generated information quality. It does not provide medical, legal, or insurance advice. Results should not be used to make healthcare decisions.
-
-## What This Enables
-
-- Replication of SHIP-style accuracy tables
-- Model-to-model comparison under identical prompts
-- Prompt sensitivity analysis
-- Longitudinal drift detection
-- Audit-ready evaluation artifacts
+This tool evaluates AI-generated information quality. It does not provide medical, legal, or insurance advice. Results should not be used to make healthcare decisions. The SHIP program provides free, expert Medicare counseling: find a local counselor at [shiphelp.org](https://www.shiphelp.org).
 
 ## Development
 
 ```bash
-# Install dev dependencies
 pip install -e ".[dev]"
-
-# Run tests
 pytest tests/
-
-# Run basic functionality test (no external deps)
-python test_basic.py
-
-# Test full pipeline with mock agents
-python -m src run \
-  --scenario scenarios/v1/scenario_001.json \
-  --target fake:perfect \
-  --judges 2
+ruff check .
 ```
 
 ## Documentation
 
-### For Researchers & Evaluators
-
-- **[USER_GUIDE.md](USER_GUIDE.md)** - How to run evaluations and compare models
-- **[SCENARIOS.md](SCENARIOS.md)** - Test scenarios and what they evaluate
-- **[OPENROUTER_GUIDE.md](OPENROUTER_GUIDE.md)** - Using OpenRouter for model access
-- **[SHIP_RUBRIC_UPDATE.md](SHIP_RUBRIC_UPDATE.md)** - Understanding SHIP scoring methodology
-
-### For Developers
-
-- **[ADAPTERS_COMPLETE.md](ADAPTERS_COMPLETE.md)** - LLM adapter implementation
-- **[ORCHESTRATOR_COMPLETE.md](ORCHESTRATOR_COMPLETE.md)** - Pipeline architecture
-- **[AGENTS_COMPLETE.md](AGENTS_COMPLETE.md)** - Agent system details
-- **[IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md)** - Project status and roadmap
-- **[METHODOLOGY_COMPARISON.md](METHODOLOGY_COMPARISON.md)** - System vs SHIP study comparison
+| Document | Purpose |
+| --- | --- |
+| [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) | How published numbers are derived and verified |
+| [docs/LEARNINGS.md](docs/LEARNINGS.md) | High-level learnings from building and auditing this harness |
+| [docs/GRADING_INTEGRITY.md](docs/GRADING_INTEGRITY.md) | Known answer-key defect and its blast radius |
+| [docs/GRADER_SELECTION.md](docs/GRADER_SELECTION.md) | Grader model vs harness experiment: how often the grader fails |
+| [docs/USER_GUIDE.md](docs/USER_GUIDE.md) | Step-by-step usage guide |
+| [docs/QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md) | Command reference card |
+| [docs/SCENARIOS.md](docs/SCENARIOS.md) | What each test scenario evaluates |
+| [docs/INTEGRATED_GRADING_GUIDE.md](docs/INTEGRATED_GRADING_GUIDE.md) | How grading works end to end |
+| [docs/GRADING_SYSTEM_README.md](docs/GRADING_SYSTEM_README.md) | Rubric mapping internals |
+| [docs/REPORTING_GUIDE.md](docs/REPORTING_GUIDE.md) | Generating SHIP-style accuracy tables |
+| [docs/OPENROUTER_GUIDE.md](docs/OPENROUTER_GUIDE.md) | Accessing many models with one API key |
+| [docs/METHODOLOGY_COMPARISON.md](docs/METHODOLOGY_COMPARISON.md) | This system versus the SHIP study |
+| [docs/PLAN_INFORMATION_GUIDE.md](docs/PLAN_INFORMATION_GUIDE.md) | Plan-specific question handling |
+| [docs/VIEW_RUNS_GUIDE.md](docs/VIEW_RUNS_GUIDE.md) | Inspecting stored run artifacts |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Publishing the reports |
 
 ## License
 
-[To be determined]
+MIT
 
 ## References
 
 Based on methodology from:
 
-**Dugan K, et al.** "Evaluating State Health Insurance Assistance Program (SHIP) Counselor Responses." *JAMA Network Open*. 2025;8(4):e252834.
+**Dugan K, et al.** "Accuracy of Medicare Information Provided by State Health Insurance Assistance Programs." *JAMA Network Open*. 2025;8(4):e252834.
 
 - PubMed Central: [PMC11962663](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/)
 - DOI: [10.1001/jamanetworkopen.2025.2834](https://doi.org/10.1001/jamanetworkopen.2025.2834)
+
+This project re-implements the original study's methodology. The substantive research contribution is the original authors'.

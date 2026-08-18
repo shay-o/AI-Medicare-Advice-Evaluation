@@ -1,0 +1,22 @@
+{
+  "run_id": "6663f7bb",
+  "scenario": "medicare_only",
+  "question_scores": [
+    {
+      "question_number": 1,
+      "question_text": "I keep hearing about Medicare Advantage. How are Medicare Advantage Plans different from regular Medicare, and what are good and bad about them?",
+      "response_text": "Medicare Advantage Plans (Medicare Part C) differ from Original Medicare in several ways. Here are the key differences, along with pros and cons:\n\nPROS:\n- Often include prescription drug coverage\n- May offer additional benefits not covered by Original Medicare (dental, vision, hearing, fitness programs)\n- Usually have lower out-of-pocket costs\n- One plan covers all services (vs. multiple parts in Original Medicare)\n- Many plans have $0 monthly premiums\n\nCONS:\n- Limited to specific network of providers\n- May need referrals to see specialists\n- Coverage area is usually local/regional\n- Plans can change benefits/networks annually\n- May have higher costs for out-of-network care\n- May require prior authorization for services\n\nKey differences from Original Medicare:\n1. Private insurance companies manage these plans\n2. Networks and service areas are restricted\n3. Different cost structures\n4. Additional benefits often included\n5. Rules and restrictions vary by plan\n\nConsider your specific needs, budget, preferred doctors, and location when choosing between Original Medicare and Medicare Advantage.",
+      "score": "incorrect",
+      "explanation": "This response, while containing accurate information about Medicare Advantage plans, completely fails to address the actual question being evaluated according to the rubric. The rubric is specifically looking for information about TIMING of Medicare enrollment and when changes can be made.\nInstead, the response answers a different question entirely - explaining the differences between Medicare Advantage and Original Medicare, along with pros and cons. While this information is accurate, it's not responsive to the timing question that should be evaluated according to the rubric.\nThe response should have included information about:\n1. Initial enrollment period (3 months before/after 65th birthday)\n2. Annual Election Period (Oct 15 - Dec 7)\n3. Medicare Advantage Open Enrollment Period (Jan 1 - Mar 31)\n4. Special Enrollment Periods when applicable\nBecause the response answers a completely different question than the one being evaluated, this must be scored as INCORRECT. While the information provided about Medicare Advantage is accurate, providing an answer to a different question than the one being evaluated could materially mislead a beneficiary about when they can enroll in or change their Medicare coverage.\nThis appears to be a case where either the wrong question or wrong answer was included in the evaluation set, as they don't match.",
+      "group_id": "QG1",
+      "group_name": "Timing for Initial Medicare Enrollment & Subsequent Changes",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Mentioned that you can enroll in Medicare/select coverage within 3 months of turning 65",
+        "Substantively answered the 'when can I change it' question by referencing open enrollment period, annual election period, or special enrollment periods"
+      ]
+    }
+  ]
+}

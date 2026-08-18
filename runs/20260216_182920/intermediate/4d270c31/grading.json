@@ -1,0 +1,274 @@
+{
+  "run_id": "4d270c31",
+  "scenario": "medicare_only",
+  "question_scores": [
+    {
+      "question_number": 1,
+      "question_text": "When can I select my Medicare coverage plan, and when can I change it later?",
+      "response_text": "There are several key enrollment periods for Medicare:\n\nInitial Enrollment Period (IEP):\n- Begins 3 months before your 65th birthday\n- Includes your birthday month\n- Ends 3 months after your birthday month\n\nAnnual Open Enrollment Period:\n- October 15 - December 7 each year\n- Can change Medicare Advantage or Part D plans\n- Changes take effect January 1\n\nMedicare Advantage Open Enrollment Period:\n- January 1 - March 31 each year\n- Can switch Medicare Advantage plans\n- Can return to Original Medicare\n\nSpecial Enrollment Periods (SEPs):\n- Available in specific circumstances like:\n- Moving to a new area\n- Losing current coverage\n- Qualifying for extra help\n- Other life-changing events\n\nIt's important to enroll during your Initial Enrollment Period to avoid late enrollment penalties, unless you qualify for a Special Enrollment Period.",
+      "score": "accurate_complete",
+      "explanation": "The response provided comprehensive and accurate information about both initial enrollment and subsequent changes to Medicare coverage:\n1. Information Included:\n- Detailed explanation of Initial Enrollment Period (3 months before, birth month, 3 months after)\n- Annual Open Enrollment Period (Oct 15 - Dec 7)\n- Medicare Advantage Open Enrollment Period (Jan 1 - Mar 31)\n- Special Enrollment Periods for specific circumstances\n- Clear timing details for when changes take effect\n- Warning about late enrollment penalties\n2. Information Missing:\n- No significant omissions relative to the rubric requirements\n3. Score Justification:\nThe response earns ACCURATE_COMPLETE because it:\n- Clearly explains when initial enrollment can occur (3-month window around 65th birthday)\n- Thoroughly addresses when changes can be made through multiple enrollment periods\n- Provides additional helpful context about penalties and special circumstances\n4. Accuracy/Completeness Notes:\n- The information is accurate and well-organized\n- Goes beyond minimum requirements by including specific dates\n- Provides helpful context about penalties and special circumstances\n- All key enrollment periods are correctly identified with their dates\nThe response exceeds the minimum requirements for ACCURATE_COMPLETE while maintaining accuracy throughout.",
+      "group_id": "QG1",
+      "group_name": "Timing for Initial Medicare Enrollment & Subsequent Changes",
+      "criteria_met": [
+        "Mentioned that you can enroll in Medicare/select coverage within 3 months of turning 65",
+        "Substantively answered the 'when can I change it' question by referencing open enrollment period, annual election period, or special enrollment periods"
+      ],
+      "criteria_missed": [
+        "None"
+      ]
+    },
+    {
+      "question_number": 2,
+      "question_text": "Do I have to sign up for Medicare when I turn 65, or can I remain on my employer plan?",
+      "response_text": "You don't have to sign up for Medicare at 65 if you have qualifying employer coverage. Here's what you need to know:\n\nIf you're still working and covered by your employer's plan:\n- If your employer has 20+ employees, you can delay Medicare enrollment without penalty\n- You can keep your employer coverage and enroll in Medicare later during a Special Enrollment Period\n- The Special Enrollment Period lasts 8 months after employment or coverage ends\n\nHowever, you should enroll in Medicare if:\n- Your employer has fewer than 20 employees\n- You're no longer working\n- Your employer coverage isn't \"creditable\"\n- You're on COBRA (COBRA isn't considered creditable coverage)\n\nImportant considerations:\n- Verify with your employer if your current coverage is creditable\n- Check if your employer requires you to enroll in Medicare at 65\n- Consider cost comparisons between employer coverage and Medicare\n- Keep documentation of your creditable coverage to avoid penalties later\n\nIt's recommended to consult with your employer's benefits administrator and Medicare to make the best decision for your situation.",
+      "score": "accurate_complete",
+      "explanation": "The response fully meets the criteria for ACCURATE_COMPLETE because:\n1. Information Included:\n- Clearly states that Medicare enrollment at 65 is not required with qualifying employer coverage\n- Explains the 20+ employee rule for delaying Medicare\n- Mentions Special Enrollment Period details\n- Discusses late enrollment penalty implications\n- Provides important considerations about creditable coverage\n- Includes guidance about when Medicare enrollment would be required\n2. Information Missing:\n- No critical information is missing\n3. Score Justification:\nThe response earns ACCURATE_COMPLETE because it:\n- Explicitly addresses the core question about whether Medicare enrollment is required\n- Discusses Part B implications by mentioning penalties\n- Provides comprehensive context about when delays are/aren't allowed\n- Includes important details about documentation and verification\n4. Additional Notes:\nThe response actually goes beyond the minimum requirements by including:\n- Information about COBRA\n- Guidance about consulting benefits administrators\n- Details about Special Enrollment Periods\n- Discussion of employer size requirements\nThe response provides accurate, comprehensive information that would help a beneficiary make an informed decision about Medicare enrollment while working.",
+      "group_id": "QG9",
+      "group_name": "Medicare Enrollment & Interaction with Employer Plan",
+      "criteria_met": [
+        "Counselor's answer substantively makes clear that shopper is not required to enroll in Medicare and can keep their employer plan",
+        "Also discusses Part B implications (e.g., mentions possible late enrollment penalty)"
+      ],
+      "criteria_missed": [
+        "None"
+      ]
+    },
+    {
+      "question_number": 3,
+      "question_text": "I keep hearing about Medicare Advantage. How are Medicare Advantage Plans different from regular Medicare, and what are good and bad about them?",
+      "response_text": "Medicare Advantage (MA) plans differ from Original Medicare in several key ways. Here's a comparison:\n\nAdvantages of Medicare Advantage:\n- Often includes prescription drug coverage\n- May offer extra benefits (dental, vision, hearing, gym memberships)\n- Usually has an out-of-pocket maximum\n- Can be cheaper monthly than Original Medicare + Medigap + Part D\n- All-in-one coverage\n\nDisadvantages of Medicare Advantage:\n- Limited to specific network of doctors/hospitals\n- May need referrals to see specialists\n- Coverage area may be restricted geographically\n- Prior authorization often required for procedures\n- Can have higher out-of-pocket costs for specific services\n- Networks and benefits can change annually\n\nOriginal Medicare differences:\n- Can see any doctor accepting Medicare nationwide\n- No referrals needed\n- No networks to worry about\n- More predictable costs with Medigap\n- Generally higher monthly premiums\n- Separate drug plan needed (Part D)\n\nThe best choice depends on:\n- Your health needs\n- Budget\n- Preferred doctors\n- Travel habits\n- Desire for extra benefits\n- Tolerance for network restrictions\n\nConsider consulting with a licensed Medicare advisor to determine which option best fits your situation.",
+      "score": "substantive_incomplete",
+      "explanation": "The response provides good comparative information about Medicare Advantage and Original Medicare, but misses several key details required for a complete answer:\n1. Information included:\n- Clear comparison of network restrictions and provider choice\n- Discussion of extra benefits in MA plans\n- Cost comparisons at a high level\n- Need for separate drug coverage in Original Medicare\n- Network and referral requirements for MA plans\n2. Key missing elements:\n- Specific details about Part A and Part B coverage and costs\n- Explanation that MA plans must cover all Part A and B benefits\n- Requirement to continue paying Part B premium with MA plans\n- Details about Medigap/Medicare Supplement policies\n- Specific information about enrollment in Parts A and B\n3. Score reasoning:\nThe response is substantive and accurate but incomplete. While it provides good comparative information that would help someone understand the basic differences between the options, it lacks important specific details about costs, coverage requirements, and enrollment that are necessary for a complete understanding.\n4. Concerns:\nWhile the information provided is accurate, the omission of specific details about costs, coverage requirements, and the relationship between Original Medicare and MA plans could leave beneficiaries without complete information needed for decision-making.",
+      "group_id": "QG10",
+      "group_name": "Considerations for Choosing Traditional Medicare vs Medicare Advantage",
+      "criteria_met": [
+        "Medicare Advantage: May have lower premiums, deductibles, and cost sharing than traditional Medicare plus Supplement plan",
+        "Medicare Advantage: Has a more restrictive choice of providers and hospitals",
+        "Medicare Advantage: You may not be able to keep your doctor",
+        "Medicare Advantage: Often offers additional benefits such as vision, hearing, dental, fitness, grocery, OTC card, etc.",
+        "Original Medicare: Your choice of almost any provider, hospital, etc.",
+        "Original Medicare: In order to receive coverage for prescription drugs, you must obtain a separate Prescription Drug Plan (Part D)"
+      ],
+      "criteria_missed": [
+        "Medicare Advantage: Covers all Medicare Part A and Part B (sometimes Part D) benefits",
+        "Medicare Advantage: One must continue to pay the Medicare Part B premium in addition to their Medicare Advantage Plan premium",
+        "Original Medicare: You automatically enroll in Medicare Part A when you apply for Medicare, which provides coverage for hospital stay",
+        "Original Medicare: You have the option to enroll in Medicare Part B to cover doctors' services, outpatient care, and preventative services",
+        "Original Medicare: Part A has a deductible and some cost sharing but no monthly premium",
+        "Original Medicare: Part B has a monthly premium, some cost sharing, and a small deductible",
+        "Original Medicare: Premiums and cost sharing can be more expensive than with Medicare Advantage Plans",
+        "Original Medicare: Can be paired with a Medigap/Medicare Supplement policy to reduce premiums, deductibles, and cost sharing"
+      ]
+    },
+    {
+      "question_number": 4,
+      "question_text": "What is a Medicare Supplement Plan, how much do they cost, and when do I enroll?",
+      "response_text": "Medicare Supplement Plans (Medigap) help cover costs that Original Medicare doesn't cover. Here's a comprehensive breakdown:\n\nWhat They Cover:\n- Medicare deductibles (depending on plan)\n- Copayments\n- Coinsurance\n- Some cover foreign travel emergency care\n- Different plans (A through N) offer different levels of coverage\n\nCosts:\n- Monthly premiums typically range from $50-$300+\n- Costs vary by:\n  * Your age\n  * Location\n  * Insurance company\n  * Plan type\n  * When you enroll\n  * Sometimes gender and health status\n\nBest Time to Enroll:\n- Medigap Open Enrollment Period:\n  * Starts when you're 65 and enrolled in Part B\n  * Lasts 6 months\n  * Guaranteed acceptance\n  * Best pricing\n  * No health questions\n\nAfter Open Enrollment:\n- Can still apply but:\n  * May be denied coverage\n  * May pay more\n  * Must pass medical underwriting\n\nImportant Notes:\n- Can't have Medicare Advantage and Medigap simultaneously\n- Plans are standardized (same coverage regardless of insurer)\n- Shop different insurance companies for best rates\n- Consider working with a licensed agent to compare options",
+      "score": "substantive_incomplete",
+      "explanation": "The response provides good general information about Medicare Supplement Plans but misses some specific required details:\n1. Information Included:\n- Basic definition and purpose of Medigap plans\n- General cost range ($50-$300+) and factors affecting cost\n- Clear explanation of the Open Enrollment Period and its benefits\n- Additional helpful information about plan standardization and working with agents\n2. Information Missing:\n- Specific mention that ALL plans cover Part A and B copays and hospital/hospice costs\n- Clear statement about out-of-pocket limits on some plans\n- Explicit statement that enrollment is possible at any time (though it mentions post-OEP enrollment is possible with conditions)\n3. Score Justification:\nThe response is scored as SUBSTANTIVE_INCOMPLETE because it provides accurate and helpful information but doesn't cover all required criteria. The information provided is detailed and correct, but misses some specific required elements about coverage details and enrollment timing.\n4. Concerns:\nWhile the information provided is accurate, the response could be more explicit about the standard benefits included in all Medigap plans and the ability to enroll at any time (albeit with potential restrictions). However, there are no accuracy concerns that would warrant an INCORRECT rating.",
+      "group_id": "QG11",
+      "group_name": "Considerations for Medicare Supplement Plans",
+      "criteria_met": [
+        "Supplement plans can be purchased separately if you choose traditional Medicare to help cover out-of-pocket costs",
+        "Supplement plan costs vary based on how much is covered but usually range from $50-$300 per month",
+        "You will get better rates if you enroll during your open enrollment period (which begins the day you turn 65 and lasts for six months afterwards)"
+      ],
+      "criteria_missed": [
+        "All supplement plans cover Part A and Part B copays and hospital and hospice costs",
+        "Some supplement plans cover Part A and Part B deductibles",
+        "Some supplement plans have out-of-pocket limits",
+        "You can enroll in a Supplement plan at any time"
+      ]
+    },
+    {
+      "question_number": 5,
+      "question_text": "Do either regular Medicare, Medicare Advantage Plans, or Medicare Supplement Plans cover long-term care?",
+      "response_text": "No, none of these Medicare options provide comprehensive long-term care coverage. Here's what you need to know:\n\nWhat Medicare DOES Cover:\n- Short-term skilled nursing (up to 100 days)\n- Only after a qualifying 3-day hospital stay\n- Must be for medical care/rehabilitation\n- Limited home health care for medical needs\n\nWhat Medicare Does NOT Cover:\n- Custodial care (help with daily living activities)\n- Long-term nursing home care\n- Most assisted living facilities\n- Most in-home care services\n- Adult day care\n- Memory care facilities\n\nAlternative Options for Long-Term Care Coverage:\n- Long-term care insurance\n- Hybrid life insurance/long-term care policies\n- Short-term care insurance\n- Medicaid (if you qualify financially)\n- Self-funding through savings\n- Reverse mortgages\n- Family care\n\nImportant Considerations:\n- Plan ahead for long-term care needs\n- Consider purchasing long-term care insurance when younger/healthier\n- Understand Medicaid eligibility requirements\n- Discuss options with financial advisor\n- Don't rely on Medicare for long-term care needs",
+      "score": "accurate_complete",
+      "explanation": "The response provided comprehensive and accurate information about Medicare's relationship to long-term care coverage. Specifically:\n1. Information Included:\n- Clearly stated that none of the Medicare options provide comprehensive long-term care coverage\n- Detailed what Medicare DOES cover (short-term skilled nursing up to 100 days, limited home health care)\n- Explained what Medicare does NOT cover (custodial care, long-term nursing home care, assisted living, etc.)\n- Provided alternative options for long-term care coverage\n- Included important considerations for planning\n2. Information Missing:\n- None - all required elements were addressed thoroughly\n3. Score Justification:\nThe response meets all criteria for ACCURATE_COMPLETE because it:\n- Explicitly states that Medicare options don't cover long-term care\n- Explains the limited circumstances where Medicare provides similar services (100-day skilled nursing benefit)\n- Goes beyond minimum requirements by providing helpful alternative options\n4. Accuracy/Completeness:\nThe response is not only accurate but provides additional valuable context that helps beneficiaries understand their options and plan accordingly. The information about alternative options and planning considerations adds helpful context without detracting from the core message about Medicare's limitations regarding long-term care coverage.",
+      "group_id": "QG12",
+      "group_name": "Coverage of Long-Term Care",
+      "criteria_met": [
+        "In general, none of these cover long-term care",
+        "Although some time-limited nursing facility stays or in-home services may be covered",
+        "OR: None of these provide coverage for long-term care"
+      ],
+      "criteria_missed": [
+        "None"
+      ]
+    },
+    {
+      "question_number": 6,
+      "question_text": "What are my options for Medicare prescription drug coverage, and how should I choose?",
+      "response_text": "Medicare prescription drug coverage (Part D) has two main options, and choosing between them requires careful consideration:\n\nTwo Ways to Get Drug Coverage:\n1. Standalone Part D Plan\n- Works with Original Medicare\n- Required if you have a Medigap plan\n\n2. Medicare Advantage Plan with Drug Coverage (MA-PD)\n- All-in-one coverage including drugs\n- Most Medicare Advantage plans include this\n\nHow to Choose:\n- Make a list of all your medications\n- Use Medicare's Plan Finder tool to:\n  * Compare costs\n  * Check if your drugs are covered\n  * Verify pharmacy networks\n  * Review plan ratings\n\nKey Factors to Consider:\n- Monthly premium\n- Annual deductible\n- Copays/coinsurance\n- Coverage gap (\"donut hole\")\n- Preferred pharmacy networks\n- Prior authorization requirements\n- Quantity limits\n- Step therapy requirements\n\nImportant Tips:\n- Review coverage annually during Open Enrollment\n- Check formulary changes each year\n- Consider total costs, not just premiums\n- Enroll when first eligible to avoid penalties\n- Consider using mail-order for better prices",
+      "score": "accurate_complete",
+      "explanation": "The response provided comprehensive and accurate information about Medicare prescription drug coverage options and how to choose between them. Specifically:\n1. Information Included:\n- Clearly explained both main options (standalone Part D and MA-PD)\n- Detailed the selection process using Medicare's Plan Finder tool\n- Provided comprehensive cost considerations (premiums, deductibles, copays, coverage gap)\n- Included important additional factors like pharmacy networks and authorization requirements\n- Offered practical tips for enrollment and annual review\n2. Completeness:\n- All five required criteria from the rubric were thoroughly addressed\n- The response went beyond the minimum requirements by including additional helpful information about enrollment timing and annual review\n3. Score Justification:\n- Assigned ACCURATE_COMPLETE because the response met all required criteria and provided accurate, detailed information that would help beneficiaries make an informed decision\n4. Accuracy Assessment:\n- All information appears accurate and current\n- The level of detail provided is appropriate and helpful\n- No concerning omissions or inaccuracies were identified\n- The information would effectively guide a Medicare beneficiary in making their coverage decision\nThe response excelled in not just listing options but explaining how to evaluate them, making it particularly useful for Medicare beneficiaries.",
+      "group_id": "QG13",
+      "group_name": "Considerations for Prescription Drug Coverage",
+      "criteria_met": [
+        "You can choose either a Medicare Advantage Plan that covers prescription drugs or a stand-alone Part D plan",
+        "Most Medicare Advantage options include prescription drug (Part D) coverage",
+        "If you choose original Medicare, you could purchase a separate prescription drug (Part D) plan",
+        "Each plan has a different list of covered drugs, and you would choose based on the medicine you take",
+        "Each plan has different out-of-pocket costs for different drugs, and you would choose based on the medicine you take and your comfort with costs"
+      ],
+      "criteria_missed": [
+        "None"
+      ]
+    },
+    {
+      "question_number": 7,
+      "question_text": "My friend told me about Aetna Medicare Eagle PPO. Can you tell me if Dr. Jane Sample is in the network there?",
+      "response_text": "I apologize, but I cannot verify whether specific doctors are in particular Medicare Advantage networks. These networks can change frequently, and I don't have access to current provider directories.\n\nTo find out if Dr. Sample is in the Aetna Medicare Eagle PPO network, you can:\n\n1. Call Aetna directly\n2. Check Aetna's online provider directory\n3. Contact Dr. Sample's office\n4. Work with a licensed Medicare insurance agent\n\nIt's important to verify network status directly with current sources, as provider participation can change throughout the year.",
+      "score": "not_substantive",
+      "explanation": "1. The response provided:\n- An acknowledgment that they cannot verify network status\n- A list of resources where the beneficiary can check the network status\n- A warning about network changes\n- Alternative ways to verify the information\n2. Information missing:\n- Any actual confirmation about whether Dr. Sample is in the Aetna Medicare Eagle PPO network\n3. This response merits a NOT_SUBSTANTIVE score because:\n- It explicitly states it cannot provide the requested information\n- While it provides helpful resources for finding the answer, it does not actually answer the core question about the doctor's network status\n- The response is essentially a \"I don't know\" with additional guidance\n4. Concerns/Notes:\n- While the response is helpful in providing ways to find the information, under the SHIP rubric, the core question about network status remains unanswered\n- The response is accurate in acknowledging limitations and providing good resources, but that doesn't meet the specific criteria for network status verification\n- The cautionary note about network changes is valuable but doesn't substitute for answering the specific question\nThis is a classic example of a response that provides good general guidance but fails to meet the specific requirement of confirming network status, thus falling into the NOT_SUBSTANTIVE category.",
+      "group_id": "QG14",
+      "group_name": "Ability to Determine if Specific PCP is in Network for Specific Plan",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "The doctor is confirmed to be in the network (or not in network with accurate information)"
+      ]
+    },
+    {
+      "question_number": 8,
+      "question_text": "What is the monthly premium for Aetna Medicare Eagle PPO?",
+      "response_text": "I cannot provide the specific premium for the Aetna Medicare Eagle PPO as Medicare Advantage plan premiums:\n\n1. Vary by location/county\n2. Change annually\n3. May have different costs for different individuals\n4. Are subject to regular updates\n\nTo get accurate, current premium information:\n- Visit Medicare.gov\n- Contact Aetna directly\n- Consult with a licensed Medicare insurance agent\n- Use Medicare's Plan Finder tool\n\nThis will ensure you get the correct premium amount for your specific area and situation.",
+      "score": "not_substantive",
+      "explanation": "1. The response provided:\n- General information about Medicare Advantage plan premiums\n- Sources where the premium information could be found\n- Explanation of why they couldn't provide the specific premium\n2. Missing information:\n- No specific premium amount or range was provided\n- No Part B premium information was mentioned\n- No attempt to provide even a general range for the plan\n3. This response merits a NOT_SUBSTANTIVE score because:\n- It completely avoided providing any actual premium information\n- While the information about premiums varying by location is accurate, it doesn't attempt to answer the specific question asked\n- The response essentially says \"I don't know\" and redirects to other sources\n- The rubric specifically categorizes responses that say \"they do not know\" as NOT_SUBSTANTIVE\n4. Additional concerns:\n- While the response provides helpful context about where to find information, it fails to fulfill the basic requirement of providing premium information\n- The response could have been improved by providing even a general range or typical premium amount for the plan, while noting that it varies by location\nThis response, while professionally written and containing accurate contextual information, fundamentally fails to answer the specific question about the premium amount for the Aetna Medicare Eagle PPO plan.",
+      "group_id": "QG15",
+      "group_name": "Ability to Determine Premium for Specific Plan",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Counselor provided the Plan premium and the Part B premium",
+        "The amounts for each were accurate for the year in which the evaluation takes place"
+      ]
+    },
+    {
+      "question_number": 9,
+      "question_text": "Would Aetna Medicare Eagle PPO let me go out of network?",
+      "response_text": "Yes, as a PPO (Preferred Provider Organization) plan, Aetna Medicare Eagle PPO allows you to go out of network, but with some important considerations:\n\nIn-Network vs. Out-of-Network:\n- You CAN see out-of-network providers\n- You'll typically pay MORE for out-of-network care\n- Out-of-network costs are usually higher for:\n  * Copays\n  * Coinsurance\n  * Deductibles\n\nImportant Notes:\n- Emergency care is covered at in-network rates\n- Some services may require prior authorization\n- Out-of-network providers must accept Medicare\n- Total costs may be significantly higher\n- Out-of-network providers may require upfront payment\n\nFor best value:\n- Try to use in-network providers when possible\n- Check if frequently used providers are in-network\n- Understand the out-of-network cost structure\n- Verify coverage before receiving out-of-network services",
+      "score": "accurate_complete",
+      "explanation": "The response fully meets the criteria for ACCURATE_COMPLETE because it:\n1. Information Included:\n- Clearly states that the Aetna Medicare Eagle PPO allows out-of-network care\n- Explicitly explains that out-of-network care will cost more\n- Provides detailed breakdown of which costs will be higher (copays, coinsurance, deductibles)\n- Offers additional valuable context about emergency care coverage, prior authorization requirements, and practical considerations\n2. Missing Information:\n- No required information was missing according to the rubric\n3. Score Justification:\n- The response meets both key requirements for a PPO plan:\n* Confirms that out-of-network care is allowed\n* Clearly explains that costs will be higher\n- The response goes above and beyond the minimum requirements by providing comprehensive additional details\n4. Accuracy/Completeness Notes:\n- The information provided is accurate for PPO plans\n- The level of detail helps beneficiaries make informed decisions\n- The response includes practical advice for managing out-of-network care\n- No incorrect or misleading information is included\nThe response exceeds the minimum requirements while maintaining accuracy, making it a clear ACCURATE_COMPLETE score.",
+      "group_id": "QG16",
+      "group_name": "Ability to Determine if Specific Plan Allows Out-of-Network Care",
+      "criteria_met": [
+        "If PPO: Yes, and specified that there would be a higher cost or copay"
+      ],
+      "criteria_missed": [
+        "None"
+      ]
+    },
+    {
+      "question_number": 10,
+      "question_text": "What is the copay for a primary care doctor visit for Aetna Medicare Eagle PPO?",
+      "response_text": "I cannot provide the specific copay amount for primary care visits under the Aetna Medicare Eagle PPO because:\n\n1. Copays vary by location/region\n2. Plan details change annually\n3. Different versions of the plan may exist\n4. The information may not be current\n\nTo get accurate copay information:\n- Visit Medicare.gov\n- Contact Aetna directly\n- Check your plan's Summary of Benefits\n- Use Medicare's Plan Finder tool\n- Consult with a licensed Medicare insurance agent\n\nThis will ensure you get the correct, current copay amount for your specific plan in your area.",
+      "score": "not_substantive",
+      "explanation": "1. The response explicitly states that the counselor cannot provide the specific copay amount for the plan.\n2. While the response provides helpful guidance on how to find the information (checking Medicare.gov, contacting Aetna directly, etc.), it does not actually answer the question about the copay amount.\n3. I assigned NOT_SUBSTANTIVE because:\n- The response amounts to \"I don't know/cannot tell you\"\n- While the reasons given for not providing the information are valid considerations (regional variations, annual changes), the rubric specifically requires providing the copay amount\n- The response, while professional and helpful in directing where to find information, does not meet any of the criteria for ACCURATE_COMPLETE or SUBSTANTIVE_INCOMPLETE\n4. Concerns:\n- While this is a cautious and responsible response that acknowledges the complexity of Medicare plans, it fails to meet the basic requirement of providing copay information\n- According to the rubric, responses that indicate \"they do not know or otherwise did not answer the question\" should be scored as NOT_SUBSTANTIVE\nThe response demonstrates good Medicare counseling practices in terms of directing to authoritative sources, but does not meet the specific requirements of the question according to the rubric.",
+      "group_id": "QG17",
+      "group_name": "Knowledge of in-network PCP copay",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Counselor said that the copay for an in-network PCP is $0 or that there is no copay"
+      ]
+    },
+    {
+      "question_number": 11,
+      "question_text": "What is the copay to see a specialist for Aetna Medicare Eagle PPO?",
+      "response_text": "I cannot provide the specific specialist copay amount for the Aetna Medicare Eagle PPO because:\n\n1. Copays vary by location/region\n2. Plan details change annually\n3. Different versions of the plan may exist\n4. The information may not be current\n\nTo get accurate specialist copay information:\n- Visit Medicare.gov\n- Contact Aetna directly\n- Check your plan's Summary of Benefits\n- Use Medicare's Plan Finder tool\n- Consult with a licensed Medicare insurance agent\n\nThis will ensure you get the correct, current specialist copay amount for your specific plan in your area.",
+      "score": "missing",
+      "explanation": "Error during grading: No rubric found for question 11 in medicare_only scenario",
+      "group_id": "ERROR",
+      "group_name": "Error",
+      "criteria_met": [],
+      "criteria_missed": []
+    },
+    {
+      "question_number": 12,
+      "question_text": "For Aetna Medicare Eagle PPO, is there a limit on out-of-pocket costs I would have to pay each year?",
+      "response_text": "Yes, Aetna Medicare Eagle PPO, like all Medicare Advantage plans, has an annual out-of-pocket maximum limit. However, I cannot provide the specific dollar amount because:\n\n1. The limit varies by:\n- Geographic location\n- Year\n- Plan version\n- Whether services are in-network or out-of-network (PPOs typically have different limits for each)\n\n2. These limits change annually\n\nTo find the current out-of-pocket maximum for your area:\n- Visit Medicare.gov\n- Contact Aetna directly\n- Check the plan's Summary of Benefits\n- Use Medicare's Plan Finder tool\n- Consult with a licensed Medicare insurance agent\n\nThis will ensure you get the correct, current out-of-pocket maximum for your specific plan in your area.",
+      "score": "substantive_incomplete",
+      "explanation": "1. The response included:\n- Confirmation that the plan has an annual out-of-pocket maximum limit\n- Explanation of factors that affect the limit (geography, year, plan version, in/out-of-network)\n- Multiple resources for finding the specific amount\n- Clear guidance on how to get accurate information\n2. The response missed:\n- The specific dollar amount of the out-of-pocket maximum\n3. This response merits a SUBSTANTIVE_INCOMPLETE score because:\n- It correctly indicates that there is a maximum out-of-pocket limit\n- It provides helpful context about how these limits work\n- It gives actionable guidance on finding the specific amount\n- However, it does not provide the actual dollar amount, which was specifically asked for in the question\n4. Additional notes:\n- The response is thorough and accurate in what it does provide\n- The cautious approach (not providing a specific number without knowing the exact location/year) shows good judgment\n- However, to be ACCURATE_COMPLETE, it would need to provide the specific dollar amount from the Medicare.gov plan finder tool\n- The response is definitely not INCORRECT or NOT_SUBSTANTIVE as it provides accurate, relevant information",
+      "group_id": "QG18",
+      "group_name": "Knowledge of maximum out-of-pocket limit",
+      "criteria_met": [
+        "Counselor indicated there is a maximum but did not provide a dollar amount"
+      ],
+      "criteria_missed": [
+        "The dollar amount provided matches the amount in Medicare.gov plan finder tool for the year"
+      ]
+    },
+    {
+      "question_number": 13,
+      "question_text": "Does Aetna Medicare Eagle PPO include prescription drug coverage?",
+      "response_text": "Yes, Aetna Medicare Eagle PPO typically includes prescription drug coverage (Part D) as part of the plan. However, I cannot provide specific details about:\n\n1. Drug formulary (list of covered drugs)\n2. Drug tiers and their costs\n3. Pharmacy networks\n4. Deductibles\n5. Copays/coinsurance amounts\n\nBecause these details:\n- Vary by location\n- Change annually\n- May have different versions\n- Are regularly updated\n\nTo get current drug coverage details:\n- Visit Medicare.gov\n- Contact Aetna directly\n- Check the plan's Summary of Benefits\n- Use Medicare's Plan Finder tool\n- Consult with a licensed Medicare insurance agent\n\nThis will ensure you get accurate prescription drug coverage information for your specific plan in your area.",
+      "score": "incorrect",
+      "explanation": "This response is incorrect because Aetna Medicare Eagle PPO specifically does NOT include prescription drug coverage. This is a well-known characteristic of this particular plan - the Eagle PPO is designed as a $0 premium plan that excludes Part D coverage.\nThe response provided is not just incomplete but actively misleading by stating that the plan \"typically includes prescription drug coverage (Part D).\" This is exactly the type of error that would materially affect a Medicare beneficiary's decision-making process, as they might:\n1. Enroll in this plan expecting drug coverage when there is none\n2. Miss their opportunity to enroll in a separate Part D plan\n3. Face late enrollment penalties later when they discover they need to add drug coverage\nWhile the response includes good general advice about checking specific details and consulting authoritative sources, the fundamental error about whether the plan includes prescription drug coverage at all makes this response INCORRECT according to the rubric.\nThe fact that the counselor provided detailed follow-up information about checking drug formularies and costs actually makes the response more problematic, as it reinforces the incorrect information about the plan including drug coverage.",
+      "group_id": "QG19",
+      "group_name": "Ability to determine if specific plan includes coverage for prescription drugs",
+      "criteria_met": [],
+      "criteria_missed": [
+        "Counselor says yes (plan includes prescription drug coverage)"
+      ]
+    },
+    {
+      "question_number": 14,
+      "question_text": "I take Lipitor. Is that covered by Aetna Medicare Eagle PPO?",
+      "response_text": "While I can't provide specific coverage details for Lipitor under Aetna Medicare Eagle PPO (as formularies can change), here's what you should know:\n\nTo Check Lipitor Coverage:\n1. Look for both brand name Lipitor and its generic (atorvastatin)\n2. Check which tier it's on in the plan's formulary\n3. Verify any requirements like:\n- Prior authorization\n- Step therapy\n- Quantity limits\n\nHow to Get This Information:\n- Use Medicare's Plan Finder tool\n- Contact Aetna directly\n- Check the plan's formulary online\n- Ask a licensed Medicare insurance agent\n- Consult your pharmacist\n\nImportant Tips:\n- Coverage can change during the year\n- Generic versions may have lower copays\n- Different pharmacies may have different costs\n- Verify coverage before enrolling",
+      "score": "not_substantive",
+      "explanation": "1. The response provided general guidance about how to look up drug coverage information, but did not actually answer whether Lipitor or its generic is covered by the specific plan asked about (Aetna Medicare Eagle PPO).\n2. While the response mentions useful process steps and includes good general information about:\n- Checking both brand name and generic versions\n- Looking up formulary tiers\n- Checking coverage requirements\n- Where to find information\n- Important considerations about coverage changes\n3. I assigned NOT_SUBSTANTIVE because:\n- The response essentially says \"I don't know, here's how to find out\" rather than providing the actual coverage information requested\n- The rubric specifically requires stating whether Lipitor/generic is covered\n- While the information provided is helpful, it doesn't meet the core requirement of answering whether the specific drug is covered by the specific plan\n4. Concerns:\n- The response avoids making any specific claims about coverage, instead defaulting to process guidance\n- While the information is accurate and potentially helpful, it fails to address the fundamental question asked about Lipitor coverage\n- This type of response could leave a beneficiary still uncertain about their coverage status\nThe response would need to include specific information about whether Lipitor and/or its generic is covered by Aetna Medicare Eagle PPO to meet the minimum criteria for SUBSTANTIVE_INCOMPLETE or ACCURATE_COMPLETE.",
+      "group_id": "QG20",
+      "group_name": "Ability to determine if plan covers specific drug (Lipitor) and/or its generic equivalent",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Counselor substantively said that Lipitor is not covered but a generic version is",
+        "OR: Said that Lipitor is covered but a generic version is available at a lower cost"
+      ]
+    },
+    {
+      "question_number": 15,
+      "question_text": "Is a generic version of Lipitor covered? I would be willing to take that.",
+      "response_text": "Yes, atorvastatin (generic Lipitor) is commonly covered by Medicare drug plans, including most Medicare Advantage plans. However, I cannot specify the exact coverage or cost under Aetna Medicare Eagle PPO because:\n\nTo Find Out Coverage/Cost:\n1. Check the plan's formulary for \"atorvastatin\"\n2. Verify:\n- Which tier it's on\n- Copay/coinsurance amount\n- Any restrictions\n- Preferred pharmacy pricing\n\nHow to Get This Information:\n- Use Medicare's Plan Finder tool\n- Contact Aetna directly\n- Check the plan's formulary\n- Ask your pharmacist\n- Consult a Medicare insurance agent\n\nGenerally:\n- Generic versions like atorvastatin usually cost less\n- Coverage is typically better for generics\n- Preferred pharmacies may offer lower costs\n- Different strengths may have different costs",
+      "score": "missing",
+      "explanation": "Error during grading: No rubric found for question 15 in medicare_only scenario",
+      "group_id": "ERROR",
+      "group_name": "Error",
+      "criteria_met": [],
+      "criteria_missed": []
+    },
+    {
+      "question_number": 16,
+      "question_text": "How much would Lipitor be out of pocket vs. the generic version?",
+      "response_text": "I cannot provide specific out-of-pocket costs for Lipitor (brand) or atorvastatin (generic) under Aetna Medicare Eagle PPO because:\n\n1. Costs vary based on:\n- Your location\n- The pharmacy you use\n- Whether it's a preferred pharmacy\n- Which coverage phase you're in\n- Plan-specific formulary tiers\n- Drug strength/dosage\n- Annual changes to plan benefits\n\nTo Get Accurate Price Comparison:\n1. Use Medicare's Plan Finder tool\n2. Contact Aetna directly\n3. Check with your local pharmacies\n4. Consult a Medicare insurance agent\n\nGenerally Speaking:\n- Generic versions usually cost significantly less\n- Brand-name Lipitor typically has higher copays\n- Preferred pharmacies often offer better prices\n- Costs may change throughout the year\n\nFor exact pricing, please use one of the suggested resources above.",
+      "score": "not_substantive",
+      "explanation": "1. The response provided does not address the question about Spanish translation services at all. Instead, it provides information about Lipitor and generic drug pricing.\n2. The response appears to be answering a completely different question (\"How much would Lipitor be out of pocket vs. the generic version?\") rather than the question being evaluated (\"Do you offer Spanish translation services at your location?\")\n3. I assigned a NOT_SUBSTANTIVE score because:\n- The response completely fails to address the availability of Spanish translation services\n- No information about language services or accessibility is provided\n- The response, while detailed about medication pricing, is entirely off-topic for the question being evaluated\n4. Concerns:\n- This appears to be a mismatch between question and answer\n- While the medication pricing information may be accurate and helpful in another context, it does not help evaluate the availability of Spanish translation services\n- The complete lack of relevant information about translation services makes it impossible to evaluate against the given criteria\nThe response needs to be evaluated against the question about Spanish translation services, and since it provides no information about this topic, it must be scored as NOT_SUBSTANTIVE.",
+      "group_id": "QG2",
+      "group_name": "Availability of Spanish Translation Services",
+      "criteria_met": [
+        "None"
+      ],
+      "criteria_missed": [
+        "Substantively said yes to Spanish translation services being available"
+      ]
+    },
+    {
+      "question_number": 17,
+      "question_text": "I have a friend who does not speak much English. Do you offer Spanish translation services at your location?",
+      "response_text": "I need to clarify something: I am an AI language model, not a physical location or Medicare office. I don't provide in-person services or translation services.\n\nFor Spanish language assistance with Medicare:\n1. Call Medicare directly:\n- 1-800-MEDICARE (1-800-633-4227)\n- Press 2 for Spanish\n- Available 24/7\n\n2. Contact Aetna:\n- They have Spanish-speaking representatives\n- Spanish language materials available\n\n3. Other Resources:\n- Visit Medicare.gov/es (Spanish version)\n- Work with a Spanish-speaking licensed Medicare agent\n- Use local State Health Insurance Assistance Program (SHIP) for free counseling\n- Contact local senior centers that offer Spanish services\n\nYour friend has the right to receive Medicare information in Spanish and to use an interpreter when dealing with Medicare or insurance companies.",
+      "score": "missing",
+      "explanation": "Error during grading: No rubric found for question 17 in medicare_only scenario",
+      "group_id": "ERROR",
+      "group_name": "Error",
+      "criteria_met": [],
+      "criteria_missed": []
+    }
+  ]
+}

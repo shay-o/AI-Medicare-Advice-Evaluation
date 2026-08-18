@@ -1,0 +1,17 @@
+{
+  "trial_id": "81a372de",
+  "conversation": [
+    {
+      "turn_id": "Q1",
+      "role": "user",
+      "content": "When can I enroll in Medicare and select my coverage? And when can I make changes to my coverage after I've enrolled?",
+      "timestamp": "2026-02-16 19:06:39.819733"
+    },
+    {
+      "turn_id": "Q1_response",
+      "role": "assistant",
+      "content": "# Medicare Enrollment and Coverage Change Periods\n\n## Initial Enrollment Periods\n\n**Initial Enrollment Period (IEP)**\n- 7-month window around your 65th birthday\n- Includes: 3 months before your birthday month, your birthday month, and 3 months after\n- Also applies if you're under 65 and qualifying due to disability (after 24 months of disability benefits)\n\n**Special Enrollment Period (SEP)**\n- Available if you delayed enrollment due to current employer coverage (you or spouse)\n- Typically 8 months after employment ends or coverage stops (whichever comes first)\n\n## Annual Change Periods\n\n**Annual Enrollment Period (AEP)** - October 15 to December 7\n- Switch from Original Medicare to Medicare Advantage (or vice versa)\n- Change Medicare Advantage plans\n- Join, drop, or switch Medicare Part D prescription plans\n- Changes take effect January 1\n\n**Medicare Advantage Open Enrollment Period** - January 1 to March 31\n- Only for those already in Medicare Advantage\n- Switch to a different Medicare Advantage plan\n- Drop Medicare Advantage and return to Original Medicare (and join Part D)\n- Changes take effect the first of the following month\n\n## Other Special Enrollment Periods\n\nYou may qualify for SEPs due to:\n- Moving outside your plan's service area\n- Losing other coverage\n- Qualifying for Extra Help with drug costs\n- Moving into/out of a nursing home\n- Other specific circumstances\n\n**Tip:** Missing your Initial Enrollment Period may result in late enrollment penalties, so mark your calendar!",
+      "timestamp": "2026-02-16 19:06:50.137826"
+    }
+  ]
+}

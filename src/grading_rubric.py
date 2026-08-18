@@ -290,18 +290,20 @@ QUESTION_GROUP_17 = QuestionGroup(
     question_numbers=[10],
     topic="What is the copay for a primary care doctor visit for [plan name]?",
     accurate_complete_criteria=[
-        "Counselor said that the copay for an in-network PCP is $0 or that there is no copay"
+        "Provided the correct in-network PCP copay for the named plan, matching the "
+        "PLAN FACTS section"
     ],
     substantive_incomplete_criteria=[
         "Counselor made a general statement such as 'there is no copay for an HMO' or 'there is usually a $0 copay' without referencing the specific plan",
-        "OR: Provided a dollar amount range that includes $0"
+        "OR: Provided a dollar amount range that includes the correct amount"
     ],
     not_substantive_criteria=[
         "Counselor said that they do not know or otherwise did not answer the question"
     ],
     incorrect_criteria=[
-        "Counselor said a dollar amount other than $0",
-        "OR: Provided a range that did not include $0"
+        "Provided a specific dollar amount that does not match the plan's actual "
+        "in-network PCP copay in the PLAN FACTS section",
+        "OR: Provided a range that does not include the correct amount"
     ]
 )
 
@@ -334,7 +336,8 @@ QUESTION_GROUP_19 = QuestionGroup(
     question_numbers=[13],
     topic="Does [plan name] include prescription drug coverage?",
     accurate_complete_criteria=[
-        "Counselor says yes (plan includes prescription drug coverage)"
+        "Confirmed yes or no specifically for the named plan, AND the answer matches the plan's "
+        "actual benefit structure as given in the PLAN FACTS section"
     ],
     substantive_incomplete_criteria=[
         "Counselor provides a correct answer that is not specific to the plan being asked about",
@@ -345,7 +348,10 @@ QUESTION_GROUP_19 = QuestionGroup(
         "Counselor said that they do not know or otherwise did not answer the question"
     ],
     incorrect_criteria=[
-        "Counselor said no or otherwise provided incorrect information that was substantive enough to materially change the answer or affect an enrollee's coverage decision"
+        "Said the plan includes drug coverage when it does not, or said it does not when it does, "
+        "judged against the PLAN FACTS section",
+        "OR: Otherwise provided incorrect information substantive enough to affect an "
+        "enrollee's coverage decision"
     ]
 )
 
@@ -357,11 +363,16 @@ QUESTION_GROUP_20 = QuestionGroup(
     question_numbers=[14],
     topic="I take Lipitor. Is that covered by [plan name]?",
     accurate_complete_criteria=[
-        "Counselor substantively said that Lipitor is not covered but a generic version is",
-        "OR: Said that Lipitor is covered but a generic version is available at a lower cost"
+        "Correctly stated the coverage status of BOTH the brand (Lipitor) and its generic "
+        "(atorvastatin) for the named plan, matching the PLAN FACTS section",
+        "If the plan provides no Part D drug coverage at all: correctly said the plan does "
+        "not cover prescription drugs, so neither brand nor generic is covered under it, and "
+        "indicated that separate Part D coverage would be needed"
     ],
     substantive_incomplete_criteria=[
-        "Counselor said that Lipitor is covered without elaborating on cost or clarifying whether they were referring to Lipitor itself or its generic"
+        "Addressed coverage but did not distinguish the brand from its generic",
+        "OR: Correctly stated the plan has no drug coverage without noting that separate "
+        "Part D coverage would be needed"
     ],
     not_substantive_criteria=[
         "Counselor said they did not know",
@@ -369,7 +380,8 @@ QUESTION_GROUP_20 = QuestionGroup(
         "Otherwise did not answer the question"
     ],
     incorrect_criteria=[
-        "Counselor said that neither Lipitor nor its generic was covered"
+        "Stated a coverage status that contradicts the PLAN FACTS section, for example "
+        "asserting the drug is covered under a plan that provides no Part D coverage"
     ]
 )
 

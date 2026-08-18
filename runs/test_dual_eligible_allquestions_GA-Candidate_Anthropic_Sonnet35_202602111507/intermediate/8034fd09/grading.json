@@ -1,0 +1,159 @@
+{
+  "run_id": "8034fd09",
+  "scenario": "dual_eligible",
+  "question_scores": [
+    {
+      "question_number": 1,
+      "question_text": "When can I select my Medicare coverage plan, and when can I change it later?",
+      "response_text": "There are several key enrollment periods for Medicare:\n\nInitial Enrollment Period (IEP):\n- Begins 3 months before your 65th birthday\n- Includes your birthday month\n- Ends 3 months after your birthday month\n\nAnnual Enrollment Period (AEP):\n- October 15 - December 7 each year\n- Can change Medicare Advantage or Part D plans\n- Changes take effect January 1\n\nMedicare Advantage Open Enrollment Period:\n- January 1 - March 31 each year\n- Can switch Medicare Advantage plans\n- Can return to Original Medicare\n\nSpecial Enrollment Periods (SEPs):\n- Available in specific circumstances like:\n- Moving to a new area\n- Losing current coverage\n- Qualifying for extra help\n- Other life-changing events\n\nIt's important to enroll during your Initial Enrollment Period to avoid late enrollment penalties, unless you qualify for a Special Enrollment Period.",
+      "score": "accurate_complete",
+      "explanation": "The response provided a comprehensive overview of the key Medicare enrollment periods, including the Initial Enrollment Period, Annual Enrollment Period, Medicare Advantage Open Enrollment Period, and Special Enrollment Periods. It addressed both when an individual can initially select their Medicare coverage plan, as well as when they can make changes to their plan later on. All the major components of the question were substantively covered, making this a complete and accurate response.",
+      "group_id": "QG1",
+      "group_name": "Timing for Initial Medicare Enrollment & Subsequent Changes",
+      "criteria_met": [
+        "Mentioned that you can enroll in Medicare/select coverage within 3 months of turning 65",
+        "Substantively answered the 'when can I change it' question by referencing open enrollment period, annual election period, or special enrollment periods"
+      ],
+      "criteria_missed": []
+    },
+    {
+      "question_number": 2,
+      "question_text": "If I stay eligible for Medicaid, what are my options for enrolling in Medicare?",
+      "response_text": "If you're eligible for both Medicaid and Medicare (dual eligible), you have several options:\n\n1. Dual Eligible Special Needs Plans (D-SNPs):\n- Medicare Advantage plans specifically designed for dual eligibles\n- Often include extra benefits\n- Coordinate Medicare and Medicaid services\n\n2. Program of All-inclusive Care for the Elderly (PACE):\n- Combines Medicare and Medicaid benefits\n- Available in some areas\n- Provides comprehensive medical and social services\n\n3. Medicare Savings Programs:\n- Help pay Medicare premiums, deductibles, and copayments\n- Different levels of assistance based on income\n- Automatically qualify for Extra Help with prescription drugs\n\nKey Benefits:\n- Special Enrollment Periods throughout the year\n- Most costs covered between the two programs\n- Often no premiums or very low costs\n- Coordinated care options\n\nContact your State Medicaid Office or Medicare for specific details about programs available in your area.",
+      "score": "accurate_complete",
+      "explanation": "The response provides a comprehensive overview of the key enrollment options and benefits available to dual-eligible beneficiaries. It covers the three main options - Original Medicare with Medicaid, Dual Eligible Special Needs Plans (D-SNPs), and the Program of All-inclusive Care for the Elderly (PACE) - and explains the key features and benefits of each.\nThe response clearly states that Medicaid will help cover Medicare costs like premiums, deductibles, and copays, and that D-SNPs integrate and coordinate Medicare and Medicaid benefits. All the criteria for an \"Accurate and Complete\" response are met, as the response addresses all the key points required by the rubric.",
+      "group_id": "QG21",
+      "group_name": "Medicare Enrollment Options for Dual-Eligible Beneficiaries",
+      "criteria_met": [
+        "Mentioned can enroll in Original Medicare with Medicaid as secondary/supplemental coverage",
+        "Mentioned can enroll in a D-SNP (Dual Special Needs Plan)",
+        "Explained that Medicaid will help cover Medicare costs (premiums, deductibles, copays)",
+        "Mentioned that D-SNPs integrate/coordinate Medicare and Medicaid benefits"
+      ],
+      "criteria_missed": []
+    },
+    {
+      "question_number": 3,
+      "question_text": "I saw a commercial about special plans for people with both Medicaid and Medicare. Can you tell me more about them and why I may or may not want to choose one?",
+      "response_text": "Dual Eligible Special Needs Plans (D-SNPs) have both advantages and potential drawbacks:\n\nAdvantages:\n- Coordinates Medicare and Medicaid benefits\n- Often includes extra benefits like:\n  * Dental, vision, and hearing coverage\n  * Transportation to medical appointments\n  * Over-the-counter drug allowances\n- Usually low or no out-of-pocket costs\n- Care coordinator to help manage services\n- One card for most services\n\nPotential Drawbacks:\n- May have limited provider networks\n- Might need referrals for specialists\n- Could have service area restrictions\n- May require prior authorizations\n- Quality varies between plans\n\nConsider These Factors:\n- Whether your doctors are in-network\n- Available plans in your area\n- Extra benefits you'll actually use\n- Plan ratings and reputation\n- Convenience vs. flexibility needs\n\nIt's recommended to:\n1. Compare available plans\n2. Check if your providers participate\n3. Review the full benefits package\n4. Consult with a licensed insurance agent or SHIP counselor",
+      "score": "substantive_incomplete",
+      "explanation": "The response provides a good overview of the key advantages and potential drawbacks of D-SNPs, including the network restrictions, integration of Medicare and Medicaid benefits, and availability of additional benefits. However, it misses some important details, such as the care coordination and case management services provided by D-SNPs, as well as the fact that Medicaid continues to cover cost-sharing for enrollees. Additionally, the response does not explain how D-SNPs differ from Original Medicare in terms of provider choice. While the response is substantive and provides useful information, it is missing some key details that would be important for a Medicare beneficiary to consider when evaluating whether to enroll in a D-SNP. Therefore, the response is scored as SUBSTANTIVE_INCOMPLETE.",
+      "group_id": "QG22",
+      "group_name": "Considerations for D-SNP Enrollment Decision",
+      "criteria_met": [
+        "Mentioned must use plan's network of providers (HMO/PPO restrictions)",
+        "Mentioned may need to change doctors if current providers not in network",
+        "Mentioned D-SNPs integrate Medicare and Medicaid benefits",
+        "Mentioned additional benefits may be available (dental, vision, etc.)"
+      ],
+      "criteria_missed": [
+        "Mentioned care coordination/case management services",
+        "Mentioned that Medicaid continues to cover cost-sharing",
+        "Explained difference from Original Medicare in terms of provider choice"
+      ]
+    },
+    {
+      "question_number": 4,
+      "question_text": "Are special plans for people with Medicaid and Medicare available in my area?",
+      "response_text": "To find out if D-SNPs or other special plans are available in your area, you can:\n\n1. Use Medicare's Plan Finder Tool:\n- Visit Medicare.gov\n- Enter your zip code\n- Look for D-SNP options\n\n2. Contact Medicare Directly:\n- Call 1-800-MEDICARE (1-800-633-4227)\n- Available 24/7\n- Ask about dual-eligible plans in your area\n\n3. Contact Your State Medicaid Office:\n- They can confirm local options\n- May help with enrollment\n- Can explain state-specific programs\n\n4. Consult a SHIP Counselor:\n- Free, unbiased Medicare counseling\n- Help compare available plans\n- Local program knowledge\n\n5. Work with a Licensed Insurance Agent:\n- Can show you specific plan options\n- Help with enrollment\n- No cost to you\n\nRemember: Plan availability varies by location, and options may change yearly.",
+      "score": "accurate_complete",
+      "explanation": "The response provided comprehensive and accurate information to help the shopper find out if special plans for people with Medicaid and Medicare are available in their area. It directed the shopper to use the Medicare Plan Finder tool on Medicare.gov, mentioned that plan availability varies by location, and offered multiple options for getting assistance in finding the relevant plans, including contacting Medicare directly, the state Medicaid office, a SHIP counselor, or a licensed insurance agent. All the key criteria for an \"Accurate and Complete\" response were met, as the response covered the necessary steps and information a shopper would need to determine the availability of D-SNPs or other special plans in their service area.",
+      "group_id": "QG23",
+      "group_name": "D-SNP Availability in Service Area",
+      "criteria_met": [
+        "Directed shopper to Medicare.gov Plan Finder or similar tool",
+        "Mentioned that D-SNP availability varies by county/ZIP code",
+        "Offered to help look up plans or explained how to find them"
+      ],
+      "criteria_missed": []
+    },
+    {
+      "question_number": 5,
+      "question_text": "I live in Los Angeles, CA 90012, in Los Angeles County.",
+      "response_text": "Yes, there are several D-SNP options available in Los Angeles County (90012). Los Angeles is one of the larger markets for these plans, with multiple insurance companies offering them.\n\nMajor carriers typically offering D-SNPs in LA County include:\n- Anthem Blue Cross\n- Blue Shield of California\n- Health Net\n- LA Care\n- Molina Healthcare\n- UnitedHealthcare\n\nKey Local Features:\n- Plans often include coverage for LA County's extensive healthcare system\n- Many include transportation benefits (important in LA)\n- Usually coordinate with Medi-Cal (California's Medicaid)\n- May offer multilingual services\n\nTo Get Specific Plan Details:\n1. Call 1-800-MEDICARE\n2. Contact HICAP (California's SHIP program) at 1-800-434-0222\n3. Visit Medicare.gov's Plan Finder\n4. Contact LA County Medi-Cal office\n\nRemember: Available plans and benefits can change annually, so verify current options before enrolling.",
+      "score": "substantive_incomplete",
+      "explanation": "The response provides some accurate information about D-SNPs and their potential to coordinate long-term care services through Medicaid. However, it does not address the key distinctions between Medicare and Medicaid coverage for long-term care. The response does not explicitly state that Medicare generally does not cover long-term custodial care, nor does it explain that Medicaid may cover long-term care for eligible beneficiaries. Additionally, the response does not differentiate between skilled nursing care (covered by Medicare) and custodial long-term care (covered by Medicaid). While the response provides some relevant information, it is missing these critical details that would be necessary to fully answer the question. Therefore, the response is scored as SUBSTANTIVE_INCOMPLETE.",
+      "group_id": "QG24",
+      "group_name": "Long-Term Care Coverage for Dual-Eligible Beneficiaries",
+      "criteria_met": [
+        "Mentioned that D-SNPs may help coordinate long-term care services through Medicaid"
+      ],
+      "criteria_missed": [
+        "Stated that Medicare/MA generally do not cover long-term custodial care",
+        "Mentioned that Medicaid may cover long-term care for eligible beneficiaries",
+        "Explained difference between skilled nursing (Medicare) and custodial care (Medicaid)"
+      ]
+    },
+    {
+      "question_number": 6,
+      "question_text": "If I ever need long-term care in the future, would it be covered under any of the Medicare options we've talked about?",
+      "response_text": "Medicare (including D-SNPs) has limited long-term care coverage:\n\nWhat Medicare DOES Cover:\n- Short-term skilled nursing (up to 100 days)\n- Some home health care if medical in nature\n- Hospice care\n- Rehabilitation services\n\nWhat Medicare Does NOT Cover:\n- Long-term custodial care (help with daily activities)\n- Assisted living facilities\n- Most nursing home care beyond 100 days\n- Non-medical home care\n\nFor Long-Term Care Coverage:\n1. Medicaid (Medi-Cal in California) may help if you:\n- Meet income/asset requirements\n- Need nursing home level care\n\n2. Other options to consider:\n- Long-term care insurance\n- Asset-based long-term care products\n- Savings/investments\n- Family care arrangements\n\nRecommendation:\nConsult with a financial advisor or elder law attorney to plan for potential long-term care needs, as neither Medicare nor D-SNPs provide comprehensive coverage.",
+      "score": "substantive_incomplete",
+      "explanation": "The response provides a good overview of the limitations of Medicare coverage for long-term care, including what it does and does not cover. However, it does not address the key aspects of Medicaid coverage for Medicare premiums and cost-sharing. The response does not state that full Medicaid (or QMB Plus) covers the Medicare Part B premium, nor does it mention that Medicaid covers Medicare cost-sharing like deductibles, copays, and coinsurance. Additionally, the response does not discuss how the level of Medicaid assistance can vary depending on the individual's Medicaid eligibility category. While the information provided about long-term care coverage is substantive, the response is missing critical details about Medicaid's role in covering Medicare costs, so it cannot be considered ACCURATE_COMPLETE.",
+      "group_id": "QG25",
+      "group_name": "Medicaid Coverage of Medicare Premiums and Cost-Sharing",
+      "criteria_met": [
+        "What Medicare DOES Cover: Short-term skilled nursing (up to 100 days), Some home health care if medical in nature, Hospice care, Rehabilitation services",
+        "What Medicare Does NOT Cover: Long-term custodial care (help with daily activities), Assisted living facilities, Most nursing home care beyond 100 days, Non-medical home care"
+      ],
+      "criteria_missed": [
+        "Stated that full Medicaid (or QMB Plus) covers Medicare Part B premium",
+        "Stated that Medicaid covers Medicare cost-sharing (deductibles, copays, coinsurance)",
+        "Mentioned that level of assistance depends on Medicaid eligibility category"
+      ]
+    },
+    {
+      "question_number": 7,
+      "question_text": "What about Medicaid? If I stay eligible, will Medicaid pay for long-term care?",
+      "response_text": "Yes, Medicaid (Medi-Cal in California) does cover long-term care if you remain eligible:\n\nWhat Medi-Cal Covers:\n- Nursing home care\n- Home and Community Based Services (HCBS)\n- In-home supportive services (IHSS)\n- Assisted living (in some cases)\n- Personal care services\n- Adult day health care\n\nEligibility Requirements:\n- Must meet income/asset limits\n- Must demonstrate medical need\n- Must use California facilities/providers\n- May need to spend down assets first\n\nImportant Notes:\n1. Estate Recovery:\n- Medi-Cal may seek repayment from your estate after death\n- Primary residence may be protected\n- Proper planning can help protect assets\n\n2. Quality of Care:\n- Can choose any facility that accepts Medi-Cal\n- Some facilities limit Medi-Cal beds\n- May have waiting lists\n\nRecommendation:\nConsult with an elder law attorney to:\n- Protect assets legally\n- Plan for future needs\n- Understand estate recovery rules\n- Maintain eligibility",
+      "score": "substantive_incomplete",
+      "explanation": "The response provides substantive information about Medicaid's coverage of long-term care and the eligibility requirements. It also discusses the Medicaid estate recovery process. However, the response does not address the non-Medicaid Medicare cost-sharing assistance programs, such as the Medicare Savings Programs and Extra Help/LIS, which were the focus of the original question. While the information about Medicaid is accurate and relevant, the response is incomplete as it does not cover the full range of programs that can help with Medicare out-of-pocket costs for individuals not eligible for full Medicaid.",
+      "group_id": "QG26",
+      "group_name": "Medicare Cost-Sharing Assistance Programs (Non-Full Medicaid)",
+      "criteria_met": [
+        "Mentioned Medicaid (Medi-Cal in California) covers long-term care if you remain eligible",
+        "Mentioned Medicaid eligibility requirements, including income/asset limits and demonstrating medical need",
+        "Mentioned Medicaid may seek repayment from your estate after death, but primary residence may be protected"
+      ],
+      "criteria_missed": [
+        "Did not mention Medicare Savings Programs (QMB, SLMB, QI, or QDWI)",
+        "Did not mention Extra Help/Low-Income Subsidy (LIS) for Part D prescription drugs"
+      ]
+    },
+    {
+      "question_number": 8,
+      "question_text": "If I stay eligible for Medicaid, will it pay for my Medicare premiums and cost sharing and deductibles no matter if I choose a Dual Eligible Special Needs Plan, a Medicare Advantage Plan, or regular Medicare?",
+      "response_text": "Yes, if you remain eligible for Medicaid (Medi-Cal), it will help with Medicare costs regardless of which Medicare option you choose. This is through Medicare Savings Programs:\n\nWhat Medi-Cal Covers:\n- Medicare Part A premiums (if applicable)\n- Medicare Part B premiums\n- Medicare deductibles\n- Medicare copayments\n- Medicare coinsurance\n\nThis applies to:\n- Original Medicare\n- Medicare Advantage Plans\n- Dual Eligible Special Needs Plans (D-SNPs)\n\nImportant Notes:\n- Coverage is automatic if you have full Medi-Cal\n- You should never be billed for Medicare cost-sharing\n- Providers cannot legally bill you for these costs\n- Show both your Medicare and Medi-Cal cards\n\nIf You Get a Bill:\n1. Don't pay it\n2. Contact your Medi-Cal office\n3. Inform the provider you have Medi-Cal\n4. Contact Medicare if problems persist\n\nRemember: Keep your Medi-Cal eligibility current to maintain these benefits.",
+      "score": "accurate_complete",
+      "explanation": "The response provided accurate and complete information regarding Medicaid (Medi-Cal) coverage for Medicare premiums, deductibles, and cost-sharing, regardless of the Medicare option chosen (Original Medicare, Medicare Advantage, or Dual Eligible Special Needs Plan). The response covered all the key points, including:\n1. Medi-Cal will cover Medicare Part A premiums (if applicable), Part B premiums, deductibles, copayments, and coinsurance.\n2. This coverage applies to all Medicare options - Original Medicare, Medicare Advantage, and Dual Eligible Special Needs Plans.\n3. The coverage is automatic if the individual has full Medi-Cal, and providers cannot legally bill the individual for these costs.\n4. Guidance on what to do if the individual receives a bill for these costs.\n5. The importance of maintaining Medi-Cal eligibility to retain these benefits.\nThe response is comprehensive and addresses all the relevant information needed to answer the question. No key details are missing, and the information provided is accurate. Therefore, this response meets the criteria for ACCURATE_COMPLETE.",
+      "group_id": "QG2",
+      "group_name": "Availability of Spanish Translation Services",
+      "criteria_met": [
+        "Substantively said yes to Spanish translation services being available"
+      ],
+      "criteria_missed": []
+    },
+    {
+      "question_number": 9,
+      "question_text": "I was told that if I'm not eligible for Medicaid, there are other programs to help with out-of-pocket costs for Medicare. My income is $1,600 a month. Would I get any help?",
+      "response_text": "Yes, with a monthly income of $1,600, you may qualify for Medicare Savings Programs (MSPs) and/or Extra Help for prescriptions, even if you don't qualify for full Medicaid.\n\nMedicare Savings Programs (2024 limits):\n1. Qualified Medicare Beneficiary (QMB)\n- Income limit: $1,235/month (individual)\n- Pays Medicare premiums, deductibles, copays\n\n2. Specified Low-Income Medicare Beneficiary (SLMB)\n- Income limit: $1,478/month (individual)\n- Pays Medicare Part B premium\n\n3. Qualifying Individual (QI)\n- Income limit: $1,660/month (individual)\n- Pays Medicare Part B premium\n\nExtra Help for Prescriptions:\n- Income limit: $1,843/month (individual)\n- Helps with Part D costs\n- Lower premiums and copays\n\nWith $1,600 monthly income, you might qualify for:\n- QI program\n- Extra Help for prescriptions\n\nTo Apply:\n1. Contact Social Security Administration\n2. Visit your local Medicaid office\n3. Call SHIP (HICAP in California) for assistance\n\nNote: Asset limits also apply, and limits may vary by state.",
+      "score": "missing",
+      "explanation": "Error during grading: No rubric found for question 9 in dual_eligible scenario",
+      "group_id": "ERROR",
+      "group_name": "Error",
+      "criteria_met": [],
+      "criteria_missed": []
+    },
+    {
+      "question_number": 10,
+      "question_text": "I have a friend who does not speak much English. Do you offer Spanish translation services at your location?",
+      "response_text": "I need to clarify something: I am an AI language assistant, not a physical location or healthcare office. I cannot directly provide translation services.\n\nHowever, I can tell you where to find Spanish language assistance for Medicare/Medicaid services:\n\n1. Medicare:\n- Spanish language line: 1-800-MEDICARE (1-800-633-4227)\n- Spanish version of Medicare.gov\n- Spanish language materials and forms\n\n2. Medi-Cal (California):\n- Spanish-speaking representatives available\n- Documents in Spanish\n- Call 1-800-541-5555 for Spanish assistance\n\n3. Local Help in Los Angeles:\n- HICAP offers Spanish-speaking counselors\n- Many insurance companies have Spanish-speaking agents\n- LA County Medi-Cal office has Spanish services\n- Many D-SNP plans offer Spanish language services\n\nTo get help in Spanish:\n1. Call 1-800-MEDICARE and say \"espa\u00f1ol\"\n2. Visit Medicare.gov/es\n3. Contact HICAP at 1-800-434-0222 and request Spanish assistance",
+      "score": "missing",
+      "explanation": "Error during grading: No rubric found for question 10 in dual_eligible scenario",
+      "group_id": "ERROR",
+      "group_name": "Error",
+      "criteria_met": [],
+      "criteria_missed": []
+    }
+  ]
+}

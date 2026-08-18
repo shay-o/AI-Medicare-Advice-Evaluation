@@ -1,0 +1,250 @@
+{
+  "version": 1,
+  "description": "The exact set of evaluation runs behind the published figures. Reporting reads this file rather than globbing runs/, so the reported set is explicit and reviewable. Hashes make edits to existing runs detectable. See docs/REPRODUCIBILITY.md.",
+  "generated_at": "2026-08-18T03:42:43Z",
+  "selection_rules": {
+    "allowed_scenario_ids": [
+      "SHIP-DE-ALL",
+      "SHIP-MO-ALL"
+    ],
+    "excluded_group_ids": [
+      "QG2"
+    ],
+    "rubric_labels": [
+      "accurate_complete",
+      "substantive_incomplete",
+      "not_substantive",
+      "incorrect"
+    ],
+    "notes": "QG2 (Spanish translation) is excluded: scored yes/no in the SHIP study, not on the 4-point rubric."
+  },
+  "expected_totals": {
+    "graded_answers": 180,
+    "question_groups": 19,
+    "models": 9,
+    "pct": {
+      "accurate_complete": 65.0,
+      "substantive_incomplete": 25.0,
+      "not_substantive": 7.8,
+      "incorrect": 2.2
+    }
+  },
+  "runs": [
+    {
+      "run_dir": "20260216_182920",
+      "results_sha256": "9950f465a9482c334b82a62d349ddf5adbb03a69d50b2b347805ba680b7359d9",
+      "trials": [
+        {
+          "trial_id": "4d270c31",
+          "scenario_id": "SHIP-MO-ALL",
+          "model": "anthropic/claude-3.5-sonnet",
+          "graded_questions": 17
+        }
+      ]
+    },
+    {
+      "run_dir": "20260216_182923",
+      "results_sha256": "83bfb47bf7b9e1a139a7d959e057b248ca55bc96671d25b4b96b9c050397d684",
+      "trials": [
+        {
+          "trial_id": "1d5667c1",
+          "scenario_id": "SHIP-MO-ALL",
+          "model": "google/gemini-3-flash-preview",
+          "graded_questions": 17
+        }
+      ]
+    },
+    {
+      "run_dir": "20260216_182924",
+      "results_sha256": "9efc5e6a7391ccb34b1362a1993bd862479519e5565927f7e9e91f9ecc05aeee",
+      "trials": [
+        {
+          "trial_id": "529a38f0",
+          "scenario_id": "SHIP-MO-ALL",
+          "model": "google/gemini-3-pro-preview",
+          "graded_questions": 17
+        }
+      ]
+    },
+    {
+      "run_dir": "20260216_182925",
+      "results_sha256": "019b6f72a2288e80f5f03fde4609e45dd520e892bdb60d8eb66fe20384b65a6d",
+      "trials": [
+        {
+          "trial_id": "5e362d5a",
+          "scenario_id": "SHIP-MO-ALL",
+          "model": "openai/gpt-5.2",
+          "graded_questions": 17
+        }
+      ]
+    },
+    {
+      "run_dir": "20260216_182926",
+      "results_sha256": "4ce93f19eebc88c34116d6ae4365e548067d7040c8e70ad3b4e9614982b5c31e",
+      "trials": [
+        {
+          "trial_id": "9de2a74f",
+          "scenario_id": "SHIP-MO-ALL",
+          "model": "openai/gpt-5.2-chat",
+          "graded_questions": 17
+        }
+      ]
+    },
+    {
+      "run_dir": "20260216_182930",
+      "results_sha256": "df4a0e66f8831616d8582b2fa04a052acdeec209c988ae28611d5041fed491c1",
+      "trials": [
+        {
+          "trial_id": "c8d38d34",
+          "scenario_id": "SHIP-MO-ALL",
+          "model": "x-ai/grok-4.1-fast",
+          "graded_questions": 17
+        }
+      ]
+    },
+    {
+      "run_dir": "20260216_184943",
+      "results_sha256": "5674028cf604a3d0491f1ddb2e7a6cf7600a0ca4895d04bbd240d86f9b2f86fd",
+      "trials": [
+        {
+          "trial_id": "e284399c",
+          "scenario_id": "SHIP-MO-ALL",
+          "model": "anthropic/claude-sonnet-4.5",
+          "graded_questions": 17
+        }
+      ]
+    },
+    {
+      "run_dir": "20260216_184944",
+      "results_sha256": "4f768a409affbafc4130e6860948c93e191be632fa607d72dbaaadf76870313f",
+      "trials": [
+        {
+          "trial_id": "345b1f2e",
+          "scenario_id": "SHIP-MO-ALL",
+          "model": "openai/gpt-5.2-pro",
+          "graded_questions": 17
+        }
+      ]
+    },
+    {
+      "run_dir": "20260216_184945",
+      "results_sha256": "324ae50047ef2486425b43df83ca98bcf2165c87c914c00bee3e9922f288785b",
+      "trials": [
+        {
+          "trial_id": "92e8d63b",
+          "scenario_id": "SHIP-MO-ALL",
+          "model": "x-ai/grok-4",
+          "graded_questions": 17
+        }
+      ]
+    },
+    {
+      "run_dir": "test_dual_eligible_GA-Candidate_OpenAI_gpt-5.2-chat_202602131008",
+      "results_sha256": "aeaf8ceab4afd0ec3ddbbdbcb3afac009fe807695592111760b21c4c5958fa02",
+      "trials": [
+        {
+          "trial_id": "3a748289",
+          "scenario_id": "SHIP-DE-ALL",
+          "model": "openai/gpt-5.2-chat",
+          "graded_questions": 10
+        }
+      ]
+    },
+    {
+      "run_dir": "test_dual_eligible_GA-Candidate_OpenAI_gpt-5.2-pro_202602131430",
+      "results_sha256": "14dc9c0d0f9c861a94bed08b9b903a65a0b9191f80af9f0f229193c75e0481f8",
+      "trials": [
+        {
+          "trial_id": "aef9ab33",
+          "scenario_id": "SHIP-DE-ALL",
+          "model": "openai/gpt-5.2-pro",
+          "graded_questions": 10
+        }
+      ]
+    },
+    {
+      "run_dir": "test_dual_eligible_GA-Candidate_OpenAI_gpt-5.2_202602131440",
+      "results_sha256": "5ef569b28ec238b74b416ea226cd42a0f04381d9a15a74a5a334a4cbf689b56f",
+      "trials": [
+        {
+          "trial_id": "df9f74c6",
+          "scenario_id": "SHIP-DE-ALL",
+          "model": "openai/gpt-5.2",
+          "graded_questions": 10
+        }
+      ]
+    },
+    {
+      "run_dir": "test_dual_eligible_allquestions_GA-Candidate_Anthropic_Sonnet35_202602111507",
+      "results_sha256": "7314f2cfe67918ebbdc5748183e374f5f9b1b6e3954ffb35441f7c28929a4804",
+      "trials": [
+        {
+          "trial_id": "8034fd09",
+          "scenario_id": "SHIP-DE-ALL",
+          "model": "anthropic/claude-3.5-sonnet",
+          "graded_questions": 10
+        }
+      ]
+    },
+    {
+      "run_dir": "test_dual_eligible_allquestions_GA-Candidate_Anthropic_Sonnet45_202602111500",
+      "results_sha256": "bdefad0993337ece121dee4d7eef0a43436d307b2719910f0a82c8b3fec186f9",
+      "trials": [
+        {
+          "trial_id": "4b8e81f4",
+          "scenario_id": "SHIP-DE-ALL",
+          "model": "anthropic/claude-sonnet-4.5",
+          "graded_questions": 10
+        }
+      ]
+    },
+    {
+      "run_dir": "test_dual_eligible_allquestions_GA-Candidate_Google_Gemini3-Flash_202602111459",
+      "results_sha256": "75dd090d6889f0a8362d9bd786be11c91df826ee95082168981268e6b2a31d6e",
+      "trials": [
+        {
+          "trial_id": "405554e6",
+          "scenario_id": "SHIP-DE-ALL",
+          "model": "google/gemini-3-flash-preview",
+          "graded_questions": 10
+        }
+      ]
+    },
+    {
+      "run_dir": "test_dual_eligible_allquestions_GA-Candidate_Google_Gemini3-Pro202602111500",
+      "results_sha256": "390e685941a66cd445d1d48f5482fe52096acf7293dfd2ff5499d4b995341703",
+      "trials": [
+        {
+          "trial_id": "c2bb955c",
+          "scenario_id": "SHIP-DE-ALL",
+          "model": "google/gemini-3-pro-preview",
+          "graded_questions": 10
+        }
+      ]
+    },
+    {
+      "run_dir": "test_dual_eligible_allquestions_GA-Candidate_xAI_grok-4.1-fast_202602130953",
+      "results_sha256": "b79366dde3fbd6c6a1da5db6f6e2fcfd1e776076cd31e236c34ebc86a116b928",
+      "trials": [
+        {
+          "trial_id": "2b499faf",
+          "scenario_id": "SHIP-DE-ALL",
+          "model": "x-ai/grok-4.1-fast",
+          "graded_questions": 10
+        }
+      ]
+    },
+    {
+      "run_dir": "test_dual_eligible_allquestions_GA-Candidate_xAI_grok-4_202602130944",
+      "results_sha256": "00d941fa5aa00a8c6f5f58b8b1c34f28572e6837225ab872a7b416c458ecddf2",
+      "trials": [
+        {
+          "trial_id": "f98be259",
+          "scenario_id": "SHIP-DE-ALL",
+          "model": "x-ai/grok-4",
+          "graded_questions": 10
+        }
+      ]
+    }
+  ]
+}

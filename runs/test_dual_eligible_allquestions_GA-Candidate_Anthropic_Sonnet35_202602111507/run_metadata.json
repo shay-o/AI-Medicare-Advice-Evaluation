@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-02-11T23:07:12.584791",
+  "scenario_id": "SHIP-DE-ALL",
+  "scenario_title": "SHIP Dual-Eligible: Complete Question Sequence",
+  "target_model": "anthropic/claude-3.5-sonnet",
+  "agent_model": "anthropic/claude-3-haiku",
+  "num_verifiers": 1,
+  "seed": 42
+}

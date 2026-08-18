@@ -1,0 +1,114 @@
+{
+  "_README": "Verified real-world facts for the Medicare Advantage plan named in the Medicare-Only scenario. This file exists because the previous answer key was invented rather than looked up, which corrupted grading on QG19 and QG20. See docs/GRADING_INTEGRITY.md. Every field carries its source. Fields with confidence 'unverified' MUST be confirmed on Medicare.gov Plan Finder before being relied on for grading.",
+  "plan_id": "H5521-369-0",
+  "plan_year": 2026,
+  "county": "Alameda County, CA (Oakland)",
+  "retrieved": "2026-08-17",
+  "retrieved_by": "web research across third-party Medicare plan aggregators",
+
+  "_SOURCE_CAVEAT": "Medicare.gov Plan Finder is the authoritative source named by the SHIP rubric (eAppendix 4) and was NOT directly reachable during retrieval: q1medicare.com returned HTTP 403 and health.usnews.com timed out. Values below are triangulated across independent aggregators and should be confirmed against Plan Finder for Alameda County before publication.",
+
+  "_NAME_CAVEAT": "Contract H5521-369 was marketed as 'Aetna Medicare Eagle Plus (PPO)' for plan year 2025 and appears as 'Aetna Medicare Eagle (PPO)' for 2026. Because the scenario asks models about the plan BY NAME, this rename is a confound: a model may answer about a different plan year's product. Confirm the exact 2026 marketing name on Plan Finder.",
+
+  "sources": {
+    "medicare_org": "https://www.medicare.org/medicare-advantage-plans/plan/H5521-369-0/",
+    "usnews_no_drug_category": "https://health.usnews.com/medicare/aetna-medicare-medicare-advantage-plans-without-drug-coverage/aetna-medicare-eagle-ppo--369-0-H5521",
+    "medicareadvantage_com": "https://www.medicareadvantage.com/plans/aetna-medicare-eagle-ppo-h5521-369-000",
+    "cms_part_b_2026": "https://www.federalregister.gov/documents/2025/11/19/2025-20251/medicare-program-medicare-part-b-monthly-actuarial-rates-premium-rates-and-annual-deductible"
+  },
+
+  "facts": {
+    "plan_type": {
+      "value": "PPO",
+      "confidence": "high",
+      "source": "all sources agree; plan name contains PPO"
+    },
+    "monthly_premium": {
+      "value": 0.0,
+      "confidence": "high",
+      "source": "medicare_org, medicareadvantage_com",
+      "note": "Previous key said 25.00, which was invented. This is a $0-premium plan."
+    },
+    "part_b_premium": {
+      "value": 202.9,
+      "confidence": "high",
+      "source": "cms_part_b_2026",
+      "note": "2026 standard Part B premium. Previous key said 174.70, the 2024 figure. Required by the QG15 rubric alongside the plan premium."
+    },
+    "part_b_giveback": {
+      "value": 65.0,
+      "confidence": "medium",
+      "source": "medicare_org (reported as a -$65.00 Part B reduction)",
+      "note": "The Eagle line is a Part B giveback product. Relevant to QG15: a fully correct premium answer may need to mention this."
+    },
+    "max_out_of_pocket_in_network": {
+      "value": 6750.0,
+      "confidence": "high",
+      "source": "medicare_org, medicareadvantage_com",
+      "note": "Previous key said 3400.00, which was invented. Drives QG18."
+    },
+    "primary_care_copay_in_network": {
+      "value": 0.0,
+      "confidence": "high",
+      "source": "medicare_org, medicareadvantage_com"
+    },
+    "specialist_copay_in_network": {
+      "value": 40.0,
+      "confidence": "medium",
+      "source": "medicare_org"
+    },
+    "out_of_network_allowed": {
+      "value": true,
+      "confidence": "high",
+      "source": "medicare_org, medicareadvantage_com (out-of-network at ~50% coinsurance)",
+      "note": "Previous key said false, which is impossible for a PPO. Drives QG16."
+    },
+    "out_of_network_cost_sharing": {
+      "value": "approximately 50% coinsurance",
+      "confidence": "medium",
+      "source": "medicareadvantage_com",
+      "note": "Expressed as coinsurance, not a flat copay, so it does not map cleanly onto the schema's out_of_network_*_copay float fields."
+    },
+    "includes_drug_coverage": {
+      "value": false,
+      "confidence": "high",
+      "source": "usnews_no_drug_category (plan is filed under 'Medicare Advantage plans WITHOUT drug coverage'), medicare_org ('Prescription Drug Coverage: Not included')",
+      "note": "THIS IS THE FIELD THAT BROKE GRADING. Previous key said true. The Eagle line is Aetna's MA-only product, intended for people with other creditable drug coverage such as VA or TRICARE. Two aggregator pages sharing a templated benefits table do report drug coverage as included; that is a rendering artifact, contradicted by the same site's own prose. Drives QG19."
+    },
+    "drug_formulary": {
+      "value": null,
+      "confidence": "high",
+      "source": "follows necessarily from includes_drug_coverage=false",
+      "note": "An MA-only plan has NO Part D formulary. The previous key invented Lipitor tier 3 / $47 and atorvastatin tier 1 / $0. For QG20, the correct answer is that this plan provides no drug coverage at all, so neither Lipitor nor its generic is covered under it, and a separate standalone PDP would be needed."
+    },
+    "requires_referrals": {
+      "value": false,
+      "confidence": "medium",
+      "source": "medicareadvantage_com (PPO plans typically do not require referrals)",
+      "note": "Previous key said true, which is atypical for a PPO."
+    },
+    "medical_deductible": {
+      "value": null,
+      "confidence": "unverified",
+      "source": "not established during retrieval",
+      "note": "Confirm on Plan Finder. The 2026 Part B deductible is $283, which is a separate figure from any plan-level deductible."
+    },
+    "service_area_includes_alameda": {
+      "value": true,
+      "confidence": "high",
+      "source": "medicareadvantage_com lists CA counties including Alameda",
+      "note": "Oakland is in Alameda County, so the scenario's stated service area is valid for this plan."
+    },
+    "additional_benefits": {
+      "value": ["Dental", "Vision", "Hearing", "Fitness membership"],
+      "confidence": "medium",
+      "source": "medicare_org (vision, hearing, dental preventive listed at $0 copay)"
+    },
+    "primary_care_physician_in_network": {
+      "value": null,
+      "confidence": "unverified",
+      "source": "not verifiable from public aggregators",
+      "note": "QG14 asks whether a NAMED physician is in network. This cannot be resolved from public plan data and concerns a real, identifiable private individual. Recommend either using a clearly fictional physician name or scoring QG14 only on whether the response correctly directs the beneficiary to the plan's provider directory."
+    }
+  }
+}

@@ -22,6 +22,7 @@ from typing import Any
 
 from report_utils import load_all_results, filter_fake_models
 from report_constants import ETHICS_DISCLAIMER
+from run_manifest import DEFAULT_MANIFEST, ManifestError, load_reported_trials
 
 
 # ============================================================================
@@ -1503,6 +1504,8 @@ def generate_matrix_report(
     runs_dir: Path = Path("runs"),
     output_path: Path = Path("reports/matrix_report.html"),
     exclude_back: bool = True,
+    use_manifest: bool = True,
+    manifest_path: Path = DEFAULT_MANIFEST,
 ) -> None:
     print("Generating AI vs SHIP matrix report...")
     print(f"  Loading runs from: {runs_dir}")
@@ -1511,20 +1514,46 @@ def generate_matrix_report(
         print(f"Error: Runs directory does not exist: {runs_dir}", file=sys.stderr)
         sys.exit(1)
 
-    # Load and filter results
-    results = load_all_results(runs_dir)
-    print(f"  Loaded {len(results)} total runs")
+    # Which runs count is defined by reported_runs.json, not by scanning runs/.
+    # The manifest is hash-verified, so an edited or missing run fails loudly
+    # rather than silently moving the published numbers.
+    # See docs/REPRODUCIBILITY.md.
+    if use_manifest:
+        try:
+            results = load_reported_trials(
+                manifest_path=manifest_path,
+                runs_dir=runs_dir,
+                strict=True,
+            )
+        except ManifestError as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            sys.exit(1)
+        print(f"  Loaded {len(results)} runs from manifest: {manifest_path.name}")
+    else:
+        # Exploratory mode: scan the directory. Output is NOT the published set
+        # and must not be republished as such.
+        print("  WARNING: --no-manifest — scanning runs/ directly.")
+        print("           Output does not correspond to the published figures.")
+        results = load_all_results(runs_dir)
+        print(f"  Loaded {len(results)} total runs")
 
-    results = filter_fake_models(results)
+        results = filter_fake_models(results)
 
-    if exclude_back:
-        results = [r for r in results if not r.get("_source_dir", "").startswith("Back")]
+        if not exclude_back:
+            # load_all_results() only reads runs/<run>/results.jsonl, so archived
+            # runs under runs/Back/<run>/ are never picked up in the first place.
+            # Opting them back in requires loading them explicitly.
+            back_dir = runs_dir / "Back"
+            if back_dir.is_dir():
+                back_results = load_all_results(back_dir)
+                print(f"  Including {len(back_results)} archived runs from {back_dir}")
+                results.extend(filter_fake_models(back_results))
 
-    results = [r for r in results if r.get("grading", {}).get("question_scores")]
+        results = [r for r in results if r.get("grading", {}).get("question_scores")]
 
-    ALLOWED_SCENARIOS = {"SHIP-MO-ALL", "SHIP-DE-ALL"}
-    results = [r for r in results if r.get("scenario_id") in ALLOWED_SCENARIOS]
-    print(f"  After filtering: {len(results)} runs with grading data")
+        ALLOWED_SCENARIOS = {"SHIP-MO-ALL", "SHIP-DE-ALL"}
+        results = [r for r in results if r.get("scenario_id") in ALLOWED_SCENARIOS]
+        print(f"  After filtering: {len(results)} runs with grading data")
 
     if not results:
         print("Error: No runs with grading data found.", file=sys.stderr)
@@ -1590,7 +1619,19 @@ if __name__ == "__main__":
     parser.add_argument(
         "--include-back",
         action="store_true",
-        help="Include runs from Back/ directory (default: excluded)",
+        help="Include runs from Back/ directory (only with --no-manifest)",
+    )
+    parser.add_argument(
+        "--manifest",
+        type=Path,
+        default=DEFAULT_MANIFEST,
+        help="Manifest defining the reported run set (default: reported_runs.json)",
+    )
+    parser.add_argument(
+        "--no-manifest",
+        action="store_true",
+        help="Exploratory: scan runs/ instead of using the manifest. Output is "
+             "NOT the published set and must not be republished as such.",
     )
 
     args = parser.parse_args()
@@ -1598,4 +1639,6 @@ if __name__ == "__main__":
         runs_dir=args.runs_dir,
         output_path=args.output,
         exclude_back=not args.include_back,
+        use_manifest=not args.no_manifest,
+        manifest_path=args.manifest,
     )

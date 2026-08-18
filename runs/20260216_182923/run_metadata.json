@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-02-16T18:36:13.469901",
+  "scenario_id": "SHIP-MO-Q3",
+  "scenario_title": "SHIP Medicare-Only Q3: Traditional Medicare vs Medicare Advantage Comparison",
+  "target_model": "google/gemini-3-flash-preview",
+  "agent_model": "mock-agent-v1.0",
+  "num_verifiers": 2,
+  "seed": 42
+}

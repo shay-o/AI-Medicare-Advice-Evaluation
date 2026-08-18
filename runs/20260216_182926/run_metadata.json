@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-02-16T18:36:07.207954",
+  "scenario_id": "SHIP-MO-Q3",
+  "scenario_title": "SHIP Medicare-Only Q3: Traditional Medicare vs Medicare Advantage Comparison",
+  "target_model": "openai/gpt-5.2-chat",
+  "agent_model": "mock-agent-v1.0",
+  "num_verifiers": 2,
+  "seed": 42
+}
