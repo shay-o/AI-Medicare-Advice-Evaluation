@@ -31,6 +31,14 @@ python scripts/run_manifest.py build    # regenerate after adding a run (review 
 
 `generate_matrix_report.py --no-manifest` falls back to directory scanning for exploratory work. Its output is not the published set and must not be republished as such.
 
+### One post-hoc redaction
+
+The scenario originally named a real, identifiable physician in the QG14 question ("is Dr. X in network for this plan"). That name was substituted throughout the scenario, the stored run data, and the generated report on 2026-08-17, and replaced with the clearly synthetic **Dr. Jane Sample**.
+
+This is the one place where stored run evidence was edited rather than appended to, and it is a deliberate exception to the append-only rule: the run files record the model's verbatim answers about a named private individual, and publishing them would associate that person with this research without their consent. Nothing else in the runs was altered, the redaction changes no verdict, and `verify_headline_numbers.py` reproduces 65.0/25.0/7.8/2.2 at n=180 unchanged. Manifest hashes were rebuilt to match.
+
+Anyone reproducing these runs should note that the model responses were originally elicited with the real name, so re-running with "Dr. Jane Sample" is not a byte-identical replication of that question.
+
 ### Runs are append-only
 
 Evaluation results are evidence. A re-grade writes a **new** run; it never edits an existing one. Old and new sit side by side and the manifest decides which is published, so a changed verdict is always traceable.

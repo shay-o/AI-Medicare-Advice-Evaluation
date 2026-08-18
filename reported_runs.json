@@ -1,7 +1,7 @@
 {
   "version": 1,
   "description": "The exact set of evaluation runs behind the published figures. Reporting reads this file rather than globbing runs/, so the reported set is explicit and reviewable. Hashes make edits to existing runs detectable. See docs/REPRODUCIBILITY.md.",
-  "generated_at": "2026-07-26T18:16:07Z",
+  "generated_at": "2026-08-18T03:42:43Z",
   "selection_rules": {
     "allowed_scenario_ids": [
       "SHIP-DE-ALL",
@@ -32,7 +32,7 @@
   "runs": [
     {
       "run_dir": "20260216_182920",
-      "results_sha256": "0ed3371d361fb283aa7758c87e010e8481d4d4b4e618f7595d1c33e71f1bd2d5",
+      "results_sha256": "9950f465a9482c334b82a62d349ddf5adbb03a69d50b2b347805ba680b7359d9",
       "trials": [
         {
           "trial_id": "4d270c31",
@@ -44,7 +44,7 @@
     },
     {
       "run_dir": "20260216_182923",
-      "results_sha256": "83e1d0c38b84820668efae0620fcc9b9d61ecb16ae9a8a1f27afb42ff7885a2e",
+      "results_sha256": "83bfb47bf7b9e1a139a7d959e057b248ca55bc96671d25b4b96b9c050397d684",
       "trials": [
         {
           "trial_id": "1d5667c1",
@@ -56,7 +56,7 @@
     },
     {
       "run_dir": "20260216_182924",
-      "results_sha256": "7917037baa8374cf2551112228675745cd61a2cebd9c469e097c8100749b8e12",
+      "results_sha256": "9efc5e6a7391ccb34b1362a1993bd862479519e5565927f7e9e91f9ecc05aeee",
       "trials": [
         {
           "trial_id": "529a38f0",
@@ -68,7 +68,7 @@
     },
     {
       "run_dir": "20260216_182925",
-      "results_sha256": "9d99bbe13c44fd63101483c8c60a1a787a27e7b391ee0979453921c59a9c1526",
+      "results_sha256": "019b6f72a2288e80f5f03fde4609e45dd520e892bdb60d8eb66fe20384b65a6d",
       "trials": [
         {
           "trial_id": "5e362d5a",
@@ -80,7 +80,7 @@
     },
     {
       "run_dir": "20260216_182926",
-      "results_sha256": "cc53dddeb7046cdebf3d42c2be01fc640324b0d02f9a9c9ed092b05920fe85c7",
+      "results_sha256": "4ce93f19eebc88c34116d6ae4365e548067d7040c8e70ad3b4e9614982b5c31e",
       "trials": [
         {
           "trial_id": "9de2a74f",
@@ -92,7 +92,7 @@
     },
     {
       "run_dir": "20260216_182930",
-      "results_sha256": "72ee3b091d4a6198c83e5366b559ffc9e9a86ad42533a73d7b240f26ea0d9128",
+      "results_sha256": "df4a0e66f8831616d8582b2fa04a052acdeec209c988ae28611d5041fed491c1",
       "trials": [
         {
           "trial_id": "c8d38d34",
@@ -104,7 +104,7 @@
     },
     {
       "run_dir": "20260216_184943",
-      "results_sha256": "118e342aa8714aa17276b99a6ad83c1de23bc70234342f32a395b45f90b11b02",
+      "results_sha256": "5674028cf604a3d0491f1ddb2e7a6cf7600a0ca4895d04bbd240d86f9b2f86fd",
       "trials": [
         {
           "trial_id": "e284399c",
@@ -116,7 +116,7 @@
     },
     {
       "run_dir": "20260216_184944",
-      "results_sha256": "efd411987f869738d170c73759f48a9bf309eac6a1fd7fa456491c9479c9773c",
+      "results_sha256": "4f768a409affbafc4130e6860948c93e191be632fa607d72dbaaadf76870313f",
       "trials": [
         {
           "trial_id": "345b1f2e",
@@ -128,7 +128,7 @@
     },
     {
       "run_dir": "20260216_184945",
-      "results_sha256": "7e0fad49e429a4f242eed1a8563c8610b95c0348ecaf6ebb0b44b4670fca0b98",
+      "results_sha256": "324ae50047ef2486425b43df83ca98bcf2165c87c914c00bee3e9922f288785b",
       "trials": [
         {
           "trial_id": "92e8d63b",
