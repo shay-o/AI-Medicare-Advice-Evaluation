@@ -11,6 +11,7 @@ from .grading_rubric import (
     QuestionGroup,
     ScoreCategory,
     get_question_group,
+    get_question_group_for_turn,
     get_all_question_groups
 )
 
@@ -111,11 +112,18 @@ class MedicareAdviceGrader:
         Returns:
             QuestionScore with score and explanation
         """
-        # Get the question group (rubric criteria)
-        question_group = get_question_group(question_number, scenario)
+        # Get the question group (rubric criteria).
+        # question_number is a CONVERSATION TURN index, which is not the same as the
+        # SHIP study question number: scenarios add turns the study does not number
+        # (a location reply, and the second half of two-part questions). Translating
+        # here rather than assuming they match. See docs/GRADING_INTEGRITY.md.
+        question_group = get_question_group_for_turn(question_number, scenario)
 
         if not question_group:
-            raise ValueError(f"No rubric found for question {question_number} in {scenario} scenario")
+            raise ValueError(
+                f"Turn {question_number} in the {scenario} scenario maps to no scored "
+                f"SHIP question group. Unscored turns must be skipped by the caller."
+            )
 
         # Build the grading prompt
         grading_prompt = self._build_grading_prompt(
@@ -364,6 +372,11 @@ EXPLANATION:
         question_scores = []
 
         for qa in questions_and_responses:
+            # Skip turns that are not scored SHIP questions: the dual-eligible
+            # location reply, and the second half of two-part questions, which the
+            # study scores within their first part's group.
+            if get_question_group_for_turn(qa["question_number"], scenario) is None:
+                continue
             try:
                 score = await self.grade_response(
                     question_number=qa["question_number"],

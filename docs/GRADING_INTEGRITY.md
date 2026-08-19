@@ -152,6 +152,62 @@ So the comparison does not isolate the bug fix. It measures a corrected rubric a
 
 Seven verdicts changed on general-rules question groups (QG11 x2, QG26 x2, QG13, QG22, QG25) where no rubric changed and `PLAN FACTS` is irrelevant. Those are pure re-run nondeterminism: about **7 of 108, or 6.5%**, from the same grader on the same text. Any future re-grade delta smaller than roughly 6% should be treated as noise rather than signal. This is worth measuring deliberately rather than inferring accidentally.
 
+## Fourth defect: conversation turns were not study question numbers
+
+Found 2026-08-18, after switching the grading model to `gemini-3-flash`. The stronger grader began writing rationales like "the response fails to address the primary topic of the Question Group", which turned out to be correct: responses were being graded against the wrong rubric.
+
+The rubric groups key off the **study question numbers** in eAppendix 4. The scenario files key off **conversation turns**. Those are not the same, because the scenarios add turns the study script does not number:
+
+- Dual-eligible turn 5 is the shopper supplying their location. In eAppendix 2 that is a *note* attached to Question #4 ("Give the city, state, zip code, and county"), not a question. Scoring it pushed every later turn one position out of alignment.
+- Two-part questions are one scored group in the study but two turns in the scenario. eAppendix 4 Question Group 20 settles this: it covers Medicare-only "#14a" and its follow-up "#14b" under a single scoring guide.
+
+The result, before the fix:
+
+| Scenario | Turn | Actually asked | Graded against |
+| --- | --- | --- | --- |
+| Dual | 5 | "I live in Los Angeles, CA 90012" (a location reply) | QG24 Long-Term Care |
+| Dual | 6 | long-term care under Medicare | QG25 Medicaid premiums |
+| Dual | 7 | Medicaid and long-term care | QG26 cost-sharing assistance |
+| Dual | 8 | Medicaid paying Medicare premiums | **QG2 Spanish translation** |
+| Dual | 9 | assistance programs if not Medicaid eligible | nothing (recorded as ERROR) |
+| Dual | 10 | Spanish translation | nothing (recorded as ERROR) |
+| MO | 16 | Lipitor cost vs generic | **QG2 Spanish translation** |
+| MO | 17 | Spanish translation | nothing (recorded as ERROR) |
+
+A location statement was scored as a long-term-care answer, and a premiums question was scored against the Spanish-translation rubric.
+
+Medicare-only escaped corruption largely by luck: the misrouted rows landed in QG2, which is excluded from aggregates anyway. **The dual-eligible side did not.** QG24, QG25 and QG26 are three of the nineteen reported groups, and all three were scored against the wrong criteria in every published figure.
+
+### The fix
+
+`src/grading_rubric.py` gained explicit `TURN_TO_STUDY_QUESTION_MO` and `TURN_TO_STUDY_QUESTION_DE` tables and a `get_question_group_for_turn()` function. `grade_response()` translates through it, and `grade_run()` skips unscored turns instead of recording them as errors.
+
+### Structural evidence that the corrected mapping is right
+
+Before the fix, 45 stored rows carried the group `ERROR`, and the per-group counts were irregular. After it, the 19 reported groups come out exactly regular:
+
+- QG1 has **n=18**, which is 9 models across both scenarios, the only group that appears in both
+- every other group has **n=9**, exactly one row per model
+- 18 + (18 x 9) = 180
+
+That regularity is not something the fix was tuned for. It is what a correct question-to-group mapping necessarily produces, and its absence beforehand was a signal nobody had looked for.
+
+### Result
+
+Re-graded with `gemini-3-flash`, the grounded prompt, the corrected rubrics and the corrected mapping:
+
+| Slice | n | Published | Corrected |
+| --- | --- | --- | --- |
+| All questions | 180 | 65.0% | **67.8%** |
+| General rules | 108 | 84.3% | 90.7% |
+| Plan-specific | 72 | 36.1% | 33.3% |
+| `not_substantive` | 180 | 7.8% | 13.3% |
+| `incorrect` | 180 | 2.2% | 7.2% |
+
+**This number confounds four changes** made in one session: the corrected QG19/QG20 answer key, the decontaminated prompt, the grader switch, and the mapping fix. It cannot be attributed to any single one, and it is not a clean measurement of what the mapping fix alone did. It is, however, the first figure produced with all four known defects addressed.
+
+The shape is worth noting independently of the headline. The general-rules slice rises to 90.7%, the plan-specific slice stays near a third, and both `not_substantive` and `incorrect` roughly triple. The stricter, better-grounded grader is finding failures the old one missed, and the gap between general knowledge and plan-specific lookup is wider than the published figures suggested.
+
 ## Open items
 
 - **The published pages still show 65.0% and have not been changed.** The decontaminated re-grade gives 63.9%, but because the grading prompt changed globally it is not a like-for-like replacement. Deciding what to publish is a separate call, and the honest options are to publish 63.9% with the prompt change disclosed, or to hold the prompt constant and re-run so the rubric fix can be isolated.

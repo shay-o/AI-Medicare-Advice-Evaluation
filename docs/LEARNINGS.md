@@ -119,6 +119,18 @@ The underlying reason: for rubric application over supplied criteria a small mod
 
 Full method and caveats in [GRADER_SELECTION.md](GRADER_SELECTION.md).
 
+## 9c. Upgrading one component exposes the faults the weak one was hiding
+
+Switching to the better grader immediately surfaced a defect that had nothing to do with graders. Responses were being scored against the wrong rubric entirely, because the rubric groups key off the study's question numbers while the scenario files key off conversation turns, and the two drift apart wherever a scenario adds a turn the study does not number: a location reply, or the second half of a two-part question.
+
+A location statement was being graded as a long-term-care answer. A question about Medicaid paying Medicare premiums was graded against the Spanish-translation rubric. Six of ten dual-eligible turns were misrouted.
+
+The weak grader never complained, because it was not good enough to notice that the response in front of it had nothing to do with the criteria it had been handed. It just scored something. The strong grader wrote "the response fails to address the primary topic of the Question Group" and was right.
+
+There is a structural tell that would have caught this without any grader at all. With a correct mapping the per-group counts come out exactly regular: one row per model per group, and double for the single group that appears in both scenarios. Before the fix, 45 rows carried a literal `ERROR` group and the counts were lumpy. Nobody had looked.
+
+**Transferable:** when you improve one component of a pipeline, expect it to reveal faults elsewhere rather than simply raising the score, and budget for that instead of treating it as a setback. And check the cheap structural invariants of your own data: regular counts, no error rows, every expected cell populated. Those catch whole classes of defect before any model is involved.
+
 ## 10. Documentation rots toward confidently wrong
 
 Separately from the grading work, an audit of the repository found that every document described a CLI flag that had been renamed, so no documented command would run. The quickstart pointed at a scenario file that did not exist. A guide documented a `--grade` flag that no longer existed and described grading as opt-in when it had become mandatory, inverting its central explanation. The README promised a no-API-key path that could not work, because grading always runs and defaults to a provider requiring a key.

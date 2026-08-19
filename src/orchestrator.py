@@ -694,8 +694,10 @@ async def run_evaluation_cli(args: argparse.Namespace) -> None:
         grade_provider, grade_model = parse_target_spec(args.grade_model)
         grade_adapter = create_adapter(grade_provider, grade_model)
     else:
-        # Default to Claude Sonnet for SHIP rubric grading
-        grade_adapter = create_adapter("anthropic", "claude-3-5-sonnet-20241022")
+        # Default grader: measured at 100% against the gold set, matching a model six
+        # times its price, while the previous cheap default scored 63%.
+        # See docs/GRADER_SELECTION.md.
+        grade_adapter = create_adapter("openrouter", "google/gemini-3-flash-preview")
 
     # Create storage; use single run_dir when multiple scenarios or run_id specified
     storage = ResultsStorage(args.output_dir)
@@ -813,7 +815,7 @@ Examples:
     )
     run_parser.add_argument(
         "--grade-model",
-        help="Model for SHIP rubric grading (default: anthropic:claude-3-5-sonnet-20241022)",
+        help="Model for SHIP rubric grading (default: openrouter:google/gemini-3-flash-preview)",
     )
     run_parser.add_argument(
         "--judges",
