@@ -616,8 +616,79 @@ for group in QUESTION_GROUPS_DUAL_ELIGIBLE:
 QUESTION_TO_GROUP_MAP = QUESTION_TO_GROUP_MAP_MO
 
 
+# ---------------------------------------------------------------------------
+# Conversation turn -> SHIP study question number
+# ---------------------------------------------------------------------------
+# The rubric groups above key off the STUDY question numbers in eAppendix 4.
+# The scenario files key off CONVERSATION TURNS. These are not the same thing,
+# because the scenarios add turns the study script does not number:
+#
+#   - Dual-eligible turn 5 is the shopper supplying their location. In the
+#     study that is a *note* attached to Question #4 ("Give the city, state,
+#     zip code, and county"), not a question. Scoring it drags every later
+#     turn one position out of alignment.
+#   - Two-part questions (medicare-only #14a/#14b, dual-eligible #5a/#5b) are
+#     one scored group in the study but two turns in the scenario. eAppendix 4
+#     Question Group 20 confirms this: it covers "#14a" and its follow-up
+#     "#14b" under a single scoring guide.
+#
+# Treating turn index as question number silently graded responses against the
+# wrong rubric: a location statement scored as long-term care, a premiums
+# question scored against the Spanish-translation rubric, and the actual
+# Spanish question not scored at all. See docs/GRADING_INTEGRITY.md.
+#
+# Value None means the turn is deliberately not scored.
+
+TURN_TO_STUDY_QUESTION_MO: dict[int, int | None] = {
+    1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10,
+    11: 11,   # specialist copay - no scored group in eAppendix 4
+    12: 12, 13: 13,
+    14: 14,   # Lipitor #14a
+    15: None, # "is a generic covered?" #14b - follow-up, scored within group 20
+    16: 15,   # Lipitor out-of-pocket vs generic - no scored group
+    17: 16,   # Spanish translation
+}
+
+TURN_TO_STUDY_QUESTION_DE: dict[int, int | None] = {
+    1: 1, 2: 2, 3: 3, 4: 4,
+    5: None,  # "I live in <city>..." - the location note on Question #4
+    6: 5,     # long-term care under Medicare, #5a
+    7: None,  # "what about Medicaid?" #5b - follow-up, scored within group for #5
+    8: 6,     # Medicaid paying Medicare premiums and cost sharing
+    9: 7,     # assistance programs when not Medicaid eligible
+    10: 8,    # Spanish translation
+}
+
+
+def get_study_question_number(turn_index: int, scenario: str = "medicare_only") -> int | None:
+    """Translate a conversation turn index into the SHIP study question number.
+
+    Returns None when the turn is not a scored study question (a location
+    reply, or the second half of a two-part question).
+    """
+    table = (
+        TURN_TO_STUDY_QUESTION_DE if scenario == "dual_eligible"
+        else TURN_TO_STUDY_QUESTION_MO
+    )
+    return table.get(turn_index)
+
+
+def get_question_group_for_turn(
+    turn_index: int, scenario: str = "medicare_only"
+) -> QuestionGroup | None:
+    """Get the rubric group for a conversation turn, or None if unscored."""
+    q = get_study_question_number(turn_index, scenario)
+    if q is None:
+        return None
+    return get_question_group(q, scenario)
+
+
 def get_question_group(question_number: int, scenario: str = "medicare_only") -> QuestionGroup:
-    """Get the question group for a given question number and scenario."""
+    """Get the question group for a given SHIP study question number.
+
+    NOTE: this takes a STUDY question number, not a conversation turn index.
+    Use get_question_group_for_turn() when working from scenario turns.
+    """
     if scenario == "dual_eligible":
         return QUESTION_TO_GROUP_MAP_DE.get(question_number)
     else:
