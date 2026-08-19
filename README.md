@@ -1,215 +1,169 @@
-# AI Medicare Evaluation Harness
+# Can AI give good Medicare advice?
 
-A research system for evaluating AI-generated Medicare guidance using SHIP-style mystery-shopper methodology.
-
-## Purpose
-
-This system reproduces the methodology of the [SHIP mystery-shopper study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/) to evaluate:
-
-- **Accuracy** - Factual correctness of Medicare information
-- **Completeness** - Coverage of required information points
-- **Safety and harm risk** - Potential for harmful misinformation
-
-This system evaluates responses, not intent, UX quality, tone, or persuasion.
-
-## Published results
+Medicare is one of the most consequential decisions many people make, and one of the hardest to get help with. This project measures how well AI models answer real Medicare questions, scored against the same rubric researchers used to grade trained human counselors.
 
 - [Overview and findings](https://www.shayoreilly.net/projects/AI-Medicare-Advice-Evaluator/overview.html)
 - [Model comparison matrix](https://www.shayoreilly.net/projects/AI-Medicare-Advice-Evaluator/matrix_report.html)
 
-**Before citing any figure, read these two documents:**
+## The idea
 
-- **[docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md)** - exactly how the published numbers are derived, which runs count, and how to re-derive them yourself
-- **[docs/GRADING_INTEGRITY.md](docs/GRADING_INTEGRITY.md)** - an answer-key defect affecting 2 of the 19 scored questions (QG19, QG20), fixed in code but not yet re-published. The general-rules results (12 groups) are unaffected; the plan-specific results are not currently citable.
-- **[docs/LEARNINGS.md](docs/LEARNINGS.md)** - what building and auditing this harness actually taught, including the misdiagnoses
+In 2025, researchers published a study in *JAMA Network Open* that did something clever. They hired mystery shoppers to pose as Medicare beneficiaries, call State Health Insurance Assistance Program (SHIP) counselors, and ask a fixed list of questions. Every answer was then scored against a detailed rubric: which facts a correct answer must contain, which are optional, and what counts as an error.
 
-## Architecture
+That turns "was this good advice?" into something measurable. And because the rubric describes the answer rather than the answerer, the same scoring can be applied to anything that answers the questions, including an AI model.
 
-The system uses strict role separation with five specialized agents:
+This repository is that experiment. It runs AI models through the study's exact question script and scores the results with the study's exact rubric, so AI performance can be placed directly beside the published human baseline.
 
-1. **Questioner** - Generates beneficiary questions from scenarios
-2. **Extractor** - Converts AI responses into atomic, verifiable claims
-3. **Verifier** - Judges claims against answer keys (multiple independent instances)
-4. **Scorer** - Computes accuracy and completeness metrics
-5. **Adjudicator** - Resolves disagreements between verifiers
+## What it takes to be a fair comparison
 
-## Quick Start
+The most important design rule here is that the AI has to be tested under the same conditions the counselors were:
 
-### 1. Install
+- The exact opening statement and question wording from the study, never paraphrased
+- Questions asked in the study's order
+- **No** system prompt telling the AI to act as a Medicare counselor
+- **No** extra context or hints beyond what the mystery shoppers provided
+
+That last point is the one people push back on, because a little prompt engineering would obviously raise the scores. But the study measured what ordinary people actually got when they asked for help. Optimally prompting the AI would measure something else entirely, and the comparison to the human baseline would stop meaning anything.
+
+## How it works
+
+Each role in the original study becomes a step in an automated pipeline:
+
+| Study role | Here |
+| --- | --- |
+| Mystery shopper | Asks the scripted questions, in order, with no embellishment |
+| SHIP counselor | The AI model being evaluated |
+| Research analyst | An LLM grader that scores each answer against the rubric |
+
+Every run stores the full transcript, the grader's verdict, and the reasoning behind it, so any score can be traced back to the words that produced it.
+
+Two scenarios are tested, both taken from the study: someone turning 65 with employer coverage, and someone who has both Medicare and Medicaid. Nineteen question groups are scored across them.
+
+## What the results look like so far
+
+Two findings have held up across every version of the analysis.
+
+**AI does well on general Medicare rules.** Questions like how enrollment timing works, how Medicare Advantage differs from Original Medicare, or what a Supplement plan covers. Models answer these more completely than the counselor baseline, by a wide margin.
+
+**AI does poorly on questions about a specific plan.** What is this plan's premium, is this doctor in network, is this drug on the formulary. Performance drops sharply.
+
+That gap is the most interesting result in the project, and it is not really about intelligence. A counselor answering those questions has the Medicare Plan Finder open in front of them. A model answering from memory does not. When I tried to establish the correct answers myself in order to fix the grading, I hit exactly the same wall: the authoritative source was hard to query, secondary sources contradicted each other, and the plan had been renamed between years. These questions are hard for the same reasons for everyone.
+
+The practical implication is that on plan-specific questions the **product** matters more than the **model**. An AI with live search and access to plan data is doing a different task than a bare model recalling training data.
+
+## Honest status of the numbers
+
+**The figures on the published pages above were produced by a grading setup since found to have real defects.** They have not been re-published yet, and the corrected figures are not ready to replace them.
+
+Four separate problems were found and fixed, in this order:
+
+1. **A wrong answer key.** Two questions were scored against criteria that contradicted the real plan, so models giving the correct answer were marked wrong, and at least one giving the wrong answer was marked right.
+2. **No ground truth for the grader.** On plan-specific questions the grader was judging from memory, which made it contradict itself on neighbouring questions.
+3. **A defect introduced by the fix for problem 2.** Supplying the grader with verified plan facts caused it to credit responses for figures that appeared only in its own prompt, scoring refusals as though they were answers.
+4. **A question-to-rubric misalignment.** Answers were graded against the wrong rubric entirely, because the scenario's conversation turns and the study's question numbers were not the same thing. A location statement was being scored as a long-term-care answer.
+
+A re-grade with all four addressed puts the headline in the same range as the published figure, with a noticeably wider gap between general and plan-specific questions. That number is not published yet, because it changed four things at once and so cannot be attributed to any one of them.
+
+For the detail, [docs/GRADING_INTEGRITY.md](docs/GRADING_INTEGRITY.md) is the full record, including a diagnosis that was confidently wrong before it was right. [docs/LEARNINGS.md](docs/LEARNINGS.md) is the shorter, more general version.
+
+**This is a personal project by a non-expert, and it has not been reviewed by anyone with Medicare policy expertise.** The question set is not exhaustive. Treat the results as a preliminary signal, not a finding.
+
+## Why the failures are documented rather than quietly fixed
+
+An evaluation system is a measuring instrument, and the useful question about any instrument is not whether it produces numbers but whether you can trust the ones it produces. Every defect above was found by deliberately checking whether the grader was right, not by the pipeline complaining. A broken grader produces clean-looking output, which is exactly what makes it dangerous.
+
+So the repository keeps the record of what broke, what the wrong diagnosis was, and what each fix changed. That is more useful than a tidy headline, and it is the part of this project worth looking at.
+
+## Documentation
+
+| Document | What it covers |
+| --- | --- |
+| [docs/LEARNINGS.md](docs/LEARNINGS.md) | What building and auditing this taught, including the misdiagnoses |
+| [docs/GRADING_INTEGRITY.md](docs/GRADING_INTEGRITY.md) | Every grading defect found, with evidence and blast radius |
+| [docs/GRADER_SELECTION.md](docs/GRADER_SELECTION.md) | Experiment: how often the grader fails, and whether a better model or a better prompt fixes it |
+| [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) | How the published numbers are derived, and how to re-derive them |
+
+## The question bank, on its own
+
+`eval_dataset/` is a standalone, structured version of the study's question bank, usable without any of the code here: to build your own grader, run manual evaluations, or compare your own AI outputs against the human baseline.
+
+```
+eval_dataset/
+├── index.json                        # Manifest linking all files
+├── scenarios/                        # Personas and question sequences
+├── question_groups/                  # One file per scored question, with its rubric
+└── baselines/
+    └── ship_2025_human_baseline.json # Counselor accuracy rates from the study
+```
+
+Each question file has the exact question wording, the four-tier rubric derived from the study's scoring guide, and the human baseline for that question. Questions needing a live plan lookup are flagged `external_validation_required`.
+
+Start at `eval_dataset/index.json`.
+
+## Running it yourself
+
+Install:
 
 ```bash
 pip install -e ".[openrouter]"
 ```
 
-Other provider extras: `.[openai]`, `.[anthropic]`, `.[google]`, or `.[all]`.
-
-### 2. Verify the install (no API key needed)
-
-Both the target model and the grading model can be faked, so this runs entirely offline:
+Check the install with no API key, using fake models at both ends:
 
 ```bash
 python -m src run --scenario scenarios/v1/scenario_001.json --target-model fake:perfect --grade-model fake:perfect
 ```
 
-SHIP rubric grading runs on **every** evaluation and defaults to `anthropic:claude-3-5-sonnet-20241022`. If you omit `--grade-model`, this command fails without an Anthropic key even though the target model is fake.
-
-### 3. Set up API keys
+Add a key from [openrouter.ai/keys](https://openrouter.ai/keys):
 
 ```bash
 cp .env.example .env
-echo "OPENROUTER_API_KEY=sk-or-your_key_here" >> .env
 ```
 
-Get an OpenRouter API key at [openrouter.ai/keys](https://openrouter.ai/keys). Direct provider keys (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`) also work.
-
-### 4. Run a real evaluation
+Run a real evaluation:
 
 ```bash
-python -m src run --scenario scenarios/medicare_only/all_questions.json --target-model openrouter:openai/gpt-5.2 --grade-model openrouter:anthropic/claude-3.5-sonnet
+python -m src run --scenario scenarios/medicare_only/all_questions.json --target-model openrouter:openai/gpt-5.2
 ```
 
-### 5. View results
-
-```bash
-python -m src.view_run --run-dir runs/$(ls -t runs/ | head -1)
-```
-
-Rebuild the comparison report:
-
-```bash
-python scripts/generate_matrix_report.py --runs-dir runs --output reports/matrix_report.html
-```
-
-Re-derive the published headline figures independently:
+Re-derive the published figures independently:
 
 ```bash
 python scripts/verify_headline_numbers.py
 ```
 
-## Command reference
+Model specs are `provider:model`. Grading runs on every evaluation and defaults to `openrouter:google/gemini-3-flash-preview`, chosen by measurement rather than by price: see [docs/GRADER_SELECTION.md](docs/GRADER_SELECTION.md). The full flag reference is in [docs/USER_GUIDE.md](docs/USER_GUIDE.md).
 
-`python -m src run` accepts:
+Requires Python 3.10 or newer.
 
-| Flag | Purpose | Default |
-| --- | --- | --- |
-| `--scenario` | `medicare_only`, `dual_eligible`, or a path to a scenario JSON | required |
-| `--target-model` | The model being evaluated | required |
-| `--grade-model` | Model used for SHIP rubric grading | `anthropic:claude-3-5-sonnet-20241022` |
-| `--agent-model` | Model used for claim extraction and verification | `fake:perfect` |
-| `--verify-claims` | Also extract and verify atomic claims against the answer key | off |
-| `--judges` | Number of independent verifiers (only meaningful with `--verify-claims`) | 2 |
-| `--seed` | Random seed | 42 |
-| `--output-dir` | Where runs are written | `runs/` |
-| `--run-id` | Custom run ID | timestamp |
-
-Model specs are `provider:model`, for example `openrouter:openai/gpt-5.2`, `anthropic:claude-3-5-sonnet-20241022`, or `fake:perfect`.
-
-Supported providers: OpenRouter (recommended, one key for many models), OpenAI, Anthropic, Google, xAI, and a `fake:` adapter for testing. See [docs/OPENROUTER_GUIDE.md](docs/OPENROUTER_GUIDE.md).
-
-## Eval Dataset
-
-The `eval_dataset/` directory contains a standalone, structured version of the SHIP question bank that can be used independently of the evaluation harness, for example to build your own grader, run manual evaluations, or compare AI outputs against the human baseline.
+## How the repository is laid out
 
 ```
-eval_dataset/
-├── index.json                        # Manifest linking all files
-├── scenarios/                        # Persona definitions and question sequences
-│   ├── medicare_only_v1.json         # Turning-65, employer coverage persona
-│   └── dual_eligible_v1.json         # Medicare + full Medicaid persona
-├── question_groups/                  # One file per scored SHIP question (19 total)
-│   ├── QG01_enrollment_timing.json
-│   ├── QG09–QG20_*.json              # Medicare-Only questions
-│   └── QG21–QG26_*.json              # Dual-Eligible questions
-└── baselines/
-    └── ship_2025_human_baseline.json # SHIP counselor accuracy rates (eTable 3)
+eval_dataset/       # The question bank, usable standalone
+scenarios/          # Test scenarios and personas
+src/                # The harness: adapters, agents, grader
+scripts/            # Report generation and verification
+docs/               # Method, findings, and defect records
+reference_material/ # The study supplement, plan facts, grader gold set
+reported_runs.json  # The exact run set behind the published figures
+runs/               # Stored evaluation results
 ```
 
-Each question group file contains the exact question text from the SHIP study script, a four-tier scoring rubric (`accurate_complete`, `substantive_incomplete`, `not_substantive`, `incorrect`) derived from eAppendix 4, and the SHIP human baseline percentages for that question. Questions that require real-time plan lookup (network status, premiums, formulary) are flagged `external_validation_required: true`.
+## Design principles
 
-Start with `eval_dataset/index.json` for a full listing of files and per-question baseline rates.
+1. **Role separation.** The thing asking, the thing answering, and the thing judging are never the same component.
+2. **Grounded judging.** The grader scores against a rubric and verified facts, not its own recollection.
+3. **Full auditability.** Raw transcripts and grader reasoning are stored verbatim.
+4. **Snapshot evaluation.** Results describe specific model versions at a specific time, not "AI" in general. Four of the nine models originally tested are already unavailable.
+5. **Append-only evidence.** A re-grade writes a new run and never edits an existing one.
 
-## Project Structure
+## Research use only
 
-```
-ai-medicare-eval/
-├── eval_dataset/       # Standalone SHIP question bank (scenarios, rubrics, baselines)
-├── scenarios/          # Test scenarios with answer keys
-├── prompts/            # System prompts for each agent
-├── src/
-│   ├── adapters/       # LLM provider integrations
-│   └── agents/         # Evaluation agents
-├── scripts/            # Report generation and verification
-├── reports/            # Generated HTML reports
-├── docs/               # Documentation
-├── reported_runs.json  # The exact run set behind published figures
-└── runs/               # Evaluation results
-```
+This system evaluates the quality of AI-generated information. It does not provide medical, legal, or insurance advice, and nothing here should be used to make healthcare decisions.
 
-## Key Design Principles
+If you need Medicare help, SHIP counselors provide it free, from trained humans, in every state: [shiphelp.org](https://www.shiphelp.org/).
 
-1. **Strict role separation** - Questioner is not Responder is not Judge
-2. **Answer-key grounded** - Judges rely only on provided answer keys
-3. **Deterministic by default** - Fixed seeds, prompts, and parameters
-4. **Full auditability** - Raw transcripts and judge outputs stored verbatim
-5. **Snapshot-based evaluation** - Results are time-, model-, and prompt-specific
-6. **Append-only evidence** - A re-grade writes a new run and never edits an existing one
+## Source study
 
-## SHIP Study Fidelity
+Dugan K, Peterson I, Dorneo A, Garrido MM. Accuracy of Medicare information provided by State Health Insurance Assistance Programs. *JAMA Network Open*. 2025;8(4):e252834. [doi:10.1001/jamanetworkopen.2025.2834](https://doi.org/10.1001/jamanetworkopen.2025.2834)
 
-Results are only comparable to the published human baseline if the study conditions are replicated exactly:
-
-- Use the exact opening statement and question wording from the scenario files, do not paraphrase
-- Do **not** add system prompts instructing the AI to act as a counselor
-- Do **not** give the AI extra context beyond what the scenario provides
-- Ask questions in the sequence the scenario specifies
-
-The study measured how counselors performed for ordinary beneficiaries. Optimally prompting the AI would measure something else.
-
-## Ethics and Framing
-
-**This system is for research purposes only.**
-
-This tool evaluates AI-generated information quality. It does not provide medical, legal, or insurance advice. Results should not be used to make healthcare decisions. The SHIP program provides free, expert Medicare counseling: find a local counselor at [shiphelp.org](https://www.shiphelp.org).
-
-## Development
-
-```bash
-pip install -e ".[dev]"
-pytest tests/
-ruff check .
-```
-
-## Documentation
-
-| Document | Purpose |
-| --- | --- |
-| [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) | How published numbers are derived and verified |
-| [docs/LEARNINGS.md](docs/LEARNINGS.md) | High-level learnings from building and auditing this harness |
-| [docs/GRADING_INTEGRITY.md](docs/GRADING_INTEGRITY.md) | Known answer-key defect and its blast radius |
-| [docs/GRADER_SELECTION.md](docs/GRADER_SELECTION.md) | Grader model vs harness experiment: how often the grader fails |
-| [docs/USER_GUIDE.md](docs/USER_GUIDE.md) | Step-by-step usage guide |
-| [docs/QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md) | Command reference card |
-| [docs/SCENARIOS.md](docs/SCENARIOS.md) | What each test scenario evaluates |
-| [docs/INTEGRATED_GRADING_GUIDE.md](docs/INTEGRATED_GRADING_GUIDE.md) | How grading works end to end |
-| [docs/GRADING_SYSTEM_README.md](docs/GRADING_SYSTEM_README.md) | Rubric mapping internals |
-| [docs/REPORTING_GUIDE.md](docs/REPORTING_GUIDE.md) | Generating SHIP-style accuracy tables |
-| [docs/OPENROUTER_GUIDE.md](docs/OPENROUTER_GUIDE.md) | Accessing many models with one API key |
-| [docs/METHODOLOGY_COMPARISON.md](docs/METHODOLOGY_COMPARISON.md) | This system versus the SHIP study |
-| [docs/PLAN_INFORMATION_GUIDE.md](docs/PLAN_INFORMATION_GUIDE.md) | Plan-specific question handling |
-| [docs/VIEW_RUNS_GUIDE.md](docs/VIEW_RUNS_GUIDE.md) | Inspecting stored run artifacts |
-| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Publishing the reports |
-
-## License
-
-MIT
-
-## References
-
-Based on methodology from:
-
-**Dugan K, et al.** "Accuracy of Medicare Information Provided by State Health Insurance Assistance Programs." *JAMA Network Open*. 2025;8(4):e252834.
-
-- PubMed Central: [PMC11962663](https://pmc.ncbi.nlm.nih.gov/articles/PMC11962663/)
-- DOI: [10.1001/jamanetworkopen.2025.2834](https://doi.org/10.1001/jamanetworkopen.2025.2834)
-
-This project re-implements the original study's methodology. The substantive research contribution is the original authors'.
+The vast majority of the intellectual work here belongs to the study's authors. This project re-implements their methodology; it did not invent it.
