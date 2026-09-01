@@ -399,6 +399,11 @@ class EvaluationOrchestrator:
                 turn_id=f"{turn['turn_id']}_response",
                 role="assistant",
                 content=response.content,
+                tokens_used=response.tokens_used,
+                cost_usd=response.metadata.get("cost_usd"),
+                latency_ms=response.latency_ms,
+                model_identifier=response.model_identifier,
+                citations=response.metadata.get("citations", []),
             )
             conversation.append(assistant_turn)
             messages.append({"role": "assistant", "content": response.content})

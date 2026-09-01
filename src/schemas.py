@@ -176,6 +176,25 @@ class ConversationTurn(BaseModel):
     content: str
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
+    # Cost accounting, populated on assistant turns only. The adapter has always
+    # reported these; they were dropped when building the turn, so no stored run
+    # could answer "what did this cost". Needed to compare models on cost per
+    # accurate answer, and to separate model tokens from web-search fees.
+    tokens_used: dict[str, int] = Field(
+        default_factory=dict, description="Token counts: prompt, completion, total"
+    )
+    cost_usd: float | None = Field(
+        None, description="Provider-reported cost for this call, when available"
+    )
+    latency_ms: int | None = None
+    model_identifier: str | None = Field(
+        None, description="Resolved model version that actually served this turn"
+    )
+    citations: list[str] = Field(
+        default_factory=list,
+        description="Source URLs returned by provider-hosted web search, if enabled",
+    )
+
 
 class ModelResponse(BaseModel):
     """Response from an LLM adapter"""

@@ -132,18 +132,33 @@ class OpenRouterAdapter(BaseLLMAdapter):
 
             # Extract token usage
             tokens_used = {}
+            cost_usd = None
             if hasattr(response, "usage") and response.usage:
                 tokens_used = {
                     "prompt": response.usage.prompt_tokens,
                     "completion": response.usage.completion_tokens,
                     "total": response.usage.total_tokens,
                 }
+                # OpenRouter reports the actual charge for the call. Preferred over
+                # multiplying tokens by a local price table, which goes stale and has
+                # to be maintained per model.
+                cost_usd = getattr(response.usage, "cost", None)
 
             # OpenRouter provides additional metadata
             metadata = {
                 "finish_reason": response.choices[0].finish_reason,
                 "system_fingerprint": getattr(response, "system_fingerprint", None),
             }
+
+            if cost_usd is not None:
+                metadata["cost_usd"] = cost_usd
+
+            # Citations from provider-hosted web search, when the web plugin is on.
+            # Stored because a search-enabled answer is only auditable if you can see
+            # what it read, and because those results change over time.
+            citations = self._extract_citations(response)
+            if citations:
+                metadata["citations"] = citations
 
             # Extract OpenRouter-specific metadata if available
             if hasattr(response, "id"):
@@ -165,6 +180,28 @@ class OpenRouterAdapter(BaseLLMAdapter):
             raise RuntimeError(f"OpenRouter API error: {e}")
         except OpenAIError as e:
             raise RuntimeError(f"OpenRouter error: {e}")
+
+    @staticmethod
+    def _extract_citations(response: Any) -> list[str]:
+        """Pull web-search source URLs out of the raw response body.
+
+        Reads the raw JSON rather than the parsed object because the OpenAI SDK
+        discards OpenRouter's `annotations` field during parsing.
+        """
+        body = getattr(response, "_raw_body", None)
+        if not isinstance(body, dict):
+            return []
+        try:
+            annotations = body["choices"][0]["message"].get("annotations") or []
+        except (KeyError, IndexError, TypeError):
+            return []
+        urls = []
+        for a in annotations:
+            if isinstance(a, dict) and a.get("type") == "url_citation":
+                url = (a.get("url_citation") or {}).get("url")
+                if url:
+                    urls.append(url)
+        return urls
 
     async def _call_with_retry(
         self,
@@ -189,7 +226,19 @@ class OpenRouterAdapter(BaseLLMAdapter):
 
         for attempt in range(max_retries + 1):
             try:
-                response = await self.client.chat.completions.create(**request_params)
+                # with_raw_response keeps the raw HTTP body reachable. The SDK's typed
+                # ChatCompletion drops fields it does not know about, and OpenRouter's
+                # web-search citations (message.annotations) are one of them: they are
+                # absent from both the typed field and model_extra, but present in the
+                # JSON. Parsing the body is the only way to keep them.
+                raw = await self.client.chat.completions.with_raw_response.create(
+                    **request_params
+                )
+                response = raw.parse()
+                try:
+                    response._raw_body = raw.http_response.json()
+                except Exception:
+                    response._raw_body = None
                 return response
 
             except (RateLimitError, APIConnectionError) as e:
