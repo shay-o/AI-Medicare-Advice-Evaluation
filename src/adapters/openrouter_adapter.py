@@ -251,7 +251,33 @@ class OpenRouterAdapter(BaseLLMAdapter):
                 else:
                     raise
 
-            except (APIError, OpenAIError):
+            except APIError as e:
+                # OpenRouter caps how much spend may be in flight at once, scaled to
+                # remaining credits. Two concurrent scenario runs can trip it, and the
+                # request fails with 402 in_flight_budget_exhausted even though the
+                # account has credit. It clears on its own once earlier calls settle, so
+                # it is worth waiting out rather than losing a part-finished run.
+                msg = str(e)
+                in_flight = "in_flight_budget_exhausted" in msg or (
+                    getattr(e, "status_code", None) == 402 and "in-flight" in msg
+                )
+                if in_flight and attempt < max_retries:
+                    wait = 120.0
+                    try:
+                        headers = getattr(getattr(e, "response", None), "headers", {}) or {}
+                        wait = float(headers.get("Retry-After", wait))
+                    except (TypeError, ValueError):
+                        pass
+                    print(
+                        f"  ! OpenRouter in-flight budget exhausted; waiting {wait:.0f}s "
+                        f"(attempt {attempt + 1}/{max_retries})"
+                    )
+                    last_exception = e
+                    await asyncio.sleep(wait)
+                    continue
+                raise
+
+            except OpenAIError:
                 # Don't retry on other API errors
                 raise
 
