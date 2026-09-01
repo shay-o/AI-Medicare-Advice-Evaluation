@@ -20,6 +20,31 @@ The goal is a tier that approximates consumer AI products: the model's own searc
 | `x-ai/grok-4` | n/a | n/a | n/a | **Deprecated by xAI** |
 | `x-ai/grok-4.1-fast` | n/a | n/a | n/a | **Deprecated by xAI** |
 
+## Re-scan against the consumer chat defaults (2026-08-19)
+
+The roster above was stale. Re-probed against the models actually behind the consumer products:
+
+| Model | Product | Plain | Native | Citations |
+| --- | --- | --- | --- | --- |
+| `openai/gpt-5.6-luna` | ChatGPT.com default | $0.00034 | $0.01228 | **real URLs** |
+| `anthropic/claude-sonnet-5` | Claude.ai default | $0.00307 | $0.04224 | **real URLs** |
+| `anthropic/claude-haiku-4.5` | Claude.ai fast option | $0.00106 | $0.02157 | **real URLs** |
+| `openai/gpt-5.6-luna-pro` | ChatGPT paid tier | $0.00144 | $0.02089 | **real URLs** |
+| `google/gemini-3.5-flash` | reported behind Google AI answers | $0.00268 | $0.0044 to $0.0077 | **none across 3 questions** |
+| `google/gemini-3.7-flash` | newer Google flash | $0.00112 | $0.0015 to $0.0574 | real URLs on 2 of 3 |
+
+This supersedes the earlier finding that only Anthropic returned usable citations. The current OpenAI models return real source URLs where `gpt-5.2` returned none. On the current roster, **citation quality is no longer a reason to exclude a provider**, with the exception of Gemini 3.5.
+
+### Google is the awkward case
+
+`gemini-3.5-flash` produced no citations on any of three probes, including one deliberately requiring fresh information. Its cost moved above the plain baseline, so something ran, but nothing auditable came back. `gemini-3.7-flash` searched and cited normally on two of three.
+
+There is a deeper mismatch for Google specifically. Google.com's AI answers are **grounded in search results by construction**: the product summarises retrieved pages rather than deciding whether to look. An API model with optional native search is therefore a weaker proxy for that product than the API models are for ChatGPT or Claude, where the consumer app really is a model choosing to invoke a search tool. Whatever variant serves Google's AI answers is not exposed on OpenRouter, so it cannot be matched directly.
+
+### Model self-reports checked out, but should not be trusted in general
+
+The version names came from asking each product what it was running. All four exist: `gpt-5.6-luna`, `claude-sonnet-5`, `claude-haiku-4.5`, `gemini-3.5-flash`. That is good corroboration, though models are unreliable narrators of their own version, and the Google answer came from a search result rather than the model itself. Worth re-confirming from provider documentation before publishing a roster.
+
 ## Four things this changes
 
 ### 1. The original roster has largely decayed

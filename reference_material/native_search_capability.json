@@ -1,76 +1,59 @@
 {
  "probed_question": "Does the Aetna Medicare Eagle PPO plan include prescription drug coverage?",
  "results": {
-  "openai/gpt-5.2": {
+  "openai/gpt-5.6-luna": {
    "available": true,
    "native_search": true,
    "searched": true,
-   "citations": 0,
+   "citations": 1,
    "opaque_citations": false,
-   "cost_plain": 0.00423325,
-   "cost_native": 0.0269778
+   "cost_plain": 0.0003386,
+   "cost_native": 0.01227995
   },
-  "openai/gpt-5.2-chat": {
-   "available": false,
-   "native_search": false,
-   "note": "HTTP 404: No endpoints found for openai/gpt-5.2-chat."
-  },
-  "openai/gpt-5.2-pro": {
+  "anthropic/claude-sonnet-5": {
    "available": true,
    "native_search": true,
    "searched": true,
-   "citations": 0,
+   "citations": 3,
    "opaque_citations": false,
-   "cost_plain": 0.050799,
-   "cost_native": 0.241945
+   "cost_plain": 0.003072,
+   "cost_native": 0.042238
   },
-  "anthropic/claude-sonnet-4.5": {
+  "anthropic/claude-haiku-4.5": {
    "available": true,
    "native_search": true,
    "searched": true,
    "citations": 2,
    "opaque_citations": false,
-   "cost_plain": 0.003864,
-   "cost_native": 0.045589
+   "cost_plain": 0.001058,
+   "cost_native": 0.021573
   },
-  "anthropic/claude-3.5-sonnet": {
-   "available": false,
-   "native_search": false,
-   "note": "HTTP 404: No endpoints found for anthropic/claude-3.5-sonnet."
-  },
-  "anthropic/claude-opus-4.1": {
-   "available": true,
-   "native_search": false,
-   "note": "HTTP 404: The requested model does not support native web search. Use engine: \"auto\" or \"exa\" instead, or switch to a mo"
-  },
-  "google/gemini-3-flash-preview": {
+  "google/gemini-3.5-flash": {
    "available": true,
    "native_search": true,
    "searched": false,
    "citations": 0,
    "opaque_citations": false,
-   "cost_plain": 0.000865,
-   "cost_native": 0.000895
+   "cost_plain": 0.002685,
+   "cost_native": 0.006411
   },
-  "google/gemini-3-pro-preview": {
-   "available": false,
-   "native_search": false,
-   "note": "HTTP 404: No endpoints found for google/gemini-3-pro-preview."
-  },
-  "x-ai/grok-4": {
-   "available": false,
-   "native_search": false,
-   "note": "HTTP 404: Grok 4 is deprecated. xAI recommends switching to Grok 4.3 (https://openrouter.ai/x-ai/grok-4.3)"
-  },
-  "x-ai/grok-4.1-fast": {
-   "available": false,
-   "native_search": false,
-   "note": "HTTP 404: Grok 4.1 Fast is deprecated. xAI recommends switching to Grok 4.3 (https://openrouter.ai/x-ai/grok-4.3)"
-  },
-  "perplexity/sonar-pro": {
+  "google/gemini-3.7-flash": {
    "available": true,
-   "native_search": false,
-   "note": "HTTP 404: The requested model does not support native web search. Use engine: \"auto\" or \"exa\" instead, or switch to a mo"
+   "native_search": true,
+   "searched": false,
+   "citations": 0,
+   "opaque_citations": false,
+   "cost_plain": 0.0011205,
+   "cost_native": 0.001794
+  },
+  "openai/gpt-5.6-luna-pro": {
+   "available": true,
+   "native_search": true,
+   "searched": true,
+   "citations": 1,
+   "opaque_citations": false,
+   "cost_plain": 0.0014418,
+   "cost_native": 0.0208866
   }
  }
 }

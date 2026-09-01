@@ -33,17 +33,14 @@ Q = "Does the Aetna Medicare Eagle PPO plan include prescription drug coverage?"
 
 # the 9 originally evaluated, plus current candidates
 CANDIDATES = [
-    "openai/gpt-5.2",
-    "openai/gpt-5.2-chat",
-    "openai/gpt-5.2-pro",
-    "anthropic/claude-sonnet-4.5",
-    "anthropic/claude-3.5-sonnet",
-    "anthropic/claude-opus-4.1",
-    "google/gemini-3-flash-preview",
-    "google/gemini-3-pro-preview",
-    "x-ai/grok-4",
-    "x-ai/grok-4.1-fast",
-    "perplexity/sonar-pro",
+    # Defaults behind the consumer chat products, as of 2026-08-19
+    "openai/gpt-5.6-luna",           # ChatGPT.com default
+    "anthropic/claude-sonnet-5",     # Claude.ai default
+    "anthropic/claude-haiku-4.5",    # Claude.ai fast option
+    "google/gemini-3.5-flash",       # reported behind Google.com AI answers
+    # nearby versions, to see whether capability tracks version
+    "google/gemini-3.7-flash",
+    "openai/gpt-5.6-luna-pro",
 ]
 
 
