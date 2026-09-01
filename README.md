@@ -80,6 +80,7 @@ So the repository keeps the record of what broke, what the wrong diagnosis was, 
 | [docs/LEARNINGS.md](docs/LEARNINGS.md) | What building and auditing this taught, including the misdiagnoses |
 | [docs/GRADING_INTEGRITY.md](docs/GRADING_INTEGRITY.md) | Every grading defect found, with evidence and blast radius |
 | [docs/GRADER_SELECTION.md](docs/GRADER_SELECTION.md) | Experiment: how often the grader fails, and whether a better model or a better prompt fixes it |
+| [docs/NATIVE_SEARCH_SCAN.md](docs/NATIVE_SEARCH_SCAN.md) | Which models can use provider-hosted web search, and why it fires inconsistently |
 | [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) | How the published numbers are derived, and how to re-derive them |
 
 ## The question bank, on its own
