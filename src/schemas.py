@@ -68,6 +68,12 @@ class ScriptedTurn(BaseModel):
         default_factory=dict,
         description="Map of response patterns to next turn_id for branching",
     )
+    study_question: int | None = Field(
+        None,
+        description="Explicit SHIP study question number for this turn. When set, it "
+        "overrides positional turn->question mapping. Needed for subset scenarios, whose "
+        "turn positions do not line up with the full script.",
+    )
 
 
 class TemporalValidity(BaseModel):
@@ -193,6 +199,15 @@ class ConversationTurn(BaseModel):
     citations: list[str] = Field(
         default_factory=list,
         description="Source URLs returned by provider-hosted web search, if enabled",
+    )
+    is_scripted: bool = Field(
+        True,
+        description="False for turns the shopper improvises rather than reads from the "
+        "script, such as supplying a location when the counselor asks for it. These are "
+        "part of the conversation but are not themselves scored questions.",
+    )
+    study_question: int | None = Field(
+        None, description="SHIP study question number this user turn corresponds to"
     )
 
 

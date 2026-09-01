@@ -3,6 +3,7 @@ LLM-based grader for evaluating Medicare advice responses.
 Uses the SHIP study rubric to score responses.
 """
 
+from datetime import datetime
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel
 
@@ -77,7 +78,12 @@ class RunScore(BaseModel):
 class MedicareAdviceGrader:
     """Grades Medicare advice responses using LLM and SHIP rubric."""
 
-    def __init__(self, adapter: BaseLLMAdapter, plan_facts: str | None = None):
+    def __init__(
+        self,
+        adapter: BaseLLMAdapter,
+        plan_facts: str | None = None,
+        evaluation_date: str | None = None,
+    ):
         """
         Initialize grader with an LLM adapter.
 
@@ -92,13 +98,20 @@ class MedicareAdviceGrader:
         """
         self.adapter = adapter
         self.plan_facts = plan_facts
+        # Without this the grading model assumes its own training cutoff is "now" and
+        # marks correct current-year figures as fabricated. Observed directly: a model
+        # correctly cited the 2026 Part B premium of $202.90 and the grader called it a
+        # hallucination "as the current date is in 2024". That penalises exactly the
+        # search-enabled responses this project is trying to measure.
+        self.evaluation_date = evaluation_date or datetime.now().strftime("%B %Y")
 
     async def grade_response(
         self,
         question_number: int,
         question_text: str,
         response_text: str,
-        scenario: str = "medicare_only"
+        scenario: str = "medicare_only",
+        study_question: int | None = None,
     ) -> QuestionScore:
         """
         Grade a single question response.
@@ -117,7 +130,10 @@ class MedicareAdviceGrader:
         # SHIP study question number: scenarios add turns the study does not number
         # (a location reply, and the second half of two-part questions). Translating
         # here rather than assuming they match. See docs/GRADING_INTEGRITY.md.
-        question_group = get_question_group_for_turn(question_number, scenario)
+        if study_question is not None:
+            question_group = get_question_group(study_question, scenario)
+        else:
+            question_group = get_question_group_for_turn(question_number, scenario)
 
         if not question_group:
             raise ValueError(
@@ -206,6 +222,33 @@ Rules for using this section, in order of importance:
 {self.plan_facts}
 
 ---
+"""
+
+        prompt += f"""
+**WHEN THIS IS BEING EVALUATED**: {self.evaluation_date}
+
+This matters for two reasons, and getting it wrong is a known way to grade badly:
+
+1. The response may contain accurate information that is NEWER than your training data,
+   especially if the counselor looked it up. Medicare figures change every year. A premium,
+   deductible or out-of-pocket limit you do not recognise is NOT evidence of fabrication.
+   Do not mark a response incorrect merely because a current-year figure is unfamiliar.
+2. Conversely, a figure that was right in an earlier year may now be out of date. Judge
+   against the evaluation date above, not against whichever year you think it is.
+
+**WHAT YOU MAY AND MAY NOT CALL INCORRECT**
+
+Mark INCORRECT only when the response contradicts something you can actually check:
+the PLAN FACTS section, or a well-established Medicare rule you are confident about.
+
+You may NOT mark a response incorrect because:
+- you cannot verify a claim
+- a figure is absent from PLAN FACTS (that section covers one plan, not all of Medicare)
+- a statistic or date is more recent than your own knowledge
+
+If you cannot confirm a claim either way, say so in your explanation and score on the
+criteria you CAN judge. Unverifiable is not the same as wrong.
+
 """
 
         prompt += """
@@ -375,14 +418,18 @@ EXPLANATION:
             # Skip turns that are not scored SHIP questions: the dual-eligible
             # location reply, and the second half of two-part questions, which the
             # study scores within their first part's group.
-            if get_question_group_for_turn(qa["question_number"], scenario) is None:
+            if qa.get("study_question") is not None:
+                if get_question_group(qa["study_question"], scenario) is None:
+                    continue
+            elif get_question_group_for_turn(qa["question_number"], scenario) is None:
                 continue
             try:
                 score = await self.grade_response(
                     question_number=qa["question_number"],
                     question_text=qa["question_text"],
                     response_text=qa["response_text"],
-                    scenario=scenario
+                    scenario=scenario,
+                    study_question=qa.get("study_question"),
                 )
                 question_scores.append(score)
             except Exception as e:

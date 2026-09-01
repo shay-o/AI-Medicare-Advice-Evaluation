@@ -3,6 +3,7 @@
 import argparse
 import asyncio
 import json
+import re
 import sys
 import uuid
 from datetime import datetime
@@ -98,6 +99,7 @@ class EvaluationOrchestrator:
         self.grader = MedicareAdviceGrader(
             adapter=grade_adapter,
             plan_facts=render_plan_facts(scenario.plan_information),
+            evaluation_date=datetime.now().strftime("%B %Y"),
         )
 
     async def run_evaluation(self, run_dir: Path | None = None) -> TrialResult:
@@ -150,19 +152,42 @@ class EvaluationOrchestrator:
         # Step 2.5: Grade responses using SHIP rubric (always enabled)
         print("\n[2.5/6] Grading responses using SHIP rubric...")
 
-        # Extract question-response pairs from conversation
+        # Pair each SCRIPTED question with everything the counselor said in reply to it.
+        #
+        # Counting user turns positionally is what previously misaligned questions with
+        # rubrics, and it breaks outright now that the shopper can supply a location
+        # mid-conversation. So: only scripted turns advance the question counter, and an
+        # exchange runs until the next scripted question. Where the counselor asked for a
+        # location and then answered, both parts are joined, because the rubric judges the
+        # counselor's whole response to that question.
         questions_and_responses = []
-        question_num = 0
-        for i, turn in enumerate(conversation):
-            if turn.role == "user":
-                question_num += 1
-                # Find corresponding assistant response
-                if i + 1 < len(conversation) and conversation[i + 1].role == "assistant":
-                    questions_and_responses.append({
-                        "question_number": question_num,
-                        "question_text": turn.content,
-                        "response_text": conversation[i + 1].content
-                    })
+        scripted_index = 0
+        i = 0
+        while i < len(conversation):
+            turn = conversation[i]
+            if turn.role != "user" or not turn.is_scripted:
+                i += 1
+                continue
+
+            scripted_index += 1
+            parts = []
+            j = i + 1
+            while j < len(conversation):
+                nxt = conversation[j]
+                if nxt.role == "user" and nxt.is_scripted:
+                    break
+                if nxt.role == "assistant":
+                    parts.append(nxt.content)
+                j += 1
+
+            if parts:
+                questions_and_responses.append({
+                    "question_number": scripted_index,
+                    "study_question": turn.study_question,
+                    "question_text": turn.content,
+                    "response_text": "\n\n".join(parts),
+                })
+            i = j
 
         # Determine scenario type from scenario_id
         scenario_type = "medicare_only" if "MO" in self.scenario.scenario_id else "dual_eligible"
@@ -376,6 +401,8 @@ class EvaluationOrchestrator:
         """Conduct conversation with target model"""
         conversation = []
         messages = []
+        location = (self.scenario.persona.location or "").strip()
+        location_given = False
 
         for turn in turns:
             # Add user message
@@ -383,6 +410,7 @@ class EvaluationOrchestrator:
                 turn_id=turn["turn_id"],
                 role="user",
                 content=turn["user_message"],
+                study_question=turn.get("study_question"),
             )
             conversation.append(user_turn)
             messages.append({"role": "user", "content": turn["user_message"]})
@@ -407,6 +435,43 @@ class EvaluationOrchestrator:
             )
             conversation.append(assistant_turn)
             messages.append({"role": "assistant", "content": response.content})
+
+            # If the counselor asked where we live, answer once, as the shopper would,
+            # then let it respond again. Only the location is given: the shopper is
+            # instructed not to volunteer anything that was not requested.
+            if (
+                location
+                and not location_given
+                and asks_for_location(response.content)
+            ):
+                location_given = True
+                print(f"  ! counselor asked for location; supplying '{location}'")
+                loc_turn = ConversationTurn(
+                    turn_id=f"{turn['turn_id']}_location",
+                    role="user",
+                    content=f"I live in {location}.",
+                    is_scripted=False,
+                )
+                conversation.append(loc_turn)
+                messages.append({"role": "user", "content": loc_turn.content})
+
+                follow = await self.target_adapter.generate(
+                    messages=messages,
+                    temperature=self.scenario.target_parameters.temperature,
+                    max_tokens=self.scenario.target_parameters.max_tokens,
+                    seed=self.scenario.target_parameters.seed,
+                )
+                conversation.append(ConversationTurn(
+                    turn_id=f"{turn['turn_id']}_response_after_location",
+                    role="assistant",
+                    content=follow.content,
+                    tokens_used=follow.tokens_used,
+                    cost_usd=follow.metadata.get("cost_usd"),
+                    latency_ms=follow.latency_ms,
+                    model_identifier=follow.model_identifier,
+                    citations=follow.metadata.get("citations", []),
+                ))
+                messages.append({"role": "assistant", "content": follow.content})
 
         return conversation
 
@@ -484,6 +549,31 @@ class EvaluationOrchestrator:
         # Extract from class name (e.g., OpenAIAdapter -> openai)
         class_name = adapter.__class__.__name__
         return class_name.replace("Adapter", "").lower()
+
+
+# The SHIP shopper is a person, not a script. eAppendix 3 instructs them: "To identify
+# plan information, the counselor should request a city, state, zip code, and/or county.
+# Give them the information found in your shop confirmation." The counselors therefore had
+# the shopper's location whenever they asked for it.
+#
+# The Medicare-Only scenario has no scripted location turn, so before this the model asked
+# for a ZIP and was never answered, then got graded against one county's plan variant. A
+# search-enabled model correctly objected that the plan name maps to many plan IDs, and was
+# marked incorrect for being right. See docs/GRADING_INTEGRITY.md.
+LOCATION_REQUEST = re.compile(
+    r"(zip\s*code|zipcode|postal code"
+    r"|what (city|county|state|area)|which (city|county|state)"
+    r"|where (do|are) you (live|located|based)"
+    r"|your (city|county|zip|state|location|area|region)"
+    r"|county (do|are) you|tell me (your|where)"
+    r"|what part of|whereabouts)",
+    re.I,
+)
+
+
+def asks_for_location(text: str) -> bool:
+    """Did the counselor ask where the beneficiary lives?"""
+    return bool(LOCATION_REQUEST.search(text or ""))
 
 
 def render_plan_facts(plan: PlanInformation | None) -> str | None:

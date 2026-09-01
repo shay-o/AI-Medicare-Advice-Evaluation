@@ -103,7 +103,8 @@ class QuestionerAgent:
         if not scenario.variation_knobs.get("allow_paraphrasing", False):
             return {
                 "turns": [
-                    {"turn_id": turn.turn_id, "user_message": turn.user_message}
+                    {"turn_id": turn.turn_id, "user_message": turn.user_message,
+                     "study_question": turn.study_question}
                     for turn in scenario.scripted_turns
                 ]
             }
