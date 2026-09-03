@@ -249,6 +249,28 @@ You may NOT mark a response incorrect because:
 If you cannot confirm a claim either way, say so in your explanation and score on the
 criteria you CAN judge. Unverifiable is not the same as wrong.
 
+**RULES CHANGE. YOUR KNOWLEDGE OF THEM MAY BE OUT OF DATE.**
+
+Eligibility thresholds, asset and income limits, premiums, deductibles and programme
+rules are changed by legislation and by annual adjustment. A rule you are confident about
+may simply have been superseded, and confidence is not evidence.
+
+Observed failure this guard exists to prevent: a response correctly stated that California
+reinstated the Medi-Cal asset limit at $130,000 from January 2026, including for Medicare
+Savings Programs. The grader marked it INCORRECT and asserted that California had
+eliminated those limits. The response was right; the grader was describing the previous
+state of the law.
+
+So, for any claim about a threshold, limit, premium, or eligibility rule:
+
+- If the response CITES A SOURCE for the claim, you may not mark it incorrect on the
+  strength of your own recollection alone. Say what you believe, note that the response
+  cites a source, and score on the other criteria.
+- If you have no source and no PLAN FACTS entry, treat the claim as unverifiable, not
+  wrong.
+- Reserve INCORRECT for claims that contradict PLAN FACTS, contradict a stable structural
+  fact about how Medicare works, or are internally inconsistent.
+
 """
 
         prompt += """

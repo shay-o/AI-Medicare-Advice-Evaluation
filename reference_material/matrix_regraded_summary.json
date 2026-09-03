@@ -1,0 +1,142 @@
+[
+ {
+  "run_id": "pilot2_nosearch",
+  "model": "sonnet-5",
+  "scenario": "MO",
+  "condition": "no-search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 0,
+  "total_turns": 18,
+  "cost_usd": 0.4927
+ },
+ {
+  "run_id": "sonnet5_mo_search",
+  "model": "sonnet-5",
+  "scenario": "MO",
+  "condition": "search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 3,
+  "total_turns": 18,
+  "cost_usd": 1.5386
+ },
+ {
+  "run_id": "sonnet5_de_nosearch",
+  "model": "sonnet-5",
+  "scenario": "DE",
+  "condition": "no-search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 0,
+  "total_turns": 11,
+  "cost_usd": 0.2232
+ },
+ {
+  "run_id": "sonnet5_de_search",
+  "model": "sonnet-5",
+  "scenario": "DE",
+  "condition": "search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 3,
+  "total_turns": 11,
+  "cost_usd": 1.0563
+ },
+ {
+  "run_id": "haiku_mo_nosearch",
+  "model": "haiku-4.5",
+  "scenario": "MO",
+  "condition": "no-search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 0,
+  "total_turns": 18,
+  "cost_usd": 0.1216
+ },
+ {
+  "run_id": "haiku_mo_search",
+  "model": "haiku-4.5",
+  "scenario": "MO",
+  "condition": "search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 18,
+  "total_turns": 18,
+  "cost_usd": 0.4228
+ },
+ {
+  "run_id": "haiku_de_nosearch",
+  "model": "haiku-4.5",
+  "scenario": "DE",
+  "condition": "no-search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 0,
+  "total_turns": 11,
+  "cost_usd": 0.0414
+ },
+ {
+  "run_id": "haiku_de_search",
+  "model": "haiku-4.5",
+  "scenario": "DE",
+  "condition": "search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 11,
+  "total_turns": 11,
+  "cost_usd": 0.2109
+ },
+ {
+  "run_id": "luna_mo_search",
+  "model": "luna",
+  "scenario": "MO",
+  "condition": "search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 18,
+  "total_turns": 18,
+  "cost_usd": 0.3409
+ },
+ {
+  "run_id": "luna_de_search",
+  "model": "luna",
+  "scenario": "DE",
+  "condition": "search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 11,
+  "total_turns": 11,
+  "cost_usd": 0.1911
+ },
+ {
+  "run_id": "gem35_mo_search",
+  "model": "gemini-3.5",
+  "scenario": "MO",
+  "condition": "search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 18,
+  "total_turns": 18,
+  "cost_usd": 1.0066
+ },
+ {
+  "run_id": "gem35_de_search",
+  "model": "gemini-3.5",
+  "scenario": "DE",
+  "condition": "search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 11,
+  "total_turns": 11,
+  "cost_usd": 0.6433
+ },
+ {
+  "run_id": "gem37_mo_search",
+  "model": "gemini-3.7",
+  "scenario": "MO",
+  "condition": "search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 6,
+  "total_turns": 18,
+  "cost_usd": 0.2899
+ },
+ {
+  "run_id": "gem37_de_search",
+  "model": "gemini-3.7",
+  "scenario": "DE",
+  "condition": "search",
+  "regraded_with": "gemini-3-flash + time-varying-rules guard",
+  "searched_turns": 4,
+  "total_turns": 11,
+  "cost_usd": 0.223
+ }
+]
